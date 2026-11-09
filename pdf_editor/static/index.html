@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF Studio</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <div class="group">
+      <strong class="brand">PDF Studio</strong>
+      <label class="btn primary">Open PDF<input id="file-open" type="file" accept="application/pdf" hidden></label>
+      <label class="btn needs-doc">Merge PDF<input id="file-merge" type="file" accept="application/pdf" hidden></label>
+      <button id="btn-download" class="btn needs-doc">Download</button>
+    </div>
+
+    <div class="group needs-doc" id="tools" role="radiogroup" aria-label="Tools">
+      <button class="tool active" data-tool="select" title="Pan / select (Esc)">Select</button>
+      <button class="tool" data-tool="edit" title="Click existing text to edit it (E)">Edit text</button>
+      <button class="tool" data-tool="text" title="Click to add new text (T)">Add text</button>
+      <button class="tool" data-tool="whiteout" title="Drag to cover with a box">Whiteout</button>
+      <button class="tool" data-tool="redact" title="Drag to permanently remove content">Redact</button>
+      <button class="tool" data-tool="highlight" title="Drag to highlight (H)">Highlight</button>
+      <button class="tool" data-tool="rectangle" title="Drag to draw a rectangle (R)">Rect</button>
+      <button class="tool" data-tool="ellipse" title="Drag to draw an ellipse">Ellipse</button>
+      <button class="tool" data-tool="line" title="Drag to draw a line (L)">Line</button>
+      <button class="tool" data-tool="ink" title="Freehand draw / sign (D)">Draw</button>
+      <button class="tool" data-tool="note" title="Click to add a sticky note (N)">Note</button>
+      <button class="tool" data-tool="image" title="Drag a box, then pick an image (I)">Image</button>
+      <button class="tool" data-tool="erase" title="Drag over highlights/notes to delete them">Erase notes</button>
+    </div>
+
+    <div class="group needs-doc">
+      <label>Colour <input id="opt-color" type="color" value="#d22b2b"></label>
+      <label>Fill <select id="opt-fill"><option value="none">None</option><option value="same">Same</option><option value="#ffffff">White</option></select></label>
+      <label>Size <input id="opt-size" type="number" min="4" max="144" value="12"></label>
+      <label>Width <input id="opt-width" type="number" min="0.5" max="20" step="0.5" value="2"></label>
+      <label>Font <select id="opt-font"></select></label>
+    </div>
+
+    <div class="group needs-doc">
+      <button id="btn-undo" class="btn" title="Undo (Ctrl+Z)">Undo</button>
+      <button id="btn-redo" class="btn" title="Redo (Ctrl+Y)">Redo</button>
+      <button id="btn-find" class="btn">Find &amp; replace</button>
+      <button id="btn-meta" class="btn">Properties</button>
+      <button id="btn-zoom-out" class="btn" title="Zoom out">−</button>
+      <span id="zoom-label">150%</span>
+      <button id="btn-zoom-in" class="btn" title="Zoom in">+</button>
+    </div>
+  </header>
+
+  <main>
+    <aside id="sidebar" class="needs-doc" aria-label="Pages"></aside>
+    <section id="viewer">
+      <div id="empty" class="empty">
+        <p><strong>Drop a PDF here</strong> or use “Open PDF”.</p>
+        <p class="muted">Edit existing text, add text, images, shapes, highlights, notes and signatures; reorder, rotate, duplicate, delete and merge pages; then download.</p>
+      </div>
+      <div id="pages"></div>
+    </section>
+  </main>
+
+  <div id="status" role="status" aria-live="polite"></div>
+
+  <dialog id="dlg-find">
+    <form method="dialog">
+      <h3>Find &amp; replace</h3>
+      <label>Find <input name="find" required></label>
+      <label>Replace with <input name="replace"></label>
+      <label class="row"><input type="checkbox" name="case" checked> Match case</label>
+      <menu><button value="cancel" formnovalidate>Cancel</button><button value="ok" class="primary">Replace all</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-meta">
+    <form method="dialog">
+      <h3>Document properties</h3>
+      <label>Title <input name="title"></label>
+      <label>Author <input name="author"></label>
+      <label>Subject <input name="subject"></label>
+      <label>Keywords <input name="keywords"></label>
+      <menu><button value="cancel" formnovalidate>Cancel</button><button value="ok" class="primary">Save</button></menu>
+    </form>
+  </dialog>
+
+  <input id="file-image" type="file" accept="image/png,image/jpeg,image/gif,image/bmp" hidden>
+  <script src="/static/app.js"></script>
+</body>
+</html>
