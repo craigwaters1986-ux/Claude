@@ -18,7 +18,25 @@ A small web app for uploading a PDF in your browser and editing it, then downloa
 **Pages**
 - Drag thumbnails to reorder pages.
 - Rotate, duplicate or delete pages, and insert blank ones.
-- Merge another PDF onto the end.
+
+**Merge**
+- Pick or drop several files at once and they are joined, in order, into one PDF.
+- **Merge** adds more files to the end of the open document.
+- Images (PNG, JPEG, GIF, BMP, TIFF, WebP) are accepted too; each becomes a page.
+
+**Split**
+- One new PDF with only the pages you list, e.g. `1-3, 5, 8-`.
+- A separate PDF for each range, delivered as a zip.
+- A new PDF every N pages (N = 1 gives one file per page), delivered as a zip.
+
+**Convert** (all pages, or a page range)
+| To | What you get |
+|---|---|
+| Word (`.docx`) | Editable text, tables and images. The layout is rebuilt. |
+| Excel (`.xlsx`) | Each table becomes a sheet, and numbers are stored as real numbers. Pages without a table are split into rows and columns by spacing. |
+| PowerPoint (`.pptx`) | One slide per page, each page as a picture. |
+| PNG / JPEG | One picture per page, in a zip. |
+| Text, HTML, Markdown | The words alone, a laid-out web page, or headings and paragraphs. |
 
 **Document**
 - Undo and redo (up to 50 steps).
@@ -65,6 +83,7 @@ Think of it like a **photocopier with a tracing-paper overlay**:
 ```
 pdf_editor/
   pdf_ops.py     # every edit operation (pure functions on a PyMuPDF document)
+  convert.py     # split, join, and convert to Word/Excel/PowerPoint/images/text
   store.py       # on-disk snapshots + undo/redo history
   app.py         # Flask HTTP API
   static/        # index.html, app.js, style.css: the browser UI (no build step)
@@ -75,12 +94,14 @@ tests/           # pytest suite for the operations and the API
 
 | Method | Path | Purpose |
 |---|---|---|
-| POST | `/api/upload` | multipart `file`, returns a document snapshot |
+| POST | `/api/upload` | multipart `file` (repeat it to join several), returns a document snapshot |
+| GET | `/api/docs/<id>/export?format=&pages=` | convert: `docx`, `xlsx`, `pptx`, `png`, `jpg`, `txt`, `html`, `md` |
+| GET | `/api/docs/<id>/split?mode=&pages=&every=` | `extract` (one PDF), `ranges` or `every` (zip of PDFs) |
 | GET | `/api/docs/<id>` | snapshot: pages, sizes, undo state, metadata |
 | GET | `/api/docs/<id>/pages/<n>.png?zoom=` | rendered page |
 | GET | `/api/docs/<id>/pages/<n>/text` | text spans with positions and fonts |
 | POST | `/api/docs/<id>/edit` | one operation, or a list applied all-or-nothing |
-| POST | `/api/docs/<id>/merge` | multipart `file` (+ `at`) |
+| POST | `/api/docs/<id>/merge` | multipart `file`, one or more (+ `at`) |
 | POST | `/api/docs/<id>/undo`, `/redo` | step through history |
 | GET | `/api/docs/<id>/download` | the edited PDF |
 
@@ -97,4 +118,7 @@ python -m pytest
 - When you edit existing text, the replacement is set in the closest standard PDF font (Helvetica, Times or Courier), not the original embedded font. Size and colour are kept.
 - Text is edited one line (span) at a time. Paragraphs do not reflow.
 - Password-protected PDFs are rejected.
+- Conversion reads the text stored in the PDF. A scanned PDF (pages that are just photos) has no text to read, so Word, Excel and text output will be empty or picture-only; there is no OCR.
+- Word conversion rebuilds the layout, so complex pages (multi-column, heavy graphics) can shift.
+- Conversion goes from PDF to other formats. Word or Excel files cannot be turned into PDFs here.
 - This is built as a single-user or local tool. It has no login, so if you expose it on a network, put it behind authentication. Documents are kept under `storage/` until you delete them.

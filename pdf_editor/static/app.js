@@ -69,19 +69,47 @@
   }
 
   // ------------------------------------------------------------ document lifecycle
-  async function openFile(file) {
-    if (!file) return;
-    if (file.type && file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
-      return toast("Please choose a PDF file", true);
-    }
+  function filesForm(files) {
     const form = new FormData();
-    form.append("file", file);
-    toast(`Uploading ${file.name}…`);
+    for (const f of files) form.append("file", f);
+    return form;
+  }
+
+  // One file opens it; several are joined, in the order chosen, into one PDF.
+  async function openFiles(fileList) {
+    const files = [...(fileList || [])];
+    if (!files.length) return;
+    toast(files.length === 1 ? `Uploading ${files[0].name}…` : `Joining ${files.length} files…`);
     try {
-      const snap = await api("/api/upload", { method: "POST", form });
+      const snap = await api("/api/upload", { method: "POST", form: filesForm(files) });
       state.current = 0;
       setDoc(snap, { rebuild: true });
       toast(`Opened ${snap.filename} (${snap.pages.length} pages)`);
+    } catch (e) {
+      toast(e.message, true);
+    }
+  }
+
+  // Fetch a generated file and hand it to the browser as a download, so a
+  // failed conversion shows an error instead of navigating away.
+  async function downloadFrom(path, busyMessage) {
+    toast(busyMessage);
+    $("#status").classList.add("show");
+    clearTimeout(statusTimer);
+    try {
+      const res = await fetch(path);
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        throw new Error(err?.error || `${res.status} ${res.statusText}`);
+      }
+      const name = /filename="?([^";]+)"?/.exec(res.headers.get("content-disposition") || "")?.[1] || "download";
+      const url = URL.createObjectURL(await res.blob());
+      const a = Object.assign(document.createElement("a"), { href: url, download: name });
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      toast(`Saved ${name}`);
     } catch (e) {
       toast(e.message, true);
     }
@@ -514,18 +542,70 @@
         .map((f) => `<option value="${f.id}">${f.name}</option>`).join("");
     } catch { /* server unavailable; leave empty */ }
 
-    $("#file-open").addEventListener("change", (e) => openFile(e.target.files[0]));
+    $("#file-open").addEventListener("change", async (e) => {
+      await openFiles(e.target.files);
+      e.target.value = "";
+    });
     $("#file-merge").addEventListener("change", async (e) => {
-      const f = e.target.files[0];
-      if (!f) return;
-      const form = new FormData();
-      form.append("file", f);
-      form.append("at", String(state.doc.pages.length - 1));
+      const files = [...e.target.files];
+      if (!files.length) return;
+      const form = filesForm(files);
+      form.append("at", "-1");
       try {
         setDoc(await api(docUrl("/merge"), { method: "POST", form }));
-        toast(`Merged ${f.name}`);
+        toast(files.length === 1 ? `Merged ${files[0].name}` : `Merged ${files.length} files`);
       } catch (err) { toast(err.message, true); }
       e.target.value = "";
+    });
+
+    // ---- Split dialog
+    const split = $("#dlg-split");
+    const splitHints = {
+      extract: "Example: “2-4, 7” gives one PDF containing pages 2, 3, 4 and 7.",
+      ranges: "Example: “1-3, 4-” gives two PDFs: pages 1–3, and page 4 to the end.",
+      every: "Example: 1 gives one PDF per page; 5 gives a new PDF every 5 pages.",
+    };
+    const syncSplit = () => {
+      const mode = split.querySelector("input[name=mode]:checked").value;
+      split.querySelectorAll("[data-for]").forEach((el) => {
+        el.hidden = !el.dataset.for.split(" ").includes(mode);
+      });
+      $("#split-hint").textContent = `${splitHints[mode]} This document has ${state.doc.pages.length} page(s).`;
+    };
+    split.addEventListener("change", syncSplit);
+    $("#btn-split").addEventListener("click", () => { syncSplit(); split.showModal(); });
+    split.addEventListener("close", () => {
+      if (split.returnValue !== "ok") return;
+      const f = split.querySelector("form").elements;
+      const q = new URLSearchParams({ mode: f.mode.value, pages: f.pages.value, every: f.every.value });
+      downloadFrom(docUrl(`/split?${q}`), "Splitting…");
+    });
+
+    // ---- Convert dialog
+    const conv = $("#dlg-convert");
+    const convHints = {
+      docx: "Editable Word file. Layout is rebuilt, so complex pages may shift a little.",
+      xlsx: "Tables become sheets with real numbers. Pages without tables are split into rows and columns by spacing.",
+      pptx: "One slide per page, each page as a picture.",
+      png: "One PNG picture per page, in a zip.",
+      jpg: "One JPEG picture per page, in a zip.",
+      txt: "Just the words, no formatting.",
+      html: "A web page that keeps the layout.",
+      md: "Headings and paragraphs as Markdown.",
+    };
+    try {
+      const formats = await api("/api/formats");
+      conv.querySelector("select").innerHTML = formats
+        .map((f) => `<option value="${f.id}">${f.name}</option>`).join("");
+    } catch { /* leave empty */ }
+    const syncConv = () => { $("#convert-hint").textContent = convHints[conv.querySelector("select").value] || ""; };
+    conv.addEventListener("change", syncConv);
+    $("#btn-convert").addEventListener("click", () => { syncConv(); conv.showModal(); });
+    conv.addEventListener("close", () => {
+      if (conv.returnValue !== "ok") return;
+      const f = conv.querySelector("form").elements;
+      const q = new URLSearchParams({ format: f.format.value, pages: f.pages.value });
+      downloadFrom(docUrl(`/export?${q}`), "Converting… this can take a moment");
     });
     $("#file-image").addEventListener("change", async (e) => {
       const f = e.target.files[0];
@@ -572,8 +652,7 @@
     viewer.addEventListener("dragleave", () => viewer.classList.remove("dragover"));
     viewer.addEventListener("drop", (e) => {
       viewer.classList.remove("dragover");
-      const f = e.dataTransfer.files[0];
-      if (f) { e.preventDefault(); openFile(f); }
+      if (e.dataTransfer.files.length) { e.preventDefault(); openFiles(e.dataTransfer.files); }
     });
     viewer.addEventListener("wheel", (e) => {
       if (e.ctrlKey) { e.preventDefault(); setZoom(state.zoom * (e.deltaY < 0 ? 1.1 : 1 / 1.1)); }

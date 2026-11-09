@@ -12,7 +12,7 @@ import os
 import pymupdf
 from flask import Flask, abort, jsonify, request, send_file
 
-from . import pdf_ops
+from . import convert, pdf_ops
 from .store import DocumentStore, NotFound
 
 MAX_UPLOAD_MB = 100
@@ -35,6 +35,14 @@ def create_app(storage_dir: str | None = None) -> Flask:
                                 if k in ("title", "author", "subject", "keywords")}
         return info
 
+    def uploaded_files() -> list[tuple[bytes, str]]:
+        return [(f.read(), f.filename) for f in request.files.getlist("file")
+                if f.filename]
+
+    def stem(doc_id: str) -> str:
+        name = store.filename(doc_id)
+        return name[:-4] if name.lower().endswith(".pdf") else name
+
     @app.errorhandler(NotFound)
     def _not_found(_):
         return jsonify(error="document not found"), 404
@@ -54,11 +62,19 @@ def create_app(storage_dir: str | None = None) -> Flask:
 
     @app.post("/api/upload")
     def upload():
-        f = request.files.get("file")
-        if f is None or not f.filename:
+        """Upload one or more PDFs/images; several files are joined in order."""
+        files = uploaded_files()
+        if not files:
             return jsonify(error="no file uploaded"), 400
+        name = files[0][1]
         try:
-            doc_id = store.create(f.read(), f.filename)
+            data = files[0][0] if len(files) == 1 and files[0][0][:5] == b"%PDF-" \
+                else convert.combine(files)
+            if not name.lower().endswith(".pdf"):
+                name = os.path.splitext(name)[0] + ".pdf"
+            doc_id = store.create(data, name)
+        except pdf_ops.EditError:
+            raise
         except Exception as exc:  # pymupdf raises various types on bad input
             return jsonify(error=f"could not open PDF: {exc}"), 400
         return jsonify(snapshot(doc_id)), 201
@@ -110,14 +126,54 @@ def create_app(storage_dir: str | None = None) -> Flask:
 
     @app.post("/api/docs/<doc_id>/merge")
     def merge(doc_id):
-        f = request.files.get("file")
-        if f is None:
+        """Insert one or more PDFs/images after page ``at`` (-1 = end)."""
+        files = uploaded_files()
+        if not files:
             return jsonify(error="no file uploaded"), 400
         at = request.form.get("at", -1, type=int)
         with store.lock(doc_id), store.open(doc_id) as doc:
-            pdf_ops.merge(doc, f.read(), at)
+            pdf_ops.merge(doc, convert.combine(files), at)
             store.commit(doc_id, doc)
         return jsonify(snapshot(doc_id))
+
+    @app.get("/api/formats")
+    def formats():
+        return jsonify([{"id": k, "name": v[0]} for k, v in convert.FORMATS.items()])
+
+    @app.get("/api/docs/<doc_id>/export")
+    def export(doc_id):
+        """Convert the current version (or ?pages=1-3,5) to another format."""
+        fmt = request.args.get("format", "")
+        options = {}
+        if fmt in ("png", "jpg") and request.args.get("dpi"):
+            options["dpi"] = request.args.get("dpi", 150, type=int) or 150
+        with store.open(doc_id) as doc:
+            data, ext, mime = convert.convert(
+                doc, fmt, request.args.get("pages"), **options)
+        return send_file(io.BytesIO(data), mimetype=mime, as_attachment=True,
+                         download_name=f"{stem(doc_id)}.{ext}")
+
+    @app.get("/api/docs/<doc_id>/split")
+    def split(doc_id):
+        """mode=extract -> one PDF of ?pages; mode=ranges -> zip with one PDF
+        per comma-separated range; mode=every -> zip, ?every=N pages each."""
+        mode = request.args.get("mode", "extract")
+        pages = request.args.get("pages")
+        name = stem(doc_id)
+        with store.open(doc_id) as doc:
+            if mode == "extract":
+                data = convert.extract(doc, pages)
+                return send_file(io.BytesIO(data), mimetype="application/pdf",
+                                 as_attachment=True, download_name=f"{name}-extract.pdf")
+            if mode == "ranges":
+                data = convert.split(doc, name, ranges=pages)
+            elif mode == "every":
+                data = convert.split(doc, name,
+                                     every=request.args.get("every", 1, type=int) or 1)
+            else:
+                raise pdf_ops.EditError(f"unknown split mode {mode!r}")
+        return send_file(io.BytesIO(data), mimetype="application/zip",
+                         as_attachment=True, download_name=f"{name}-split.zip")
 
     @app.post("/api/docs/<doc_id>/undo")
     def undo(doc_id):
@@ -133,12 +189,9 @@ def create_app(storage_dir: str | None = None) -> Flask:
 
     @app.get("/api/docs/<doc_id>/download")
     def download(doc_id):
-        name = store.filename(doc_id)
-        if not name.lower().endswith(".pdf"):
-            name += ".pdf"
-        stem = name[:-4]
         return send_file(store.path(doc_id), mimetype="application/pdf",
-                         as_attachment=True, download_name=f"{stem}-edited.pdf")
+                         as_attachment=True,
+                         download_name=f"{stem(doc_id)}-edited.pdf")
 
     @app.get("/api/fonts")
     def fonts():
