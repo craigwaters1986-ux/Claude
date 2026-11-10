@@ -105,7 +105,7 @@ export const PhotoPicker = forwardRef<PhotoPickerHandle, Props>(function PhotoPi
       <PhotoInputs ref={inputs} onFiles={add} />
 
       {value.length === 0 ? (
-        <div className="grid aspect-[4/3] grid-rows-[1fr_auto] gap-2 rounded-xl border-2 border-dashed p-2 sm:aspect-[16/7]">
+        <div className="bg-card grid aspect-[4/3] grid-rows-[1fr_auto] gap-2 rounded-2xl border-2 border-dashed p-2 sm:aspect-[16/7]">
           <button
             ref={cameraButton}
             type="button"
@@ -126,7 +126,7 @@ export const PhotoPicker = forwardRef<PhotoPickerHandle, Props>(function PhotoPi
         <div className="grid gap-2">
           <ul className="grid grid-cols-3 gap-2" aria-label="Photos for this snag">
             {value.map((photo, i) => (
-              <li key={photo.id} className="bg-muted relative aspect-square overflow-hidden rounded-lg">
+              <li key={photo.id} className="bg-muted relative aspect-square overflow-hidden rounded-xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={photo.previewUrl} alt={`Photo ${i + 1}`} className="size-full object-cover" />
                 {i === 0 && (
@@ -177,7 +177,7 @@ const AddTile = forwardRef<
       type="button"
       onClick={onClick}
       className={cn(
-        "hover:bg-accent focus-visible:ring-ring/50 flex aspect-square w-full flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed text-sm font-medium outline-none focus-visible:ring-[3px]",
+        "bg-card hover:bg-accent focus-visible:ring-ring/50 flex aspect-square w-full flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed text-sm font-medium outline-none focus-visible:ring-[3px]",
         className,
       )}
     >

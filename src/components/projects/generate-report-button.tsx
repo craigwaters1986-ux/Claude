@@ -280,15 +280,15 @@ function DesignThumbnail({ design }: { design: ReportDesign }) {
       {design === "table" &&
         [0, 1, 2, 3].map((i) => (
           <div key={i} className="flex items-center gap-[3px]">
-            <div className="h-[7px] w-[9px] rounded-[1px] bg-sky-300/70" />
+            <div className="bg-foreground/25 h-[7px] w-[9px] rounded-[1px]" />
             <div className={cn(bar, "h-[2px] flex-1")} />
-            <div className="h-[3px] w-[6px] rounded-full bg-red-300" />
+            <div className="bg-foreground/40 h-[3px] w-[6px] rounded-full" />
           </div>
         ))}
       {design === "photos" &&
         [0, 1].map((i) => (
           <div key={i} className="flex flex-1 gap-[3px]">
-            <div className="w-1/2 rounded-[1px] bg-sky-300/70" />
+            <div className="bg-foreground/25 w-1/2 rounded-[1px]" />
             <div className="flex flex-1 flex-col gap-[2px] pt-[1px]">
               <div className={cn(bar, "h-[2px]")} />
               <div className={cn(bar, "h-[2px] w-2/3")} />

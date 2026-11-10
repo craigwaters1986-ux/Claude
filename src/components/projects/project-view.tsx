@@ -98,7 +98,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
     return (
       <div className="grid gap-4">
         <Skeleton className="h-6 w-24" />
-        <Skeleton className="h-28 rounded-xl" />
+        <Skeleton className="h-28 rounded-2xl" />
         <Skeleton className="h-10" />
         <Skeleton className="h-28 rounded-xl" />
         <Skeleton className="h-28 rounded-xl" />
@@ -133,11 +133,11 @@ export function ProjectView({ projectId }: { projectId: string }) {
       </Link>
 
       {/* Project header */}
-      <section className="bg-card rounded-xl border p-4 shadow-sm">
+      <section className="surface p-4 sm:p-5">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-xl font-semibold tracking-tight break-words">{p.name}</h1>
+              <h1 className="text-2xl leading-tight font-bold break-words">{p.name}</h1>
               <ProjectStatusBadge status={p.status} />
             </div>
             {p.location && (
@@ -186,7 +186,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
             onClick={() => setFilter(f)}
             className={cn(
               "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium transition-colors",
-              filter === f ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-accent",
+              filter === f ? "bg-primary text-primary-foreground border-primary" : "bg-card hover:bg-accent",
             )}
           >
             {f === "all" ? "All" : SNAG_STATUS_LABEL[f]}

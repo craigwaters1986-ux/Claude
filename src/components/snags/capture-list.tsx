@@ -82,7 +82,7 @@ function CaptureRow({ item, onRetry, onDiscard }: { item: CaptureItem } & Omit<P
 
   return (
     <li
-      className={cn("bg-card flex items-center gap-3 rounded-lg border p-2", failed && "border-destructive/40")}
+      className={cn("surface flex items-center gap-3 rounded-xl p-2", failed && "border-destructive/40")}
       data-testid="capture-row"
       data-status={item.status}
     >

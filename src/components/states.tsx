@@ -14,7 +14,7 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed px-6 py-12 text-center">
+    <div className="bg-card/60 flex flex-col items-center gap-3 rounded-2xl border border-dashed px-6 py-12 text-center">
       <div className="bg-muted flex size-12 items-center justify-center rounded-full">
         <Icon className="text-muted-foreground size-6" />
       </div>
@@ -31,7 +31,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
   return (
     <div
       role="alert"
-      className="border-destructive/30 bg-destructive/5 flex flex-col items-center gap-3 rounded-xl border px-6 py-10 text-center"
+      className="border-destructive/30 bg-destructive/5 flex flex-col items-center gap-3 rounded-2xl border px-6 py-10 text-center"
     >
       <AlertTriangle className="text-destructive size-6" />
       <p className="text-sm">{message}</p>

@@ -46,8 +46,16 @@ export function ProjectDashboard() {
 
   return (
     <div className="grid gap-4">
-      <div className="flex items-center justify-between gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
+      <div className="flex items-end justify-between gap-2">
+        <div>
+          <h1 className="text-[28px] leading-tight font-bold">Projects</h1>
+          {projects && projects.length > 0 && (
+            <p className="text-muted-foreground text-sm">
+              {projects.filter((p) => p.status === "active").length} active ·{" "}
+              {projects.reduce((n, p) => n + p.open_snags + p.in_progress_snags, 0)} snags outstanding
+            </p>
+          )}
+        </div>
         <Button onClick={openCreate} className="hidden sm:inline-flex">
           <Plus /> New project
         </Button>
@@ -70,7 +78,7 @@ export function ProjectDashboard() {
       {isPending ? (
         <div className="grid gap-3">
           {Array.from({ length: 3 }, (_, i) => (
-            <Skeleton key={i} className="h-36 rounded-xl" />
+            <Skeleton key={i} className="h-36 rounded-2xl" />
           ))}
         </div>
       ) : error ? (
@@ -108,7 +116,7 @@ export function ProjectDashboard() {
       <Button
         onClick={openCreate}
         size="icon-lg"
-        className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 size-14 rounded-full shadow-lg sm:hidden"
+        className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 size-14 rounded-full shadow-xl shadow-black/25 sm:hidden"
         aria-label="New project"
       >
         <Plus className="size-6" />

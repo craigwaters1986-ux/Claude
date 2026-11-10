@@ -167,7 +167,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       </div>
 
       <div>
-        <h1 className="text-xl font-semibold tracking-tight">Add snags</h1>
+        <h1 className="text-[28px] leading-tight font-bold">Add snags</h1>
         {project.data ? (
           <p className="text-muted-foreground truncate text-sm">{project.data.name}</p>
         ) : (

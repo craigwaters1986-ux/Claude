@@ -59,79 +59,86 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader className="text-center">
-        <div className="bg-primary text-primary-foreground mx-auto mb-2 flex size-12 items-center justify-center rounded-xl">
-          <ClipboardCheck className="size-6" />
+    <div className="w-full max-w-sm">
+      <div className="mb-8 flex flex-col items-center text-center text-white">
+        <div className="bg-brand text-brand-foreground mb-4 flex size-14 items-center justify-center rounded-2xl">
+          <ClipboardCheck className="size-7" strokeWidth={2.25} />
         </div>
-        <CardTitle className="text-xl">SnagList</CardTitle>
-        <CardDescription>
-          {stage === "email"
-            ? "Sign in with your email — no password needed."
-            : `We've emailed ${email}. Tap the link in the email, or enter the 6-digit code.`}
-        </CardDescription>
-      </CardHeader>
+        <h1 className="text-3xl font-bold tracking-tight">SnagList</h1>
+        <p className="mt-1 text-sm text-white/60">Snagging for building sites</p>
+      </div>
 
-      <CardContent>
-        {stage === "email" ? (
-          <form onSubmit={sendLink} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                placeholder="you@company.co.uk"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoFocus
-              />
-            </div>
-            {error && <p className="text-destructive text-sm" role="alert">{error}</p>}
-            <Button type="submit" size="lg" disabled={busy}>
-              {busy ? <Loader2 className="animate-spin" /> : <Mail />}
-              Email me a sign-in link
-            </Button>
-          </form>
-        ) : (
-          <form onSubmit={verifyCode} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="code">6-digit code</Label>
-              <Input
-                id="code"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                pattern="[0-9]{6}"
-                maxLength={6}
-                placeholder="123456"
-                value={code}
-                onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
-                className="text-center text-lg tracking-[0.4em]"
-                required
-                autoFocus
-              />
-            </div>
-            {error && <p className="text-destructive text-sm" role="alert">{error}</p>}
-            <Button type="submit" size="lg" disabled={busy || code.length !== 6}>
-              {busy && <Loader2 className="animate-spin" />}
-              Sign in
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => {
-                setStage("email");
-                setCode("");
-                setError(null);
-              }}
-            >
-              Use a different email
-            </Button>
-          </form>
-        )}
-      </CardContent>
-    </Card>
+      <Card className="gap-5 rounded-2xl border-0 py-7 shadow-2xl">
+        <CardHeader className="text-center">
+          <CardTitle className="text-xl">{stage === "email" ? "Sign in" : "Check your email"}</CardTitle>
+          <CardDescription>
+            {stage === "email"
+              ? "Enter your email and we’ll send you a sign-in link. No password needed."
+              : `We’ve emailed ${email}. Tap the link in the email, or enter the 6-digit code.`}
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          {stage === "email" ? (
+            <form onSubmit={sendLink} className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  placeholder="you@company.co.uk"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoFocus
+                />
+              </div>
+              {error && <p className="text-destructive text-sm" role="alert">{error}</p>}
+              <Button type="submit" size="lg" disabled={busy}>
+                {busy ? <Loader2 className="animate-spin" /> : <Mail />}
+                Email me a sign-in link
+              </Button>
+            </form>
+          ) : (
+            <form onSubmit={verifyCode} className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="code">6-digit code</Label>
+                <Input
+                  id="code"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  pattern="[0-9]{6}"
+                  maxLength={6}
+                  placeholder="123456"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                  className="text-center text-lg tracking-[0.4em]"
+                  required
+                  autoFocus
+                />
+              </div>
+              {error && <p className="text-destructive text-sm" role="alert">{error}</p>}
+              <Button type="submit" size="lg" disabled={busy || code.length !== 6}>
+                {busy && <Loader2 className="animate-spin" />}
+                Sign in
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => {
+                  setStage("email");
+                  setCode("");
+                  setError(null);
+                }}
+              >
+                Use a different email
+              </Button>
+            </form>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

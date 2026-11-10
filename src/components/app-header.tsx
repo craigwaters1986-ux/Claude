@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ClipboardCheck, LogOut, UserRound } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,20 +27,27 @@ export function AppHeader() {
   }
 
   return (
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/80 sticky top-0 z-40 border-b pt-[env(safe-area-inset-top)] backdrop-blur">
+    <header className="bg-header text-header-foreground sticky top-0 z-40 pt-[env(safe-area-inset-top)]">
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg">
-            <ClipboardCheck className="size-4" />
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+        >
+          <span className="bg-brand text-brand-foreground flex size-8 items-center justify-center rounded-lg">
+            <ClipboardCheck className="size-[18px]" strokeWidth={2.25} />
           </span>
-          SnagList
+          <span className="text-[17px] font-semibold tracking-tight">SnagList</span>
         </Link>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-lg" aria-label="Account">
+            <button
+              type="button"
+              aria-label="Account"
+              className="flex size-10 items-center justify-center rounded-full text-white/85 transition-colors outline-none hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white/60"
+            >
               <UserRound className="size-5" />
-            </Button>
+            </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {user?.email && (

@@ -17,12 +17,12 @@ export function SnagCard({ snag, onOpen, onStatusChange, onDelete }: Props) {
   const cover = snag.photos[0]?.image_url ?? snag.image_url;
   const label = snag._pending ? snag.title : `snag ${snag.snag_number}, ${snag.title}`;
   return (
-    <div className={cn("bg-card flex gap-3 rounded-xl border p-3 shadow-sm", snag._pending && "opacity-70")}>
+    <div className={cn("surface flex gap-3 p-3", snag._pending && "opacity-70")}>
       <button
         type="button"
         onClick={onOpen}
         disabled={snag._pending}
-        className="bg-muted focus-visible:ring-ring/50 relative size-20 shrink-0 overflow-hidden rounded-lg outline-none focus-visible:ring-[3px] sm:size-24"
+        className="bg-muted focus-visible:ring-ring/50 relative size-20 shrink-0 overflow-hidden rounded-xl outline-none focus-visible:ring-[3px] sm:size-24"
         aria-label={`Open ${label}${snag.photos.length ? ` (${snag.photos.length} photo${snag.photos.length === 1 ? "" : "s"})` : ""}`}
       >
         {cover ? (

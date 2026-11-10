@@ -24,14 +24,14 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
   const progress = project.total_snags ? project.resolved_snags / project.total_snags : 0;
 
   return (
-    <div className="bg-card relative rounded-xl border shadow-sm transition-colors has-[a:hover]:border-foreground/20">
+    <div className="surface relative transition-[box-shadow,border-color] has-[a:hover]:border-foreground/15 has-[a:hover]:shadow-md">
       {/* The whole card is the link; the menu button sits above it. */}
       <Link
         href={`/projects/${project.id}`}
-        className="focus-visible:ring-ring/50 block rounded-xl p-4 pr-14 outline-none focus-visible:ring-[3px]"
+        className="focus-visible:ring-ring/50 block rounded-2xl p-4 pr-14 outline-none focus-visible:ring-[3px]"
       >
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className="truncate font-semibold">{project.name}</h2>
+          <h2 className="truncate text-[17px] font-semibold">{project.name}</h2>
           {project.status !== "active" && <ProjectStatusBadge status={project.status} />}
         </div>
         {project.location && (
@@ -59,7 +59,7 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
             aria-valuemin={0}
             aria-valuemax={100}
           >
-            <div className="h-full rounded-full bg-emerald-500" style={{ width: `${progress * 100}%` }} />
+            <div className="bg-foreground h-full rounded-full" style={{ width: `${progress * 100}%` }} />
           </div>
         )}
       </Link>
@@ -86,7 +86,7 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
 function Stat({ value, label, tone }: { value: number; label: string; tone?: string }) {
   return (
     <div>
-      <div className={`text-lg leading-none font-semibold tabular-nums ${tone ?? ""}`}>{value}</div>
+      <div className={`text-xl leading-none font-bold tabular-nums ${tone ?? ""}`}>{value}</div>
       <div className="text-muted-foreground mt-1 text-xs">{label}</div>
     </div>
   );

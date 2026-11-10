@@ -5,7 +5,7 @@ export const metadata = { title: "Sign in · SnagList" };
 
 export default function LoginPage() {
   return (
-    <main className="flex min-h-dvh items-center justify-center px-4 py-10">
+    <main className="bg-header flex min-h-dvh items-center justify-center px-4 py-10">
       <Suspense>
         <LoginForm />
       </Suspense>

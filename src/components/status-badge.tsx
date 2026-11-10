@@ -15,7 +15,7 @@ export const SNAG_STATUS_CLASS: Record<SnagStatus, string> = {
 };
 
 const PROJECT_STATUS_CLASS: Record<ProjectStatus, string> = {
-  active: "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300",
+  active: "bg-foreground/[0.06] text-foreground",
   on_hold: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300",
   completed: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
   archived: "bg-muted text-muted-foreground",

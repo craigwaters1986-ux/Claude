@@ -3,27 +3,34 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* shadcn/ui "neutral" theme tokens (Tailwind v4 style) */
+/*
+ * SnagList theme: monochrome (black / white / cool greys) with one accent,
+ * safety yellow, used sparingly (logo mark, sign-in). Built on shadcn/ui tokens.
+ */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --radius: 0.75rem;
+  --background: oklch(0.974 0.002 286); /* soft off-white page */
+  --foreground: oklch(0.16 0.004 286);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.16 0.004 286);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.16 0.004 286);
+  --primary: oklch(0.145 0 0); /* near-black buttons */
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.955 0.003 286);
+  --secondary-foreground: oklch(0.2 0.004 286);
+  --muted: oklch(0.955 0.003 286);
+  --muted-foreground: oklch(0.52 0.012 286);
+  --accent: oklch(0.955 0.003 286);
+  --accent-foreground: oklch(0.2 0.004 286);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.918 0.004 286);
+  --input: oklch(0.895 0.004 286);
+  --ring: oklch(0.55 0.01 286);
+  --header: oklch(0 0 0); /* the black top bar */
+  --header-foreground: oklch(1 0 0);
+  --brand: oklch(0.86 0.173 91.9); /* safety yellow */
+  --brand-foreground: oklch(0.145 0 0);
 }
 
 .dark {
@@ -72,13 +79,36 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-header: var(--header);
+  --color-header-foreground: var(--header-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+}
+
+/* A raised white card on the off-white page. */
+@utility surface {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 3px oklch(0 0 0 / 0.03);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    /* Black above the page (behind the top bar when you pull down on a phone),
+       page colour below. */
+    background: linear-gradient(to bottom, var(--header) 0 50%, var(--background) 50% 100%);
+  }
   body {
     @apply bg-background text-foreground antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
   }
 }

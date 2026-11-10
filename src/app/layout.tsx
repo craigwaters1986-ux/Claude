@@ -22,7 +22,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover", // respect phone notches / home bar
-  themeColor: "#171717",
+  themeColor: "#000000", // matches the black top bar
 };
 
 export default function RootLayout({
