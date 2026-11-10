@@ -43,7 +43,7 @@ export function SnagDetailDialog({ projectId, snagId, onOpenChange }: Props) {
 
   return (
     <Dialog open={!!snagId && !!snag} onOpenChange={onOpenChange}>
-      <DialogContent className="gap-5 sm:max-w-lg">
+      <DialogContent className="gap-5 sm:max-w-lg lg:max-w-5xl lg:p-8">
         {snag && <SnagDetail key={snag.id} projectId={projectId} snag={snag} onClose={() => onOpenChange(false)} />}
       </DialogContent>
     </Dialog>
@@ -57,8 +57,10 @@ function SnagDetail({ projectId, snag, onClose }: { projectId: string; snag: Lis
         <DialogTitle>Snag #{snag.snag_number}</DialogTitle>
         <DialogDescription className="sr-only">Photos and details of this snag</DialogDescription>
       </DialogHeader>
-      <PhotoGallery projectId={projectId} snag={snag} />
-      <SnagFields projectId={projectId} snag={snag} onSaved={onClose} />
+      <div className="grid gap-5 lg:grid-cols-[1.3fr_1fr] lg:items-start lg:gap-8">
+        <PhotoGallery projectId={projectId} snag={snag} />
+        <SnagFields projectId={projectId} snag={snag} onSaved={onClose} />
+      </div>
     </>
   );
 }
@@ -90,6 +92,23 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
     const el = strip.current;
     if (el) el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
   }
+
+  // Laptop: ← and → move between photos (unless typing in a field).
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) return;
+      e.preventDefault();
+      const el = strip.current;
+      if (!el || !el.clientWidth) return;
+      const now = Math.round(el.scrollLeft / el.clientWidth);
+      const next = e.key === "ArrowLeft" ? Math.max(0, now - 1) : Math.min(photos.length - 1, now + 1);
+      el.scrollTo({ left: next * el.clientWidth, behavior: "smooth" });
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [photos.length]);
 
   // After adding photos, show the newest one.
   const previousCount = useRef(photos.length);

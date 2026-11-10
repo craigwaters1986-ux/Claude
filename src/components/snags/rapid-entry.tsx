@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useMutationState } from "@tanstack/react-query";
-import { ChevronLeft, Plus } from "lucide-react";
+import { ChevronLeft, Images, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +48,8 @@ export function RapidEntry({ projectId }: { projectId: string }) {
   const [dismissed, setDismissed] = useState<Set<string>>(() => new Set());
   const [mountedAt] = useState(() => Date.now());
   const photoRef = useRef<PhotoPickerHandle>(null);
+  const [dragging, setDragging] = useState(false);
+  const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
   const titleRef = useRef<HTMLInputElement>(null);
 
   // Every capture for this project, read straight from React Query's mutation
@@ -81,6 +83,43 @@ export function RapidEntry({ projectId }: { projectId: string }) {
   const inFlight = items.filter((i) => i.status === "pending").length;
   const savedCount = items.filter((i) => i.status === "success").length;
 
+  // Laptop: drop photos from a folder anywhere on the page to add them.
+  useEffect(() => {
+    let depth = 0; // dragenter/leave fire for every child element
+    const hasFiles = (e: DragEvent) => [...(e.dataTransfer?.types ?? [])].includes("Files");
+    const enter = (e: DragEvent) => {
+      if (!hasFiles(e)) return;
+      e.preventDefault();
+      depth++;
+      setDragging(true);
+    };
+    const over = (e: DragEvent) => {
+      if (hasFiles(e)) e.preventDefault(); // allow dropping
+    };
+    const leave = (e: DragEvent) => {
+      if (!hasFiles(e)) return;
+      depth = Math.max(0, depth - 1);
+      if (depth === 0) setDragging(false);
+    };
+    const drop = (e: DragEvent) => {
+      if (!hasFiles(e)) return;
+      e.preventDefault();
+      depth = 0;
+      setDragging(false);
+      photoRef.current?.addFiles(e.dataTransfer?.files ?? null);
+    };
+    window.addEventListener("dragenter", enter);
+    window.addEventListener("dragover", over);
+    window.addEventListener("dragleave", leave);
+    window.addEventListener("drop", drop);
+    return () => {
+      window.removeEventListener("dragenter", enter);
+      window.removeEventListener("dragover", over);
+      window.removeEventListener("dragleave", leave);
+      window.removeEventListener("drop", drop);
+    };
+  }, []);
+
   // Warn before closing the tab while photos are still uploading.
   useEffect(() => {
     if (!inFlight) return;
@@ -110,6 +149,14 @@ export function RapidEntry({ projectId }: { projectId: string }) {
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  // Ctrl+Enter / ⌘+Enter saves from any field, including Comments.
+  function onFormKeyDown(e: React.KeyboardEvent<HTMLFormElement>) {
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      e.currentTarget.requestSubmit();
+    }
   }
 
   function submit(e: React.FormEvent) {
@@ -167,7 +214,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       </div>
 
       <div>
-        <h1 className="text-[28px] leading-tight font-bold">Add snags</h1>
+        <h1 className="text-[28px] leading-tight font-bold lg:text-4xl">Add snags</h1>
         {project.data ? (
           <p className="text-muted-foreground truncate text-sm">{project.data.name}</p>
         ) : (
@@ -175,7 +222,26 @@ export function RapidEntry({ projectId }: { projectId: string }) {
         )}
       </div>
 
-      <form onSubmit={submit} className="grid gap-4" aria-label="New snag">
+      {dragging && (
+        <div
+          className="bg-header/70 pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-8 backdrop-blur-sm"
+          aria-hidden
+        >
+          <div className="border-brand text-header-foreground flex flex-col items-center gap-2 rounded-3xl border-4 border-dashed px-12 py-10 text-center">
+            <Images className="size-10" />
+            <p className="text-xl font-semibold">Drop photos to add them</p>
+            <p className="text-sm text-white/70">Up to {MAX_PHOTOS_PER_SNAG} per snag</p>
+          </div>
+        </div>
+      )}
+
+      <form
+        onSubmit={submit}
+        onKeyDown={onFormKeyDown}
+        className="grid gap-4 lg:grid-cols-2 lg:items-start lg:gap-8"
+        aria-label="New snag"
+      >
+        <div className="lg:surface lg:p-4">
         <PhotoPicker
           ref={photoRef}
           value={form.photos}
@@ -184,7 +250,9 @@ export function RapidEntry({ projectId }: { projectId: string }) {
             toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per snag: ${skipped} not added.`)
           }
         />
+        </div>
 
+        <div className="grid gap-4 lg:surface lg:p-5">
         <div className="grid gap-2">
           <Label htmlFor="snag-title">Title</Label>
           <Input
@@ -213,7 +281,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
             enterKeyHint="next"
           />
           {recentAssignees.length > 0 && (
-            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1" role="group" aria-label="Recently assigned">
+            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:px-0" role="group" aria-label="Recently assigned">
               {recentAssignees.map((name) => (
                 <button
                   key={name}
@@ -242,11 +310,17 @@ export function RapidEntry({ projectId }: { projectId: string }) {
           />
         </div>
 
-        {/* Sticky so it's always under the thumb, even with the keyboard open. */}
-        <div className="bg-background/95 sticky bottom-0 -mx-4 border-t px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur">
+        {/* Phone: sticky so it's always under the thumb, even with the keyboard open.
+            Laptop: a normal button at the end of the form, with the shortcut shown. */}
+        <div className="bg-background/95 sticky bottom-0 -mx-4 border-t px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur lg:static lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
           <Button type="submit" size="lg" className="h-12 w-full text-base" disabled={!form.title.trim()}>
             <Plus className="size-5" /> Save &amp; add next
           </Button>
+          <p className="text-muted-foreground mt-2 hidden text-center text-xs lg:block">
+            or press <kbd className="bg-muted rounded border px-1.5 py-0.5 font-sans">{isMac ? "⌘" : "Ctrl"}</kbd> +{" "}
+            <kbd className="bg-muted rounded border px-1.5 py-0.5 font-sans">Enter</kbd>
+          </p>
+        </div>
         </div>
       </form>
 

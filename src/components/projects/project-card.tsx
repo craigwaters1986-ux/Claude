@@ -24,12 +24,13 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
   const progress = project.total_snags ? project.resolved_snags / project.total_snags : 0;
 
   return (
-    <div className="surface relative transition-[box-shadow,border-color] has-[a:hover]:border-foreground/15 has-[a:hover]:shadow-md">
+    <div className="surface relative h-full transition-[box-shadow,border-color] has-[a:hover]:border-foreground/15 has-[a:hover]:shadow-md">
       {/* The whole card is the link; the menu button sits above it. */}
       <Link
         href={`/projects/${project.id}`}
-        className="focus-visible:ring-ring/50 block rounded-2xl p-4 pr-14 outline-none focus-visible:ring-[3px]"
+        className="focus-visible:ring-ring/50 flex h-full flex-col justify-between rounded-2xl p-4 pr-14 outline-none focus-visible:ring-[3px]"
       >
+        <div>
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="truncate text-[17px] font-semibold">{project.name}</h2>
           {project.status !== "active" && <ProjectStatusBadge status={project.status} />}
@@ -40,7 +41,9 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
             {project.location}
           </p>
         )}
+        </div>
 
+        <div>
         <div className="mt-4 flex items-end justify-between gap-4 text-sm">
           <div className="flex gap-4">
             <Stat value={outstanding} label="Outstanding" tone={outstanding ? "text-red-700 dark:text-red-400" : undefined} />
@@ -62,6 +65,7 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
             <div className="bg-foreground h-full rounded-full" style={{ width: `${progress * 100}%` }} />
           </div>
         )}
+        </div>
       </Link>
 
       <DropdownMenu>

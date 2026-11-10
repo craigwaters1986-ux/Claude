@@ -8,6 +8,9 @@ import {
   Camera,
   ClipboardList,
   FolderX,
+  LayoutGrid,
+  Rows3,
+  Search,
   MapPin,
   MoreVertical,
   Pencil,
@@ -36,6 +39,9 @@ import { EmptyState, ErrorState } from "@/components/states";
 import { ProjectStatusBadge } from "@/components/status-badge";
 import { SnagCard } from "@/components/snags/snag-card";
 import { SnagDetailDialog } from "@/components/snags/snag-detail-dialog";
+import { SnagTable } from "@/components/snags/snag-table";
+import { Input } from "@/components/ui/input";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useProject } from "@/hooks/use-projects";
 import { useDeleteSnag, useSnags, useUpdateSnag } from "@/hooks/use-snags";
 import { ServiceError } from "@/lib/services/errors";
@@ -60,6 +66,11 @@ export function ProjectView({ projectId }: { projectId: string }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [snagToDelete, setSnagToDelete] = useState<ListedSnag | null>(null);
   const [openSnagId, setOpenSnagId] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [view, setView] = useSnagView();
+  // Tablets and laptops can choose a table; phones always get cards.
+  const wide = useMediaQuery("(min-width: 768px)");
+  const showTable = wide && view === "table";
 
   // Counts come from the live list so they update instantly with optimistic changes.
   const counts = useMemo(() => {
@@ -72,10 +83,14 @@ export function ProjectView({ projectId }: { projectId: string }) {
     } satisfies Record<Filter, number>;
   }, [snags.data]);
 
-  const visibleSnags = useMemo(
-    () => (filter === "all" ? snags.data : snags.data?.filter((s) => s.status === filter)) ?? [],
-    [snags.data, filter],
-  );
+  const visibleSnags = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return (snags.data ?? []).filter(
+      (s) =>
+        (filter === "all" || s.status === filter) &&
+        (!q || [s.title, s.assigned_to, s.description, String(s.snag_number)].some((f) => f?.toLowerCase().includes(q))),
+    );
+  }, [snags.data, filter, query]);
 
   function changeStatus(snag: ListedSnag, status: SnagStatus) {
     updateSnag.mutate(
@@ -127,7 +142,8 @@ export function ProjectView({ projectId }: { projectId: string }) {
   const p = project.data;
 
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(260px,300px)_minmax(0,1fr)] lg:items-start lg:gap-8">
+      <aside className="grid gap-4 lg:sticky lg:top-24">
       <Link href="/" className="text-muted-foreground hover:text-foreground inline-flex w-fit items-center gap-1 text-sm">
         <ArrowLeft className="size-4" /> Projects
       </Link>
@@ -165,7 +181,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
           </DropdownMenu>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:justify-end lg:grid lg:grid-cols-1">
           {/* Disabled while snags are still saving, so the report can't miss them. */}
           <GenerateReportButton projectId={projectId} disabled={snags.data?.some((s) => s._pending)} />
           <Button size="lg" asChild>
@@ -174,10 +190,24 @@ export function ProjectView({ projectId }: { projectId: string }) {
             </Link>
           </Button>
         </div>
+        {/* Laptop: status at a glance in the side panel */}
+        {counts.all > 0 && (
+          <dl className="mt-5 hidden grid-cols-3 gap-2 border-t pt-4 text-center lg:grid">
+            {(["open", "in_progress", "resolved"] as const).map((st) => (
+              <div key={st}>
+                <dt className="text-muted-foreground text-xs">{SNAG_STATUS_LABEL[st]}</dt>
+                <dd className="text-2xl font-bold tabular-nums">{counts[st]}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </section>
+      </aside>
 
-      {/* Status filter tabs */}
-      <div role="tablist" aria-label="Filter snags by status" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+      <div className="grid min-w-0 grid-cols-1 gap-4">
+      {/* Toolbar: status filter, search, and (laptop) cards/table switch */}
+      <div className="grid min-w-0 gap-3 lg:flex lg:flex-wrap lg:items-center lg:justify-between">
+      <div role="tablist" aria-label="Filter snags by status" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:px-0 lg:pb-0">
         {FILTERS.map((f) => (
           <button
             key={f}
@@ -194,6 +224,43 @@ export function ProjectView({ projectId }: { projectId: string }) {
           </button>
         ))}
       </div>
+      {counts.all > 0 && (
+        <div className="flex items-center gap-2 lg:ml-auto">
+          <div className="relative flex-1 lg:w-60 lg:flex-none">
+            <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+            <Input
+              type="search"
+              placeholder="Search snags"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="h-10 pl-9 md:h-9"
+              aria-label="Search snags"
+            />
+          </div>
+          <div className="bg-muted hidden rounded-lg p-0.5 md:flex" role="group" aria-label="Layout">
+            {(
+              [
+                ["cards", LayoutGrid, "Cards"],
+                ["table", Rows3, "Table"],
+              ] as const
+            ).map(([value, Icon, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setView(value)}
+                aria-pressed={view === value}
+                className={cn(
+                  "inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium transition-colors",
+                  view === value ? "bg-card shadow-xs" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Icon className="size-4" /> {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      </div>
 
       {/* Snag list */}
       {snags.isPending ? (
@@ -204,6 +271,8 @@ export function ProjectView({ projectId }: { projectId: string }) {
         </div>
       ) : snags.error ? (
         <ErrorState message={snags.error.message} onRetry={() => snags.refetch()} />
+      ) : visibleSnags.length === 0 && query.trim() ? (
+        <EmptyState icon={Search} title="No matching snags" description="Try a different search." />
       ) : visibleSnags.length === 0 ? (
         <EmptyState
           icon={ClipboardList}
@@ -220,19 +289,32 @@ export function ProjectView({ projectId }: { projectId: string }) {
           }
         />
       ) : (
-        <ul className="grid gap-3">
-          {visibleSnags.map((snag) => (
-            <li key={snag.id}>
-              <SnagCard
-                snag={snag}
-                onOpen={() => setOpenSnagId(snag.id)}
-                onStatusChange={(status) => changeStatus(snag, status)}
-                onDelete={() => setSnagToDelete(snag)}
-              />
-            </li>
-          ))}
-        </ul>
+        <>
+          {/* Only one of the two is built, so the page holds each snag once. */}
+          {showTable ? (
+            <SnagTable
+              snags={visibleSnags}
+              onOpen={(snag) => setOpenSnagId(snag.id)}
+              onStatusChange={changeStatus}
+              onDelete={setSnagToDelete}
+            />
+          ) : (
+            <ul className="grid gap-3 xl:grid-cols-2">
+              {visibleSnags.map((snag) => (
+                <li key={snag.id}>
+                  <SnagCard
+                    snag={snag}
+                    onOpen={() => setOpenSnagId(snag.id)}
+                    onStatusChange={(status) => changeStatus(snag, status)}
+                    onDelete={() => setSnagToDelete(snag)}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
+      </div>
 
       <ProjectFormDialog open={editOpen} onOpenChange={setEditOpen} project={p} />
       <DeleteProjectDialog
@@ -259,4 +341,26 @@ export function ProjectView({ projectId }: { projectId: string }) {
       </AlertDialog>
     </div>
   );
+}
+
+const VIEW_KEY = "snaglist.snag-view";
+
+/** Cards or table on tablets/laptops (phones always use cards). Remembered per device. */
+function useSnagView() {
+  const [view, setViewState] = useState<"cards" | "table">(() => {
+    try {
+      return localStorage.getItem(VIEW_KEY) === "cards" ? "cards" : "table";
+    } catch {
+      return "table";
+    }
+  });
+  function setView(next: "cards" | "table") {
+    setViewState(next);
+    try {
+      localStorage.setItem(VIEW_KEY, next);
+    } catch {
+      // storage blocked: just don't remember
+    }
+  }
+  return [view, setView] as const;
 }

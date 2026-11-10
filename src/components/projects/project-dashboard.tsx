@@ -48,7 +48,7 @@ export function ProjectDashboard() {
     <div className="grid gap-4">
       <div className="flex items-end justify-between gap-2">
         <div>
-          <h1 className="text-[28px] leading-tight font-bold">Projects</h1>
+          <h1 className="text-[28px] leading-tight font-bold lg:text-4xl">Projects</h1>
           {projects && projects.length > 0 && (
             <p className="text-muted-foreground text-sm">
               {projects.filter((p) => p.status === "active").length} active ·{" "}
@@ -62,7 +62,7 @@ export function ProjectDashboard() {
       </div>
 
       {projects && projects.length > 0 && (
-        <div className="relative">
+        <div className="relative lg:max-w-sm">
           <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
           <Input
             type="search"
@@ -76,7 +76,7 @@ export function ProjectDashboard() {
       )}
 
       {isPending ? (
-        <div className="grid gap-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
           {Array.from({ length: 3 }, (_, i) => (
             <Skeleton key={i} className="h-36 rounded-2xl" />
           ))}
@@ -97,7 +97,7 @@ export function ProjectDashboard() {
       ) : visible.length === 0 ? (
         <EmptyState icon={Search} title="No matching projects" description="Try a different search." />
       ) : (
-        <ul className="grid gap-3">
+        <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
           {visible.map((project) => (
             <li key={project.id}>
               <ProjectCard project={project} onEdit={openEdit} onDelete={setDeleting} />

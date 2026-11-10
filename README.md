@@ -103,6 +103,12 @@ saves retry with backoff; while offline they pause and resume when the signal re
 | `/projects/[projectId]` | Project header + counts, status filter tabs, snag list (change status, delete). Tap a snag to view/add/delete its photos and edit its details |
 | `/projects/[projectId]/add` | **Rapid Entry**: up to 6 photos + three lines (title, assigned to, comments) → "Save & add next", repeat |
 
+**Phones and laptops.** The same app adapts to the screen. On tablets and laptops (≥ 768 px) a project's
+snags can be shown as a **table** (remembered per device; phones always use cards). On laptops (≥ 1024 px):
+projects in a grid, the project page has a side panel with the snags beside it, Add snags puts photos and
+details side by side, photos can be **dragged and dropped** onto Add snags, **Ctrl/⌘ + Enter** saves, and
+**← / →** move between photos in a snag. Every project page has a snag search (title, trade, comments, #).
+
 Signed-out visitors are sent to `/login?next=…` and returned to the page they wanted after signing in.
 UI components in `src/components/ui/` are standard shadcn/ui sources.
 
