@@ -29,8 +29,9 @@ export type SnagCapture = {
   /** Client-generated, so the optimistic row, the photo path and the DB row all share it. */
   id: string;
   title: string;
+  assigned_to?: string | null;
+  /** Comments (stored in the `description` column). */
   description?: string | null;
-  location_details?: string | null;
   status?: SnagStatus;
   /** Original photo from the camera / gallery. */
   photo?: File | null;
@@ -104,7 +105,7 @@ export function useCreateSnag(projectId: string) {
         project_id: projectId,
         title: input.title,
         description: input.description ?? null,
-        location_details: input.location_details ?? null,
+        assigned_to: input.assigned_to ?? null,
         status: input.status ?? "open",
         image_path,
         image_url,
@@ -121,7 +122,8 @@ export function useCreateSnag(projectId: string) {
         snag_number: 0, // the real number comes back from the database
         title: input.title,
         description: input.description ?? null,
-        location_details: input.location_details ?? null,
+        location_details: null,
+        assigned_to: input.assigned_to ?? null,
         status: input.status ?? "open",
         image_url: input.previewUrl ?? null,
         image_path: null,

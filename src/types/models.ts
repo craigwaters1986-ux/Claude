@@ -31,13 +31,14 @@ export type SnagInput = Pick<
   | "title"
   | "description"
   | "location_details"
+  | "assigned_to"
   | "status"
   | "image_url"
   | "image_path"
 >;
 export type SnagPatch = Pick<
   TablesUpdate<"snags">,
-  "title" | "description" | "location_details" | "status" | "image_url" | "image_path"
+  "title" | "description" | "location_details" | "assigned_to" | "status" | "image_url" | "image_path"
 >;
 
 /**

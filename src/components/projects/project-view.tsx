@@ -7,7 +7,6 @@ import {
   ArrowLeft,
   Camera,
   ClipboardList,
-  FileDown,
   FolderX,
   MapPin,
   MoreVertical,
@@ -42,6 +41,7 @@ import { ServiceError } from "@/lib/services/errors";
 import { cn } from "@/lib/utils";
 import { SNAG_STATUS_LABEL, type ListedSnag, type SnagStatus } from "@/types/models";
 import { DeleteProjectDialog } from "./delete-project-dialog";
+import { GenerateReportButton } from "./generate-report-button";
 import { ProjectFormDialog } from "./project-form-dialog";
 
 type Filter = "all" | SnagStatus;
@@ -164,10 +164,8 @@ export function ProjectView({ projectId }: { projectId: string }) {
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
-          {/* Wired up in Step 5 (PDF report) */}
-          <Button variant="outline" size="lg" disabled title="Coming soon">
-            <FileDown /> Generate report
-          </Button>
+          {/* Disabled while snags are still saving, so the report can't miss them. */}
+          <GenerateReportButton projectId={projectId} disabled={snags.data?.some((s) => s._pending)} />
           <Button size="lg" asChild>
             <Link href={`/projects/${projectId}/add`}>
               <Camera /> Add snags

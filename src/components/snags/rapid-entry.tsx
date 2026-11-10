@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useMutationState } from "@tanstack/react-query";
-import { Check, ChevronLeft, Plus } from "lucide-react";
+import { ChevronLeft, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,30 +11,29 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { ErrorState } from "@/components/states";
-import { SNAG_STATUS_CLASS } from "@/components/status-badge";
 import { useProject } from "@/hooks/use-projects";
 import { discardCapture, useCreateSnag, useSnags, type SnagCapture } from "@/hooks/use-snags";
 import { useSupabase } from "@/hooks/use-supabase";
 import { mutationKeys } from "@/lib/query-keys";
 import { cn } from "@/lib/utils";
 import { uuid } from "@/lib/uuid";
-import { SNAG_STATUS_LABEL, SNAG_STATUSES, type Snag, type SnagStatus } from "@/types/models";
+import type { Snag } from "@/types/models";
 import { CaptureList, type CaptureItem } from "./capture-list";
 import { PhotoPicker, type PhotoPickerHandle, type PhotoValue } from "./photo-picker";
 
 type FormState = {
   photo: PhotoValue;
   title: string;
-  location: string;
-  description: string;
-  status: SnagStatus;
+  assignedTo: string;
+  comments: string;
 };
 
-const EMPTY: FormState = { photo: null, title: "", location: "", description: "", status: "open" };
+const EMPTY: FormState = { photo: null, title: "", assignedTo: "", comments: "" };
 
 /**
  * Rapid Entry: log snag after snag without leaving the screen.
  *
+ * Each snag is a photo plus three lines: title, assigned to, comments.
  * Tapping "Save & next" hands the snag to a background mutation (compress →
  * upload → save) and resets the form at once. The project stays selected, and
  * the list below shows each snag's progress.
@@ -90,19 +89,20 @@ export function RapidEntry({ projectId }: { projectId: string }) {
     return () => window.removeEventListener("beforeunload", warn);
   }, [inFlight]);
 
-  // One-tap location chips: rooms used this visit first, then the project's existing snags.
-  const recentLocations = useMemo(() => {
+  // One-tap "assigned to" chips: trades used this visit first, then the
+  // project's existing snags. On a walk-round the same few names repeat.
+  const recentAssignees = useMemo(() => {
     const seen = new Set<string>();
     const result: string[] = [];
     const candidates = [
-      ...items.map((i) => i.variables.location_details),
-      ...[...(snags.data ?? [])].reverse().map((s) => s.location_details),
+      ...items.map((i) => i.variables.assigned_to),
+      ...[...(snags.data ?? [])].reverse().map((s) => s.assigned_to),
     ];
-    for (const loc of candidates) {
-      const key = loc?.trim().toLowerCase();
-      if (!loc || !key || seen.has(key)) continue;
+    for (const name of candidates) {
+      const key = name?.trim().toLowerCase();
+      if (!name || !key || seen.has(key)) continue;
       seen.add(key);
-      result.push(loc.trim());
+      result.push(name.trim());
       if (result.length === 6) break;
     }
     return result;
@@ -124,9 +124,8 @@ export function RapidEntry({ projectId }: { projectId: string }) {
     createSnag.mutate({
       id: uuid(),
       title,
-      location_details: form.location.trim() || null,
-      description: form.description.trim() || null,
-      status: form.status,
+      assigned_to: form.assignedTo.trim() || null,
+      description: form.comments.trim() || null,
       photo: form.photo?.file ?? null,
       previewUrl: form.photo?.previewUrl ?? null, // ownership passes to the mutation
     });
@@ -182,7 +181,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
         <PhotoPicker ref={photoRef} value={form.photo} onChange={(photo) => update("photo", photo)} />
 
         <div className="grid gap-2">
-          <Label htmlFor="snag-title">What’s wrong?</Label>
+          <Label htmlFor="snag-title">Title</Label>
           <Input
             ref={titleRef}
             id="snag-title"
@@ -197,28 +196,30 @@ export function RapidEntry({ projectId }: { projectId: string }) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="snag-location">Location</Label>
+          <Label htmlFor="snag-assigned-to">Assigned to</Label>
           <Input
-            id="snag-location"
-            value={form.location}
-            onChange={(e) => update("location", e.target.value)}
-            placeholder="e.g. Master Bedroom"
+            id="snag-assigned-to"
+            value={form.assignedTo}
+            onChange={(e) => update("assignedTo", e.target.value)}
+            placeholder="e.g. Plumber, Decorator, J. Smith"
+            maxLength={200}
             autoComplete="off"
+            autoCapitalize="words"
             enterKeyHint="next"
           />
-          {recentLocations.length > 0 && (
-            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1" aria-label="Recent locations">
-              {recentLocations.map((loc) => (
+          {recentAssignees.length > 0 && (
+            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1" role="group" aria-label="Recently assigned">
+              {recentAssignees.map((name) => (
                 <button
-                  key={loc}
+                  key={name}
                   type="button"
-                  onClick={() => update("location", loc)}
+                  onClick={() => update("assignedTo", name)}
                   className={cn(
                     "h-8 shrink-0 rounded-full border px-3 text-sm transition-colors",
-                    form.location === loc ? "bg-primary text-primary-foreground border-primary" : "hover:bg-accent",
+                    form.assignedTo === name ? "bg-primary text-primary-foreground border-primary" : "hover:bg-accent",
                   )}
                 >
-                  {loc}
+                  {name}
                 </button>
               ))}
             </div>
@@ -226,43 +227,15 @@ export function RapidEntry({ projectId }: { projectId: string }) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="snag-description">
-            Notes <span className="text-muted-foreground font-normal">(optional)</span>
-          </Label>
+          <Label htmlFor="snag-comments">Comments</Label>
           <Textarea
-            id="snag-description"
-            value={form.description}
-            onChange={(e) => update("description", e.target.value)}
-            placeholder="Extra detail for whoever fixes it"
+            id="snag-comments"
+            value={form.comments}
+            onChange={(e) => update("comments", e.target.value)}
+            placeholder="Detail for whoever fixes it"
             rows={2}
           />
         </div>
-
-        <fieldset className="grid gap-2">
-          <legend className="mb-2 text-sm font-medium">Status</legend>
-          <div className="grid grid-cols-3 gap-2">
-            {SNAG_STATUSES.map((s) => (
-              <label
-                key={s}
-                className={cn(
-                  "flex h-10 cursor-pointer items-center justify-center gap-1 rounded-md border text-sm font-medium transition-colors has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50",
-                  form.status === s ? cn(SNAG_STATUS_CLASS[s], "border-transparent") : "hover:bg-accent",
-                )}
-              >
-                <input
-                  type="radio"
-                  name="status"
-                  value={s}
-                  checked={form.status === s}
-                  onChange={() => update("status", s)}
-                  className="sr-only"
-                />
-                {form.status === s && <Check className="size-3.5" />}
-                {SNAG_STATUS_LABEL[s]}
-              </label>
-            ))}
-          </div>
-        </fieldset>
 
         {/* Sticky so it's always under the thumb, even with the keyboard open. */}
         <div className="bg-background/95 sticky bottom-0 -mx-4 border-t px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur">

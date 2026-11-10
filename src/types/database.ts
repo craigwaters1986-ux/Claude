@@ -1,7 +1,7 @@
 /**
  * Database types for the Supabase client.
  *
- * Hand-written to match supabase/migrations/20261110000000_initial_schema.sql,
+ * Hand-written to match the SQL in supabase/migrations/,
  * in the same shape `supabase gen types typescript` produces. Once a Supabase
  * project is linked you can regenerate this file with:
  *
@@ -69,6 +69,7 @@ export type Database = {
           title: string;
           description: string | null;
           location_details: string | null;
+          assigned_to: string | null;
           status: Database["public"]["Enums"]["snag_status"];
           image_url: string | null;
           image_path: string | null;
@@ -85,6 +86,7 @@ export type Database = {
           title: string;
           description?: string | null;
           location_details?: string | null;
+          assigned_to?: string | null;
           status?: Database["public"]["Enums"]["snag_status"];
           image_url?: string | null;
           image_path?: string | null;
@@ -100,6 +102,7 @@ export type Database = {
           title?: string;
           description?: string | null;
           location_details?: string | null;
+          assigned_to?: string | null;
           status?: Database["public"]["Enums"]["snag_status"];
           image_url?: string | null;
           image_path?: string | null;

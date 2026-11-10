@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ImageOff, Loader2, MapPin, Trash2 } from "lucide-react";
+import { ChevronDown, ImageOff, Loader2, MapPin, Trash2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SNAG_STATUS_CLASS } from "@/components/status-badge";
 import { cn } from "@/lib/utils";
@@ -55,6 +55,13 @@ export function SnagCard({ snag, onStatusChange, onDelete }: Props) {
           </Button>
         </div>
 
+        {snag.assigned_to && (
+          <p className="text-muted-foreground mt-0.5 flex items-center gap-1 text-sm">
+            <UserRound className="size-3.5 shrink-0" />
+            <span className="truncate">{snag.assigned_to}</span>
+          </p>
+        )}
+        {/* Only snags logged before the three-line form have a location. */}
         {snag.location_details && (
           <p className="text-muted-foreground mt-0.5 flex items-center gap-1 text-sm">
             <MapPin className="size-3.5 shrink-0" />
