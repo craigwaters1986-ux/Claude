@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ImageOff, Loader2, MapPin, Trash2, UserRound } from "lucide-react";
+import { ChevronDown, ImageOff, Images, Loader2, MapPin, Trash2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SNAG_STATUS_CLASS } from "@/components/status-badge";
 import { cn } from "@/lib/utils";
@@ -8,30 +8,48 @@ import { SNAG_STATUS_LABEL, SNAG_STATUSES, type ListedSnag, type SnagStatus } fr
 
 type Props = {
   snag: ListedSnag;
+  onOpen: () => void;
   onStatusChange: (status: SnagStatus) => void;
   onDelete: () => void;
 };
 
-export function SnagCard({ snag, onStatusChange, onDelete }: Props) {
+export function SnagCard({ snag, onOpen, onStatusChange, onDelete }: Props) {
+  const cover = snag.photos[0]?.image_url ?? snag.image_url;
+  const label = snag._pending ? snag.title : `snag ${snag.snag_number}, ${snag.title}`;
   return (
     <div className={cn("bg-card flex gap-3 rounded-xl border p-3 shadow-sm", snag._pending && "opacity-70")}>
-      <div className="bg-muted relative size-20 shrink-0 overflow-hidden rounded-lg sm:size-24">
-        {snag.image_url ? (
-          <a href={snag.image_url} target="_blank" rel="noreferrer" aria-label={`Open photo for snag ${snag.snag_number}`}>
-            {/* Plain <img>: Supabase public URLs, lazy-loaded, no Next image config needed. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={snag.image_url} alt="" loading="lazy" className="size-full object-cover" />
-          </a>
+      <button
+        type="button"
+        onClick={onOpen}
+        disabled={snag._pending}
+        className="bg-muted focus-visible:ring-ring/50 relative size-20 shrink-0 overflow-hidden rounded-lg outline-none focus-visible:ring-[3px] sm:size-24"
+        aria-label={`Open ${label}${snag.photos.length ? ` (${snag.photos.length} photo${snag.photos.length === 1 ? "" : "s"})` : ""}`}
+      >
+        {cover ? (
+          // Plain <img>: Supabase public URLs, lazy-loaded, no Next image config needed.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={cover} alt="" loading="lazy" className="size-full object-cover" />
         ) : (
-          <div className="text-muted-foreground flex size-full items-center justify-center">
+          <span className="text-muted-foreground flex size-full items-center justify-center">
             <ImageOff className="size-5" />
-          </div>
+          </span>
         )}
-      </div>
+        {snag.photos.length > 1 && (
+          <span className="absolute right-1 bottom-1 inline-flex items-center gap-0.5 rounded bg-black/65 px-1.5 py-0.5 text-[11px] font-medium text-white">
+            <Images className="size-3" />
+            {snag.photos.length}
+          </span>
+        )}
+      </button>
 
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
+          <button
+            type="button"
+            onClick={onOpen}
+            disabled={snag._pending}
+            className="focus-visible:ring-ring/50 min-w-0 rounded-sm text-left outline-none focus-visible:ring-[3px]"
+          >
             <p className="text-muted-foreground text-xs font-medium tabular-nums">
               {snag._pending ? (
                 <span className="inline-flex items-center gap-1">
@@ -42,7 +60,7 @@ export function SnagCard({ snag, onStatusChange, onDelete }: Props) {
               )}
             </p>
             <h3 className="leading-snug font-medium break-words">{snag.title}</h3>
-          </div>
+          </button>
           <Button
             variant="ghost"
             size="icon"

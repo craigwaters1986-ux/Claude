@@ -35,6 +35,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/states";
 import { ProjectStatusBadge } from "@/components/status-badge";
 import { SnagCard } from "@/components/snags/snag-card";
+import { SnagDetailDialog } from "@/components/snags/snag-detail-dialog";
 import { useProject } from "@/hooks/use-projects";
 import { useDeleteSnag, useSnags, useUpdateSnag } from "@/hooks/use-snags";
 import { ServiceError } from "@/lib/services/errors";
@@ -58,6 +59,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [snagToDelete, setSnagToDelete] = useState<ListedSnag | null>(null);
+  const [openSnagId, setOpenSnagId] = useState<string | null>(null);
 
   // Counts come from the live list so they update instantly with optimistic changes.
   const counts = useMemo(() => {
@@ -223,6 +225,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
             <li key={snag.id}>
               <SnagCard
                 snag={snag}
+                onOpen={() => setOpenSnagId(snag.id)}
                 onStatusChange={(status) => changeStatus(snag, status)}
                 onDelete={() => setSnagToDelete(snag)}
               />
@@ -237,12 +240,13 @@ export function ProjectView({ projectId }: { projectId: string }) {
         onOpenChange={setDeleteOpen}
         onDeleted={() => router.replace("/")}
       />
+      <SnagDetailDialog projectId={projectId} snagId={openSnagId} onOpenChange={(open) => !open && setOpenSnagId(null)} />
       <AlertDialog open={!!snagToDelete} onOpenChange={(open) => !open && setSnagToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete snag #{snagToDelete?.snag_number}?</AlertDialogTitle>
             <AlertDialogDescription>
-              “{snagToDelete?.title}” and its photo will be permanently deleted.
+              “{snagToDelete?.title}” and its {snagToDelete?.photos.length === 1 ? "photo" : "photos"} will be permanently deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

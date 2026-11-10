@@ -8,7 +8,14 @@ export type ProjectStatus = Enums<"project_status">;
 export type SnagStatus = Enums<"snag_status">;
 
 export type Project = Tables<"projects">;
-export type Snag = Tables<"snags">;
+/** A snag row as stored. Its image_url/image_path are the cover (first photo). */
+export type SnagRow = Tables<"snags">;
+export type SnagPhoto = Tables<"snag_photos">;
+/** A snag with all its photos, in order. What the app works with. */
+export type Snag = SnagRow & { photos: SnagPhoto[] };
+
+/** Most photos the app lets you attach to one snag. */
+export const MAX_PHOTOS_PER_SNAG = 6;
 
 export type ProjectSummary = Project & {
   total_snags: number;
@@ -33,13 +40,13 @@ export type SnagInput = Pick<
   | "location_details"
   | "assigned_to"
   | "status"
-  | "image_url"
-  | "image_path"
 >;
 export type SnagPatch = Pick<
   TablesUpdate<"snags">,
-  "title" | "description" | "location_details" | "assigned_to" | "status" | "image_url" | "image_path"
+  "title" | "description" | "location_details" | "assigned_to" | "status"
 >;
+/** A photo already uploaded to Storage, ready to attach to a snag. */
+export type SnagPhotoInput = Pick<SnagPhoto, "id" | "position" | "image_url" | "image_path">;
 
 /**
  * A snag shown in the list before the server has confirmed it

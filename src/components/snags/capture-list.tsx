@@ -36,7 +36,8 @@ export function CaptureList({ items, onRetry, onDiscard }: Props) {
 
 function CaptureRow({ item, onRetry, onDiscard }: { item: CaptureItem } & Omit<Props, "items">) {
   const progress = useCaptureProgress(item.variables.id);
-  const thumb = item.data?.image_url ?? item.variables.previewUrl;
+  const thumb = item.data?.photos[0]?.image_url ?? item.variables.photos[0]?.previewUrl;
+  const photoCount = item.variables.photos.length;
   const failed = item.status === "error";
 
   let statusText: React.ReactNode;
@@ -68,9 +69,9 @@ function CaptureRow({ item, onRetry, onDiscard }: { item: CaptureItem } & Omit<P
   } else {
     const label =
       progress?.stage === "compressing"
-        ? "Compressing photo…"
+        ? `Compressing photo${(progress.photos ?? 1) > 1 ? ` ${progress.photo} of ${progress.photos}` : ""}…`
         : progress?.stage === "uploading"
-          ? `Uploading photo ${Math.round((progress.fraction ?? 0) * 100)}%`
+          ? `Uploading photo${(progress.photos ?? 1) > 1 ? ` ${progress.photo} of ${progress.photos}` : ""} ${Math.round((progress.fraction ?? 0) * 100)}%`
           : "Saving…";
     statusText = (
       <span className="text-muted-foreground inline-flex items-center gap-1">
@@ -85,9 +86,14 @@ function CaptureRow({ item, onRetry, onDiscard }: { item: CaptureItem } & Omit<P
       data-testid="capture-row"
       data-status={item.status}
     >
-      <div className="bg-muted size-12 shrink-0 overflow-hidden rounded-md">
+      <div className="bg-muted relative size-12 shrink-0 overflow-hidden rounded-md">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {thumb && <img src={thumb} alt="" className="size-full object-cover" />}
+        {photoCount > 1 && (
+          <span className="absolute right-0.5 bottom-0.5 rounded bg-black/65 px-1 text-[10px] font-medium text-white">
+            {photoCount}
+          </span>
+        )}
       </div>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{item.variables.title}</p>

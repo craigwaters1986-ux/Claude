@@ -10,7 +10,14 @@ import { useSyncExternalStore } from "react";
  * only the row showing that snag re-renders.
  */
 export type CaptureStage = "compressing" | "uploading" | "saving";
-export type CaptureProgress = { stage: CaptureStage; fraction?: number };
+export type CaptureProgress = {
+  stage: CaptureStage;
+  /** Upload progress of the current photo, 0–1. */
+  fraction?: number;
+  /** Which photo is being processed (1-based) out of how many. */
+  photo?: number;
+  photos?: number;
+};
 
 const store = new Map<string, CaptureProgress>();
 const listeners = new Set<() => void>();

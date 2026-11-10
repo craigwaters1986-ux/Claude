@@ -74,6 +74,7 @@ export async function uploadImage(
  * orphaned file but must never block deleting the database record.
  */
 export async function removeImages(supabase: TypedSupabaseClient, paths: string[]): Promise<void> {
+  paths = paths.filter(Boolean);
   if (paths.length === 0) return;
   const { error } = await supabase.storage.from(SNAG_IMAGES_BUCKET).remove(paths);
   if (error) console.warn("Could not remove images from storage:", error.message);

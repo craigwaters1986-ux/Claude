@@ -21,7 +21,7 @@ export type ReportData = {
   project: ProjectSummary;
   /** All of the project's snags; options decide which are shown. */
   snags: Snag[];
-  /** snag id → JPEG/PNG data URL. Missing = no photo. */
+  /** photo id → JPEG/PNG data URL, for the photos the design shows. */
   thumbnails: Record<string, string>;
   generatedAt: Date;
   options: ReportOptions;
@@ -83,7 +83,11 @@ const styles = StyleSheet.create({
   noThumbText: { fontSize: 7, color: MUTED },
 
   // Photo report
-  card: { flexDirection: "row", gap: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: LINE },
+  cardWrap: { paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: LINE },
+  card: { flexDirection: "row", gap: 14 },
+  // Up to 5 extra photos under the card: 5 × 98pt + 4 × 6pt gaps ≈ the 531pt content width.
+  extras: { flexDirection: "row", gap: 6, marginTop: 8 },
+  extraPhoto: { width: 98, height: 74, objectFit: "cover", borderRadius: 3 },
   cardPhoto: { width: 250, height: 188, objectFit: "cover", borderRadius: 4 },
   cardNoPhoto: { width: 250, height: 188, borderRadius: 4, backgroundColor: SOFT, alignItems: "center", justifyContent: "center" },
   cardBody: { flex: 1 },
@@ -237,18 +241,24 @@ function StandardTableHeader() {
 }
 
 function StandardTableRow({ snag, thumbnails }: { snag: Snag; thumbnails: Record<string, string> }) {
+  const cover = snag.photos[0] ? thumbnails[snag.photos[0].id] : undefined;
   return (
     <View style={styles.row} wrap={false}>
       <Text style={[styles.cell, styles.idText, { width: TABLE_COL.id }]}>{snag.snag_number}</Text>
       <View style={[styles.cell, { width: TABLE_COL.photo }]}>
-        {thumbnails[snag.id] ? (
+        {cover ? (
           // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
-          <Image src={thumbnails[snag.id]} style={styles.thumb} />
+          <Image src={cover} style={styles.thumb} />
         ) : (
           <View style={styles.noThumb}>
             <Text style={styles.noThumbText}>No photo</Text>
           </View>
         )}
+        {snag.photos.length > 1 ? (
+          <Text style={styles.subtle}>
+            +{snag.photos.length - 1} more {snag.photos.length === 2 ? "photo" : "photos"}
+          </Text>
+        ) : null}
       </View>
       <View style={[styles.cell, { width: TABLE_COL.title }]}>
         <Text style={styles.titleText}>{snag.title}</Text>
@@ -269,40 +279,53 @@ function StandardTableRow({ snag, thumbnails }: { snag: Snag; thumbnails: Record
 // Design 2: Photo report
 // ---------------------------------------------------------------------------
 function PhotoCard({ snag, thumbnails }: { snag: Snag; thumbnails: Record<string, string> }) {
+  const [first, ...rest] = snag.photos;
+  const cover = first ? thumbnails[first.id] : undefined;
+  const extras = rest.map((p) => thumbnails[p.id]).filter((src): src is string => !!src);
   return (
-    <View style={styles.card} wrap={false}>
-      {thumbnails[snag.id] ? (
-        // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
-        <Image src={thumbnails[snag.id]} style={styles.cardPhoto} />
-      ) : (
-        <View style={styles.cardNoPhoto}>
-          <Text style={styles.noThumbText}>No photo</Text>
+    <View style={styles.cardWrap} wrap={false}>
+      <View style={styles.card}>
+        {cover ? (
+          // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+          <Image src={cover} style={styles.cardPhoto} />
+        ) : (
+          <View style={styles.cardNoPhoto}>
+            <Text style={styles.noThumbText}>No photo</Text>
+          </View>
+        )}
+        <View style={styles.cardBody}>
+          <Text style={styles.cardNumber}>SNAG #{snag.snag_number}</Text>
+          <Text style={styles.cardTitle}>{snag.title}</Text>
+          <StatusPill status={snag.status} />
+  
+          <Text style={styles.fieldLabel}>Assigned to</Text>
+          <Text style={styles.fieldValue}>{snag.assigned_to || "—"}</Text>
+  
+          <Text style={styles.fieldLabel}>Comments</Text>
+          <Text style={styles.fieldValue}>{snag.description || "—"}</Text>
+  
+          {snag.location_details ? (
+            <>
+              <Text style={styles.fieldLabel}>Location</Text>
+              <Text style={styles.fieldValue}>{snag.location_details}</Text>
+            </>
+          ) : null}
+  
+          <Text style={styles.fieldLabel}>{snag.resolved_at ? "Logged / resolved" : "Logged"}</Text>
+          <Text style={styles.fieldValue}>
+            {formatDate(snag.created_at)}
+            {snag.resolved_at ? ` / ${formatDate(snag.resolved_at)}` : ""}
+          </Text>
         </View>
-      )}
-      <View style={styles.cardBody}>
-        <Text style={styles.cardNumber}>SNAG #{snag.snag_number}</Text>
-        <Text style={styles.cardTitle}>{snag.title}</Text>
-        <StatusPill status={snag.status} />
-
-        <Text style={styles.fieldLabel}>Assigned to</Text>
-        <Text style={styles.fieldValue}>{snag.assigned_to || "—"}</Text>
-
-        <Text style={styles.fieldLabel}>Comments</Text>
-        <Text style={styles.fieldValue}>{snag.description || "—"}</Text>
-
-        {snag.location_details ? (
-          <>
-            <Text style={styles.fieldLabel}>Location</Text>
-            <Text style={styles.fieldValue}>{snag.location_details}</Text>
-          </>
-        ) : null}
-
-        <Text style={styles.fieldLabel}>{snag.resolved_at ? "Logged / resolved" : "Logged"}</Text>
-        <Text style={styles.fieldValue}>
-          {formatDate(snag.created_at)}
-          {snag.resolved_at ? ` / ${formatDate(snag.resolved_at)}` : ""}
-        </Text>
       </View>
+      {extras.length ? (
+        <View style={styles.extras}>
+          {extras.map((src, k) => (
+            // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+            <Image key={k} src={src} style={styles.extraPhoto} />
+          ))}
+        </View>
+      ) : null}
     </View>
   );
 }

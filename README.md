@@ -50,13 +50,14 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
 | Table | Key columns |
 |---|---|
 | `projects` | `id`, `owner_id`, `name`, `description`, `location`, `status` (`active` / `on_hold` / `completed` / `archived`), `created_at` |
-| `snags` | `id`, `project_id` → projects, `snag_number` (per-project #1, #2…), `title`, `assigned_to`, `description` (shown as "Comments"), `status` (`open` / `in_progress` / `resolved`), `image_url`, `image_path`, `resolved_at`, `created_at`. `location_details` remains for older rows but the form no longer asks for it. |
+| `snags` | `id`, `project_id` → projects, `snag_number` (per-project #1, #2…), `title`, `assigned_to`, `description` (shown as "Comments"), `status` (`open` / `in_progress` / `resolved`), `image_url` / `image_path` (the cover: first photo, kept in sync by trigger), `resolved_at`, `created_at`. `location_details` remains for older rows but the form no longer asks for it. |
+| `snag_photos` | `id`, `snag_id` → snags (cascade), `position`, `image_url`, `image_path`, `created_at`. Up to 6 per snag in the app (12 enforced by the database). |
 | `project_summaries` (view) | every project column + `total_snags`, `open_snags`, `in_progress_snags`, `resolved_snags` |
 
 Design notes:
 
-- **Three-line snags.** Each snag is a photo plus title, assigned to (a trade or person, free text) and
-  comments. New snags start as Open; status is changed from the project list.
+- **Three-line snags.** Each snag is up to six photos plus title, assigned to (a trade or person, free
+  text) and comments. New snags start as Open; status is changed from the project list.
 - **Friendly snag numbers.** UUIDs are the real keys, but clients want "Snag #14". A trigger hands out
   numbers from a per-project counter with a row lock, so rapid back-to-back inserts never collide.
   Numbers of deleted snags are never reused, so a reference in an old report stays unambiguous.
@@ -99,8 +100,8 @@ saves retry with backoff; while offline they pause and resume when the signal re
 | `/login` | Email sign-in: magic link, or 6-digit code fallback |
 | `/auth/callback` | Magic-link landing; exchanges the code for a session cookie |
 | `/` | Project dashboard: search, create, edit, delete, show/hide archived |
-| `/projects/[projectId]` | Project header + counts, status filter tabs, snag list (change status, delete) |
-| `/projects/[projectId]/add` | **Rapid Entry**: photo + three lines (title, assigned to, comments) → "Save & add next", repeat |
+| `/projects/[projectId]` | Project header + counts, status filter tabs, snag list (change status, delete). Tap a snag to view/add/delete its photos and edit its details |
+| `/projects/[projectId]/add` | **Rapid Entry**: up to 6 photos + three lines (title, assigned to, comments) → "Save & add next", repeat |
 
 Signed-out visitors are sent to `/login?next=…` and returned to the page they wanted after signing in.
 UI components in `src/components/ui/` are standard shadcn/ui sources.
@@ -113,9 +114,10 @@ and clears the form at once:
 1. **Compress** (`src/lib/image/compress.ts`): canvas resize to 1920 px longest edge, JPEG at 0.8,
    EXIF rotation applied, transparent PNGs flattened onto white. Typically 2–5 MB becomes 300 KB.
    No third-party library, so nothing is fetched from a CDN on a weak connection.
-2. **Upload** (`src/lib/services/storage.ts`): to `snag-images/{userId}/{projectId}/{snagId}.jpg` via
-   XMLHttpRequest, because `fetch` can't report upload progress.
-3. **Save** the snag row; the database assigns its number.
+2. **Upload** (`src/lib/services/storage.ts`) each photo in turn to
+   `snag-images/{userId}/{projectId}/{snagId}/{photoId}.jpg` via XMLHttpRequest, because `fetch` can't
+   report upload progress ("Uploading photo 2 of 3 · 45%").
+3. **Save** the snag row (the database assigns its number), then its photo rows.
 
 Behaviour on site:
 - Captures run one at a time, in the order logged, so snag numbers follow the walk-round.
@@ -123,8 +125,10 @@ Behaviour on site:
 - Leaving the page doesn't stop uploads. Closing the tab mid-upload asks for confirmation.
 - Network errors retry 3 times with backoff; offline captures wait and resume when signal returns.
   Anything that still fails stays in "Logged this visit" with **Retry** / **Discard**.
-- Retries are safe: the photo path is fixed per snag (upsert), and a re-sent insert that already
-  reached the database is recognised rather than duplicated.
+- Retries are safe: every photo has a fixed path (upsert), photos already uploaded are skipped, and a
+  re-sent snag or photo insert that already reached the database is recognised rather than duplicated.
+- Snags saved with a single photo before multi-photo support keep that photo as photo 1 (migrated, and
+  handled in code for any row the migration didn't cover).
 
 ## PDF report
 
@@ -148,8 +152,9 @@ Every design has the project name, date and status totals in the header, a "Page
 or cards that never split across pages.
 - Built with `@react-pdf/renderer`, so text is sharp and selectable (not a screenshot). The PDF engine
   is loaded only when the button is tapped.
-- Photos are downloaded and sized for the design (320 px for the table, 1000 px for the photo report,
-  none for the checklist), so reports stay small enough to email.
+- Photos are downloaded and sized for the design, so reports stay small enough to email. The table shows
+  each snag's cover at 320 px with "+N more photos"; the photo report shows the cover at 1000 px with the
+  other photos in a row underneath (480 px); the checklist has none.
   A photo that fails to load is skipped and reported; it doesn't stop the report.
 - Data is read fresh from the database, and the button is disabled while snags are still saving.
 

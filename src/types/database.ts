@@ -128,6 +128,41 @@ export type Database = {
           },
         ];
       };
+      snag_photos: {
+        Row: {
+          id: string;
+          snag_id: string;
+          position: number;
+          image_url: string;
+          image_path: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          snag_id: string;
+          position?: number;
+          image_url: string;
+          image_path: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          snag_id?: string;
+          position?: number;
+          image_url?: string;
+          image_path?: string;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "snag_photos_snag_id_fkey";
+            columns: ["snag_id"];
+            isOneToOne: false;
+            referencedRelation: "snags";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       project_summaries: {

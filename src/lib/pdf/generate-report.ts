@@ -2,7 +2,7 @@ import type { TypedSupabaseClient } from "@/lib/supabase/client";
 import { compressImage } from "@/lib/image/compress";
 import { getProject } from "@/lib/services/projects";
 import { listSnags } from "@/lib/services/snags";
-import type { Snag } from "@/types/models";
+import type { SnagPhoto } from "@/types/models";
 import { filterSnags, photoSizeFor, type ReportOptions } from "./report-options";
 
 export type ReportProgress =
@@ -19,6 +19,8 @@ export type GeneratedReport = {
 };
 
 const PARALLEL_DOWNLOADS = 4;
+/** Size of the smaller extra photos under each card in the photo report. */
+const EXTRA_PHOTO_PX = 480;
 
 /**
  * Build the PDF report for a project.
@@ -43,15 +45,24 @@ export async function generateSnagReport(
   const included = filterSnags(snags, options);
   const photoSize = photoSizeFor(options.design);
 
-  const withPhotos = photoSize ? included.filter((s) => s.image_url) : [];
-  const thumbnails: Record<string, string> = {};
-  let done = 0;
-  onProgress?.({ stage: "photos", done, total: withPhotos.length });
+  // Which photos the design shows, and at what size: the table shows each
+  // snag's cover; the photo report shows the cover large and the rest smaller.
+  const wanted: { photo: SnagPhoto; size: number }[] = !photoSize
+    ? []
+    : included.flatMap((snag) =>
+        options.design === "photos"
+          ? snag.photos.map((photo, i) => ({ photo, size: i === 0 ? photoSize : EXTRA_PHOTO_PX }))
+          : snag.photos.slice(0, 1).map((photo) => ({ photo, size: photoSize })),
+      );
 
-  await runInParallel(withPhotos, PARALLEL_DOWNLOADS, async (snag) => {
-    const dataUrl = await makeThumbnail(snag, photoSize!);
-    if (dataUrl) thumbnails[snag.id] = dataUrl;
-    onProgress?.({ stage: "photos", done: ++done, total: withPhotos.length });
+  const thumbnails: Record<string, string> = {}; // photo id → data URL
+  let done = 0;
+  onProgress?.({ stage: "photos", done, total: wanted.length });
+
+  await runInParallel(wanted, PARALLEL_DOWNLOADS, async ({ photo, size }) => {
+    const dataUrl = await makeThumbnail(photo.image_url, size);
+    if (dataUrl) thumbnails[photo.id] = dataUrl;
+    onProgress?.({ stage: "photos", done: ++done, total: wanted.length });
   });
 
   onProgress?.({ stage: "rendering" });
@@ -65,14 +76,14 @@ export async function generateSnagReport(
     blob,
     filename: `${kind}-${slugify(project.name)}${who}-${isoDate(generatedAt)}.pdf`,
     snagCount: included.length,
-    missingPhotos: withPhotos.length - Object.keys(thumbnails).length,
+    missingPhotos: wanted.length - Object.keys(thumbnails).length,
   };
 }
 
 /** One broken photo must not sink the whole report, so failures return null. */
-async function makeThumbnail(snag: Snag, maxDimension: number): Promise<string | null> {
+async function makeThumbnail(url: string, maxDimension: number): Promise<string | null> {
   try {
-    const response = await fetch(snag.image_url!);
+    const response = await fetch(url);
     if (!response.ok) return null;
     const small = await compressImage(await response.blob(), { maxDimension, quality: maxDimension > 500 ? 0.8 : 0.75 });
     // The PDF engine only reads JPEG and PNG. (An undecodable HEIC comes back unchanged.)

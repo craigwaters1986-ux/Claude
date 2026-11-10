@@ -12,28 +12,28 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { ErrorState } from "@/components/states";
 import { useProject } from "@/hooks/use-projects";
-import { discardCapture, useCreateSnag, useSnags, type SnagCapture } from "@/hooks/use-snags";
+import { discardCapture, useCreateSnag, useSnags, type CapturePhoto, type SnagCapture } from "@/hooks/use-snags";
 import { useSupabase } from "@/hooks/use-supabase";
 import { mutationKeys } from "@/lib/query-keys";
 import { cn } from "@/lib/utils";
 import { uuid } from "@/lib/uuid";
-import type { Snag } from "@/types/models";
+import { MAX_PHOTOS_PER_SNAG, type Snag } from "@/types/models";
 import { CaptureList, type CaptureItem } from "./capture-list";
-import { PhotoPicker, type PhotoPickerHandle, type PhotoValue } from "./photo-picker";
+import { PhotoPicker, type PhotoPickerHandle } from "./photo-picker";
 
 type FormState = {
-  photo: PhotoValue;
+  photos: CapturePhoto[];
   title: string;
   assignedTo: string;
   comments: string;
 };
 
-const EMPTY: FormState = { photo: null, title: "", assignedTo: "", comments: "" };
+const EMPTY: FormState = { photos: [], title: "", assignedTo: "", comments: "" };
 
 /**
  * Rapid Entry: log snag after snag without leaving the screen.
  *
- * Each snag is a photo plus three lines: title, assigned to, comments.
+ * Each snag is up to six photos plus three lines: title, assigned to, comments.
  * Tapping "Save & next" hands the snag to a background mutation (compress →
  * upload → save) and resets the form at once. The project stays selected, and
  * the list below shows each snag's progress.
@@ -126,8 +126,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       title,
       assigned_to: form.assignedTo.trim() || null,
       description: form.comments.trim() || null,
-      photo: form.photo?.file ?? null,
-      previewUrl: form.photo?.previewUrl ?? null, // ownership passes to the mutation
+      photos: form.photos, // ownership (and the previews) pass to the mutation
     });
 
     // …and reset at once, ready for the next defect.
@@ -143,8 +142,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
 
   async function discard(item: CaptureItem) {
     setDismissed((d) => new Set(d).add(item.variables.id));
-    if (item.variables.previewUrl) URL.revokeObjectURL(item.variables.previewUrl);
-    await discardCapture(supabase, item.variables.id);
+    await discardCapture(supabase, item.variables);
     toast("Snag discarded");
   }
 
@@ -178,7 +176,14 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       </div>
 
       <form onSubmit={submit} className="grid gap-4" aria-label="New snag">
-        <PhotoPicker ref={photoRef} value={form.photo} onChange={(photo) => update("photo", photo)} />
+        <PhotoPicker
+          ref={photoRef}
+          value={form.photos}
+          onChange={(photos) => update("photos", photos)}
+          onLimitReached={(skipped) =>
+            toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per snag: ${skipped} not added.`)
+          }
+        />
 
         <div className="grid gap-2">
           <Label htmlFor="snag-title">Title</Label>

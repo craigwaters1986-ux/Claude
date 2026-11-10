@@ -89,16 +89,19 @@ export async function deleteProject(
   supabase: TypedSupabaseClient,
   projectId: string,
 ): Promise<string[]> {
+  // Every photo of every snag, plus any cover saved by an older app version.
   const { data: snags, error: listError } = await supabase
     .from("snags")
-    .select("image_path")
-    .eq("project_id", projectId)
-    .not("image_path", "is", null);
+    .select("image_path, snag_photos(image_path)")
+    .eq("project_id", projectId);
 
   if (listError) throw toServiceError(listError, "Could not delete project.");
 
   const { error } = await supabase.from("projects").delete().eq("id", projectId);
   if (error) throw toServiceError(error, "Could not delete project.");
 
-  return snags.map((s) => s.image_path).filter((p): p is string => !!p);
+  const paths = (snags as { image_path: string | null; snag_photos: { image_path: string }[] | null }[]).flatMap(
+    (s) => [s.image_path, ...(s.snag_photos ?? []).map((p) => p.image_path)],
+  );
+  return [...new Set(paths.filter((p): p is string => !!p))];
 }
