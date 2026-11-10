@@ -10,7 +10,7 @@ TanStack Query · `browser-image-compression` · `@react-pdf/renderer`
 
 - [x] **Step 1** — Database schema & project initialisation
 - [x] **Step 2** — Supabase client + data-fetching hooks/services
-- [ ] Step 3 — Project dashboard & routing
+- [x] **Step 3** — Project dashboard & routing
 - [ ] Step 4 — Rapid-entry (multi-add) snag form & image upload
 - [ ] Step 5 — PDF report generation
 
@@ -34,7 +34,14 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
 2. Apply the schema — either:
    - `npx supabase link --project-ref <ref>` then `npx supabase db push`, **or**
    - paste `supabase/migrations/20261110000000_initial_schema.sql` into the Supabase SQL editor.
-3. `npm run dev`
+3. **Auth settings** (Supabase Dashboard → Authentication):
+   - *URL Configuration*: set **Site URL** to your app URL and add `http://localhost:3000/auth/callback`
+     (plus your production `/auth/callback`) to **Redirect URLs**.
+   - *Email Templates → Magic Link*: add the code so people can type it in:
+     `<p>Or enter this code: <strong>{{ .Token }}</strong></p>`
+     On phones the email often opens in a different browser from the one that asked for the link,
+     and then the link can't complete sign-in. The 6-digit code always works.
+4. `npm run dev`
 
 ## Data model
 
@@ -77,3 +84,15 @@ server code; hooks add caching, background saving and optimistic updates.
 `_pending`) while it saves in the background, and several saves can run at once. The list
 refetches only once the last queued save finishes, so it doesn't flicker mid-burst. Failed
 saves retry with backoff; while offline they pause and resume when the signal returns.
+
+## Routes
+
+| Route | What it is |
+|---|---|
+| `/login` | Email sign-in: magic link, or 6-digit code fallback |
+| `/auth/callback` | Magic-link landing; exchanges the code for a session cookie |
+| `/` | Project dashboard: search, create, edit, delete, show/hide archived |
+| `/projects/[projectId]` | Project header + counts, status filter tabs, snag list (change status, delete) |
+
+Signed-out visitors are sent to `/login?next=…` and returned to the page they wanted after signing in.
+UI components in `src/components/ui/` are standard shadcn/ui sources.
