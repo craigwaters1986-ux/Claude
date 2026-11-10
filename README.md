@@ -147,8 +147,8 @@ text won't render. Registering a Unicode font in `snag-report.tsx` would fix tha
 Live at **https://snaglist-rosy.vercel.app** (Vercel project `snaglist`, team `snag-list-deploy`).
 
 - The Vercel project has `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` set for all environments.
-- It was deployed by uploading the code directly, so it does **not** redeploy on `git push`. To get automatic
-  deploys, connect GitHub in Vercel (Account Settings → Authentication → GitHub), then link the repo under
-  Project → Settings → Git. Until then, redeploy with `vercel --prod` from the repo root.
+- Linked to GitHub (`craigwaters1986-ux/claude`). Every push to `claude/affectionate-pascal-ga9bf4`, the
+  production branch, deploys to the live address automatically; pushes to other branches get preview URLs.
+  If this work is merged into `main`, change the production branch in Vercel → Project → Settings → Git.
 - In Supabase → Authentication → URL Configuration, **Site URL** must be `https://snaglist-rosy.vercel.app`
   and **Redirect URLs** must include `https://snaglist-rosy.vercel.app/auth/callback`.
