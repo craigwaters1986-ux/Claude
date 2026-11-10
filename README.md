@@ -128,14 +128,28 @@ Behaviour on site:
 
 ## PDF report
 
-"Generate report" on a project page builds the PDF in the browser (`src/lib/pdf/`):
+"Generate report" on a project page opens report options, then builds the PDF in the browser (`src/lib/pdf/`).
 
-- **Header:** project name, location, description, report date, and totals (total / open / in progress / resolved).
-- **Table:** #, photo thumbnail, title, assigned to, comments, status. The table header repeats on every
-  page, rows never split across pages, and each page has a "Page x of y" footer.
+**Options, chosen each time:**
+
+| Option | Choices |
+|---|---|
+| Design | **Standard table** (every snag, small photo) · **Photo report** (large photo per snag, for clients) · **Checklist** (no photos, tick box + initials per snag and a sign-off block, for trades) |
+| Which snags | All · Outstanding (open + in progress) · Resolved |
+| Assigned to | Any combination of the project's assignees (including Unassigned); none selected = everyone |
+| Group by | None · By trade · By status (a heading per group, never left alone at the foot of a page) |
+| Prepared for / by | Optional names shown in the header |
+
+The screen shows exactly how many snags the report will include. Design, grouping and "prepared by" are
+remembered on the device; the filters reset each time. Filters in use are noted in the PDF header, and the
+file name reflects the design and a single selected trade (e.g. `snag-checklist-plot-14-plumber-2026-11-10.pdf`).
+
+Every design has the project name, date and status totals in the header, a "Page x of y" footer, and rows
+or cards that never split across pages.
 - Built with `@react-pdf/renderer`, so text is sharp and selectable (not a screenshot). The PDF engine
   is loaded only when the button is tapped.
-- Photos are downloaded and shrunk to thumbnails first, so a long report stays small enough to email.
+- Photos are downloaded and sized for the design (320 px for the table, 1000 px for the photo report,
+  none for the checklist), so reports stay small enough to email.
   A photo that fails to load is skipped and reported; it doesn't stop the report.
 - Data is read fresh from the database, and the button is disabled while snags are still saving.
 

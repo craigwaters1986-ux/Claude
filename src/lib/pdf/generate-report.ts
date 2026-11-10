@@ -3,6 +3,7 @@ import { compressImage } from "@/lib/image/compress";
 import { getProject } from "@/lib/services/projects";
 import { listSnags } from "@/lib/services/snags";
 import type { Snag } from "@/types/models";
+import { filterSnags, photoSizeFor, type ReportOptions } from "./report-options";
 
 export type ReportProgress =
   | { stage: "loading" }
@@ -17,8 +18,6 @@ export type GeneratedReport = {
   missingPhotos: number;
 };
 
-/** Print-quality at the size shown in the table (80pt ≈ 1.1in → ~290 dpi). */
-const THUMBNAIL_PX = 320;
 const PARALLEL_DOWNLOADS = 4;
 
 /**
@@ -26,27 +25,31 @@ const PARALLEL_DOWNLOADS = 4;
  *
  * 1. Reads the project and its snags fresh from the database, so the report
  *    never shows stale or still-saving data.
- * 2. Downloads each photo and shrinks it to a thumbnail. Embedding the
- *    full-size photos would make a 60-snag report ~20 MB; thumbnails keep it
- *    around 1 MB, small enough to email. It also converts any format the PDF
- *    engine can't read (WebP) to JPEG.
+ * 2. Downloads the photos of the snags the options include, sized for the
+ *    design (small for the table, larger for the photo report, none for the
+ *    checklist). Embedding full-size photos would make a 60-snag report
+ *    ~20 MB; sized copies keep it small enough to email. It also converts any
+ *    format the PDF engine can't read (WebP) to JPEG.
  * 3. Lays out the PDF in the browser. Nothing is sent to a server.
  */
 export async function generateSnagReport(
   supabase: TypedSupabaseClient,
   projectId: string,
+  options: ReportOptions,
   onProgress?: (progress: ReportProgress) => void,
 ): Promise<GeneratedReport> {
   onProgress?.({ stage: "loading" });
   const [project, snags] = await Promise.all([getProject(supabase, projectId), listSnags(supabase, projectId)]);
+  const included = filterSnags(snags, options);
+  const photoSize = photoSizeFor(options.design);
 
-  const withPhotos = snags.filter((s) => s.image_url);
+  const withPhotos = photoSize ? included.filter((s) => s.image_url) : [];
   const thumbnails: Record<string, string> = {};
   let done = 0;
   onProgress?.({ stage: "photos", done, total: withPhotos.length });
 
   await runInParallel(withPhotos, PARALLEL_DOWNLOADS, async (snag) => {
-    const dataUrl = await makeThumbnail(snag);
+    const dataUrl = await makeThumbnail(snag, photoSize!);
     if (dataUrl) thumbnails[snag.id] = dataUrl;
     onProgress?.({ stage: "photos", done: ++done, total: withPhotos.length });
   });
@@ -54,22 +57,24 @@ export async function generateSnagReport(
   onProgress?.({ stage: "rendering" });
   const generatedAt = new Date();
   const { renderSnagReport } = await import("./snag-report"); // loads the PDF engine on first use
-  const blob = await renderSnagReport({ project, snags, thumbnails, generatedAt });
+  const blob = await renderSnagReport({ project, snags, thumbnails, generatedAt, options });
 
+  const kind = { table: "snag-report", photos: "photo-report", checklist: "snag-checklist" }[options.design];
+  const who = options.assignees.length === 1 ? `-${slugify(options.assignees[0])}` : "";
   return {
     blob,
-    filename: `snag-report-${slugify(project.name)}-${isoDate(generatedAt)}.pdf`,
-    snagCount: snags.length,
+    filename: `${kind}-${slugify(project.name)}${who}-${isoDate(generatedAt)}.pdf`,
+    snagCount: included.length,
     missingPhotos: withPhotos.length - Object.keys(thumbnails).length,
   };
 }
 
 /** One broken photo must not sink the whole report, so failures return null. */
-async function makeThumbnail(snag: Snag): Promise<string | null> {
+async function makeThumbnail(snag: Snag, maxDimension: number): Promise<string | null> {
   try {
     const response = await fetch(snag.image_url!);
     if (!response.ok) return null;
-    const small = await compressImage(await response.blob(), { maxDimension: THUMBNAIL_PX, quality: 0.75 });
+    const small = await compressImage(await response.blob(), { maxDimension, quality: maxDimension > 500 ? 0.8 : 0.75 });
     // The PDF engine only reads JPEG and PNG. (An undecodable HEIC comes back unchanged.)
     if (small.type !== "image/jpeg" && small.type !== "image/png") return null;
     return await blobToDataUrl(small);
