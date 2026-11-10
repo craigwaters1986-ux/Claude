@@ -10,7 +10,7 @@ import {
   updateProject,
 } from "@/lib/services/projects";
 import { removeImages } from "@/lib/services/storage";
-import type { ProjectInput, ProjectPatch } from "@/types/models";
+import type { ProjectInput, ProjectPatch, ProjectSummary } from "@/types/models";
 import { useSupabase } from "./use-supabase";
 
 export function useProjects() {
@@ -61,9 +61,20 @@ export function useDeleteProject() {
       await removeImages(supabase, imagePaths);
     },
     onSuccess: (_void, projectId) => {
-      queryClient.removeQueries({ queryKey: projectKeys.detail(projectId) });
-      queryClient.removeQueries({ queryKey: snagKeys.list(projectId) });
+      // Drop it from the dashboard straight away.
+      queryClient.setQueryData<ProjectSummary[]>(projectKeys.list(), (old) =>
+        old?.filter((p) => p.id !== projectId),
+      );
       queryClient.invalidateQueries({ queryKey: projectKeys.list() });
+
+      // The project page may still be on screen (it redirects after this).
+      // Removing its active queries would make it refetch a project that no
+      // longer exists, so mark them stale without refetching, and only
+      // remove the ones nothing is showing.
+      for (const queryKey of [projectKeys.detail(projectId), snagKeys.list(projectId)]) {
+        queryClient.invalidateQueries({ queryKey, refetchType: "none" });
+        queryClient.removeQueries({ queryKey, type: "inactive" });
+      }
     },
   });
 }

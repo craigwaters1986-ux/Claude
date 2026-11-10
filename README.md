@@ -30,7 +30,9 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
 
 ## Setup
 
-1. Create a Supabase project, then copy `.env.example` → `.env.local` and fill in the URL and anon key.
+1. Create a Supabase project, then copy `.env.example` → `.env.local` and fill in the project URL and
+   publishable key (`sb_publishable_…`, Dashboard → Project Settings → API Keys). The legacy anon key
+   also works, as `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 2. Apply the schema — either:
    - `npx supabase link --project-ref <ref>` then `npx supabase db push`, **or**
    - paste each file in `supabase/migrations/` into the Supabase SQL editor, oldest first.
@@ -62,6 +64,8 @@ Design notes:
   Server-managed columns (`owner_id`, `snag_counter`, `snag_number`, `project_id`) are protected by triggers.
 - **Storage.** Bucket `snag-images`, paths `{user_id}/{project_id}/{uuid}.jpg`; upload/delete restricted to
   your own folder. The bucket is public (unguessable UUID paths) so images render directly in the UI and PDF.
+  A SELECT policy on your own folder is still required: Storage looks a file up before overwriting
+  (upsert, used by retries) or deleting it.
   For strictly private photos, set the bucket to private, add a SELECT policy, and use signed URLs.
 
 ## Code layout (data layer)
