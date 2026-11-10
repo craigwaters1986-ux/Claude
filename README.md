@@ -9,7 +9,7 @@ TanStack Query · `browser-image-compression` · `@react-pdf/renderer`
 ## Build progress
 
 - [x] **Step 1** — Database schema & project initialisation
-- [ ] Step 2 — Supabase client + data-fetching hooks/services
+- [x] **Step 2** — Supabase client + data-fetching hooks/services
 - [ ] Step 3 — Project dashboard & routing
 - [ ] Step 4 — Rapid-entry (multi-add) snag form & image upload
 - [ ] Step 5 — PDF report generation
@@ -53,3 +53,27 @@ Design notes:
 - **Storage.** Bucket `snag-images`, paths `{user_id}/{project_id}/{uuid}.jpg`; upload/delete restricted to
   your own folder. The bucket is public (unguessable UUID paths) so images render directly in the UI and PDF.
   For strictly private photos, set the bucket to private, add a SELECT policy, and use signed URLs.
+
+## Code layout (data layer)
+
+```
+src/
+  middleware.ts               refreshes the auth session; redirects signed-out users to /login
+  lib/supabase/               client.ts (browser) · server.ts (RSC / actions) · middleware.ts · env.ts
+  lib/services/               plain async functions over Supabase — no React
+    projects.ts snags.ts storage.ts errors.ts
+  lib/query-keys.ts           one place that names every cache entry
+  hooks/                      TanStack Query hooks used by components
+    use-projects.ts use-snags.ts use-supabase.ts
+  types/database.ts           DB types (regenerate: npx supabase gen types typescript --linked)
+  types/models.ts             app-level types, status labels
+  components/providers.tsx    QueryClient + toast notifications
+```
+
+Layering: **components → hooks → services → Supabase**. Services can be reused from
+server code; hooks add caching, background saving and optimistic updates.
+
+`useCreateSnag` drives Rapid Entry. The snag shows in the list immediately (marked
+`_pending`) while it saves in the background, and several saves can run at once. The list
+refetches only once the last queued save finishes, so it doesn't flicker mid-burst. Failed
+saves retry with backoff; while offline they pause and resume when the signal returns.
