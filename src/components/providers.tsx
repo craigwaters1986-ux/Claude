@@ -6,9 +6,10 @@ import { Toaster } from "sonner";
 import { ServiceError } from "@/lib/services/errors";
 
 /** Codes where trying again can't help: not found / not allowed. */
-const PERMANENT_ERRORS = new Set(["PGRST116", "42501"]);
+const PERMANENT_ERRORS = new Set(["PGRST116", "42501", "upload_rejected", "no_session"]);
 
 function shouldRetry(failureCount: number, error: unknown, max: number) {
+  if (error instanceof Error && error.name === "UnsupportedImageError") return false;
   if (error instanceof ServiceError && error.code && PERMANENT_ERRORS.has(error.code)) return false;
   return failureCount < max;
 }

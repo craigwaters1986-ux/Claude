@@ -27,7 +27,13 @@ export async function getSnag(supabase: TypedSupabaseClient, snagId: string): Pr
   return data;
 }
 
-/** Create a snag. The database assigns snag_number and returns the full row. */
+/**
+ * Create a snag. The database assigns snag_number and returns the full row.
+ *
+ * Idempotent when an id is supplied: if the insert reached the server but the
+ * response was lost (signal dropped), the retry hits a duplicate key, and we
+ * return the row that already exists instead of failing.
+ */
 export async function createSnag(
   supabase: TypedSupabaseClient,
   input: SnagInput & { id?: string },
@@ -38,6 +44,7 @@ export async function createSnag(
     .select()
     .single();
 
+  if (error?.code === "23505" && input.id) return getSnag(supabase, input.id);
   if (error) throw toServiceError(error, "Could not save snag.");
   return data;
 }

@@ -168,9 +168,10 @@ export function ProjectView({ projectId }: { projectId: string }) {
           <Button variant="outline" size="lg" disabled title="Coming soon">
             <FileDown /> Generate report
           </Button>
-          {/* Wired up in Step 4 (Rapid Entry) */}
-          <Button size="lg" disabled title="Coming soon">
-            <Camera /> Add snags
+          <Button size="lg" asChild>
+            <Link href={`/projects/${projectId}/add`}>
+              <Camera /> Add snags
+            </Link>
           </Button>
         </div>
       </section>
@@ -208,6 +209,15 @@ export function ProjectView({ projectId }: { projectId: string }) {
           icon={ClipboardList}
           title={filter === "all" ? "No snags logged yet" : `No ${SNAG_STATUS_LABEL[filter].toLowerCase()} snags`}
           description={filter === "all" ? "Walk the site and log each defect with a photo." : undefined}
+          action={
+            filter === "all" ? (
+              <Button asChild size="lg">
+                <Link href={`/projects/${projectId}/add`}>
+                  <Camera /> Start logging
+                </Link>
+              </Button>
+            ) : undefined
+          }
         />
       ) : (
         <ul className="grid gap-3">

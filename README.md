@@ -4,14 +4,14 @@ Mobile-first web app for logging construction defects (snags / punch-list items)
 attaching photos, and generating PDF reports for clients.
 
 **Stack:** Next.js 15 (App Router) · Tailwind CSS v4 · shadcn/ui · Lucide · Supabase (Postgres, Auth, Storage) ·
-TanStack Query · `browser-image-compression` · `@react-pdf/renderer`
+TanStack Query · `@react-pdf/renderer`
 
 ## Build progress
 
 - [x] **Step 1** — Database schema & project initialisation
 - [x] **Step 2** — Supabase client + data-fetching hooks/services
 - [x] **Step 3** — Project dashboard & routing
-- [ ] Step 4 — Rapid-entry (multi-add) snag form & image upload
+- [x] **Step 4** — Rapid-entry (multi-add) snag form & image upload
 - [ ] Step 5 — PDF report generation
 
 ## Project initialisation (what was run)
@@ -19,7 +19,7 @@ TanStack Query · `browser-image-compression` · `@react-pdf/renderer`
 ```bash
 npx create-next-app@15 snagging --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-npm
 npm install @supabase/supabase-js @supabase/ssr @tanstack/react-query lucide-react \
-            browser-image-compression @react-pdf/renderer sonner \
+            @react-pdf/renderer sonner \
             clsx tailwind-merge class-variance-authority @radix-ui/react-slot
 npm install -D tw-animate-css supabase
 npx supabase init
@@ -93,6 +93,28 @@ saves retry with backoff; while offline they pause and resume when the signal re
 | `/auth/callback` | Magic-link landing; exchanges the code for a session cookie |
 | `/` | Project dashboard: search, create, edit, delete, show/hide archived |
 | `/projects/[projectId]` | Project header + counts, status filter tabs, snag list (change status, delete) |
+| `/projects/[projectId]/add` | **Rapid Entry**: photo → title → location → "Save & add next", repeat |
 
 Signed-out visitors are sent to `/login?next=…` and returned to the page they wanted after signing in.
 UI components in `src/components/ui/` are standard shadcn/ui sources.
+
+## Rapid Entry & photo uploads
+
+Each "Save & add next" starts one background job (`useCreateSnag` in `src/hooks/use-snags.ts`)
+and clears the form at once:
+
+1. **Compress** (`src/lib/image/compress.ts`): canvas resize to 1920 px longest edge, JPEG at 0.8,
+   EXIF rotation applied, transparent PNGs flattened onto white. Typically 2–5 MB becomes 300 KB.
+   No third-party library, so nothing is fetched from a CDN on a weak connection.
+2. **Upload** (`src/lib/services/storage.ts`): to `snag-images/{userId}/{projectId}/{snagId}.jpg` via
+   XMLHttpRequest, because `fetch` can't report upload progress.
+3. **Save** the snag row; the database assigns its number.
+
+Behaviour on site:
+- Captures run one at a time, in the order logged, so snag numbers follow the walk-round.
+- The snag appears in the project list straight away with its local photo, marked "Saving…".
+- Leaving the page doesn't stop uploads. Closing the tab mid-upload asks for confirmation.
+- Network errors retry 3 times with backoff; offline captures wait and resume when signal returns.
+  Anything that still fails stays in "Logged this visit" with **Retry** / **Discard**.
+- Retries are safe: the photo path is fixed per snag (upsert), and a re-sent insert that already
+  reached the database is recognised rather than duplicated.
