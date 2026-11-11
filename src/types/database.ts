@@ -69,6 +69,9 @@ export type Database = {
           title: string;
           description: string | null;
           location_details: string | null;
+          level_id: string | null;
+          pin_x: number | null;
+          pin_y: number | null;
           assigned_to: string | null;
           status: Database["public"]["Enums"]["snag_status"];
           image_url: string | null;
@@ -86,6 +89,9 @@ export type Database = {
           title: string;
           description?: string | null;
           location_details?: string | null;
+          level_id?: string | null;
+          pin_x?: number | null;
+          pin_y?: number | null;
           assigned_to?: string | null;
           status?: Database["public"]["Enums"]["snag_status"];
           image_url?: string | null;
@@ -102,6 +108,9 @@ export type Database = {
           title?: string;
           description?: string | null;
           location_details?: string | null;
+          level_id?: string | null;
+          pin_x?: number | null;
+          pin_y?: number | null;
           assigned_to?: string | null;
           status?: Database["public"]["Enums"]["snag_status"];
           image_url?: string | null;
@@ -112,6 +121,13 @@ export type Database = {
           resolved_at?: string | null;
         };
         Relationships: [
+          {
+            foreignKeyName: "snags_level_id_fkey";
+            columns: ["level_id"];
+            isOneToOne: false;
+            referencedRelation: "levels";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "snags_project_id_fkey";
             columns: ["project_id"];
@@ -124,6 +140,53 @@ export type Database = {
             columns: ["project_id"];
             isOneToOne: false;
             referencedRelation: "project_summaries";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      levels: {
+        Row: {
+          id: string;
+          project_id: string;
+          name: string;
+          position: number;
+          drawing_url: string | null;
+          drawing_path: string | null;
+          drawing_width: number | null;
+          drawing_height: number | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          name: string;
+          position?: number;
+          drawing_url?: string | null;
+          drawing_path?: string | null;
+          drawing_width?: number | null;
+          drawing_height?: number | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          project_id?: string;
+          name?: string;
+          position?: number;
+          drawing_url?: string | null;
+          drawing_path?: string | null;
+          drawing_width?: number | null;
+          drawing_height?: number | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "levels_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
             referencedColumns: ["id"];
           },
         ];

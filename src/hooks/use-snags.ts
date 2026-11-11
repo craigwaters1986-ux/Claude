@@ -54,6 +54,10 @@ export type SnagCapture = {
   description?: string | null;
   status?: SnagStatus;
   photos: CapturePhoto[];
+  /** Where it is: level, and the spot on that level's drawing if pinned. */
+  level_id?: string | null;
+  pin_x?: number | null;
+  pin_y?: number | null;
 };
 
 // Work already done per photo, so an automatic retry after a dropped
@@ -159,6 +163,9 @@ export function useCreateSnag(projectId: string) {
           description: input.description ?? null,
           assigned_to: input.assigned_to ?? null,
           status: input.status ?? "open",
+          level_id: input.level_id ?? null,
+          pin_x: input.level_id ? (input.pin_x ?? null) : null,
+          pin_y: input.level_id ? (input.pin_y ?? null) : null,
         },
         photos,
       );
@@ -175,6 +182,9 @@ export function useCreateSnag(projectId: string) {
         title: input.title,
         description: input.description ?? null,
         location_details: null,
+        level_id: input.level_id ?? null,
+        pin_x: input.pin_x ?? null,
+        pin_y: input.pin_y ?? null,
         assigned_to: input.assigned_to ?? null,
         status: input.status ?? "open",
         image_url: input.photos[0]?.previewUrl ?? null,

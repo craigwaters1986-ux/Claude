@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ImageOff, Images, Loader2, Trash2 } from "lucide-react";
+import { ChevronDown, ImageOff, Images, Loader2, MapPin, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SNAG_STATUS_CLASS } from "@/components/status-badge";
 import { formatDate } from "@/lib/format";
@@ -9,6 +9,7 @@ import { SNAG_STATUS_LABEL, SNAG_STATUSES, type ListedSnag, type SnagStatus } fr
 
 type Props = {
   snags: ListedSnag[];
+  levelNames: Map<string, string>;
   onOpen: (snag: ListedSnag) => void;
   onStatusChange: (snag: ListedSnag, status: SnagStatus) => void;
   onDelete: (snag: ListedSnag) => void;
@@ -18,7 +19,8 @@ type Props = {
  * Laptop view of a project's snags: one row per snag, so a long list can be
  * scanned at a glance. Click a row to open the snag.
  */
-export function SnagTable({ snags, onOpen, onStatusChange, onDelete }: Props) {
+export function SnagTable({ snags, levelNames, onOpen, onStatusChange, onDelete }: Props) {
+  const showLevels = levelNames.size > 0;
   return (
     <div className="surface overflow-hidden">
       <table className="w-full text-sm" aria-label="Snags">
@@ -28,6 +30,7 @@ export function SnagTable({ snags, onOpen, onStatusChange, onDelete }: Props) {
             <th className="w-20 py-3">Photo</th>
             <th className="py-3 pr-4">Snag</th>
             <th className="w-36 py-3 pr-4">Assigned to</th>
+            {showLevels && <th className="w-32 py-3 pr-4">Level</th>}
             <th className="w-32 py-3 pr-4">Status</th>
             <th className="hidden w-28 py-3 pr-4 xl:table-cell">Logged</th>
             <th className="w-12 py-3 pr-3">
@@ -85,6 +88,18 @@ export function SnagTable({ snags, onOpen, onStatusChange, onDelete }: Props) {
                   {snag.description && <p className="text-muted-foreground mt-0.5 line-clamp-2">{snag.description}</p>}
                 </td>
                 <td className="py-3 pr-4">{snag.assigned_to || <span className="text-muted-foreground">—</span>}</td>
+                {showLevels && (
+                  <td className="py-3 pr-4">
+                    {snag.level_id && levelNames.get(snag.level_id) ? (
+                      <span className="inline-flex items-center gap-1">
+                        {snag.pin_x != null && <MapPin className="text-muted-foreground size-3.5 shrink-0" />}
+                        {levelNames.get(snag.level_id)}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
+                  </td>
+                )}
                 <td className="py-2.5 pr-4" onClick={(e) => e.stopPropagation()}>
                   <div className="relative inline-block">
                     <select

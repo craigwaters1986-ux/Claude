@@ -11,6 +11,10 @@ export type Project = Tables<"projects">;
 /** A snag row as stored. Its image_url/image_path are the cover (first photo). */
 export type SnagRow = Tables<"snags">;
 export type SnagPhoto = Tables<"snag_photos">;
+/** A floor / area of a project, optionally with a drawing snags can be pinned on. */
+export type Level = Tables<"levels">;
+/** Where a snag sits: its level and, if pinned, the spot on that level's drawing (fractions 0–1). */
+export type SnagLocation = { level_id: string | null; pin_x: number | null; pin_y: number | null };
 /** A snag with all its photos, in order. What the app works with. */
 export type Snag = SnagRow & { photos: SnagPhoto[] };
 
@@ -40,10 +44,13 @@ export type SnagInput = Pick<
   | "location_details"
   | "assigned_to"
   | "status"
+  | "level_id"
+  | "pin_x"
+  | "pin_y"
 >;
 export type SnagPatch = Pick<
   TablesUpdate<"snags">,
-  "title" | "description" | "location_details" | "assigned_to" | "status"
+  "title" | "description" | "location_details" | "assigned_to" | "status" | "level_id" | "pin_x" | "pin_y"
 >;
 /** A photo already uploaded to Storage, ready to attach to a snag. */
 export type SnagPhotoInput = Pick<SnagPhoto, "id" | "position" | "image_url" | "image_path">;

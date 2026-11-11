@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
+import { useLevels } from "@/hooks/use-levels";
 import { useSnags } from "@/hooks/use-snags";
 import { useSupabase } from "@/hooks/use-supabase";
 import { downloadBlob, generateSnagReport, type ReportProgress } from "@/lib/pdf/generate-report";
@@ -63,7 +64,16 @@ export function GenerateReportButton({ projectId, disabled }: { projectId: strin
 function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: () => void }) {
   const supabase = useSupabase();
   const snags = useSnags(projectId);
-  const [options, setOptions] = useState<ReportOptions>(loadRememberedOptions);
+  const levels = useLevels(projectId);
+  const hasLevels = (levels.data?.length ?? 0) > 0;
+  const hasPlans = (levels.data ?? []).some((l) => l.drawing_url);
+  const [chosen, setOptions] = useState<ReportOptions>(loadRememberedOptions);
+  // "By level" may be remembered from another project; ignore it where there are no levels.
+  const levelCount = levels.data?.length ?? 0;
+  const options = useMemo<ReportOptions>(
+    () => (chosen.groupBy === "level" && levelCount === 0 ? { ...chosen, groupBy: "none" } : chosen),
+    [chosen, levelCount],
+  );
   const [progress, setProgress] = useState<ReportProgress | null>(null);
 
   const assignees = useMemo(() => listAssignees(snags.data ?? []), [snags.data]);
@@ -214,7 +224,7 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
             onChange={(e) => set("groupBy", e.target.value as GroupBy)}
             disabled={busy}
           >
-            {GROUP_BY_OPTIONS.map((g) => (
+            {GROUP_BY_OPTIONS.filter((g) => g.value !== "level" || hasLevels).map((g) => (
               <option key={g.value} value={g.value}>
                 {g.label}
               </option>
@@ -245,6 +255,24 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
           />
         </div>
       </div>
+
+      {hasPlans && (
+        <label className="flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50">
+          <input
+            type="checkbox"
+            checked={options.includePlans}
+            onChange={(e) => set("includePlans", e.target.checked)}
+            disabled={busy}
+            className="accent-primary mt-0.5 size-4"
+          />
+          <span>
+            <span className="font-medium">Include marked-up plans</span>
+            <span className="text-muted-foreground block text-xs">
+              A page per level showing its drawing with the pinned snags numbered on it.
+            </span>
+          </span>
+        </label>
+      )}
 
       <DialogFooter className="flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-muted-foreground text-center text-sm sm:text-left" aria-live="polite">
@@ -305,3 +333,4 @@ function DesignThumbnail({ design }: { design: ReportDesign }) {
     </div>
   );
 }
+

@@ -9,7 +9,7 @@ import { SNAG_STATUS_LABEL, type Snag, type SnagStatus } from "@/types/models";
 
 export type ReportDesign = "table" | "photos" | "checklist";
 export type StatusFilter = "all" | "outstanding" | "resolved";
-export type GroupBy = "none" | "assigned_to" | "status";
+export type GroupBy = "none" | "assigned_to" | "status" | "level";
 
 export type ReportOptions = {
   design: ReportDesign;
@@ -17,6 +17,8 @@ export type ReportOptions = {
   /** Only include snags assigned to these names. Empty = everyone. */
   assignees: string[];
   groupBy: GroupBy;
+  /** Add a page per level showing its drawing with the snags pinned on it. */
+  includePlans: boolean;
   preparedBy: string;
   preparedFor: string;
 };
@@ -26,6 +28,7 @@ export const DEFAULT_REPORT_OPTIONS: ReportOptions = {
   status: "all",
   assignees: [],
   groupBy: "none",
+  includePlans: true,
   preparedBy: "",
   preparedFor: "",
 };
@@ -45,8 +48,12 @@ export const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
 export const GROUP_BY_OPTIONS: { value: GroupBy; label: string }[] = [
   { value: "none", label: "No grouping" },
   { value: "assigned_to", label: "By trade" },
+  { value: "level", label: "By level" },
   { value: "status", label: "By status" },
 ];
+
+/** Label used for snags that aren't on a level. */
+export const NO_LEVEL = "No level";
 
 /** Label used for snags with no "assigned to". */
 export const UNASSIGNED = "Unassigned";
@@ -84,8 +91,20 @@ export function filterSnags<T extends Pick<Snag, "status" | "assigned_to">>(snag
 export type SnagGroup<T> = { label: string | null; snags: T[] };
 
 /** Split snags into headed sections. "none" gives one section with no heading. */
-export function groupSnags<T extends Pick<Snag, "status" | "assigned_to">>(snags: T[], groupBy: GroupBy): SnagGroup<T>[] {
+export function groupSnags<T extends Pick<Snag, "status" | "assigned_to" | "level_id">>(
+  snags: T[],
+  groupBy: GroupBy,
+  levels: { id: string; name: string }[] = [],
+): SnagGroup<T>[] {
   if (groupBy === "none") return [{ label: null, snags }];
+
+  if (groupBy === "level") {
+    const known = new Set(levels.map((l) => l.id));
+    return [
+      ...levels.map((l) => ({ label: l.name, snags: snags.filter((s) => s.level_id === l.id) })),
+      { label: NO_LEVEL, snags: snags.filter((s) => !s.level_id || !known.has(s.level_id)) },
+    ].filter((g) => g.snags.length > 0);
+  }
 
   if (groupBy === "status") {
     return STATUS_ORDER.map((status) => ({
@@ -120,7 +139,7 @@ export function photoSizeFor(design: ReportDesign): number | null {
 // design, grouping and who prepared it. Filters are per report, so they reset.
 // ---------------------------------------------------------------------------
 const STORAGE_KEY = "snaglist.report-options.v1";
-type Remembered = Pick<ReportOptions, "design" | "groupBy" | "preparedBy">;
+type Remembered = Pick<ReportOptions, "design" | "groupBy" | "preparedBy" | "includePlans">;
 
 export function loadRememberedOptions(): ReportOptions {
   try {
@@ -130,6 +149,7 @@ export function loadRememberedOptions(): ReportOptions {
       design: DESIGNS.some((d) => d.value === saved.design) ? saved.design! : DEFAULT_REPORT_OPTIONS.design,
       groupBy: GROUP_BY_OPTIONS.some((g) => g.value === saved.groupBy) ? saved.groupBy! : DEFAULT_REPORT_OPTIONS.groupBy,
       preparedBy: typeof saved.preparedBy === "string" ? saved.preparedBy : "",
+      includePlans: saved.includePlans !== false,
     };
   } catch {
     return DEFAULT_REPORT_OPTIONS;
@@ -138,8 +158,8 @@ export function loadRememberedOptions(): ReportOptions {
 
 export function rememberOptions(options: ReportOptions) {
   try {
-    const { design, groupBy, preparedBy } = options;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ design, groupBy, preparedBy } satisfies Remembered));
+    const { design, groupBy, preparedBy, includePlans } = options;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ design, groupBy, preparedBy, includePlans } satisfies Remembered));
   } catch {
     // Private browsing / storage blocked: just don't remember.
   }

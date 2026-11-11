@@ -8,6 +8,7 @@ import {
   Camera,
   ClipboardList,
   FolderX,
+  Layers,
   LayoutGrid,
   Rows3,
   Search,
@@ -43,6 +44,8 @@ import { SnagTable } from "@/components/snags/snag-table";
 import { Input } from "@/components/ui/input";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useProject } from "@/hooks/use-projects";
+import { PlansView } from "@/components/plans/plans-view";
+import { useLevels } from "@/hooks/use-levels";
 import { useDeleteSnag, useSnags, useUpdateSnag } from "@/hooks/use-snags";
 import { ServiceError } from "@/lib/services/errors";
 import { cn } from "@/lib/utils";
@@ -68,6 +71,9 @@ export function ProjectView({ projectId }: { projectId: string }) {
   const [openSnagId, setOpenSnagId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [view, setView] = useSnagView();
+  const [mode, setMode] = useState<"list" | "plans">("list");
+  const levels = useLevels(projectId);
+  const levelNames = useMemo(() => new Map((levels.data ?? []).map((l) => [l.id, l.name])), [levels.data]);
   // Tablets and laptops can choose a table; phones always get cards.
   const wide = useMediaQuery("(min-width: 768px)");
   const showTable = wide && view === "table";
@@ -207,6 +213,28 @@ export function ProjectView({ projectId }: { projectId: string }) {
       <div className="grid min-w-0 grid-cols-1 gap-4">
       {/* Toolbar: status filter, search, and (laptop) cards/table switch */}
       <div className="grid min-w-0 gap-3 lg:flex lg:flex-wrap lg:items-center lg:justify-between">
+      {/* Snags as a list, or pinned on the drawings */}
+      <div className="bg-muted flex w-full rounded-lg p-0.5 lg:w-auto" role="group" aria-label="View">
+        {(
+          [
+            ["list", ClipboardList, "Snags"],
+            ["plans", Layers, "Plans"],
+          ] as const
+        ).map(([value, Icon, label]) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => setMode(value)}
+            aria-pressed={mode === value}
+            className={cn(
+              "inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md px-4 text-sm font-medium transition-colors lg:h-8 lg:flex-none",
+              mode === value ? "bg-card shadow-xs" : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            <Icon className="size-4" /> {label}
+          </button>
+        ))}
+      </div>
       <div role="tablist" aria-label="Filter snags by status" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:px-0 lg:pb-0">
         {FILTERS.map((f) => (
           <button
@@ -237,7 +265,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
               aria-label="Search snags"
             />
           </div>
-          <div className="bg-muted hidden rounded-lg p-0.5 md:flex" role="group" aria-label="Layout">
+          <div className={cn("bg-muted hidden rounded-lg p-0.5", mode === "list" && "md:flex")} role="group" aria-label="Layout">
             {(
               [
                 ["cards", LayoutGrid, "Cards"],
@@ -263,7 +291,14 @@ export function ProjectView({ projectId }: { projectId: string }) {
       </div>
 
       {/* Snag list */}
-      {snags.isPending ? (
+      {mode === "plans" ? (
+        <PlansView
+          projectId={projectId}
+          allSnags={snags.data ?? []}
+          visibleSnags={visibleSnags}
+          onOpenSnag={setOpenSnagId}
+        />
+      ) : snags.isPending ? (
         <div className="grid gap-3">
           {Array.from({ length: 3 }, (_, i) => (
             <Skeleton key={i} className="h-28 rounded-xl" />
@@ -294,6 +329,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
           {showTable ? (
             <SnagTable
               snags={visibleSnags}
+              levelNames={levelNames}
               onOpen={(snag) => setOpenSnagId(snag.id)}
               onStatusChange={changeStatus}
               onDelete={setSnagToDelete}
@@ -304,6 +340,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
                 <li key={snag.id}>
                   <SnagCard
                     snag={snag}
+                    levelName={snag.level_id ? levelNames.get(snag.level_id) : undefined}
                     onOpen={() => setOpenSnagId(snag.id)}
                     onStatusChange={(status) => changeStatus(snag, status)}
                     onDelete={() => setSnagToDelete(snag)}

@@ -8,12 +8,14 @@ import { SNAG_STATUS_LABEL, SNAG_STATUSES, type ListedSnag, type SnagStatus } fr
 
 type Props = {
   snag: ListedSnag;
+  /** Name of the snag's level, if it has one. */
+  levelName?: string;
   onOpen: () => void;
   onStatusChange: (status: SnagStatus) => void;
   onDelete: () => void;
 };
 
-export function SnagCard({ snag, onOpen, onStatusChange, onDelete }: Props) {
+export function SnagCard({ snag, levelName, onOpen, onStatusChange, onDelete }: Props) {
   const cover = snag.photos[0]?.image_url ?? snag.image_url;
   const label = snag._pending ? snag.title : `snag ${snag.snag_number}, ${snag.title}`;
   return (
@@ -77,6 +79,15 @@ export function SnagCard({ snag, onOpen, onStatusChange, onDelete }: Props) {
           <p className="text-muted-foreground mt-0.5 flex items-center gap-1 text-sm">
             <UserRound className="size-3.5 shrink-0" />
             <span className="truncate">{snag.assigned_to}</span>
+          </p>
+        )}
+        {levelName && (
+          <p className="text-muted-foreground mt-0.5 flex items-center gap-1 text-sm">
+            <MapPin className="size-3.5 shrink-0" />
+            <span className="truncate">
+              {levelName}
+              {snag.pin_x == null && " (not pinned)"}
+            </span>
           </p>
         )}
         {/* Only snags logged before the three-line form have a location. */}

@@ -6,6 +6,7 @@
  *   ["projects", "list"]             → dashboard list
  *   ["projects", "detail", id]       → one project + counts
  *   ["snags", projectId]             → a project's snag list
+ *   ["levels", projectId]            → a project's levels and drawings
  */
 export const projectKeys = {
   all: ["projects"] as const,
@@ -16,6 +17,11 @@ export const projectKeys = {
 export const snagKeys = {
   all: ["snags"] as const,
   list: (projectId: string) => [...snagKeys.all, projectId] as const,
+};
+
+export const levelKeys = {
+  all: ["levels"] as const,
+  list: (projectId: string) => [...levelKeys.all, projectId] as const,
 };
 
 export const mutationKeys = {

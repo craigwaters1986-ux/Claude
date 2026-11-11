@@ -17,7 +17,9 @@ import { useSupabase } from "@/hooks/use-supabase";
 import { mutationKeys } from "@/lib/query-keys";
 import { cn } from "@/lib/utils";
 import { uuid } from "@/lib/uuid";
-import { MAX_PHOTOS_PER_SNAG, type Snag } from "@/types/models";
+import { LocationPicker } from "@/components/plans/location-picker";
+import { useLevels } from "@/hooks/use-levels";
+import { MAX_PHOTOS_PER_SNAG, type Snag, type SnagLocation } from "@/types/models";
 import { CaptureList, type CaptureItem } from "./capture-list";
 import { PhotoPicker, type PhotoPickerHandle } from "./photo-picker";
 
@@ -26,9 +28,11 @@ type FormState = {
   title: string;
   assignedTo: string;
   comments: string;
+  location: SnagLocation;
 };
 
-const EMPTY: FormState = { photos: [], title: "", assignedTo: "", comments: "" };
+const NO_LOCATION: SnagLocation = { level_id: null, pin_x: null, pin_y: null };
+const EMPTY: FormState = { photos: [], title: "", assignedTo: "", comments: "", location: NO_LOCATION };
 
 /**
  * Rapid Entry: log snag after snag without leaving the screen.
@@ -42,6 +46,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
   const supabase = useSupabase();
   const project = useProject(projectId);
   const snags = useSnags(projectId);
+  const levels = useLevels(projectId);
   const createSnag = useCreateSnag(projectId);
 
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -173,11 +178,13 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       title,
       assigned_to: form.assignedTo.trim() || null,
       description: form.comments.trim() || null,
+      ...form.location,
       photos: form.photos, // ownership (and the previews) pass to the mutation
     });
 
     // …and reset at once, ready for the next defect.
-    setForm(EMPTY);
+    // The level stays selected (you snag one floor at a time); the pin is per snag.
+    setForm({ ...EMPTY, location: { ...NO_LOCATION, level_id: form.location.level_id } });
     navigator.vibrate?.(30);
     window.scrollTo({ top: 0, behavior: "smooth" });
     photoRef.current?.focus();
@@ -298,6 +305,13 @@ export function RapidEntry({ projectId }: { projectId: string }) {
             </div>
           )}
         </div>
+
+        {levels.data && levels.data.length > 0 && (
+          <div className="grid gap-2">
+            <span className="text-sm leading-none font-medium">Location</span>
+            <LocationPicker levels={levels.data} value={form.location} onChange={(location) => update("location", location)} />
+          </div>
+        )}
 
         <div className="grid gap-2">
           <Label htmlFor="snag-comments">Comments</Label>

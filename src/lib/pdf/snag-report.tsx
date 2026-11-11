@@ -14,13 +14,17 @@
  */
 import { Document, Font, Image, Page, StyleSheet, Text, View, pdf } from "@react-pdf/renderer";
 import { formatDate } from "@/lib/format";
-import { SNAG_STATUS_LABEL, type ProjectSummary, type Snag, type SnagStatus } from "@/types/models";
+import { SNAG_STATUS_LABEL, type Level, type ProjectSummary, type Snag, type SnagStatus } from "@/types/models";
 import { DESIGNS, describeFilters, filterSnags, groupSnags, type ReportOptions, type SnagGroup } from "./report-options";
 
 export type ReportData = {
   project: ProjectSummary;
   /** All of the project's snags; options decide which are shown. */
   snags: Snag[];
+  /** The project's levels, in order. */
+  levels: Level[];
+  /** level id → drawing as a JPEG data URL, for the marked-up plan pages. */
+  plans: Record<string, string>;
   /** photo id → JPEG/PNG data URL, for the photos the design shows. */
   thumbnails: Record<string, string>;
   generatedAt: Date;
@@ -40,6 +44,9 @@ const STATUS_COLOURS: Record<SnagStatus, { bg: string; fg: string }> = {
   in_progress: { bg: "#fef3c7", fg: "#92400e" },
   resolved: { bg: "#d1fae5", fg: "#065f46" },
 };
+
+/** Diameter of a snag pin on a plan page, in points. */
+const PIN_SIZE = 15;
 
 // Note: no custom lineHeight anywhere. In this version of react-pdf it roughly
 // doubles the gap between wrapped lines; the default spacing reads well.
@@ -105,6 +112,15 @@ const styles = StyleSheet.create({
   signOff: { flexDirection: "row", gap: 24, marginTop: 24 },
   signOffBox: { flex: 1 },
 
+  // Plan pages
+  planHeading: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10, height: 36 },
+  planTitle: { fontSize: 16, fontFamily: "Helvetica-Bold", marginTop: 3 },
+  legend: { flexDirection: "row", gap: 12, fontSize: 8, color: MUTED },
+  legendItem: { flexDirection: "row", alignItems: "center", gap: 4 },
+  legendDot: { width: 8, height: 8, borderRadius: 4 },
+  planPin: { position: "absolute", width: PIN_SIZE, height: PIN_SIZE, borderRadius: PIN_SIZE / 2, borderWidth: 1, borderColor: "#ffffff", alignItems: "center", justifyContent: "center" },
+  planPinText: { fontSize: 6.5, fontFamily: "Helvetica-Bold", color: "#ffffff" },
+
   // Footer
   footer: { position: "absolute", bottom: 20, left: 32, right: 32, flexDirection: "row", justifyContent: "space-between", fontSize: 8, color: MUTED, borderTopWidth: 1, borderTopColor: LINE, paddingTop: 6 },
 });
@@ -127,7 +143,7 @@ function Stat({ value, label, colour }: { value: number; label: string; colour?:
   );
 }
 
-function ReportHeader({ project, snags, generatedAt, options }: Omit<ReportData, "thumbnails">) {
+function ReportHeader({ project, snags, generatedAt, options }: Pick<ReportData, "project" | "snags" | "generatedAt" | "options">) {
   const count = (status: SnagStatus) => snags.filter((s) => s.status === status).length;
   const filterNote = describeFilters(options);
 
@@ -240,7 +256,9 @@ function StandardTableHeader() {
   );
 }
 
-function StandardTableRow({ snag, thumbnails }: { snag: Snag; thumbnails: Record<string, string> }) {
+type RowProps = { snag: Snag; thumbnails: Record<string, string>; levelName?: string };
+
+function StandardTableRow({ snag, thumbnails, levelName }: RowProps) {
   const cover = snag.photos[0] ? thumbnails[snag.photos[0].id] : undefined;
   return (
     <View style={styles.row} wrap={false}>
@@ -262,6 +280,7 @@ function StandardTableRow({ snag, thumbnails }: { snag: Snag; thumbnails: Record
       </View>
       <View style={[styles.cell, { width: TABLE_COL.title }]}>
         <Text style={styles.titleText}>{snag.title}</Text>
+        {levelName ? <Text style={styles.subtle}>{levelName}</Text> : null}
         {snag.location_details ? <Text style={styles.subtle}>{snag.location_details}</Text> : null}
         <Text style={styles.subtle}>Logged {formatDate(snag.created_at)}</Text>
       </View>
@@ -278,7 +297,7 @@ function StandardTableRow({ snag, thumbnails }: { snag: Snag; thumbnails: Record
 // ---------------------------------------------------------------------------
 // Design 2: Photo report
 // ---------------------------------------------------------------------------
-function PhotoCard({ snag, thumbnails }: { snag: Snag; thumbnails: Record<string, string> }) {
+function PhotoCard({ snag, thumbnails, levelName }: RowProps) {
   const [first, ...rest] = snag.photos;
   const cover = first ? thumbnails[first.id] : undefined;
   const extras = rest.map((p) => thumbnails[p.id]).filter((src): src is string => !!src);
@@ -303,6 +322,13 @@ function PhotoCard({ snag, thumbnails }: { snag: Snag; thumbnails: Record<string
   
           <Text style={styles.fieldLabel}>Comments</Text>
           <Text style={styles.fieldValue}>{snag.description || "—"}</Text>
+
+          {levelName ? (
+            <>
+              <Text style={styles.fieldLabel}>Level</Text>
+              <Text style={styles.fieldValue}>{levelName}</Text>
+            </>
+          ) : null}
   
           {snag.location_details ? (
             <>
@@ -349,7 +375,7 @@ function ChecklistHeader() {
   );
 }
 
-function ChecklistRow({ snag }: { snag: Snag }) {
+function ChecklistRow({ snag, levelName }: { snag: Snag; levelName?: string }) {
   return (
     <View style={styles.checkRow} wrap={false}>
       <View style={[styles.cell, { width: CHECK_COL.done }]}>
@@ -360,6 +386,7 @@ function ChecklistRow({ snag }: { snag: Snag }) {
       <Text style={[styles.cell, styles.idText, { width: CHECK_COL.id }]}>{snag.snag_number}</Text>
       <View style={[styles.cell, { width: CHECK_COL.title }]}>
         <Text style={styles.titleText}>{snag.title}</Text>
+        {levelName ? <Text style={styles.subtle}>{levelName}</Text> : null}
         {snag.location_details ? <Text style={styles.subtle}>{snag.location_details}</Text> : null}
       </View>
       <Text style={[styles.cell, { width: CHECK_COL.assigned }]}>{snag.assigned_to || "—"}</Text>
@@ -388,11 +415,83 @@ function ChecklistSignOff() {
 }
 
 // ---------------------------------------------------------------------------
+// Marked-up plan: a level's drawing with its snags pinned on it
+// ---------------------------------------------------------------------------
+const PIN_COLOUR: Record<SnagStatus, string> = { open: "#dc2626", in_progress: "#f59e0b", resolved: "#059669" };
+
+function PlanPage({
+  level,
+  src,
+  snags,
+  project,
+  generatedAt,
+  design,
+}: {
+  level: Level;
+  src: string;
+  snags: Snag[];
+  project: ProjectSummary;
+  generatedAt: Date;
+  design: ReportOptions["design"];
+}) {
+  const ratio = (level.drawing_width ?? 4) / (level.drawing_height ?? 3);
+  const landscape = ratio > 1;
+  // A4 in points, minus the page padding (32 each side; 32 top, 48 bottom) and the heading block.
+  const availW = (landscape ? 842 : 595) - 64;
+  const availH = (landscape ? 595 : 842) - 80 - 58;
+  const w = Math.min(availW, availH * ratio);
+  const h = w / ratio;
+
+  return (
+    <Page size="A4" orientation={landscape ? "landscape" : "portrait"} style={styles.page}>
+      <View style={styles.planHeading}>
+        <View>
+          <Text style={styles.eyebrow}>Plan</Text>
+          <Text style={styles.planTitle}>{level.name}</Text>
+        </View>
+        <View style={styles.legend}>
+          {(["open", "in_progress", "resolved"] as const).map((st) => (
+            <View key={st} style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: PIN_COLOUR[st] }]} />
+              <Text>
+                {SNAG_STATUS_LABEL[st]} ({snags.filter((sn) => sn.status === st).length})
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View style={{ width: w, height: h, alignSelf: "center", borderWidth: 1, borderColor: LINE }}>
+        {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop */}
+        <Image src={src} style={{ width: w, height: h }} />
+        {snags.map((sn) => (
+          <View
+            key={sn.id}
+            style={[
+              styles.planPin,
+              { left: sn.pin_x! * w - PIN_SIZE / 2, top: sn.pin_y! * h - PIN_SIZE / 2, backgroundColor: PIN_COLOUR[sn.status] },
+            ]}
+          >
+            <Text style={styles.planPinText}>{sn.snag_number}</Text>
+          </View>
+        ))}
+      </View>
+
+      <Footer project={project} generatedAt={generatedAt} design={design} />
+    </Page>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Document
 // ---------------------------------------------------------------------------
-export function SnagReport({ project, snags: allSnags, thumbnails, generatedAt, options }: ReportData) {
+export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails, generatedAt, options }: ReportData) {
   const snags = filterSnags(allSnags, options);
-  const groups = groupSnags(snags, options.groupBy);
+  const groups = groupSnags(snags, options.groupBy, levels);
+  const levelNames = new Map(levels.map((l) => [l.id, l.name]));
+  // When grouped by level the heading already says it.
+  const levelOf = (snag: Snag) => (options.groupBy === "level" || !snag.level_id ? undefined : levelNames.get(snag.level_id));
+  const planPages = levels.filter((l) => plans[l.id]);
   const designLabel = DESIGNS.find((d) => d.value === options.design)?.label ?? "Report";
 
   return (
@@ -416,11 +515,11 @@ export function SnagReport({ project, snags: allSnags, thumbnails, generatedAt, 
             groups={groups}
             renderSnag={(snag) =>
               options.design === "photos" ? (
-                <PhotoCard snag={snag} thumbnails={thumbnails} />
+                <PhotoCard snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} />
               ) : options.design === "checklist" ? (
-                <ChecklistRow snag={snag} />
+                <ChecklistRow snag={snag} levelName={levelOf(snag)} />
               ) : (
-                <StandardTableRow snag={snag} thumbnails={thumbnails} />
+                <StandardTableRow snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} />
               )
             }
           />
@@ -430,6 +529,18 @@ export function SnagReport({ project, snags: allSnags, thumbnails, generatedAt, 
 
         <Footer project={project} generatedAt={generatedAt} design={options.design} />
       </Page>
+
+      {planPages.map((level) => (
+        <PlanPage
+          key={level.id}
+          level={level}
+          src={plans[level.id]}
+          snags={snags.filter((sn) => sn.level_id === level.id && sn.pin_x != null && sn.pin_y != null)}
+          project={project}
+          generatedAt={generatedAt}
+          design={options.design}
+        />
+      ))}
     </Document>
   );
 }

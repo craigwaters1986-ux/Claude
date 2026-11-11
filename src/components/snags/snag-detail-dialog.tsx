@@ -16,6 +16,8 @@ import {
   useSnags,
   useUpdateSnag,
 } from "@/hooks/use-snags";
+import { LocationPicker } from "@/components/plans/location-picker";
+import { useLevels } from "@/hooks/use-levels";
 import { useCaptureProgress } from "@/lib/capture-progress";
 import { cn } from "@/lib/utils";
 import {
@@ -23,6 +25,7 @@ import {
   SNAG_STATUS_LABEL,
   SNAG_STATUSES,
   type ListedSnag,
+  type SnagLocation,
   type SnagPhoto,
   type SnagStatus,
 } from "@/types/models";
@@ -278,8 +281,13 @@ function SnagFields({ projectId, snag, onSaved }: { projectId: string; snag: Lis
   const [assignedTo, setAssignedTo] = useState(snag.assigned_to ?? "");
   const [comments, setComments] = useState(snag.description ?? "");
   const [status, setStatus] = useState<SnagStatus>(snag.status);
+  const levels = useLevels(projectId);
+  const [location, setLocation] = useState<SnagLocation>({ level_id: snag.level_id, pin_x: snag.pin_x, pin_y: snag.pin_y });
 
   const dirty =
+    location.level_id !== snag.level_id ||
+    location.pin_x !== snag.pin_x ||
+    location.pin_y !== snag.pin_y ||
     title.trim() !== snag.title ||
     (assignedTo.trim() || null) !== (snag.assigned_to ?? null) ||
     (comments.trim() || null) !== (snag.description ?? null) ||
@@ -291,7 +299,13 @@ function SnagFields({ projectId, snag, onSaved }: { projectId: string; snag: Lis
     try {
       await updateSnag.mutateAsync({
         snagId: snag.id,
-        patch: { title: title.trim(), assigned_to: assignedTo.trim() || null, description: comments.trim() || null, status },
+        patch: {
+          title: title.trim(),
+          assigned_to: assignedTo.trim() || null,
+          description: comments.trim() || null,
+          status,
+          ...location,
+        },
       });
       toast.success("Snag updated");
       onSaved();
@@ -321,6 +335,12 @@ function SnagFields({ projectId, snag, onSaved }: { projectId: string; snag: Lis
         <Label htmlFor="detail-comments">Comments</Label>
         <Textarea id="detail-comments" value={comments} onChange={(e) => setComments(e.target.value)} rows={2} />
       </div>
+      {levels.data && levels.data.length > 0 && (
+        <div className="grid gap-2">
+          <span className="text-sm leading-none font-medium">Location</span>
+          <LocationPicker levels={levels.data} value={location} onChange={setLocation} />
+        </div>
+      )}
       <fieldset className="grid gap-2">
         <legend className="mb-2 text-sm font-medium">Status</legend>
         <div className="grid grid-cols-3 gap-2">

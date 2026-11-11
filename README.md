@@ -51,6 +51,8 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
 |---|---|
 | `projects` | `id`, `owner_id`, `name`, `description`, `location`, `status` (`active` / `on_hold` / `completed` / `archived`), `created_at` |
 | `snags` | `id`, `project_id` → projects, `snag_number` (per-project #1, #2…), `title`, `assigned_to`, `description` (shown as "Comments"), `status` (`open` / `in_progress` / `resolved`), `image_url` / `image_path` (the cover: first photo, kept in sync by trigger), `resolved_at`, `created_at`. `location_details` remains for older rows but the form no longer asks for it. |
+| `levels` | `id`, `project_id` → projects (cascade), `name`, `position`, `drawing_url` / `drawing_path`, `drawing_width` / `drawing_height`. A floor or area, with one drawing. |
+| `snags` (location) | `level_id` → levels (set null on delete), `pin_x` / `pin_y`: the pin as fractions (0–1) of the drawing's width and height. |
 | `snag_photos` | `id`, `snag_id` → snags (cascade), `position`, `image_url`, `image_path`, `created_at`. Up to 6 per snag in the app (12 enforced by the database). |
 | `project_summaries` (view) | every project column + `total_snags`, `open_snags`, `in_progress_snags`, `resolved_snags` |
 
@@ -177,3 +179,20 @@ Live at **https://snaglist-rosy.vercel.app** (Vercel project `snaglist`, team `s
   If this work is merged into `main`, change the production branch in Vercel → Project → Settings → Git.
 - In Supabase → Authentication → URL Configuration, **Site URL** must be `https://snaglist-rosy.vercel.app`
   and **Redirect URLs** must include `https://snaglist-rosy.vercel.app/auth/callback`.
+
+## Drawings, levels and pins
+
+A project can have **levels** (Ground, First, Roof …), each with one drawing. On the project page,
+**Snags | Plans** switches between the list and the drawings.
+
+- **Upload:** PDF or image. It is converted in the browser to one JPEG (longest edge 3200 px) with
+  pdf.js (`src/lib/drawings/prepare.ts`); for a multi-page PDF you choose the page. Stored at
+  `snag-images/{userId}/{projectId}/drawings/{levelId}/{uuid}.jpg`.
+- **Pin a snag:** in Add snags or a snag's detail, pick the level and tap the plan. The level stays
+  selected between snags; the pin is per snag. Pins are stored as fractions, so they stay on the same
+  spot at any zoom and on any screen.
+- **Plans view:** pinch/scroll to zoom, drag to pan; pins are numbered and coloured by status and open
+  the snag. The status filter and search apply to pins.
+- **New revision:** replacing a level's drawing keeps its pins (they assume the same sheet layout).
+- **Deleting a level** keeps its snags and clears their level and pin.
+- **Reports:** snags show their level; group by level; optional marked-up plan page per level.
