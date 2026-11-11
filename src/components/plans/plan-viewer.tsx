@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { KeepScale, TransformComponent, TransformWrapper, useControls } from "react-zoom-pan-pinch";
-import { Maximize, Minus, Plus } from "lucide-react";
+import { MapPin, Maximize, Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Level, SnagStatus } from "@/types/models";
 
@@ -36,6 +36,8 @@ type Props = {
  * A drawing you can pinch-zoom and pan, with snag pins on it.
  * Pins are positioned by fraction, so they sit on the same spot at any zoom,
  * and stay the same size on screen (they don't grow or shrink with the plan).
+ * The counter-scaling must pivot on the pinned point (top-left of a zero-size
+ * anchor); pivoting on the pin's own centre drifts it off its spot when zoomed.
  */
 export function PlanViewer({ level, pins = [], onPinClick, placing, className }: Props) {
   const down = useRef<{ x: number; y: number } | null>(null);
@@ -78,8 +80,9 @@ export function PlanViewer({ level, pins = [], onPinClick, placing, className }:
                 draggable={false}
               />
               {pins.map((pin) => (
-                <div key={pin.id} className="absolute" style={{ left: `${pin.x * 100}%`, top: `${pin.y * 100}%` }}>
-                  <KeepScale>
+                <div key={pin.id} className="absolute size-0" style={{ left: `${pin.x * 100}%`, top: `${pin.y * 100}%` }}>
+                  {/* Counter-scaled around the pinned point itself, so the pin stays on its spot at any zoom. */}
+                  <KeepScale className="origin-top-left">
                     <button
                       type="button"
                       onClick={(e) => {
@@ -103,12 +106,23 @@ export function PlanViewer({ level, pins = [], onPinClick, placing, className }:
               ))}
               {placing?.value && (
                 <div
-                  className="pointer-events-none absolute"
+                  className="pointer-events-none absolute size-0"
                   style={{ left: `${placing.value.x * 100}%`, top: `${placing.value.y * 100}%` }}
                   data-testid="placing-pin"
                 >
-                  <KeepScale>
-                    <div className="bg-brand size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-black shadow-lg" />
+                  <KeepScale className="origin-top-left">
+                    {/* A map pin whose point marks the spot, so it shows above the fingertip instead of under it. */}
+                    <div className="relative">
+                      <MapPin
+                        className="fill-brand absolute bottom-0 left-0 size-10 -translate-x-1/2 translate-y-[2px] text-black drop-shadow-md"
+                        strokeWidth={1.75}
+                        aria-hidden
+                      />
+                      <div
+                        className="absolute size-2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-black"
+                        data-testid="placing-dot"
+                      />
+                    </div>
                   </KeepScale>
                 </div>
               )}
