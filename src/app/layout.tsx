@@ -17,6 +17,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SnagList",
   description: "Log building-site snags, attach photos and generate PDF reports.",
+  // Home-screen name on iPhone (the icon is src/app/apple-icon.png).
+  appleWebApp: { title: "SnagList" },
 };
 
 export const viewport: Viewport = {
