@@ -27,6 +27,10 @@ export type ReportData = {
   plans: Record<string, string>;
   /** photo id → JPEG/PNG data URL, for the photos the design shows. */
   thumbnails: Record<string, string>;
+  /** snag id → JPEG data URL: a cut-out of the drawing around the snag's pin. */
+  snippets: Record<string, string>;
+  /** From Settings → Reports. */
+  branding: { companyName: string; logo: string | null };
   generatedAt: Date;
   options: ReportOptions;
 };
@@ -112,6 +116,11 @@ const styles = StyleSheet.create({
   signOff: { flexDirection: "row", gap: 24, marginTop: 24 },
   signOffBox: { flex: 1 },
 
+  // Branding and location snippets
+  logo: { maxWidth: 140, maxHeight: 48, objectFit: "contain", marginBottom: 8 },
+  snippetSmall: { width: 80, height: 60, borderRadius: 3, marginTop: 4, borderWidth: 1, borderColor: LINE },
+  snippetLarge: { width: 160, height: 120, borderRadius: 3, marginTop: 3, borderWidth: 1, borderColor: LINE },
+
   // Plan pages
   planHeading: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10, height: 36 },
   planTitle: { fontSize: 16, fontFamily: "Helvetica-Bold", marginTop: 3 },
@@ -143,7 +152,13 @@ function Stat({ value, label, colour }: { value: number; label: string; colour?:
   );
 }
 
-function ReportHeader({ project, snags, generatedAt, options }: Pick<ReportData, "project" | "snags" | "generatedAt" | "options">) {
+function ReportHeader({
+  project,
+  snags,
+  generatedAt,
+  options,
+  branding,
+}: Pick<ReportData, "project" | "snags" | "generatedAt" | "options" | "branding">) {
   const count = (status: SnagStatus) => snags.filter((s) => s.status === status).length;
   const filterNote = describeFilters(options);
 
@@ -151,12 +166,19 @@ function ReportHeader({ project, snags, generatedAt, options }: Pick<ReportData,
     <View>
       <View style={styles.headerRow}>
         <View style={{ flex: 1, paddingRight: 16 }}>
-          <Text style={styles.eyebrow}>{options.design === "checklist" ? "Snagging checklist" : "Snagging report"}</Text>
+          <Text style={styles.eyebrow}>
+            {branding.companyName ? `${branding.companyName} · ` : ""}
+            {options.design === "checklist" ? "Snagging checklist" : "Snagging report"}
+          </Text>
           <Text style={styles.projectName}>{project.name}</Text>
           {project.location ? <Text style={styles.meta}>{project.location}</Text> : null}
           {project.description ? <Text style={styles.meta}>{project.description}</Text> : null}
         </View>
         <View style={styles.headerRight}>
+          {branding.logo ? (
+            // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+            <Image src={branding.logo} style={styles.logo} />
+          ) : null}
           <Text style={styles.eyebrow}>Date</Text>
           <Text style={styles.dateValue}>{formatDate(generatedAt)}</Text>
         </View>
@@ -256,9 +278,9 @@ function StandardTableHeader() {
   );
 }
 
-type RowProps = { snag: Snag; thumbnails: Record<string, string>; levelName?: string };
+type RowProps = { snag: Snag; thumbnails: Record<string, string>; levelName?: string; snippet?: string };
 
-function StandardTableRow({ snag, thumbnails, levelName }: RowProps) {
+function StandardTableRow({ snag, thumbnails, levelName, snippet }: RowProps) {
   const cover = snag.photos[0] ? thumbnails[snag.photos[0].id] : undefined;
   return (
     <View style={styles.row} wrap={false}>
@@ -276,6 +298,10 @@ function StandardTableRow({ snag, thumbnails, levelName }: RowProps) {
           <Text style={styles.subtle}>
             +{snag.photos.length - 1} more {snag.photos.length === 2 ? "photo" : "photos"}
           </Text>
+        ) : null}
+        {snippet ? (
+          // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+          <Image src={snippet} style={styles.snippetSmall} />
         ) : null}
       </View>
       <View style={[styles.cell, { width: TABLE_COL.title }]}>
@@ -297,7 +323,7 @@ function StandardTableRow({ snag, thumbnails, levelName }: RowProps) {
 // ---------------------------------------------------------------------------
 // Design 2: Photo report
 // ---------------------------------------------------------------------------
-function PhotoCard({ snag, thumbnails, levelName }: RowProps) {
+function PhotoCard({ snag, thumbnails, levelName, snippet }: RowProps) {
   const [first, ...rest] = snag.photos;
   const cover = first ? thumbnails[first.id] : undefined;
   const extras = rest.map((p) => thumbnails[p.id]).filter((src): src is string => !!src);
@@ -342,6 +368,14 @@ function PhotoCard({ snag, thumbnails, levelName }: RowProps) {
             {formatDate(snag.created_at)}
             {snag.resolved_at ? ` / ${formatDate(snag.resolved_at)}` : ""}
           </Text>
+
+          {snippet ? (
+            <>
+              <Text style={styles.fieldLabel}>Where</Text>
+              {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop */}
+              <Image src={snippet} style={styles.snippetLarge} />
+            </>
+          ) : null}
         </View>
       </View>
       {extras.length ? (
@@ -375,7 +409,7 @@ function ChecklistHeader() {
   );
 }
 
-function ChecklistRow({ snag, levelName }: { snag: Snag; levelName?: string }) {
+function ChecklistRow({ snag, levelName, snippet }: { snag: Snag; levelName?: string; snippet?: string }) {
   return (
     <View style={styles.checkRow} wrap={false}>
       <View style={[styles.cell, { width: CHECK_COL.done }]}>
@@ -388,6 +422,10 @@ function ChecklistRow({ snag, levelName }: { snag: Snag; levelName?: string }) {
         <Text style={styles.titleText}>{snag.title}</Text>
         {levelName ? <Text style={styles.subtle}>{levelName}</Text> : null}
         {snag.location_details ? <Text style={styles.subtle}>{snag.location_details}</Text> : null}
+        {snippet ? (
+          // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+          <Image src={snippet} style={styles.snippetSmall} />
+        ) : null}
       </View>
       <Text style={[styles.cell, { width: CHECK_COL.assigned }]}>{snag.assigned_to || "—"}</Text>
       <Text style={[styles.cell, { flex: 1 }]}>{snag.description || ""}</Text>
@@ -485,7 +523,7 @@ function PlanPage({
 // ---------------------------------------------------------------------------
 // Document
 // ---------------------------------------------------------------------------
-export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails, generatedAt, options }: ReportData) {
+export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails, snippets, branding, generatedAt, options }: ReportData) {
   const snags = filterSnags(allSnags, options);
   const groups = groupSnags(snags, options.groupBy, levels);
   const levelNames = new Map(levels.map((l) => [l.id, l.name]));
@@ -503,7 +541,7 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
       author={options.preparedBy || undefined}
     >
       <Page size="A4" style={styles.page}>
-        <ReportHeader project={project} snags={snags} generatedAt={generatedAt} options={options} />
+        <ReportHeader project={project} snags={snags} generatedAt={generatedAt} options={options} branding={branding} />
 
         {options.design === "table" ? <StandardTableHeader /> : null}
         {options.design === "checklist" ? <ChecklistHeader /> : null}
@@ -515,11 +553,11 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
             groups={groups}
             renderSnag={(snag) =>
               options.design === "photos" ? (
-                <PhotoCard snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} />
+                <PhotoCard snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} snippet={snippets[snag.id]} />
               ) : options.design === "checklist" ? (
-                <ChecklistRow snag={snag} levelName={levelOf(snag)} />
+                <ChecklistRow snag={snag} levelName={levelOf(snag)} snippet={snippets[snag.id]} />
               ) : (
-                <StandardTableRow snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} />
+                <StandardTableRow snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} snippet={snippets[snag.id]} />
               )
             }
           />

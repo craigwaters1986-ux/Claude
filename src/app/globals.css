@@ -34,25 +34,37 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  /* Dark mode: deep graphite page, slightly lighter cards, white primary buttons.
+     The top bar stays black, so it reads as one band across both themes. */
+  --background: oklch(0.155 0.004 286);
+  --foreground: oklch(0.96 0.002 286);
+  --card: oklch(0.205 0.005 286);
+  --card-foreground: oklch(0.96 0.002 286);
+  --popover: oklch(0.225 0.005 286);
+  --popover-foreground: oklch(0.96 0.002 286);
+  --primary: oklch(0.96 0.002 286);
+  --primary-foreground: oklch(0.16 0.004 286);
+  --secondary: oklch(0.27 0.006 286);
+  --secondary-foreground: oklch(0.96 0.002 286);
+  --muted: oklch(0.255 0.006 286);
+  --muted-foreground: oklch(0.7 0.012 286);
+  --accent: oklch(0.27 0.006 286);
+  --accent-foreground: oklch(0.96 0.002 286);
+  --destructive: oklch(0.68 0.2 22);
+  --border: oklch(1 0 0 / 9%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: oklch(0.6 0.01 286);
+  --header: oklch(0 0 0);
 }
+
+/* Accent colour (Settings → Appearance). Dark text reads well on all of them. */
+:root[data-accent="orange"] { --brand: oklch(0.75 0.18 55); }
+:root[data-accent="green"] { --brand: oklch(0.86 0.2 128); }
+:root[data-accent="blue"] { --brand: oklch(0.78 0.13 230); }
+:root[data-accent="pink"] { --brand: oklch(0.78 0.15 350); }
+
+/* Larger text (Settings → Appearance): everything is sized in rem, so the whole UI scales. */
+:root[data-text="large"] { font-size: 112.5%; }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
@@ -91,6 +103,13 @@
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) + 4px);
   box-shadow: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 3px oklch(0 0 0 / 0.03);
+}
+
+/* In dark mode, cards are set off by their border rather than a shadow. */
+.dark .surface,
+.dark .shadow-sm,
+.dark .shadow-xs {
+  box-shadow: none;
 }
 
 @layer base {

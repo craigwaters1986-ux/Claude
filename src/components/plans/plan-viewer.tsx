@@ -81,7 +81,7 @@ export function PlanViewer({ level, pins = [], onPinClick, placing, className }:
               <img
                 src={level.drawing_url ?? ""}
                 alt={`Drawing of ${level.name}`}
-                className="size-full bg-white object-contain select-none"
+                className="size-full bg-white object-contain select-none dark:brightness-[0.92]"
                 draggable={false}
               />
               {pins.map((pin) => (

@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import { MapPin, MapPinOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import type { Level, SnagLocation } from "@/types/models";
-import { PlanViewer } from "./plan-viewer";
+import { PinDialog } from "./pin-dialog";
 
 type Props = {
   levels: Level[];
@@ -22,7 +20,6 @@ type Props = {
  */
 export function LocationPicker({ levels, value, onChange, disabled }: Props) {
   const [pinning, setPinning] = useState(false);
-  const [draft, setDraft] = useState<{ x: number; y: number } | null>(null);
   const level = levels.find((l) => l.id === value.level_id);
   const hasPin = value.pin_x != null && value.pin_y != null;
 
@@ -32,7 +29,6 @@ export function LocationPicker({ levels, value, onChange, disabled }: Props) {
   }
 
   function openPinning() {
-    setDraft(hasPin ? { x: value.pin_x!, y: value.pin_y! } : null);
     setPinning(true);
   }
 
@@ -96,43 +92,13 @@ export function LocationPicker({ levels, value, onChange, disabled }: Props) {
       )}
 
       {level?.drawing_url && (
-        <Dialog open={pinning} onOpenChange={setPinning}>
-          <DialogContent className="grid h-[92dvh] max-h-[92dvh] grid-rows-[auto_1fr_auto] gap-3 p-4 sm:max-w-5xl lg:p-6">
-            <DialogHeader>
-              <DialogTitle>{level.name}</DialogTitle>
-              <DialogDescription>Tap the plan where the snag is. Pinch or scroll to zoom.</DialogDescription>
-            </DialogHeader>
-            <PlanViewer
-              level={level}
-              placing={{ value: draft, onPlace: (x, y) => setDraft({ x, y }) }}
-              className="min-h-0"
-            />
-            <DialogFooter className="flex-row justify-between sm:justify-between">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => {
-                  onChange({ level_id: level.id, pin_x: null, pin_y: null });
-                  setPinning(false);
-                }}
-                disabled={!hasPin && !draft}
-              >
-                Remove pin
-              </Button>
-              <Button
-                type="button"
-                size="lg"
-                disabled={!draft}
-                onClick={() => {
-                  if (draft) onChange({ level_id: level.id, pin_x: draft.x, pin_y: draft.y });
-                  setPinning(false);
-                }}
-              >
-                <MapPin /> Use this spot
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <PinDialog
+          level={level}
+          open={pinning}
+          onOpenChange={setPinning}
+          value={hasPin ? { x: value.pin_x!, y: value.pin_y! } : null}
+          onSave={(pin) => onChange({ level_id: level.id, pin_x: pin?.x ?? null, pin_y: pin?.y ?? null })}
+        />
       )}
     </div>
   );

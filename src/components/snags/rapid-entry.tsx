@@ -19,6 +19,7 @@ import { uuid } from "@/lib/uuid";
 import { LocationPicker } from "@/components/plans/location-picker";
 import { useLevels } from "@/hooks/use-levels";
 import { MAX_PHOTOS_PER_SNAG, type SnagLocation } from "@/types/models";
+import { BatchEntry } from "./batch-entry";
 import { CaptureList, type CaptureItem } from "./capture-list";
 import { PhotoPicker, type PhotoPickerHandle } from "./photo-picker";
 
@@ -51,6 +52,23 @@ export function RapidEntry({ projectId }: { projectId: string }) {
   const [mountedAt] = useState(() => Date.now());
   const photoRef = useRef<PhotoPickerHandle>(null);
   const [dragging, setDragging] = useState(false);
+  // Remembered on this device: people tend to stick to one way of working.
+  const [mode, setMode] = useState<"single" | "batch">("single");
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("snaglist.add-mode") === "batch") setMode("batch");
+    } catch {
+      // ignore
+    }
+  }, []);
+  function changeMode(next: "single" | "batch") {
+    setMode(next);
+    try {
+      localStorage.setItem("snaglist.add-mode", next);
+    } catch {
+      // ignore
+    }
+  }
   const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
   const titleRef = useRef<HTMLInputElement>(null);
 
@@ -228,6 +246,30 @@ export function RapidEntry({ projectId }: { projectId: string }) {
         )}
       </div>
 
+      {/* One snag at a time (walk-round), or several at once (photos from the camera roll / a typed list) */}
+      <div className="bg-muted grid grid-cols-2 gap-1 rounded-lg p-1" role="radiogroup" aria-label="How to add">
+        {(
+          [
+            ["single", "One at a time"],
+            ["batch", "Several at once"],
+          ] as const
+        ).map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            role="radio"
+            aria-checked={mode === value}
+            onClick={() => changeMode(value)}
+            className={cn(
+              "h-10 rounded-md text-sm font-medium transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+              mode === value ? "bg-card shadow-xs" : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       {dragging && (
         <div
           className="bg-header/70 pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-8 backdrop-blur-sm"
@@ -241,101 +283,110 @@ export function RapidEntry({ projectId }: { projectId: string }) {
         </div>
       )}
 
-      <form
-        onSubmit={submit}
-        onKeyDown={onFormKeyDown}
-        className="grid gap-4 lg:grid-cols-2 lg:items-start lg:gap-8"
-        aria-label="New snag"
-      >
-        <div className="lg:surface lg:p-4">
-        <PhotoPicker
-          ref={photoRef}
-          value={form.photos}
-          onChange={(photos) => update("photos", photos)}
-          onLimitReached={(skipped) =>
-            toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per snag: ${skipped} not added.`)
-          }
-        />
-        </div>
-
-        <div className="grid gap-4 lg:surface lg:p-5">
-        <div className="grid gap-2">
-          <Label htmlFor="snag-title">Title</Label>
-          <Input
-            ref={titleRef}
-            id="snag-title"
-            value={form.title}
-            onChange={(e) => update("title", e.target.value)}
-            placeholder="e.g. Cracked floor tile"
-            maxLength={200}
-            autoComplete="off"
-            enterKeyHint="next"
-            required
+      {mode === "single" ? (
+        <form
+          onSubmit={submit}
+          onKeyDown={onFormKeyDown}
+          className="grid gap-4 lg:grid-cols-2 lg:items-start lg:gap-8"
+          aria-label="New snag"
+        >
+          <div className="lg:surface lg:p-4">
+          <PhotoPicker
+            ref={photoRef}
+            value={form.photos}
+            onChange={(photos) => update("photos", photos)}
+            onLimitReached={(skipped) =>
+              toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per snag: ${skipped} not added.`)
+            }
           />
-        </div>
+          </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="snag-assigned-to">Assigned to</Label>
-          <Input
-            id="snag-assigned-to"
-            value={form.assignedTo}
-            onChange={(e) => update("assignedTo", e.target.value)}
-            placeholder="e.g. Plumber, Decorator, J. Smith"
-            maxLength={200}
-            autoComplete="off"
-            autoCapitalize="words"
-            enterKeyHint="next"
-          />
-          {recentAssignees.length > 0 && (
-            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:px-0" role="group" aria-label="Recently assigned">
-              {recentAssignees.map((name) => (
-                <button
-                  key={name}
-                  type="button"
-                  onClick={() => update("assignedTo", name)}
-                  className={cn(
-                    "h-8 shrink-0 rounded-full border px-3 text-sm transition-colors",
-                    form.assignedTo === name ? "bg-primary text-primary-foreground border-primary" : "hover:bg-accent",
-                  )}
-                >
-                  {name}
-                </button>
-              ))}
+          <div className="grid gap-4 lg:surface lg:p-5">
+          <div className="grid gap-2">
+            <Label htmlFor="snag-title">Title</Label>
+            <Input
+              ref={titleRef}
+              id="snag-title"
+              value={form.title}
+              onChange={(e) => update("title", e.target.value)}
+              placeholder="e.g. Cracked floor tile"
+              maxLength={200}
+              autoComplete="off"
+              enterKeyHint="next"
+              required
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="snag-assigned-to">Assigned to</Label>
+            <Input
+              id="snag-assigned-to"
+              value={form.assignedTo}
+              onChange={(e) => update("assignedTo", e.target.value)}
+              placeholder="e.g. Plumber, Decorator, J. Smith"
+              maxLength={200}
+              autoComplete="off"
+              autoCapitalize="words"
+              enterKeyHint="next"
+            />
+            {recentAssignees.length > 0 && (
+              <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:px-0" role="group" aria-label="Recently assigned">
+                {recentAssignees.map((name) => (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => update("assignedTo", name)}
+                    className={cn(
+                      "h-8 shrink-0 rounded-full border px-3 text-sm transition-colors",
+                      form.assignedTo === name ? "bg-primary text-primary-foreground border-primary" : "hover:bg-accent",
+                    )}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {levels.data && levels.data.length > 0 && (
+            <div className="grid gap-2">
+              <span className="text-sm leading-none font-medium">Location</span>
+              <LocationPicker levels={levels.data} value={form.location} onChange={(location) => update("location", location)} />
             </div>
           )}
-        </div>
 
-        {levels.data && levels.data.length > 0 && (
           <div className="grid gap-2">
-            <span className="text-sm leading-none font-medium">Location</span>
-            <LocationPicker levels={levels.data} value={form.location} onChange={(location) => update("location", location)} />
+            <Label htmlFor="snag-comments">Comments</Label>
+            <Textarea
+              id="snag-comments"
+              value={form.comments}
+              onChange={(e) => update("comments", e.target.value)}
+              placeholder="Detail for whoever fixes it"
+              rows={2}
+            />
           </div>
-        )}
 
-        <div className="grid gap-2">
-          <Label htmlFor="snag-comments">Comments</Label>
-          <Textarea
-            id="snag-comments"
-            value={form.comments}
-            onChange={(e) => update("comments", e.target.value)}
-            placeholder="Detail for whoever fixes it"
-            rows={2}
-          />
-        </div>
-
-        {/* Phone: sticky so it's always under the thumb, even with the keyboard open.
-            Laptop: a normal button at the end of the form, with the shortcut shown. */}
-        <div className="bg-background/95 sticky bottom-0 -mx-4 border-t px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur lg:static lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
-          <Button type="submit" size="lg" className="h-12 w-full text-base" disabled={!form.title.trim()}>
-            <Plus className="size-5" /> Save &amp; add next
-          </Button>
-          <p className="text-muted-foreground mt-2 hidden text-center text-xs lg:block">
-            or press <kbd className="bg-muted rounded border px-1.5 py-0.5 font-sans">{isMac ? "⌘" : "Ctrl"}</kbd> +{" "}
-            <kbd className="bg-muted rounded border px-1.5 py-0.5 font-sans">Enter</kbd>
-          </p>
-        </div>
-        </div>
-      </form>
+          {/* Phone: sticky so it's always under the thumb, even with the keyboard open.
+              Laptop: a normal button at the end of the form, with the shortcut shown. */}
+          <div className="bg-background/95 sticky bottom-0 -mx-4 border-t px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur lg:static lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+            <Button type="submit" size="lg" className="h-12 w-full text-base" disabled={!form.title.trim()}>
+              <Plus className="size-5" /> Save &amp; add next
+            </Button>
+            <p className="text-muted-foreground mt-2 hidden text-center text-xs lg:block">
+              or press <kbd className="bg-muted rounded border px-1.5 py-0.5 font-sans">{isMac ? "⌘" : "Ctrl"}</kbd> +{" "}
+              <kbd className="bg-muted rounded border px-1.5 py-0.5 font-sans">Enter</kbd>
+            </p>
+          </div>
+          </div>
+        </form>
+      ) : (
+        <BatchEntry
+          projectId={projectId}
+          levels={levels.data ?? []}
+          recentAssignees={recentAssignees}
+          onSaved={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })}
+        />
+      )}
 
       {items.length > 0 && (
         <section className="grid min-w-0 grid-cols-1 gap-2">

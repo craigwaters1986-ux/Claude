@@ -2,6 +2,8 @@ import type { TypedSupabaseClient } from "@/lib/supabase/client";
 import { compressImage } from "@/lib/image/compress";
 import { getProject } from "@/lib/services/projects";
 import { listLevels } from "@/lib/services/levels";
+import { getSettings } from "@/lib/services/settings";
+import { makeLocationSnippets } from "./location-snippets";
 import { listSnags } from "@/lib/services/snags";
 import type { SnagPhoto } from "@/types/models";
 import { filterSnags, photoSizeFor, type ReportOptions } from "./report-options";
@@ -44,10 +46,11 @@ export async function generateSnagReport(
   onProgress?: (progress: ReportProgress) => void,
 ): Promise<GeneratedReport> {
   onProgress?.({ stage: "loading" });
-  const [project, snags, levels] = await Promise.all([
+  const [project, snags, levels, settings] = await Promise.all([
     getProject(supabase, projectId),
     listSnags(supabase, projectId),
     listLevels(supabase, projectId),
+    getSettings(supabase).catch(() => null),
   ]);
   const included = filterSnags(snags, options);
   const photoSize = photoSizeFor(options.design);
@@ -85,10 +88,17 @@ export async function generateSnagReport(
     onProgress?.({ stage: "photos", done: ++done, total });
   });
 
+  // Company branding (Settings → Reports)
+  const logo = settings?.logoUrl ? await makeThumbnail(settings.logoUrl, 600, 0.9) : null;
+  const branding = { companyName: settings?.companyName ?? "", logo };
+
+  // Where each snag is: a cut-out of its drawing around the pin
+  const snippets = options.includeSnippets ? await makeLocationSnippets(included, levels) : {};
+
   onProgress?.({ stage: "rendering" });
   const generatedAt = new Date();
   const { renderSnagReport } = await import("./snag-report"); // loads the PDF engine on first use
-  const blob = await renderSnagReport({ project, snags, levels, plans, thumbnails, generatedAt, options });
+  const blob = await renderSnagReport({ project, snags, levels, plans, thumbnails, snippets, branding, generatedAt, options });
 
   const kind = { table: "snag-report", photos: "photo-report", checklist: "snag-checklist" }[options.design];
   const who = options.assignees.length === 1 ? `-${slugify(options.assignees[0])}` : "";

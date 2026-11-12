@@ -24,6 +24,10 @@ export const levelKeys = {
   list: (projectId: string) => [...levelKeys.all, projectId] as const,
 };
 
+export const settingsKeys = {
+  mine: ["settings"] as const,
+};
+
 export const userStateKeys = {
   mine: ["user-state"] as const,
 };

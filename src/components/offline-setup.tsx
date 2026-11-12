@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import { useApplyAppearance } from "@/hooks/use-settings";
 import { rememberUserId } from "@/hooks/use-snags";
 import { useSupabase } from "@/hooks/use-supabase";
 import { startOutbox } from "@/lib/offline/outbox";
@@ -15,6 +16,7 @@ import { startOutbox } from "@/lib/offline/outbox";
  * - the service worker, so the app itself opens with no signal
  */
 export function OfflineSetup() {
+  useApplyAppearance(); // theme, accent and text size follow the user's settings
   const supabase = useSupabase();
   const queryClient = useQueryClient();
 

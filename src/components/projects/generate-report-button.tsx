@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { useLevels } from "@/hooks/use-levels";
+import { useSettings } from "@/hooks/use-settings";
 import { useSnags } from "@/hooks/use-snags";
 import { useSupabase } from "@/hooks/use-supabase";
 import { downloadBlob, generateSnagReport, type ReportProgress } from "@/lib/pdf/generate-report";
@@ -67,7 +68,12 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
   const levels = useLevels(projectId);
   const hasLevels = (levels.data?.length ?? 0) > 0;
   const hasPlans = (levels.data ?? []).some((l) => l.drawing_url);
-  const [chosen, setOptions] = useState<ReportOptions>(loadRememberedOptions);
+  const { settings } = useSettings();
+  // "Prepared by" defaults to the name in Settings → Reports.
+  const [chosen, setOptions] = useState<ReportOptions>(() => {
+    const remembered = loadRememberedOptions();
+    return remembered.preparedBy ? remembered : { ...remembered, preparedBy: settings.preparedBy };
+  });
   // "By level" may be remembered from another project; ignore it where there are no levels.
   const levelCount = levels.data?.length ?? 0;
   const options = useMemo<ReportOptions>(
@@ -255,6 +261,24 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
           />
         </div>
       </div>
+
+      {hasPlans && (
+        <label className="flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50">
+          <input
+            type="checkbox"
+            checked={options.includeSnippets}
+            onChange={(e) => set("includeSnippets", e.target.checked)}
+            disabled={busy}
+            className="accent-primary mt-0.5 size-4"
+          />
+          <span>
+            <span className="font-medium">Show where each snag is</span>
+            <span className="text-muted-foreground block text-xs">
+              A small cut-out of the drawing around each pinned snag, next to its details.
+            </span>
+          </span>
+        </label>
+      )}
 
       {hasPlans && (
         <label className="flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50">

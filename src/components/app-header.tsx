@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ClipboardCheck, KeyRound, LogOut, UserRound } from "lucide-react";
+import { ClipboardCheck, KeyRound, LogOut, Settings, UserRound } from "lucide-react";
 import { PasswordDialog } from "@/components/password-dialog";
 import { SyncStatus } from "@/components/sync-status";
 import { useQueryClient } from "@tanstack/react-query";
@@ -63,6 +63,11 @@ export function AppHeader() {
                 <DropdownMenuSeparator />
               </>
             )}
+            <DropdownMenuItem asChild>
+              <Link href="/settings">
+                <Settings /> Settings
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setPasswordOpen(true)}>
               <KeyRound /> Set password
             </DropdownMenuItem>

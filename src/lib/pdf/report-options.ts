@@ -19,6 +19,8 @@ export type ReportOptions = {
   groupBy: GroupBy;
   /** Add a page per level showing its drawing with the snags pinned on it. */
   includePlans: boolean;
+  /** A small cut-out of the drawing around each pinned snag. */
+  includeSnippets: boolean;
   preparedBy: string;
   preparedFor: string;
 };
@@ -29,6 +31,7 @@ export const DEFAULT_REPORT_OPTIONS: ReportOptions = {
   assignees: [],
   groupBy: "none",
   includePlans: true,
+  includeSnippets: true,
   preparedBy: "",
   preparedFor: "",
 };
@@ -139,7 +142,7 @@ export function photoSizeFor(design: ReportDesign): number | null {
 // design, grouping and who prepared it. Filters are per report, so they reset.
 // ---------------------------------------------------------------------------
 const STORAGE_KEY = "snaglist.report-options.v1";
-type Remembered = Pick<ReportOptions, "design" | "groupBy" | "preparedBy" | "includePlans">;
+type Remembered = Pick<ReportOptions, "design" | "groupBy" | "preparedBy" | "includePlans" | "includeSnippets">;
 
 export function loadRememberedOptions(): ReportOptions {
   try {
@@ -150,6 +153,7 @@ export function loadRememberedOptions(): ReportOptions {
       groupBy: GROUP_BY_OPTIONS.some((g) => g.value === saved.groupBy) ? saved.groupBy! : DEFAULT_REPORT_OPTIONS.groupBy,
       preparedBy: typeof saved.preparedBy === "string" ? saved.preparedBy : "",
       includePlans: saved.includePlans !== false,
+      includeSnippets: saved.includeSnippets !== false,
     };
   } catch {
     return DEFAULT_REPORT_OPTIONS;
@@ -158,8 +162,11 @@ export function loadRememberedOptions(): ReportOptions {
 
 export function rememberOptions(options: ReportOptions) {
   try {
-    const { design, groupBy, preparedBy, includePlans } = options;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ design, groupBy, preparedBy, includePlans } satisfies Remembered));
+    const { design, groupBy, preparedBy, includePlans, includeSnippets } = options;
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ design, groupBy, preparedBy, includePlans, includeSnippets } satisfies Remembered),
+    );
   } catch {
     // Private browsing / storage blocked: just don't remember.
   }

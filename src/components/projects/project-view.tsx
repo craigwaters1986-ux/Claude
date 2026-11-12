@@ -49,6 +49,7 @@ import { useLevels } from "@/hooks/use-levels";
 import { useLiveUpdates } from "@/hooks/use-live-updates";
 import { usePendingSnags } from "@/hooks/use-outbox";
 import { useRememberPlace } from "@/hooks/use-resume";
+import { useSettings } from "@/hooks/use-settings";
 import { useDeleteSnag, useSnags, useUpdateSnag } from "@/hooks/use-snags";
 import { ServiceError } from "@/lib/services/errors";
 import { cn } from "@/lib/utils";
@@ -430,26 +431,10 @@ export function ProjectView({
   );
 }
 
-const VIEW_KEY = "snaglist.snag-view";
-
-/** Cards or table on tablets/laptops (phones always use cards). Remembered per device. */
+/** Cards or table on tablets/laptops (phones always use cards). A setting, shared across devices. */
 function useSnagView() {
-  const [view, setViewState] = useState<"cards" | "table">(() => {
-    try {
-      return localStorage.getItem(VIEW_KEY) === "cards" ? "cards" : "table";
-    } catch {
-      return "table";
-    }
-  });
-  function setView(next: "cards" | "table") {
-    setViewState(next);
-    try {
-      localStorage.setItem(VIEW_KEY, next);
-    } catch {
-      // storage blocked: just don't remember
-    }
-  }
-  return [view, setView] as const;
+  const { settings, update } = useSettings();
+  return [settings.snagView, (next: "cards" | "table") => void update({ snagView: next }).catch(() => undefined)] as const;
 }
 
 /** Shown while changes from other devices arrive live. */

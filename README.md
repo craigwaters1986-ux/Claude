@@ -54,6 +54,7 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
 | `levels` | `id`, `project_id` → projects (cascade), `name`, `position`, `drawing_url` / `drawing_path`, `drawing_width` / `drawing_height`. A floor or area, with one drawing. |
 | `snags` (location) | `level_id` → levels (set null on delete), `pin_x` / `pin_y`: the pin as fractions (0–1) of the drawing's width and height. |
 | `user_state` | One row per user: last `project_id`, `view` (list/plans), `level_id`, `device`. Powers "Continue where you left off" across devices. |
+| `user_settings` | One row per user: `settings` JSON (theme, accent, text size, list layout, company name, logo, default "prepared by"). Synced to every device; invalid or unknown values fall back to defaults. |
 | `snag_photos` | `id`, `snag_id` → snags (cascade), `position`, `image_url`, `image_path`, `created_at`. Up to 6 per snag in the app (12 enforced by the database). |
 | `project_summaries` (view) | every project column + `total_snags`, `open_snags`, `in_progress_snags`, `resolved_snags` |
 
@@ -104,7 +105,8 @@ saves retry with backoff; while offline they pause and resume when the signal re
 | `/auth/callback` | Magic-link landing; exchanges the code for a session cookie |
 | `/` | Project dashboard: search, create, edit, delete, show/hide archived |
 | `/projects/[projectId]` | Project header + counts, status filter tabs, snag list (change status, delete). Tap a snag to view/add/delete its photos and edit its details |
-| `/projects/[projectId]/add` | **Rapid Entry**: up to 6 photos + three lines (title, assigned to, comments) → "Save & add next", repeat |
+| `/projects/[projectId]/add` | **Rapid Entry**: up to 6 photos + three lines (title, assigned to, comments) → "Save & add next", repeat. Or **Several at once** (below) |
+| `/settings` | Settings (Account menu → Settings): appearance, report branding, list layout |
 
 **Phones and laptops.** The same app adapts to the screen. On tablets and laptops (≥ 768 px) a project's
 snags can be shown as a **table** (remembered per device; phones always use cards). On laptops (≥ 1024 px):
@@ -114,6 +116,30 @@ details side by side, photos can be **dragged and dropped** onto Add snags, **Ct
 
 Signed-out visitors are sent to `/login?next=…` and returned to the page they wanted after signing in.
 UI components in `src/components/ui/` are standard shadcn/ui sources.
+
+## Settings and dark mode
+
+Account menu → **Settings**. Saved to `user_settings`, so they follow you to every device (and are kept on
+the device too, so they apply before sign-in and offline).
+
+- **Theme:** Light · Dark · Automatic (follows the phone or laptop). An inline script in `<head>` applies it
+  before the first paint, so there's no white flash. The top bar stays black in both.
+- **Accent colour:** yellow, orange, green, blue or pink (buttons, highlights, logo tile).
+- **Text size:** Standard or Larger (scales the whole app by 112.5%).
+- **Snag list:** Table or Cards on tablets and laptops.
+- **Reports:** company name and logo printed on every report, and a default "Prepared by".
+
+## Adding several snags at once
+
+On Add snags, switch to **Several at once** (the choice is remembered on the device):
+
+1. Set what the batch shares: Assigned to, Level and Comments.
+2. Add rows: **From photos** (one snag per photo), **Take photo**, or type a list (one snag per line;
+   bullets and numbers are stripped). Up to 50 rows.
+3. On each row: give it a title, add more photos, change who it's assigned to, and drop a pin on the drawing.
+4. **Save N snags** saves them in order through the same offline outbox as single entry.
+
+Dragging photos onto the page only works in single mode for now.
 
 ## Rapid Entry, offline saving & photo uploads
 
@@ -159,7 +185,8 @@ upload anything waiting.
 | Which snags | All · Outstanding (open + in progress) · Resolved |
 | Assigned to | Any combination of the project's assignees (including Unassigned); none selected = everyone |
 | Group by | None · By trade · By status (a heading per group, never left alone at the foot of a page) |
-| Prepared for / by | Optional names shown in the header |
+| Prepared for / by | Optional names shown in the header ("by" defaults to the one in Settings) |
+| Show where each snag is | Shown when the project has drawings: a small cut-out of the drawing around each pinned snag, with the pin and level name, in every design |
 
 The screen shows exactly how many snags the report will include. Design, grouping and "prepared by" are
 remembered on the device; the filters reset each time. Filters in use are noted in the PDF header, and the

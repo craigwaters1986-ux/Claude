@@ -209,7 +209,7 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
                         type="button"
                         size="icon"
                         variant="secondary"
-                        className="absolute top-2 right-2 bg-white/90"
+                        className="absolute top-2 right-2 bg-card/90"
                         onClick={() => setConfirmingDelete(photo.id)}
                         aria-label={`Delete photo ${i + 1}`}
                       >
@@ -227,7 +227,7 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
                 type="button"
                 size="icon"
                 variant="secondary"
-                className="absolute top-1/2 left-2 hidden -translate-y-1/2 bg-white/80 sm:inline-flex"
+                className="absolute top-1/2 left-2 hidden -translate-y-1/2 bg-card/80 sm:inline-flex"
                 onClick={() => scrollTo(Math.max(0, current - 1))}
                 disabled={current === 0}
                 aria-label="Previous photo"
@@ -238,7 +238,7 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
                 type="button"
                 size="icon"
                 variant="secondary"
-                className="absolute top-1/2 right-2 hidden -translate-y-1/2 bg-white/80 sm:inline-flex"
+                className="absolute top-1/2 right-2 hidden -translate-y-1/2 bg-card/80 sm:inline-flex"
                 onClick={() => scrollTo(Math.min(photos.length - 1, current + 1))}
                 disabled={current === photos.length - 1}
                 aria-label="Next photo"

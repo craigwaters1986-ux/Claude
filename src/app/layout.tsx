@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { APPEARANCE_BOOT_SCRIPT } from "@/lib/settings/settings";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // The theme is set on <html> before React loads (see the script), so it can
+    // differ from the server's markup; that's intended.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Apply the saved theme before the first paint: no flash of the wrong colours. */}
+        <script dangerouslySetInnerHTML={{ __html: APPEARANCE_BOOT_SCRIPT }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
