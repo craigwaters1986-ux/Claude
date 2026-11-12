@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSupabase } from "@/hooks/use-supabase";
+import { timesPasswordLeaked } from "@/lib/auth/pwned-password";
 
 const MIN_LENGTH = 8;
 
@@ -33,6 +34,13 @@ function PasswordForm({ onDone }: { onDone: () => void }) {
     if (password !== confirm) return setError("The two passwords don’t match.");
     setBusy(true);
     setError(null);
+    const leaked = await timesPasswordLeaked(password);
+    if (leaked) {
+      setBusy(false);
+      return setError(
+        `This password has appeared in ${leaked.toLocaleString("en-GB")} data breach${leaked === 1 ? "" : "es"} elsewhere, so it’s easy to guess. Please choose a different one.`,
+      );
+    }
     const { error } = await supabase.auth.updateUser({ password });
     setBusy(false);
     if (error) {
@@ -71,7 +79,9 @@ function PasswordForm({ onDone }: { onDone: () => void }) {
           required
           autoFocus
         />
-        <p className="text-muted-foreground text-xs">At least {MIN_LENGTH} characters.</p>
+        <p className="text-muted-foreground text-xs">
+          At least {MIN_LENGTH} characters. Passwords known from data breaches aren’t allowed.
+        </p>
       </div>
       <div className="grid gap-2">
         <Label htmlFor="confirm-password">Confirm password</Label>
