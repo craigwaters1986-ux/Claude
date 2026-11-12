@@ -40,7 +40,9 @@ export function AppHeader() {
           <span className="bg-brand text-brand-foreground flex size-8 items-center justify-center rounded-lg">
             <ClipboardCheck className="size-[18px]" strokeWidth={2.25} />
           </span>
-          <span className="text-[17px] font-semibold tracking-tight">SnagList</span>
+          <span className="text-[17px] font-semibold tracking-tight whitespace-nowrap">
+            Site Auditor <span className="text-brand">+</span>
+          </span>
         </Link>
 
         <div className="flex items-center gap-2">

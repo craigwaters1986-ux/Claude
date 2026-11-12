@@ -536,8 +536,8 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
     <Document
       title={`${designLabel}: ${project.name}`}
       subject="Snagging report"
-      creator="SnagList"
-      producer="SnagList"
+      creator="Site Auditor +"
+      producer="Site Auditor +"
       author={options.preparedBy || undefined}
     >
       <Page size="A4" style={styles.page}>

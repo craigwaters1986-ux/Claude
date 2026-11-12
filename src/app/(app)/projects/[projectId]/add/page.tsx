@@ -1,6 +1,6 @@
 import { RapidEntry } from "@/components/snags/rapid-entry";
 
-export const metadata = { title: "Add snags · SnagList" };
+export const metadata = { title: "Add snags · Site Auditor +" };
 
 export default async function AddSnagsPage({ params }: { params: Promise<{ projectId: string }> }) {
   const { projectId } = await params;

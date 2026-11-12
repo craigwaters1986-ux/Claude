@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 /** Used when the app is added to a phone's home screen (name, icon, opens full-screen). */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SnagList",
-    short_name: "SnagList",
+    name: "Site Auditor +",
+    short_name: "Site Auditor +",
     description: "Log building-site snags, attach photos and generate PDF reports.",
     start_url: "/",
     display: "standalone",

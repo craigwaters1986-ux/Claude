@@ -17,11 +17,20 @@ export function SyncStatus() {
   const failed = entries.filter((e) => e.state === "failed").length;
   if (online && !waiting && !failed) return null;
 
-  const label = failed
-    ? `${failed} not saved`
-    : waiting
-      ? `${waiting} to upload`
-      : "No signal";
+  // On the narrowest phones only the count shows (with the icon), so the badge
+  // fits beside the app name; tapping it explains in full.
+  const words = (text: string) => <span className="max-[359px]:sr-only">{text}</span>;
+  const label = failed ? (
+    <>
+      {failed} {words("not saved")}
+    </>
+  ) : waiting ? (
+    <>
+      {waiting} {words("to upload")}
+    </>
+  ) : (
+    words("No signal")
+  );
 
   function explain() {
     if (failed) {
@@ -43,7 +52,7 @@ export function SyncStatus() {
       type="button"
       onClick={explain}
       className={cn(
-        "inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+        "inline-flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-xs font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-white/60",
         failed ? "bg-red-500 text-white" : "bg-brand text-brand-foreground",
       )}
       aria-live="polite"

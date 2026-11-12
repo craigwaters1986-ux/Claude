@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * SnagList theme: monochrome (black / white / cool greys) with one accent,
+ * Site Auditor + theme: monochrome (black / white / cool greys) with one accent,
  * safety yellow, used sparingly (logo mark, sign-in). Built on shadcn/ui tokens.
  */
 :root {

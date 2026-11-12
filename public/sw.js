@@ -1,5 +1,5 @@
 /*
- * SnagList service worker: lets the app open and work with no signal.
+ * Site Auditor + service worker: lets the app open and work with no signal.
  *
  * - App code (/_next/static, content-hashed): cache-first; it never changes.
  * - Pages: network-first. If the network is slow (over 4 s) or there's no
@@ -132,7 +132,7 @@ async function page(req) {
 
 function offlinePage() {
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>No signal · SnagList</title><meta name="theme-color" content="#000000">
+<title>No signal · Site Auditor +</title><meta name="theme-color" content="#000000">
 <style>body{margin:0;min-height:100dvh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font:16px/1.5 system-ui,sans-serif;padding:24px;box-sizing:border-box}
 main{max-width:340px;text-align:center}h1{font-size:22px;margin:16px 0 8px}p{color:#bbb;margin:0 0 20px}
 .logo{width:56px;height:56px;border-radius:16px;background:#facc15;display:inline-flex;align-items:center;justify-content:center;font-size:28px}

@@ -145,7 +145,7 @@ export function LoginForm() {
         <div className="bg-brand text-brand-foreground mb-4 flex size-14 items-center justify-center rounded-2xl">
           <ClipboardCheck className="size-7" strokeWidth={2.25} />
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">SnagList</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Site Auditor +</h1>
         <p className="mt-1 text-sm text-white/60">Snagging for building sites</p>
       </div>
 
@@ -154,7 +154,7 @@ export function LoginForm() {
           <CardTitle className="text-xl">{stage === "code" ? "Check your email" : "Sign in"}</CardTitle>
           <CardDescription>
             {stage === "email" && "Enter your email and we’ll send you a sign-in link."}
-            {stage === "password" && "Sign in with the password you set in SnagList."}
+            {stage === "password" && "Sign in with the password you set in the app."}
             {stage === "code" && `We’ve emailed ${email}. Tap the link in the email, or enter the 6-digit code.`}
           </CardDescription>
         </CardHeader>

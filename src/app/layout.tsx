@@ -15,10 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SnagList",
+  title: "Site Auditor +",
   description: "Log building-site snags, attach photos and generate PDF reports.",
   // Home-screen name on iPhone (the icon is src/app/apple-icon.png).
-  appleWebApp: { title: "SnagList" },
+  appleWebApp: { title: "Site Auditor +" },
 };
 
 export const viewport: Viewport = {

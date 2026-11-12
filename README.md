@@ -1,4 +1,4 @@
-# SnagList — Building-site snagging app
+# Site Auditor + — Building-site snagging app
 
 Mobile-first web app for logging construction defects (snags / punch-list items) on site,
 attaching photos, and generating PDF reports for clients.

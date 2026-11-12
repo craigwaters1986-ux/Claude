@@ -9,7 +9,7 @@ import { useSupabase } from "@/hooks/use-supabase";
 import { startOutbox } from "@/lib/offline/outbox";
 
 /**
- * Starts everything that keeps SnagList working without signal:
+ * Starts everything that keeps Site Auditor + working without signal:
  * - the outbox sync (uploads snags saved on this device whenever there's signal)
  * - remembers who is signed in, so snags can be saved even when the session
  *   can't be refreshed offline
