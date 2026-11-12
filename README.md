@@ -53,6 +53,7 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
 | `snags` | `id`, `project_id` → projects, `snag_number` (per-project #1, #2…), `title`, `assigned_to`, `description` (shown as "Comments"), `status` (`open` / `in_progress` / `resolved`), `image_url` / `image_path` (the cover: first photo, kept in sync by trigger), `resolved_at`, `created_at`. `location_details` remains for older rows but the form no longer asks for it. |
 | `levels` | `id`, `project_id` → projects (cascade), `name`, `position`, `drawing_url` / `drawing_path`, `drawing_width` / `drawing_height`. A floor or area, with one drawing. |
 | `snags` (location) | `level_id` → levels (set null on delete), `pin_x` / `pin_y`: the pin as fractions (0–1) of the drawing's width and height. |
+| `user_state` | One row per user: last `project_id`, `view` (list/plans), `level_id`, `device`. Powers "Continue where you left off" across devices. |
 | `snag_photos` | `id`, `snag_id` → snags (cascade), `position`, `image_url`, `image_path`, `created_at`. Up to 6 per snag in the app (12 enforced by the database). |
 | `project_summaries` (view) | every project column + `total_snags`, `open_snags`, `in_progress_snags`, `resolved_snags` |
 
@@ -196,3 +197,18 @@ A project can have **levels** (Ground, First, Roof …), each with one drawing. 
 - **New revision:** replacing a level's drawing keeps its pins (they assume the same sheet layout).
 - **Deleting a level** keeps its snags and clears their level and pin.
 - **Reports:** snags show their level; group by level; optional marked-up plan page per level.
+
+## Phone ↔ laptop
+
+The same account works on any number of devices, each staying signed in until you sign out.
+
+- **Sign-in:** email link / 6-digit code, or **password** once set (Account menu → Set password). The
+  device remembers the email and the method used last. "Forgot password?" sends a sign-in email.
+- **Continue where you left off:** the project page saves where you are (project, Snags/Plans, level,
+  device) to `user_state` shortly after you settle. The Projects page shows a Continue card for the last
+  place on any device. Project pages are linkable: `/projects/{id}?view=plans&level={levelId}`.
+- **Most recent first:** projects are ordered by `last_activity_at` (project, snags, photos, levels).
+- **Live updates:** `projects`, `snags`, `snag_photos` and `levels` are published to Supabase Realtime
+  (`src/hooks/use-live-updates.ts`). An open page refetches when another device changes something, so new
+  snags logged on site appear on the laptop within a second or two. RLS applies, and a device's own capture
+  burst finishes before it refetches. A green "Live" dot shows on the project page while connected.

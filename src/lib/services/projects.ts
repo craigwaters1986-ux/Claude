@@ -21,14 +21,16 @@ function normaliseSummary(row: SummaryRow): ProjectSummary {
     open_snags: Number(row.open_snags ?? 0),
     in_progress_snags: Number(row.in_progress_snags ?? 0),
     resolved_snags: Number(row.resolved_snags ?? 0),
+    last_activity_at: row.last_activity_at ?? row.updated_at ?? row.created_at!,
   };
 }
 
-/** All of the current user's projects with snag counts, newest first. */
+/** All of the current user's projects with snag counts, most recently worked on first. */
 export async function listProjects(supabase: TypedSupabaseClient): Promise<ProjectSummary[]> {
   const { data, error } = await supabase
     .from("project_summaries")
     .select("*")
+    .order("last_activity_at", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
 
   if (error) throw toServiceError(error, "Could not load projects.");

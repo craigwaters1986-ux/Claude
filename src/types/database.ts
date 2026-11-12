@@ -191,6 +191,33 @@ export type Database = {
           },
         ];
       };
+      user_state: {
+        Row: {
+          user_id: string;
+          project_id: string | null;
+          view: "list" | "plans" | null;
+          level_id: string | null;
+          device: "phone" | "tablet" | "desktop" | null;
+          updated_at: string;
+        };
+        Insert: {
+          user_id?: string;
+          project_id?: string | null;
+          view?: "list" | "plans" | null;
+          level_id?: string | null;
+          device?: "phone" | "tablet" | "desktop" | null;
+          updated_at?: string;
+        };
+        Update: {
+          user_id?: string;
+          project_id?: string | null;
+          view?: "list" | "plans" | null;
+          level_id?: string | null;
+          device?: "phone" | "tablet" | "desktop" | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       snag_photos: {
         Row: {
           id: string;
@@ -243,6 +270,7 @@ export type Database = {
           open_snags: number | null;
           in_progress_snags: number | null;
           resolved_snags: number | null;
+          last_activity_at: string | null;
         };
         Relationships: [];
       };

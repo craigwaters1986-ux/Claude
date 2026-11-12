@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ClipboardCheck, LogOut, UserRound } from "lucide-react";
+import { useState } from "react";
+import { ClipboardCheck, KeyRound, LogOut, UserRound } from "lucide-react";
+import { PasswordDialog } from "@/components/password-dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   DropdownMenu,
@@ -18,6 +20,7 @@ export function AppHeader() {
   const { user } = useUser();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [passwordOpen, setPasswordOpen] = useState(false);
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -58,6 +61,9 @@ export function AppHeader() {
                 <DropdownMenuSeparator />
               </>
             )}
+            <DropdownMenuItem onSelect={() => setPasswordOpen(true)}>
+              <KeyRound /> Set password
+            </DropdownMenuItem>
             <DropdownMenuItem onSelect={signOut}>
               <LogOut /> Sign out
             </DropdownMenuItem>
@@ -65,6 +71,7 @@ export function AppHeader() {
         </DropdownMenu>
         </div>
       </div>
+      <PasswordDialog open={passwordOpen} onOpenChange={setPasswordOpen} />
     </header>
   );
 }

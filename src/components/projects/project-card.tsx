@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ProjectStatusBadge } from "@/components/status-badge";
-import { formatDate } from "@/lib/format";
+import { formatWhen } from "@/lib/format";
 import type { ProjectSummary } from "@/types/models";
 
 type Props = {
@@ -50,7 +50,7 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
             <Stat value={project.resolved_snags} label="Resolved" />
             <Stat value={project.total_snags} label="Total" />
           </div>
-          <span className="text-muted-foreground shrink-0 text-xs">{formatDate(project.created_at)}</span>
+          <span className="text-muted-foreground shrink-0 text-xs">{formatWhen(project.last_activity_at)}</span>
         </div>
 
         {project.total_snags > 0 && (

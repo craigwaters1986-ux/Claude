@@ -46,10 +46,12 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useProject } from "@/hooks/use-projects";
 import { PlansView } from "@/components/plans/plans-view";
 import { useLevels } from "@/hooks/use-levels";
+import { useLiveUpdates } from "@/hooks/use-live-updates";
+import { useRememberPlace } from "@/hooks/use-resume";
 import { useDeleteSnag, useSnags, useUpdateSnag } from "@/hooks/use-snags";
 import { ServiceError } from "@/lib/services/errors";
 import { cn } from "@/lib/utils";
-import { SNAG_STATUS_LABEL, type ListedSnag, type SnagStatus } from "@/types/models";
+import { SNAG_STATUS_LABEL, type ListedSnag, type ProjectMode, type SnagStatus } from "@/types/models";
 import { DeleteProjectDialog } from "./delete-project-dialog";
 import { GenerateReportButton } from "./generate-report-button";
 import { ProjectFormDialog } from "./project-form-dialog";
@@ -57,7 +59,15 @@ import { ProjectFormDialog } from "./project-form-dialog";
 type Filter = "all" | SnagStatus;
 const FILTERS: Filter[] = ["all", "open", "in_progress", "resolved"];
 
-export function ProjectView({ projectId }: { projectId: string }) {
+export function ProjectView({
+  projectId,
+  initialMode = "list",
+  initialLevelId = null,
+}: {
+  projectId: string;
+  initialMode?: ProjectMode;
+  initialLevelId?: string | null;
+}) {
   const router = useRouter();
   const project = useProject(projectId);
   const snags = useSnags(projectId);
@@ -71,7 +81,27 @@ export function ProjectView({ projectId }: { projectId: string }) {
   const [openSnagId, setOpenSnagId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [view, setView] = useSnagView();
-  const [mode, setMode] = useState<"list" | "plans">("list");
+  const [mode, setModeState] = useState<ProjectMode>(initialMode);
+  const [levelId, setLevelIdState] = useState<string | null>(initialLevelId);
+  // Keep the address in step (so a refresh or a shared link reopens the same view)
+  // without adding a history entry per tap.
+  function syncUrl(nextMode: ProjectMode, nextLevel: string | null) {
+    const params = new URLSearchParams();
+    if (nextMode === "plans") params.set("view", "plans");
+    if (nextMode === "plans" && nextLevel) params.set("level", nextLevel);
+    const qs = params.toString();
+    window.history.replaceState(null, "", `/projects/${projectId}${qs ? `?${qs}` : ""}`);
+  }
+  function setMode(next: ProjectMode) {
+    setModeState(next);
+    syncUrl(next, levelId);
+  }
+  function setLevelId(next: string | null) {
+    setLevelIdState(next);
+    syncUrl(mode, next);
+  }
+  useRememberPlace(projectId, mode, levelId);
+  const live = useLiveUpdates(projectId);
   const levels = useLevels(projectId);
   const levelNames = useMemo(() => new Map((levels.data ?? []).map((l) => [l.id, l.name])), [levels.data]);
   // Tablets and laptops can choose a table; phones always get cards.
@@ -161,6 +191,7 @@ export function ProjectView({ projectId }: { projectId: string }) {
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-2xl leading-tight font-bold break-words">{p.name}</h1>
               <ProjectStatusBadge status={p.status} />
+              {live && <LiveDot />}
             </div>
             {p.location && (
               <p className="text-muted-foreground mt-1 flex items-center gap-1 text-sm">
@@ -297,6 +328,8 @@ export function ProjectView({ projectId }: { projectId: string }) {
           allSnags={snags.data ?? []}
           visibleSnags={visibleSnags}
           onOpenSnag={setOpenSnagId}
+          selectedLevelId={levelId}
+          onSelectLevel={setLevelId}
         />
       ) : snags.isPending ? (
         <div className="grid gap-3">
@@ -400,4 +433,21 @@ function useSnagView() {
     }
   }
   return [view, setView] as const;
+}
+
+/** Shown while changes from other devices arrive live. */
+function LiveDot() {
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400"
+      title="Changes made on your other devices appear here automatically"
+      data-testid="live-indicator"
+    >
+      <span className="relative flex size-2">
+        <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+        <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+      </span>
+      Live
+    </span>
+  );
 }

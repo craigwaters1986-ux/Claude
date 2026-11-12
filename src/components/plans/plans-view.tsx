@@ -18,16 +18,19 @@ type Props = {
   /** Snags after the status filter and search: these are the pins shown. */
   visibleSnags: ListedSnag[];
   onOpenSnag: (snagId: string) => void;
+  /** Which level is showing (null = the first). Controlled, so it can be remembered and linked to. */
+  selectedLevelId: string | null;
+  onSelectLevel: (levelId: string | null) => void;
 };
 
 /** The project's drawings, level by level, with snags pinned on them. */
-export function PlansView({ projectId, allSnags, visibleSnags, onOpenSnag }: Props) {
+export function PlansView({ projectId, allSnags, visibleSnags, onOpenSnag, selectedLevelId, onSelectLevel }: Props) {
   const levels = useLevels(projectId);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState(false);
 
-  const selected = levels.data?.find((l) => l.id === selectedId) ?? levels.data?.[0];
+  const selected = levels.data?.find((l) => l.id === selectedLevelId) ?? levels.data?.[0];
+  const setSelectedId = onSelectLevel;
 
   const pins: PlanPin[] = useMemo(
     () =>

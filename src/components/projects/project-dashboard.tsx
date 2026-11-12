@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState, ErrorState } from "@/components/states";
+import { useLiveUpdates } from "@/hooks/use-live-updates";
 import { useProjects } from "@/hooks/use-projects";
+import { ContinueCard } from "./continue-card";
 import type { ProjectSummary } from "@/types/models";
 import { DeleteProjectDialog } from "./delete-project-dialog";
 import { ProjectCard } from "./project-card";
@@ -16,6 +18,7 @@ import { ProjectFormDialog } from "./project-form-dialog";
 export function ProjectDashboard() {
   const router = useRouter();
   const { data: projects, isPending, error, refetch } = useProjects();
+  useLiveUpdates(); // counts and order update as snags are logged on another device
 
   const [query, setQuery] = useState("");
   const [showArchived, setShowArchived] = useState(false);
@@ -60,6 +63,8 @@ export function ProjectDashboard() {
           <Plus /> New project
         </Button>
       </div>
+
+      {projects && projects.length > 0 && <ContinueCard projects={projects} />}
 
       {projects && projects.length > 0 && (
         <div className="relative lg:max-w-sm">

@@ -11,6 +11,10 @@ export type Project = Tables<"projects">;
 /** A snag row as stored. Its image_url/image_path are the cover (first photo). */
 export type SnagRow = Tables<"snags">;
 export type SnagPhoto = Tables<"snag_photos">;
+/** Where a user last was, from any device: lets another device offer "Continue". */
+export type UserState = Tables<"user_state">;
+export type ProjectMode = "list" | "plans";
+
 /** A floor / area of a project, optionally with a drawing snags can be pinned on. */
 export type Level = Tables<"levels">;
 /** Where a snag sits: its level and, if pinned, the spot on that level's drawing (fractions 0–1). */
@@ -26,6 +30,8 @@ export type ProjectSummary = Project & {
   open_snags: number;
   in_progress_snags: number;
   resolved_snags: number;
+  /** Latest change to the project, its snags, photos or levels. */
+  last_activity_at: string;
 };
 
 /** Fields a user can set when creating/editing a project. */
