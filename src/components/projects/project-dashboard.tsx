@@ -48,7 +48,7 @@ export function ProjectDashboard() {
   }
 
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 gap-4">
       <div className="flex items-end justify-between gap-2">
         <div>
           <h1 className="text-[28px] leading-tight font-bold lg:text-4xl">Projects</h1>
@@ -81,7 +81,7 @@ export function ProjectDashboard() {
       )}
 
       {isPending ? (
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
           {Array.from({ length: 3 }, (_, i) => (
             <Skeleton key={i} className="h-36 rounded-2xl" />
           ))}
@@ -102,7 +102,7 @@ export function ProjectDashboard() {
       ) : visible.length === 0 ? (
         <EmptyState icon={Search} title="No matching projects" description="Try a different search." />
       ) : (
-        <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
           {visible.map((project) => (
             <li key={project.id}>
               <ProjectCard project={project} onEdit={openEdit} onDelete={setDeleting} />

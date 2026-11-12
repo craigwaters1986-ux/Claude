@@ -28,7 +28,7 @@ export function SettingsView() {
   }
 
   return (
-    <div className="mx-auto grid max-w-2xl gap-6">
+    <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6">
       <Link href="/" className="text-muted-foreground hover:text-foreground inline-flex w-fit items-center gap-1 text-sm">
         <ArrowLeft className="size-4" /> Projects
       </Link>
@@ -207,7 +207,7 @@ function LogoField({
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="surface grid gap-5 p-4 sm:p-6" aria-label={title}>
+    <section className="surface grid min-w-0 grid-cols-1 gap-5 p-4 sm:p-6" aria-label={title}>
       <h2 className="text-lg font-semibold">{title}</h2>
       {children}
     </section>
@@ -216,7 +216,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Field({ label, htmlFor, children }: { label: string; htmlFor?: string; children: React.ReactNode }) {
   return (
-    <div className="grid gap-2">
+    <div className="grid min-w-0 grid-cols-1 gap-2">
       {htmlFor ? <Label htmlFor={htmlFor}>{label}</Label> : <span className="text-sm leading-none font-medium">{label}</span>}
       {children}
     </div>
@@ -239,7 +239,7 @@ function Segmented<T extends string>({
   options: { value: T; label: string; icon?: React.ComponentType<{ className?: string }> }[];
 }) {
   return (
-    <div className="bg-muted grid auto-cols-fr grid-flow-col gap-1 rounded-lg p-1" role="radiogroup" aria-label={name}>
+    <div className="bg-muted grid auto-cols-[minmax(0,1fr)] grid-flow-col gap-1 rounded-lg p-1" role="radiogroup" aria-label={name}>
       {options.map(({ value: v, label, icon: Icon }) => (
         <button
           key={v}
@@ -248,11 +248,11 @@ function Segmented<T extends string>({
           aria-checked={value === v}
           onClick={() => onChange(v)}
           className={cn(
-            "inline-flex h-10 items-center justify-center gap-1.5 rounded-md text-sm font-medium transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+            "inline-flex h-10 min-w-0 items-center justify-center gap-1.5 rounded-md px-1 text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
             value === v ? "bg-card shadow-xs" : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {Icon && <Icon className="size-4" />}
+          {Icon && <Icon className="size-4 shrink-0 max-[379px]:hidden" />}
           {label}
         </button>
       ))}

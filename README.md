@@ -64,7 +64,10 @@ Design notes:
   text) and comments. New snags start as Open; status is changed from the project list.
 - **Friendly snag numbers.** UUIDs are the real keys, but clients want "Snag #14". A trigger hands out
   numbers from a per-project counter with a row lock, so rapid back-to-back inserts never collide.
-  Numbers of deleted snags are never reused, so a reference in an old report stays unambiguous.
+  Numbers always run 1, 2, 3… with no gaps: after a delete, the database renumbers the project's remaining
+  snags in their existing order and resets the counter (`renumber_project_snags`, in the same lock, so a
+  snag added at the same moment still gets the next number). Only the database can change a number.
+  A report printed before a delete may therefore show different numbers for later snags.
 - **Row Level Security.** Users only see projects they own; snag access follows the parent project.
   Server-managed columns (`owner_id`, `snag_counter`, `snag_number`, `project_id`) are protected by triggers.
 - **Storage.** Bucket `snag-images`, paths `{user_id}/{project_id}/{uuid}.jpg`; upload/delete restricted to

@@ -44,7 +44,7 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
         </div>
 
         <div>
-        <div className="mt-4 flex items-end justify-between gap-4 text-sm">
+        <div className="mt-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 text-sm">
           <div className="flex gap-4">
             <Stat value={outstanding} label="Outstanding" tone={outstanding ? "text-red-700 dark:text-red-400" : undefined} />
             <Stat value={project.resolved_snags} label="Resolved" />

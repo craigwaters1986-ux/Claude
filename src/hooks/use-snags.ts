@@ -388,9 +388,13 @@ export function useDeleteSnag(projectId: string) {
     onMutate: async (snagId) => {
       await queryClient.cancelQueries({ queryKey: listKey });
       const previous = queryClient.getQueryData<ListedSnag[]>(listKey);
-      queryClient.setQueryData<ListedSnag[]>(listKey, (old = []) =>
-        old.filter((s) => s.id !== snagId),
-      );
+      // The database closes up the numbering after a delete; show that straight away.
+      queryClient.setQueryData<ListedSnag[]>(listKey, (old = []) => {
+        const gone = old.find((s) => s.id === snagId);
+        return old
+          .filter((s) => s.id !== snagId)
+          .map((s) => (gone && gone.snag_number > 0 && s.snag_number > gone.snag_number ? { ...s, snag_number: s.snag_number - 1 } : s));
+      });
       return { previous };
     },
 
