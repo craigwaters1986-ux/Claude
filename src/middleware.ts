@@ -6,8 +6,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Skip static assets and images so they don't hit Supabase Auth.
+  // Skip static assets, images and the service worker (which must never be redirected to sign-in).
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|sw.js|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

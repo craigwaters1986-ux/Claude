@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useMutationState } from "@tanstack/react-query";
 import { ChevronLeft, Images, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -12,14 +11,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { ErrorState } from "@/components/states";
 import { useProject } from "@/hooks/use-projects";
-import { discardCapture, useCreateSnag, useSnags, type CapturePhoto, type SnagCapture } from "@/hooks/use-snags";
-import { useSupabase } from "@/hooks/use-supabase";
-import { mutationKeys } from "@/lib/query-keys";
+import { usePhotoUrls, useOutbox } from "@/hooks/use-outbox";
+import { useCreateSnag, useSnags, type CapturePhoto } from "@/hooks/use-snags";
+import { discardEntry, retryEntry } from "@/lib/offline/outbox";
 import { cn } from "@/lib/utils";
 import { uuid } from "@/lib/uuid";
 import { LocationPicker } from "@/components/plans/location-picker";
 import { useLevels } from "@/hooks/use-levels";
-import { MAX_PHOTOS_PER_SNAG, type Snag, type SnagLocation } from "@/types/models";
+import { MAX_PHOTOS_PER_SNAG, type SnagLocation } from "@/types/models";
 import { CaptureList, type CaptureItem } from "./capture-list";
 import { PhotoPicker, type PhotoPickerHandle } from "./photo-picker";
 
@@ -43,49 +42,56 @@ const EMPTY: FormState = { photos: [], title: "", assignedTo: "", comments: "", 
  * the list below shows each snag's progress.
  */
 export function RapidEntry({ projectId }: { projectId: string }) {
-  const supabase = useSupabase();
   const project = useProject(projectId);
   const snags = useSnags(projectId);
   const levels = useLevels(projectId);
   const createSnag = useCreateSnag(projectId);
 
   const [form, setForm] = useState<FormState>(EMPTY);
-  const [dismissed, setDismissed] = useState<Set<string>>(() => new Set());
   const [mountedAt] = useState(() => Date.now());
   const photoRef = useRef<PhotoPickerHandle>(null);
   const [dragging, setDragging] = useState(false);
   const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
   const titleRef = useRef<HTMLInputElement>(null);
 
-  // Every capture for this project, read straight from React Query's mutation
-  // cache. Captures still running from an earlier visit show up too.
-  const mutations = useMutationState({
-    filters: { mutationKey: mutationKeys.createSnag(projectId) },
-    select: (m) => ({
-      variables: m.state.variables as SnagCapture,
-      status: m.state.status,
-      isPaused: m.state.isPaused,
-      error: m.state.error,
-      data: m.state.data as Snag | undefined,
-      submittedAt: m.state.submittedAt,
-    }),
-  });
-
+  // Every snag logged this visit, read from the outbox on this device (still
+  // to upload, or refused) plus those that reached the server since opening.
+  const outbox = useOutbox();
+  const mine = useMemo(() => outbox.entries.filter((e) => e.projectId === projectId), [outbox.entries, projectId]);
+  const urls = usePhotoUrls(mine);
   const items: CaptureItem[] = useMemo(() => {
-    // A manual retry creates a new mutation with the same snag id; keep the latest.
-    const latest = new Map<string, (typeof mutations)[number]>();
-    for (const m of mutations) {
-      if (!m.variables) continue;
-      const prev = latest.get(m.variables.id);
-      if (!prev || m.submittedAt >= prev.submittedAt) latest.set(m.variables.id, m);
-    }
-    return [...latest.values()]
-      .filter((m) => !dismissed.has(m.variables.id))
-      .filter((m) => m.submittedAt >= mountedAt || m.status === "pending" || m.status === "error")
-      .sort((a, b) => b.submittedAt - a.submittedAt);
-  }, [mutations, dismissed, mountedAt]);
+    const local: (CaptureItem & { at: number })[] = mine.map((e) => ({
+      id: e.id,
+      title: e.title,
+      photoCount: e.photos.length,
+      thumb: e.photos[0] ? (urls.get(e.photos[0].id) ?? null) : null,
+      status: e.state === "failed" ? "error" : "pending",
+      waiting:
+        outbox.syncing === e.id
+          ? "uploading"
+          : !outbox.online
+            ? "offline"
+            : e.attempts > 0
+              ? "retrying"
+              : "queued",
+      error: e.lastError,
+      at: e.createdAt,
+    }));
+    const done: (CaptureItem & { at: number })[] = outbox.synced
+      .filter((s) => s.entry.projectId === projectId && s.at >= mountedAt)
+      .map((s) => ({
+        id: s.entry.id,
+        title: s.snag.title,
+        photoCount: s.entry.photoCount,
+        thumb: s.snag.photos[0]?.image_url ?? null,
+        status: "success",
+        snagNumber: s.snag.snag_number,
+        at: s.entry.createdAt,
+      }));
+    return [...local, ...done].sort((x, y) => y.at - x.at);
+  }, [mine, urls, outbox.synced, outbox.syncing, outbox.online, projectId, mountedAt]);
 
-  const inFlight = items.filter((i) => i.status === "pending").length;
+  const toUpload = items.filter((i) => i.status === "pending").length;
   const savedCount = items.filter((i) => i.status === "success").length;
 
   // Laptop: drop photos from a folder anywhere on the page to add them.
@@ -125,21 +131,14 @@ export function RapidEntry({ projectId }: { projectId: string }) {
     };
   }, []);
 
-  // Warn before closing the tab while photos are still uploading.
-  useEffect(() => {
-    if (!inFlight) return;
-    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, [inFlight]);
-
   // One-tap "assigned to" chips: trades used this visit first, then the
   // project's existing snags. On a walk-round the same few names repeat.
   const recentAssignees = useMemo(() => {
     const seen = new Set<string>();
     const result: string[] = [];
     const candidates = [
-      ...items.map((i) => i.variables.assigned_to),
+      ...[...mine].reverse().map((e) => e.assigned_to),
+      ...outbox.synced.filter((x) => x.entry.projectId === projectId).map((x) => x.entry.assigned_to),
       ...[...(snags.data ?? [])].reverse().map((s) => s.assigned_to),
     ];
     for (const name of candidates) {
@@ -150,7 +149,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       if (result.length === 6) break;
     }
     return result;
-  }, [items, snags.data]);
+  }, [mine, outbox.synced, projectId, snags.data]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -172,15 +171,16 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       return;
     }
 
-    // Hand off to the background mutation…
-    createSnag.mutate({
+    // Saved on this device first (works with no signal), uploaded in the background…
+    const capture = {
       id: uuid(),
       title,
       assigned_to: form.assignedTo.trim() || null,
       description: form.comments.trim() || null,
       ...form.location,
-      photos: form.photos, // ownership (and the previews) pass to the mutation
-    });
+      photos: form.photos,
+    };
+    createSnag.save(capture).catch((err) => toast.error(err instanceof Error ? err.message : "Couldn’t save the snag"));
 
     // …and reset at once, ready for the next defect.
     // The level stays selected (you snag one floor at a time); the pin is per snag.
@@ -191,12 +191,11 @@ export function RapidEntry({ projectId }: { projectId: string }) {
   }
 
   function retry(item: CaptureItem) {
-    createSnag.mutate(item.variables);
+    void retryEntry(item.id);
   }
 
   async function discard(item: CaptureItem) {
-    setDismissed((d) => new Set(d).add(item.variables.id));
-    await discardCapture(supabase, item.variables);
+    await discardEntry(item.id);
     toast("Snag discarded");
   }
 
@@ -205,7 +204,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
   }
 
   return (
-    <div className="grid gap-5">
+    <div className="grid grid-cols-1 gap-5">
       {/* Top bar */}
       <div className="flex items-center justify-between gap-2">
         <Button asChild variant="ghost" className="-ml-3">
@@ -215,8 +214,8 @@ export function RapidEntry({ projectId }: { projectId: string }) {
         </Button>
         <p className="text-muted-foreground text-sm tabular-nums" aria-live="polite">
           {savedCount > 0 && `${savedCount} saved`}
-          {savedCount > 0 && inFlight > 0 && " · "}
-          {inFlight > 0 && `${inFlight} uploading`}
+          {savedCount > 0 && toUpload > 0 && " · "}
+          {toUpload > 0 && `${toUpload} to upload`}
         </p>
       </div>
 
@@ -339,7 +338,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       </form>
 
       {items.length > 0 && (
-        <section className="grid gap-2">
+        <section className="grid min-w-0 grid-cols-1 gap-2">
           <h2 className="text-sm font-medium">Logged this visit</h2>
           <CaptureList items={items} onRetry={retry} onDiscard={discard} />
         </section>

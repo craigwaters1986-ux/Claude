@@ -65,7 +65,11 @@ export type SnagPhotoInput = Pick<SnagPhoto, "id" | "position" | "image_url" | "
  * A snag shown in the list before the server has confirmed it
  * (optimistic UI during Rapid Entry).
  */
-export type ListedSnag = Snag & { _pending?: boolean };
+export type ListedSnag = Snag & {
+  _pending?: boolean;
+  /** Saved on this device but not on the server yet: waiting for signal, uploading now, or refused. */
+  _offline?: "waiting" | "saving" | "failed";
+};
 
 export const SNAG_STATUSES: readonly SnagStatus[] = ["open", "in_progress", "resolved"];
 export const PROJECT_STATUSES: readonly ProjectStatus[] = [

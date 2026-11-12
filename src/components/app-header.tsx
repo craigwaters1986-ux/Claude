@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ClipboardCheck, KeyRound, LogOut, UserRound } from "lucide-react";
 import { PasswordDialog } from "@/components/password-dialog";
+import { SyncStatus } from "@/components/sync-status";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   DropdownMenu,
@@ -43,6 +44,7 @@ export function AppHeader() {
         </Link>
 
         <div className="flex items-center gap-2">
+        <SyncStatus />
         {user?.email && <span className="hidden max-w-60 truncate text-sm text-white/60 lg:inline">{user.email}</span>}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

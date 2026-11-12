@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ImageOff, Images, Loader2, MapPin, Trash2 } from "lucide-react";
+import { ChevronDown, CloudOff, ImageOff, Images, Loader2, MapPin, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SNAG_STATUS_CLASS } from "@/components/status-badge";
 import { formatDate } from "@/lib/format";
@@ -52,7 +52,13 @@ export function SnagTable({ snags, levelNames, onOpen, onStatusChange, onDelete 
                 data-testid="snag-row"
               >
                 <td className="px-4 py-3 font-semibold tabular-nums">
-                  {snag._pending ? <Loader2 className="text-muted-foreground size-4 animate-spin" /> : snag.snag_number}
+                  {snag._offline === "waiting" ? (
+                    <CloudOff className="size-4 text-amber-600" aria-label="On this device, waiting for signal" />
+                  ) : snag._pending ? (
+                    <Loader2 className="text-muted-foreground size-4 animate-spin" />
+                  ) : (
+                    snag.snag_number
+                  )}
                 </td>
                 <td className="py-2.5">
                   <div className="bg-muted relative size-12 overflow-hidden rounded-lg">

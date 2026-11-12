@@ -1,10 +1,9 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { mutationKeys, projectKeys, snagKeys } from "@/lib/query-keys";
+import { projectKeys, snagKeys } from "@/lib/query-keys";
 import {
   addSnagPhotos,
-  createSnag,
   deleteSnag,
   deleteSnagPhoto,
   getSnag,
@@ -12,6 +11,7 @@ import {
   updateSnag,
 } from "@/lib/services/snags";
 import { setCaptureProgress } from "@/lib/capture-progress";
+import { addToOutbox } from "@/lib/offline/outbox";
 import { compressImage } from "@/lib/image/compress";
 import { ServiceError } from "@/lib/services/errors";
 import {
@@ -124,109 +124,58 @@ function previewPhoto(snagId: string, photo: CapturePhoto, position: number): Sn
   return { id: photo.id, snag_id: snagId, position, image_url: photo.previewUrl, image_path: "", created_at: new Date().toISOString() };
 }
 
+/** Signed-in user id, remembered on the device so snags can be saved with no signal. */
+const LAST_USER_KEY = "snaglist.last-user-id";
+export function rememberUserId(id: string | null | undefined) {
+  try {
+    if (id) localStorage.setItem(LAST_USER_KEY, id);
+  } catch {
+    // ignore
+  }
+}
+function lastUserId(): string | null {
+  try {
+    return localStorage.getItem(LAST_USER_KEY);
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Capture a snag in the background: compress photos → upload → insert row.
- * This is the engine of Rapid Entry.
+ * Save a snag from Rapid Entry. This is the engine of the walk-round.
  *
- * - The snag appears in the project list immediately (marked `_pending`, with
- *   local previews), so the form can reset straight away.
- * - Captures run one at a time, in the order they were logged (a shared
- *   mutation `scope`), so snag numbers follow the walk-round: #1 is the first
- *   defect logged, even if a later one without photos would save sooner. On
- *   a weak site connection this costs nothing, because parallel uploads would
- *   only split the same bandwidth.
- * - The whole pipeline is one mutation, so it keeps running if the user leaves
- *   the page, retries with backoff on bad signal, and pauses while offline.
- * - Each step is idempotent (client ids + fixed photo paths), so retries are safe.
+ * The snag and its photos are written to the outbox on this device first
+ * (instant, needs no signal), then uploaded in the background whenever there's
+ * signal. See `src/lib/offline/outbox.ts`. Nothing is lost if the signal drops,
+ * the page reloads or the phone restarts.
  */
 export function useCreateSnag(projectId: string) {
   const supabase = useSupabase();
-  const queryClient = useQueryClient();
-  const listKey = snagKeys.list(projectId);
-  const createKey = mutationKeys.createSnag(projectId);
-
-  return useMutation({
-    mutationKey: createKey,
-    scope: { id: createKey.join(":") },
-    // Keep finished captures around long enough for the "Logged this visit" list.
-    gcTime: 30 * 60_000,
-
-    mutationFn: async (input: SnagCapture) => {
-      const photos = await uploadPhotos(supabase, projectId, input.id, input.photos, input.id);
-      setCaptureProgress(input.id, { stage: "saving" });
-      return createSnag(
-        supabase,
-        {
-          id: input.id,
-          project_id: projectId,
-          title: input.title,
-          description: input.description ?? null,
-          assigned_to: input.assigned_to ?? null,
-          status: input.status ?? "open",
-          level_id: input.level_id ?? null,
-          pin_x: input.level_id ? (input.pin_x ?? null) : null,
-          pin_y: input.level_id ? (input.pin_y ?? null) : null,
-        },
-        photos,
-      );
-    },
-
-    onMutate: async (input) => {
-      // Stop an in-flight refetch from overwriting the optimistic row.
-      await queryClient.cancelQueries({ queryKey: listKey });
-      const now = new Date().toISOString();
-      const optimistic: ListedSnag = {
+  return {
+    async save(input: SnagCapture) {
+      // With no signal an expired session can't refresh, so fall back to the
+      // user id remembered on this device. The upload itself still needs a
+      // valid sign-in, which it gets once the signal is back.
+      const { data } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
+      const userId = data.session?.user.id ?? lastUserId();
+      if (!userId) throw new ServiceError("Please sign in again to save snags.", "no_session");
+      await addToOutbox({
         id: input.id,
-        project_id: projectId,
-        snag_number: 0, // the real number comes back from the database
+        userId,
+        projectId,
         title: input.title,
-        description: input.description ?? null,
-        location_details: null,
-        level_id: input.level_id ?? null,
-        pin_x: input.pin_x ?? null,
-        pin_y: input.pin_y ?? null,
         assigned_to: input.assigned_to ?? null,
+        description: input.description ?? null,
         status: input.status ?? "open",
-        image_url: input.photos[0]?.previewUrl ?? null,
-        image_path: null,
-        created_by: null,
-        created_at: now,
-        updated_at: now,
-        resolved_at: null,
-        photos: input.photos.map((p, i) => previewPhoto(input.id, p, i)),
-        _pending: true,
-      };
-      queryClient.setQueryData<ListedSnag[]>(listKey, (old = []) => [
-        ...old.filter((s) => s.id !== input.id), // a manual retry replaces its own row
-        optimistic,
-      ]);
+        level_id: input.level_id ?? null,
+        pin_x: input.level_id ? (input.pin_x ?? null) : null,
+        pin_y: input.level_id ? (input.pin_y ?? null) : null,
+        photos: input.photos.filter((p) => p.file).map((p) => ({ id: p.id, blob: p.file!, compressed: false })),
+      });
+      // The outbox keeps its own copy of each photo; the form's previews can go.
+      for (const p of input.photos) URL.revokeObjectURL(p.previewUrl);
     },
-
-    onSuccess: (saved, input) => {
-      queryClient.setQueryData<ListedSnag[]>(listKey, (old = []) =>
-        old.map((s) => (s.id === saved.id ? saved : s)),
-      );
-      releasePhotos(input.photos);
-    },
-
-    onError: (_err, input) => {
-      // Reached only after automatic retries are used up. The Rapid Entry list
-      // keeps the failed item (with its photos) so the user can retry or discard.
-      queryClient.setQueryData<ListedSnag[]>(listKey, (old = []) =>
-        old.filter((s) => s.id !== input.id),
-      );
-    },
-
-    onSettled: (_data, _err, input) => {
-      setCaptureProgress(input.id, null);
-      // Refetch once the last queued snag has finished, not after every one.
-      // Refetching mid-burst would make the list flicker.
-      if (queryClient.isMutating({ mutationKey: createKey }) === 1) {
-        queryClient.invalidateQueries({ queryKey: listKey });
-        queryClient.invalidateQueries({ queryKey: projectKeys.all });
-      }
-    },
-  });
+  };
 }
 
 /**

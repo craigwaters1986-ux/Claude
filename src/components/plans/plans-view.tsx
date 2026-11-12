@@ -43,7 +43,7 @@ export function PlansView({ projectId, allSnags, visibleSnags, onOpenSnag, selec
   const unpinned = selected ? visibleSnags.filter((s) => s.level_id === selected.id && s.pin_x == null) : [];
 
   if (levels.isPending) return <Skeleton className="h-96 rounded-2xl" />;
-  if (levels.error) return <ErrorState message={levels.error.message} onRetry={() => levels.refetch()} />;
+  if (levels.error && !levels.data) return <ErrorState message={levels.error.message} onRetry={() => levels.refetch()} />;
 
   return (
     <div className="grid min-w-0 gap-3">

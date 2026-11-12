@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ImageOff, Images, Loader2, MapPin, Trash2, UserRound } from "lucide-react";
+import { AlertCircle, ChevronDown, CloudOff, ImageOff, Images, Loader2, MapPin, Trash2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SNAG_STATUS_CLASS } from "@/components/status-badge";
 import { cn } from "@/lib/utils";
@@ -53,7 +53,15 @@ export function SnagCard({ snag, levelName, onOpen, onStatusChange, onDelete }: 
             className="focus-visible:ring-ring/50 min-w-0 rounded-sm text-left outline-none focus-visible:ring-[3px]"
           >
             <p className="text-muted-foreground text-xs font-medium tabular-nums">
-              {snag._pending ? (
+              {snag._offline === "waiting" ? (
+                <span className="inline-flex items-center gap-1 text-amber-700 dark:text-amber-400">
+                  <CloudOff className="size-3" /> On this phone · uploads when there’s signal
+                </span>
+              ) : snag._offline === "failed" ? (
+                <span className="text-destructive inline-flex items-center gap-1">
+                  <AlertCircle className="size-3" /> Not saved · see Add snags
+                </span>
+              ) : snag._pending ? (
                 <span className="inline-flex items-center gap-1">
                   <Loader2 className="size-3 animate-spin" /> Saving…
                 </span>

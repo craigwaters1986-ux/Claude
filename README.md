@@ -115,29 +115,37 @@ details side by side, photos can be **dragged and dropped** onto Add snags, **Ct
 Signed-out visitors are sent to `/login?next=…` and returned to the page they wanted after signing in.
 UI components in `src/components/ui/` are standard shadcn/ui sources.
 
-## Rapid Entry & photo uploads
+## Rapid Entry, offline saving & photo uploads
 
-Each "Save & add next" starts one background job (`useCreateSnag` in `src/hooks/use-snags.ts`)
-and clears the form at once:
+**Snags are saved on the device first, then uploaded.** "Save & add next" writes the snag and its photos
+to an **outbox** in IndexedDB (`src/lib/offline/outbox-db.ts`) and clears the form. A sync engine
+(`src/lib/offline/outbox.ts`) uploads the outbox, oldest first, whenever there's signal:
 
-1. **Compress** (`src/lib/image/compress.ts`): canvas resize to 1920 px longest edge, JPEG at 0.8,
-   EXIF rotation applied, transparent PNGs flattened onto white. Typically 2–5 MB becomes 300 KB.
-   No third-party library, so nothing is fetched from a CDN on a weak connection.
-2. **Upload** (`src/lib/services/storage.ts`) each photo in turn to
-   `snag-images/{userId}/{projectId}/{snagId}/{photoId}.jpg` via XMLHttpRequest, because `fetch` can't
-   report upload progress ("Uploading photo 2 of 3 · 45%").
-3. **Save** the snag row (the database assigns its number), then its photo rows.
+1. **Compress** each photo (canvas, 1920 px, JPEG 0.8, EXIF rotation applied); the smaller copy replaces
+   the original in the outbox.
+2. **Upload** it to `snag-images/{userId}/{projectId}/{snagId}/{photoId}.jpg` (XMLHttpRequest, for progress).
+3. **Create** the snag and its photo rows. Only then is the entry removed from the outbox.
 
-Behaviour on site:
-- Captures run one at a time, in the order logged, so snag numbers follow the walk-round.
-- The snag appears in the project list straight away with its local photo, marked "Saving…".
-- Leaving the page doesn't stop uploads. Closing the tab mid-upload asks for confirmation.
-- Network errors retry 3 times with backoff; offline captures wait and resume when signal returns.
-  Anything that still fails stays in "Logged this visit" with **Retry** / **Discard**.
-- Retries are safe: every photo has a fixed path (upsert), photos already uploaded are skipped, and a
-  re-sent snag or photo insert that already reached the database is recognised rather than duplicated.
-- Snags saved with a single photo before multi-photo support keep that photo as photo 1 (migrated, and
-  handled in code for any row the migration didn't cover).
+Each step is recorded in the outbox as it completes, and every step is idempotent (client ids, fixed
+paths, duplicate inserts recognised), so a retry never repeats work or duplicates anything.
+
+- **No signal / weak signal:** the entry stays "waiting" and retries with growing pauses (3 s → 90 s),
+  and immediately when the signal returns or the app comes back to the foreground. Nothing is lost if
+  the page reloads, the tab is closed or the phone restarts.
+- **Refused by the server** (e.g. its project was deleted): marked "not saved" and kept until the user
+  retries or discards it. Never silently dropped.
+- **Order:** uploads stop at the first network failure, so snag numbers follow the order logged.
+- **Visibility:** waiting snags appear in the project's list, table and plans ("On this phone · uploads
+  when there's signal"); the top bar shows "N to upload" / "N not saved".
+
+**The app opens with no signal.** A service worker (`public/sw.js`) keeps app code (cache-first), each
+page as it's opened plus the project's Add snags page (network-first, 4 s timeout), and photos/drawings
+(cache-first; drawings are saved as soon as a project is opened). Loaded projects, snags and levels are
+kept in localStorage (TanStack Query persister) and refreshed from the server when back online.
+
+Limits: a page must have been opened once with signal on that device to open offline. iPhones may clear a
+site's stored data if it isn't used for about a week, so open the app with signal within a few days to
+upload anything waiting.
 
 ## PDF report
 

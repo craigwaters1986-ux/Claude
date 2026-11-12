@@ -86,7 +86,7 @@ export function ProjectDashboard() {
             <Skeleton key={i} className="h-36 rounded-2xl" />
           ))}
         </div>
-      ) : error ? (
+      ) : error && !projects ? (
         <ErrorState message={error.message} onRetry={() => refetch()} />
       ) : projects.length === 0 ? (
         <EmptyState

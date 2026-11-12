@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { levelKeys, mutationKeys, projectKeys, snagKeys } from "@/lib/query-keys";
+import { getSnapshot as getOutbox } from "@/lib/offline/outbox";
+import { levelKeys, projectKeys, snagKeys } from "@/lib/query-keys";
 import { useSupabase } from "./use-supabase";
 
 /**
@@ -28,8 +29,8 @@ export function useLiveUpdates(projectId?: string) {
     const refresh = () => {
       clearTimeout(timer);
       timer = setTimeout(function run() {
-        if (projectId && queryClient.isMutating({ mutationKey: mutationKeys.createSnag(projectId) }) > 0) {
-          timer = setTimeout(run, 1000); // our own capture is mid-save; try again shortly
+        if (getOutbox().syncing) {
+          timer = setTimeout(run, 1000); // this device is mid-upload; refetch once it settles
           return;
         }
         queryClient.invalidateQueries({ queryKey: projectKeys.all });

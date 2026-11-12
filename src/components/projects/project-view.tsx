@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -47,6 +47,7 @@ import { useProject } from "@/hooks/use-projects";
 import { PlansView } from "@/components/plans/plans-view";
 import { useLevels } from "@/hooks/use-levels";
 import { useLiveUpdates } from "@/hooks/use-live-updates";
+import { usePendingSnags } from "@/hooks/use-outbox";
 import { useRememberPlace } from "@/hooks/use-resume";
 import { useDeleteSnag, useSnags, useUpdateSnag } from "@/hooks/use-snags";
 import { ServiceError } from "@/lib/services/errors";
@@ -70,7 +71,15 @@ export function ProjectView({
 }) {
   const router = useRouter();
   const project = useProject(projectId);
-  const snags = useSnags(projectId);
+  const serverSnags = useSnags(projectId);
+  // Snags saved on this device but not uploaded yet are shown too, so nothing
+  // looks missing while there's no signal.
+  const pending = usePendingSnags(projectId);
+  const allSnags = useMemo(() => {
+    const onServer = new Set((serverSnags.data ?? []).map((s) => s.id));
+    return [...(serverSnags.data ?? []), ...pending.filter((p) => !onServer.has(p.id))];
+  }, [serverSnags.data, pending]);
+  const snags = { ...serverSnags, data: serverSnags.data || pending.length ? allSnags : undefined };
   const updateSnag = useUpdateSnag(projectId);
   const deleteSnag = useDeleteSnag(projectId);
 
@@ -104,6 +113,14 @@ export function ProjectView({
   const live = useLiveUpdates(projectId);
   const levels = useLevels(projectId);
   const levelNames = useMemo(() => new Map((levels.data ?? []).map((l) => [l.id, l.name])), [levels.data]);
+  // Keep this project's drawings on the device, so Plans works with no signal.
+  const drawingUrls = (levels.data ?? []).map((l) => l.drawing_url).filter((u): u is string => !!u).join("\n");
+  useEffect(() => {
+    if (!drawingUrls || !("serviceWorker" in navigator)) return;
+    navigator.serviceWorker.ready
+      .then((reg) => reg.active?.postMessage({ type: "save-images", urls: drawingUrls.split("\n") }))
+      .catch(() => undefined);
+  }, [drawingUrls]);
   // Tablets and laptops can choose a table; phones always get cards.
   const wide = useMediaQuery("(min-width: 768px)");
   const showTable = wide && view === "table";
@@ -157,7 +174,7 @@ export function ProjectView({
     );
   }
 
-  if (project.error) {
+  if (project.error && !project.data) {
     const notFound = project.error instanceof ServiceError && project.error.code === "PGRST116";
     return notFound ? (
       <EmptyState
@@ -220,7 +237,7 @@ export function ProjectView({
 
         <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:justify-end lg:grid lg:grid-cols-1">
           {/* Disabled while snags are still saving, so the report can't miss them. */}
-          <GenerateReportButton projectId={projectId} disabled={snags.data?.some((s) => s._pending)} />
+          <GenerateReportButton projectId={projectId} disabled={pending.length > 0} />
           <Button size="lg" asChild>
             <Link href={`/projects/${projectId}/add`}>
               <Camera /> Add snags
@@ -331,13 +348,13 @@ export function ProjectView({
           selectedLevelId={levelId}
           onSelectLevel={setLevelId}
         />
-      ) : snags.isPending ? (
+      ) : snags.isPending && !snags.data ? (
         <div className="grid gap-3">
           {Array.from({ length: 3 }, (_, i) => (
             <Skeleton key={i} className="h-28 rounded-xl" />
           ))}
         </div>
-      ) : snags.error ? (
+      ) : snags.error && !snags.data ? (
         <ErrorState message={snags.error.message} onRetry={() => snags.refetch()} />
       ) : visibleSnags.length === 0 && query.trim() ? (
         <EmptyState icon={Search} title="No matching snags" description="Try a different search." />
