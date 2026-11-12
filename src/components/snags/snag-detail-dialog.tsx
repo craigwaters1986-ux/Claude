@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Camera, Check, ChevronLeft, ChevronRight, ImageOff, Images, Loader2, Trash2 } from "lucide-react";
+import { Camera, Check, ChevronLeft, ChevronRight, ImageOff, Images, Loader2, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -13,10 +13,12 @@ import {
   addPhotosProgressKey,
   useAddSnagPhotos,
   useDeleteSnagPhoto,
+  useReplaceSnagPhoto,
   useSnags,
   useUpdateSnag,
 } from "@/hooks/use-snags";
 import { LocationPicker } from "@/components/plans/location-picker";
+import { AnnotateDialog } from "@/components/photos/annotate-dialog";
 import { useLevels } from "@/hooks/use-levels";
 import { useCaptureProgress } from "@/lib/capture-progress";
 import { cn } from "@/lib/utils";
@@ -75,6 +77,8 @@ function SnagDetail({ projectId, snag, onClose }: { projectId: string; snag: Lis
 function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag }) {
   const addPhotos = useAddSnagPhotos(projectId);
   const deletePhoto = useDeleteSnagPhoto(projectId);
+  const replacePhoto = useReplaceSnagPhoto(projectId);
+  const [markingUp, setMarkingUp] = useState<SnagPhoto | null>(null);
   const inputs = useRef<PhotoInputsHandle>(null);
   const strip = useRef<HTMLUListElement>(null);
   const [index, setIndex] = useState(0);
@@ -83,7 +87,21 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
 
   const photos = snag.photos;
   const remaining = MAX_PHOTOS_PER_SNAG - photos.length;
-  const uploading = addPhotos.isPending;
+  const uploading = addPhotos.isPending || replacePhoto.isPending;
+
+  /** Save a marked-up copy in place of the photo. Shown at once; uploads in the background. */
+  function saveMarkup(photo: SnagPhoto, blob: Blob) {
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      throw new Error("No signal. Marking up a saved photo needs a connection; try again when you have signal.");
+    }
+    replacePhoto.mutate(
+      { photo, blob, previewUrl: URL.createObjectURL(blob) },
+      {
+        onSuccess: () => toast.success("Marked-up photo saved"),
+        onError: (err) => toast.error(err.message || "Couldn’t save the marked-up photo. The original is unchanged."),
+      },
+    );
+  }
 
   // Track which photo is in view as the strip is swiped.
   function onScroll() {
@@ -154,6 +172,14 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
   return (
     <section className="grid gap-2" aria-label="Photos">
       <PhotoInputs ref={inputs} onFiles={add} testIdPrefix="detail-" />
+      <AnnotateDialog
+        source={markingUp?.image_url ?? null}
+        open={!!markingUp}
+        onOpenChange={(open) => !open && setMarkingUp(null)}
+        onSave={(blob) => {
+          if (markingUp) saveMarkup(markingUp, blob);
+        }}
+      />
 
       {photos.length === 0 ? (
         <div className="bg-muted text-muted-foreground flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-xl">
@@ -205,16 +231,31 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
                         </Button>
                       </span>
                     ) : (
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="secondary"
-                        className="absolute top-2 right-2 bg-card/90"
-                        onClick={() => setConfirmingDelete(photo.id)}
-                        aria-label={`Delete photo ${i + 1}`}
-                      >
-                        <Trash2 />
-                      </Button>
+                      <span className="absolute top-2 right-2 flex gap-1.5">
+                        {!photo.id.startsWith("legacy-") && (
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="secondary"
+                            className="bg-card/90"
+                            onClick={() => setMarkingUp(photo)}
+                            disabled={uploading}
+                            aria-label={`Mark up photo ${i + 1}`}
+                          >
+                            <Pencil />
+                          </Button>
+                        )}
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="secondary"
+                          className="bg-card/90"
+                          onClick={() => setConfirmingDelete(photo.id)}
+                          aria-label={`Delete photo ${i + 1}`}
+                        >
+                          <Trash2 />
+                        </Button>
+                      </span>
                     ))}
                 </li>
               );

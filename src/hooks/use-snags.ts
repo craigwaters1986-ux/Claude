@@ -8,6 +8,7 @@ import {
   deleteSnagPhoto,
   getSnag,
   listSnags,
+  replaceSnagPhotoFile,
   updateSnag,
 } from "@/lib/services/snags";
 import { setCaptureProgress } from "@/lib/capture-progress";
@@ -241,6 +242,67 @@ export function useAddSnagPhotos(projectId: string) {
     },
 
     onSettled: (_data, _err, { snagId }) => setCaptureProgress(addPhotosProgressKey(snagId), null),
+  });
+}
+
+/**
+ * Swap a saved photo for a marked-up copy. The new file is uploaded under a
+ * new name, the photo row points at it, then the old file is removed. Shows
+ * the new photo straight away; puts the old one back if anything fails.
+ * Needs signal (unlike capturing new snags).
+ */
+export function useReplaceSnagPhoto(projectId: string) {
+  const supabase = useSupabase();
+  const queryClient = useQueryClient();
+  const listKey = snagKeys.list(projectId);
+
+  return useMutation({
+    mutationFn: async ({ photo, blob }: { photo: SnagPhoto; blob: Blob; previewUrl: string }) => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) throw new ServiceError("Your session has expired. Please sign in again.", "no_session");
+      const progressKey = addPhotosProgressKey(photo.snag_id);
+      setCaptureProgress(progressKey, { stage: "uploading", fraction: 0, photo: 1, photos: 1 });
+      const path = buildImagePath(data.session.user.id, projectId, `${photo.snag_id}/${uuid()}`, blob.type);
+      await uploadImage(supabase, path, blob, (fraction) =>
+        setCaptureProgress(progressKey, { stage: "uploading", fraction, photo: 1, photos: 1 }),
+      );
+      setCaptureProgress(progressKey, { stage: "saving" });
+      try {
+        const old = await replaceSnagPhotoFile(supabase, photo, { image_path: path, image_url: getPublicImageUrl(supabase, path) });
+        await removeImages(supabase, [old]);
+      } catch (err) {
+        await removeImages(supabase, [path]); // don't leave the unused copy behind
+        throw err;
+      }
+      return getSnag(supabase, photo.snag_id);
+    },
+
+    onMutate: async ({ photo, previewUrl }) => {
+      await queryClient.cancelQueries({ queryKey: listKey });
+      const previous = queryClient.getQueryData<ListedSnag[]>(listKey);
+      queryClient.setQueryData<ListedSnag[]>(listKey, (old = []) =>
+        old.map((s) =>
+          s.id === photo.snag_id
+            ? { ...s, photos: s.photos.map((p) => (p.id === photo.id ? { ...p, image_url: previewUrl, image_path: "" } : p)) }
+            : s,
+        ),
+      );
+      return { previous };
+    },
+
+    onSuccess: (saved) => {
+      queryClient.setQueryData<ListedSnag[]>(listKey, (old = []) => old.map((s) => (s.id === saved.id ? saved : s)));
+    },
+
+    onError: (_err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(listKey, context.previous);
+    },
+
+    onSettled: (_data, _err, { photo, previewUrl }) => {
+      setCaptureProgress(addPhotosProgressKey(photo.snag_id), null);
+      // Keep the local preview a moment so the swap to the uploaded copy doesn't flash.
+      setTimeout(() => URL.revokeObjectURL(previewUrl), 10_000);
+    },
   });
 }
 

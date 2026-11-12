@@ -1,6 +1,6 @@
 import type { TypedSupabaseClient } from "@/lib/supabase/client";
 import type { Snag, SnagInput, SnagPatch, SnagPhoto, SnagPhotoInput, SnagRow } from "@/types/models";
-import { toServiceError } from "./errors";
+import { ServiceError, toServiceError } from "./errors";
 
 /** Every snag query fetches its photos in the same request. */
 const SNAG_SELECT = "*, snag_photos(*)";
@@ -84,6 +84,18 @@ export async function addSnagPhotos(supabase: TypedSupabaseClient, snagId: strin
     .from("snag_photos")
     .upsert(photos.map((p) => ({ ...p, snag_id: snagId })), { onConflict: "id", ignoreDuplicates: true });
   if (error) throw toServiceError(error, "Could not save photos.");
+}
+
+/** Point a photo at a new file (e.g. after marking it up). Returns the old path for cleanup. */
+export async function replaceSnagPhotoFile(
+  supabase: TypedSupabaseClient,
+  photo: Pick<SnagPhoto, "id" | "image_path">,
+  file: { image_path: string; image_url: string },
+) {
+  const { data, error } = await supabase.from("snag_photos").update(file).eq("id", photo.id).select("id");
+  if (error) throw toServiceError(error, "Could not save the photo.");
+  if (!data?.length) throw new ServiceError("This photo was deleted on another device.", "not_found");
+  return photo.image_path;
 }
 
 /** Remove one photo. Returns its storage path for cleanup. */

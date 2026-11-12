@@ -1,19 +1,20 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { Camera, ImagePlus, Images, ListPlus, Loader2, MapPin, MapPinOff, Plus, Save, Trash2, X } from "lucide-react";
+import { Camera, ImagePlus, Images, ListPlus, Loader2, MapPin, MapPinOff, Pencil, Plus, Save, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PinDialog } from "@/components/plans/pin-dialog";
+import { AnnotateDialog } from "@/components/photos/annotate-dialog";
 import { useCreateSnag, type CapturePhoto } from "@/hooks/use-snags";
 import { plural } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { uuid } from "@/lib/uuid";
 import { MAX_PHOTOS_PER_SNAG, type Level } from "@/types/models";
-import { PhotoInputs, filesToPhotos, type PhotoInputsHandle } from "./photo-picker";
+import { PhotoInputs, filesToPhotos, markedUpPhoto, type PhotoInputsHandle } from "./photo-picker";
 
 /** Most snags in one batch: plenty for a room-by-room sweep, small enough to review on a phone. */
 const MAX_ROWS = 50;
@@ -54,6 +55,8 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
   const [listText, setListText] = useState("");
   const [shared, setShared] = useState({ assignedTo: "", levelId: null as string | null, comments: "" });
   const [pinningRow, setPinningRow] = useState<string | null>(null);
+  const [markingUpRow, setMarkingUpRow] = useState<string | null>(null); // row whose cover photo is being marked up
+  const markUpPhoto = rows.find((r) => r.key === markingUpRow)?.photos[0] ?? null;
   const [saving, setSaving] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 
@@ -281,6 +284,16 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
                         </span>
                       )}
                     </button>
+                    {row.photos.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setMarkingUpRow(row.key)}
+                        className="absolute bottom-0.5 left-0.5 flex size-7 items-center justify-center rounded-full bg-black/65 text-white outline-none focus-visible:ring-[3px] focus-visible:ring-white/70"
+                        aria-label={`Mark up photo for snag ${i + 1}`}
+                      >
+                        <Pencil className="size-3.5" />
+                      </button>
+                    )}
                   </div>
                   <div className="grid min-w-0 gap-1.5">
                     <Input
@@ -340,6 +353,16 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
           {rows.length ? `Save ${plural(rows.length, "snag")}` : "Add snags to the batch first"}
         </Button>
       </div>
+
+      <AnnotateDialog
+        source={markUpPhoto?.file ?? null}
+        open={!!markUpPhoto}
+        onOpenChange={(open) => !open && setMarkingUpRow(null)}
+        onSave={(blob) => {
+          const row = rows.find((r) => r.key === markingUpRow);
+          if (row?.photos[0]) patchRow(row.key, { photos: [markedUpPhoto(row.photos[0], blob), ...row.photos.slice(1)] });
+        }}
+      />
 
       {level && pinRow && (
         <PinDialog

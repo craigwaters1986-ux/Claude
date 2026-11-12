@@ -141,6 +141,20 @@ On Add snags, switch to **Several at once** (the choice is remembered on the dev
 
 Dragging photos onto the page only works in single mode for now.
 
+## Marking up photos
+
+Tap the pencil on any photo to draw on it: **pen**, **arrow**, **circle**, **box** and **text** labels in red,
+yellow, blue, white or black, with **Undo**. Marks have a thin contrasting outline so they show on light and
+dark surfaces, and their size scales with the photo.
+
+- **Before saving** (single entry and each batch row's main photo): the marked-up copy replaces the photo on
+  the device, so it saves and uploads exactly like any other photo, including with no signal.
+- **Saved photos** (snag detail): the marked-up copy is uploaded under a new file name, the photo record is
+  pointed at it and the old file is deleted. This needs signal; the original is untouched if it fails.
+
+Marks are flattened into the JPEG (`src/lib/image/annotate.ts`), so they appear everywhere: lists, other
+devices and PDF reports. Editing again adds to the marked-up copy; the unmarked original isn't kept.
+
 ## Rapid Entry, offline saving & photo uploads
 
 **Snags are saved on the device first, then uploaded.** "Save & add next" writes the snag and its photos

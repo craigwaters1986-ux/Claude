@@ -1,12 +1,20 @@
 "use client";
 
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import { Camera, Images, X } from "lucide-react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { Camera, Images, Pencil, X } from "lucide-react";
+import { AnnotateDialog } from "@/components/photos/annotate-dialog";
 import { Button } from "@/components/ui/button";
 import type { CapturePhoto } from "@/hooks/use-snags";
 import { cn } from "@/lib/utils";
 import { uuid } from "@/lib/uuid";
 import { MAX_PHOTOS_PER_SNAG } from "@/types/models";
+
+/** A marked-up copy of a photo that hasn't been saved yet (new id, so nothing cached is reused). */
+export function markedUpPhoto(photo: CapturePhoto, blob: Blob): CapturePhoto {
+  URL.revokeObjectURL(photo.previewUrl);
+  const file = new File([blob], `marked-up-${photo.id}.jpg`, { type: "image/jpeg" });
+  return { id: uuid(), file, previewUrl: URL.createObjectURL(file) };
+}
 
 /** Turn picked files into photos with ids and local previews, up to `limit`. */
 export function filesToPhotos(files: FileList | null, limit: number): { photos: CapturePhoto[]; skipped: number } {
@@ -85,6 +93,7 @@ export const PhotoPicker = forwardRef<PhotoPickerHandle, Props>(function PhotoPi
   const inputs = useRef<PhotoInputsHandle>(null);
   const cameraButton = useRef<HTMLButtonElement>(null);
   const remaining = MAX_PHOTOS_PER_SNAG - value.length;
+  const [markingUp, setMarkingUp] = useState<CapturePhoto | null>(null);
 
   function add(files: FileList | null) {
     const { photos, skipped } = filesToPhotos(files, remaining);
@@ -103,6 +112,14 @@ export const PhotoPicker = forwardRef<PhotoPickerHandle, Props>(function PhotoPi
   return (
     <div>
       <PhotoInputs ref={inputs} onFiles={add} />
+      <AnnotateDialog
+        source={markingUp?.file ?? null}
+        open={!!markingUp}
+        onOpenChange={(open) => !open && setMarkingUp(null)}
+        onSave={(blob) => {
+          if (markingUp) onChange(value.map((p) => (p.id === markingUp.id ? markedUpPhoto(p, blob) : p)));
+        }}
+      />
 
       {value.length === 0 ? (
         <div className="bg-card grid aspect-[4/3] grid-rows-[1fr_auto] gap-2 rounded-2xl border-2 border-dashed p-2 sm:aspect-[16/7] lg:aspect-[4/3]">
@@ -141,6 +158,14 @@ export const PhotoPicker = forwardRef<PhotoPickerHandle, Props>(function PhotoPi
                   aria-label={`Remove photo ${i + 1}`}
                 >
                   <X className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMarkingUp(photo)}
+                  className="absolute right-1 bottom-1 flex size-8 items-center justify-center rounded-full bg-black/60 text-white outline-none focus-visible:ring-[3px] focus-visible:ring-white/70"
+                  aria-label={`Mark up photo ${i + 1}`}
+                >
+                  <Pencil className="size-4" />
                 </button>
               </li>
             ))}
