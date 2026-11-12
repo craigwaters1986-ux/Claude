@@ -59,7 +59,12 @@ export function PlanViewer({ level, pins = [], onPinClick, placing, className }:
   }
 
   return (
-    <div className={cn("bg-muted relative overflow-hidden rounded-xl border", className)} data-testid="plan-viewer">
+    // touch-none: on phones, pinch and drag here zoom/pan the plan only, never the
+    // whole page (which iPhone Safari otherwise does, leaving the page off-centre).
+    <div
+      className={cn("bg-muted relative touch-none overflow-hidden overscroll-contain rounded-xl border select-none", className)}
+      data-testid="plan-viewer"
+    >
       <TransformWrapper minScale={1} maxScale={10} centerOnInit doubleClick={{ disabled: !!placing }} wheel={{ step: 0.15 }}>
         <TransformComponent wrapperStyle={{ width: "100%", height: "100%" }} contentStyle={{ width: "100%", height: "100%" }}>
           {/* A sized container, so the drawing can be "as large as fits" at its own proportions. */}

@@ -42,11 +42,13 @@ export function PlansView({ projectId, allSnags, visibleSnags, onOpenSnag, selec
   const onLevel = selected ? allSnags.filter((s) => s.level_id === selected.id) : [];
   const unpinned = selected ? visibleSnags.filter((s) => s.level_id === selected.id && s.pin_x == null) : [];
 
+  // The root grid uses grid-cols-1 = minmax(0, 1fr): the column may shrink to the
+  // screen, so the level buttons scroll inside it instead of widening the page.
   if (levels.isPending) return <Skeleton className="h-96 rounded-2xl" />;
   if (levels.error && !levels.data) return <ErrorState message={levels.error.message} onRetry={() => levels.refetch()} />;
 
   return (
-    <div className="grid min-w-0 gap-3">
+    <div className="grid min-w-0 grid-cols-1 gap-3">
       {levels.data.length === 0 ? (
         <EmptyState
           icon={Layers}

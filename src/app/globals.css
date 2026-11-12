@@ -104,6 +104,9 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    /* Never let anything make the page wider than the screen and slide sideways.
+       (clip, unlike hidden, doesn't break the sticky top bar.) */
+    overflow-x: clip;
     -webkit-tap-highlight-color: transparent;
   }
   h1,
