@@ -1,6 +1,6 @@
 # Third-party 3D anatomy data
 
-`bodyparts3d-muscles.glb` (web) and `ios/Forma/Resources/bodyparts3d-muscles.usda` (iOS) are derived from **BodyParts3D**.
+`bodyparts3d-muscles.gltf.json` (web) and `ios/Forma/Resources/bodyparts3d-muscles.usda` (iOS) are derived from **BodyParts3D**.
 
 > BodyParts3D, © The Database Center for Life Science (DBCLS), https://dbarchive.biosciencedbc.jp/en/bodyparts3d/
 

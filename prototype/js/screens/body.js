@@ -12,7 +12,7 @@ import { relDay } from '../core/units.js';
 export const selfManaged = true;
 
 let ui = { tab: 'anatomy', mode: 'recovery', exercise: 'bench', selected: null, side: 'front', model: 'builtin', customUrl: null, report: null, modelError: null };
-const ANATOMICAL_URL = 'models/bodyparts3d-muscles.glb';
+const ANATOMICAL_URL = 'models/bodyparts3d-muscles.gltf.json';
 
 // Sequential single-hue ramp (dark → bright cyan) for weekly-volume mode.
 const VOL_RAMP = ['#1a2335', '#183a63', '#1d5b95', '#2f8cff', '#5cb8ff', '#8fe6ff'];

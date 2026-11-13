@@ -8,7 +8,7 @@
 // groups are added as clearly named APPROXIMATE volumes ("abs__approx",
 // "lats__approx_L/R") positioned from neighbouring anatomy.
 //
-//   node tools/anatomy/build-bodyparts3d.mjs <dataset-dir> [out.glb] [ratio]
+//   node tools/anatomy/build-bodyparts3d.mjs <dataset-dir> [out.gltf.json | out.glb] [ratio]
 //   <dataset-dir> contains isa_element_parts.txt and isa_BP3D_4.0_obj_99/*.obj
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -16,7 +16,7 @@ import { MeshoptSimplifier } from 'meshoptimizer';
 import { Document, NodeIO } from '@gltf-transform/core';
 import { muscleForMeshName } from '../../prototype/js/core/anatomy.js';
 
-const [dataset, out = 'prototype/models/bodyparts3d-muscles.glb', ratioArg = '0.08', usdaOut = 'ios/Forma/Resources/bodyparts3d-muscles.usda'] = process.argv.slice(2);
+const [dataset, out = 'prototype/models/bodyparts3d-muscles.gltf.json', ratioArg = '0.08', usdaOut = 'ios/Forma/Resources/bodyparts3d-muscles.usda'] = process.argv.slice(2);
 if (!dataset) { console.error('usage: build-bodyparts3d.mjs <dataset-dir> [out.glb] [ratio]'); process.exit(2); }
 const RATIO = Number(ratioArg);
 await MeshoptSimplifier.ready;
@@ -126,7 +126,13 @@ for (const m of meshes) {
 }
 doc.getRoot().getAsset().copyright = 'BodyParts3D, (c) The Database Center for Life Science (DBCLS). See prototype/models/ATTRIBUTION.md';
 mkdirSync(dirname(out), { recursive: true });
-writeFileSync(out, await new NodeIO().writeBinary(doc));
+if (out.endsWith('.glb')) writeFileSync(out, await new NodeIO().writeBinary(doc));
+else {
+  // JSON glTF with the buffer embedded as a data URI: one file, served as plain JSON anywhere.
+  const { json, resources } = await new NodeIO().writeJSON(doc, { format: 'gltf' });
+  for (const b of json.buffers || []) { const bytes = resources[b.uri]; b.uri = `data:application/octet-stream;base64,${Buffer.from(bytes).toString('base64')}`; }
+  writeFileSync(out, JSON.stringify(json));
+}
 // 7. USD (ASCII) for the native app — SceneKit/ModelIO load it; prim names carry the mapping.
 const f = (a) => Array.from(a, (v) => +v.toFixed(4)).join(', ');
 let usda = '#usda 1.0\n(\n    defaultPrim = "Muscles"\n    metersPerUnit = 1\n    upAxis = "Y"\n    doc = "BodyParts3D (c) DBCLS — see ATTRIBUTION.md. Abs and lats are approximate."\n)\n\ndef Xform "Muscles"\n{\n';

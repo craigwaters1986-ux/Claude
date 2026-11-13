@@ -2,7 +2,7 @@
 const CACHE = 'forma-v2';
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'icon.svg', 'css/tokens.css', 'css/app.css',
-  'vendor/three.module.min.js', 'vendor/OrbitControls.js', 'vendor/GLTFLoader.js', 'vendor/BufferGeometryUtils.js', 'models/bodyparts3d-muscles.glb',
+  'vendor/three.module.min.js', 'vendor/OrbitControls.js', 'vendor/GLTFLoader.js', 'vendor/BufferGeometryUtils.js', 'models/bodyparts3d-muscles.gltf.json',
   'js/core/anatomy.js', 'js/core/sync.js',
   'js/main.js', 'js/app.js', 'js/ui/dom.js', 'js/ui/charts.js', 'js/ui/mannequin.js', 'js/ui/widgets.js',
   'js/core/muscles.js', 'js/core/exercises.js', 'js/core/recovery.js', 'js/core/metrics.js', 'js/core/generator.js',
