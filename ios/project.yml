@@ -1,0 +1,57 @@
+# XcodeGen spec — generate the Xcode project with:  brew install xcodegen && cd ios && xcodegen
+name: Forma
+options:
+  bundleIdPrefix: app.forma
+  deploymentTarget:
+    iOS: "17.0"
+    watchOS: "10.0"
+packages:
+  GymCore:
+    path: GymCore
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    DEVELOPMENT_TEAM: ""   # set your team
+targets:
+  Forma:
+    type: application
+    platform: iOS
+    sources: [Forma]
+    dependencies:
+      - package: GymCore
+      - target: FormaWatch
+    info:
+      path: Forma/Info.plist
+      properties:
+        CFBundleDisplayName: Forma
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Dark
+        NSHealthShareUsageDescription: "Forma reads sleep, resting heart rate and heart-rate variability to refine estimated muscle recovery. Optional."
+        NSHealthUpdateUsageDescription: "Forma saves your strength workouts to Apple Health."
+        UIBackgroundModes: [fetch, processing]
+        BGTaskSchedulerPermittedIdentifiers: [app.forma.sync]
+    entitlements:
+      path: Forma/Forma.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
+  FormaWatch:
+    type: application
+    platform: watchOS
+    sources: [FormaWatch]
+    dependencies:
+      - package: GymCore
+    info:
+      path: FormaWatch/Info.plist
+      properties:
+        CFBundleDisplayName: Forma
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: app.forma.Forma
+        NSHealthShareUsageDescription: "Forma reads heart rate and energy during workouts."
+        NSHealthUpdateUsageDescription: "Forma saves strength workouts to Apple Health."
+        NSMotionUsageDescription: "Forma uses wrist motion to estimate repetitions for supported exercises."
+        WKBackgroundModes: [workout-processing]
+    entitlements:
+      path: FormaWatch/FormaWatch.entitlements
+      properties:
+        com.apple.developer.healthkit: true
