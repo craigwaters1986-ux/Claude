@@ -121,6 +121,8 @@ struct ProfileView: View {
                 Section {
                     Toggle("Apple Health", isOn: Bindable(p).healthKitEnabled).onChange(of: p.healthKitEnabled) { _, on in if on { Task { try? await HealthKitManager.shared.requestAuthorization() } } }
                     LabeledContent("Apple Watch", value: PhoneSessionManager.shared.isWatchAvailable ? "Forma installed" : "Not paired / not installed")
+                    Toggle("Help improve rep counting", isOn: Binding(get: { MotionRecordings.optedIn }, set: { MotionRecordings.optedIn = $0 }))
+                    if !MotionRecordings.files.isEmpty { ShareLink("Export \(MotionRecordings.files.count) motion recordings", items: MotionRecordings.files) }
                 } header: { Text("Devices & health") } footer: { Text("Health reads sleep, resting HR and HRV to adjust estimated recovery (optional). Logging works without a watch.") }
                 Section {
                     Toggle("Coach can use my workout history", isOn: Bindable(p).coachUsesHistory)

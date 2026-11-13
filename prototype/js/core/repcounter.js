@@ -59,6 +59,7 @@ export class RepCounter {
     this.events = [];
     this.lastSignal = 0; this.lastBand = null;
     this.peak = -Infinity; this.typicalSwing = null; // rep-consistency gate
+    this.repPeriod = null;                             // adaptive window (slow tempos)
   }
 
   /** Feed one sample: {t (s), gravity:[x,y,z], userAccel:[x,y,z]}. Returns true when a rep was counted. */
@@ -68,7 +69,7 @@ export class RepCounter {
     if (this.p.signal === 'orientation') {
       const g = sample.gravity.map((v, i) => this.lp[i].push(v));
       this.win.push({ t, v: g });
-      this.trim(t, 3.0);
+      this.trim(t, this.horizon(3.0));
       if (this.win.length < this.fs * 0.6) return false;
       // Dominant axis = highest variance over the window (re-evaluated, sticky).
       const vars = [0, 1, 2].map((i) => variance(this.win.map((w) => w.v[i])));
@@ -83,7 +84,7 @@ export class RepCounter {
       this.vel = this.vel * 0.99 + f / this.fs * 9.81;
       s = this.vel - this.velHp.push(this.vel);
       this.win.push({ t, v: [s, 0, 0] });
-      this.trim(t, 4.0);
+      this.trim(t, this.horizon(4.0));
       if (this.win.length < this.fs * 0.6) return false;
     }
     this.lastSignal = s;
@@ -109,6 +110,7 @@ export class RepCounter {
         const consistent = this.typicalSwing == null || swing >= 0.5 * this.typicalSwing;
         if (sinceLast >= this.p.minRepSec && halfCycle <= this.p.maxRepSec && consistent) {
           this.typicalSwing = this.typicalSwing == null ? swing : 0.7 * this.typicalSwing + 0.3 * swing;
+          if (this.lastRepT != null) { const p = t - this.lastRepT; this.repPeriod = this.repPeriod == null ? p : 0.6 * this.repPeriod + 0.4 * p; }
           this.count++; this.lastRepT = t; this.events.push(t);
           return true;
         }
@@ -116,6 +118,9 @@ export class RepCounter {
     }
     return false;
   }
+
+  /** Window ≥ 1.6 rep periods so slow reps are seen whole (clamped 3–8 s). */
+  horizon(base) { return this.repPeriod == null ? base : Math.min(8, Math.max(base, 1.6 * this.repPeriod)); }
 
   trim(t, seconds) { while (this.win.length && this.win[0].t < t - seconds) this.win.shift(); }
 

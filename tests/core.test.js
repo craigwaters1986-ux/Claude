@@ -303,3 +303,23 @@ test('sync: remote changes upsert, delete and merge profile; newer local edits a
   assert.equal(kept.workouts[0].name, 'Mine');
   assert.ok(entities(kept)['workout:x']);
 });
+
+// ── Rep-count data pipeline ────────────────────────────────────────────────
+import { readdirSync, readFileSync } from 'node:fs';
+import { parseRecording, countRecording } from '../tools/rep-eval.mjs';
+
+test('rep counter: Swift-generated recordings count identically in JS (cross-language parity)', () => {
+  const dir = new URL('./fixtures/recordings/', import.meta.url);
+  const files = readdirSync(dir).filter((f) => f.endsWith('.csv'));
+  assert.ok(files.length >= 4);
+  for (const f of files) {
+    const r = parseRecording(readFileSync(new URL(f, dir), 'utf8'));
+    assert.equal(countRecording(r), r.trueReps, f);
+  }
+});
+
+test('rep counter: long, slow sets (adaptive window regression)', () => {
+  for (const [kind, prof] of [['lateralRaise', 'lateralRaise'], ['curl', 'curl'], ['press', 'verticalPush']]) for (const seed of [1, 5, 9]) for (const reps of [10, 13]) {
+    assert.equal(countSamples(synthesize({ kind, reps, seed, repSec: 3.4, noise: 0.04 }), REP_PROFILES[prof]), reps, `${kind} s${seed} r${reps}`);
+  }
+});

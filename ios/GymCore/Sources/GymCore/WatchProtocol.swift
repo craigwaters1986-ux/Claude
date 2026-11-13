@@ -38,14 +38,16 @@ public struct ActivePlan: Codable, Sendable, Equatable {
     public var name: String
     public var items: [Item]
     public var units: Units
-    public init(workoutID: UUID, name: String, items: [Item], units: Units) { self.workoutID = workoutID; self.name = name; self.items = items; self.units = units }
+    /// User opted in to contributing labelled motion recordings (Profile → Help improve rep counting).
+    public var recordMotion: Bool?
+    public init(workoutID: UUID, name: String, items: [Item], units: Units, recordMotion: Bool? = nil) { self.workoutID = workoutID; self.name = name; self.items = items; self.units = units; self.recordMotion = recordMotion }
 
-    public static func from(_ w: WorkoutRecord, units: Units, catalog: ExerciseCatalog = .init()) -> ActivePlan {
+    public static func from(_ w: WorkoutRecord, units: Units, recordMotion: Bool = false, catalog: ExerciseCatalog = .init()) -> ActivePlan {
         ActivePlan(workoutID: w.id, name: w.name, items: w.exercises.map { e in
             let def = catalog[e.exerciseID]
             return Item(exerciseID: e.exerciseID, name: def?.name ?? "Exercise", targetSets: e.sets.map { .init(weightKg: $0.weightKg, reps: $0.reps, done: $0.isDone) },
                         autoCount: def.flatMap(RepProfile.forExercise) != nil)
-        }, units: units)
+        }, units: units, recordMotion: recordMotion)
     }
 }
 

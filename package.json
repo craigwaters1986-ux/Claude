@@ -11,7 +11,8 @@
     "test:swift": "cd ios/GymCore && swift test",
     "server": "tsx server/src/index.ts",
     "test:e2e": "node tests/e2e/flows.cjs",
-    "test:sync": "node tests/e2e/sync.cjs"
+    "test:sync": "node tests/e2e/sync.cjs",
+    "rep-eval": "node tools/rep-eval.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",

@@ -7,9 +7,10 @@ import PackageDescription
 let package = Package(
     name: "GymCore",
     platforms: [.iOS(.v17), .watchOS(.v10), .macOS(.v14)],
-    products: [.library(name: "GymCore", targets: ["GymCore"])],
+    products: [.library(name: "GymCore", targets: ["GymCore"]), .executable(name: "rep-eval", targets: ["rep-eval"])],
     targets: [
         .target(name: "GymCore"),
+        .executableTarget(name: "rep-eval", dependencies: ["GymCore"]),
         .testTarget(name: "GymCoreTests", dependencies: ["GymCore"]),
     ]
 )

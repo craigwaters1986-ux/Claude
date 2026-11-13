@@ -11,7 +11,10 @@ struct FormaWatchApp: App {
     var body: some Scene {
         WindowGroup {
             WatchWorkoutView(workout: workout, tracker: tracker, link: link)
-                .task { link.activate(); try? await workout.requestAuthorization() }
+                .task {
+                    link.onPlan = { p in tracker.recordMotion = p.recordMotion ?? false }
+                    link.activate(); try? await workout.requestAuthorization()
+                }
         }
     }
 }
@@ -61,6 +64,7 @@ struct WatchWorkoutView: View {
     private func endSet(_ t: (item: ActivePlan.Item, index: Int, set: ActivePlan.Target)) {
         let r = tracker.end()
         guard let plan = link.plan else { return }
+        if let rec = r.recording { link.send(recording: rec) }
         link.send(.setCompleted(SetResult(workoutID: plan.workoutID, exerciseID: t.item.exerciseID, setIndex: t.index, reps: r.reps, weightKg: t.set.weightKg,
                                           autoCounted: r.auto, corrections: r.corrections, averageHeartRate: workout.averageHeartRate(since: setStart), completedAt: .now)))
         WKInterfaceDevice.current().play(.success)       // haptic: set finished

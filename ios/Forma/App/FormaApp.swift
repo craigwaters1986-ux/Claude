@@ -37,7 +37,7 @@ final class AppState {
         let s = WorkoutSession(workout: record, history: repo.completedWorkouts(), catalog: repo.catalog(), units: p.units, restDefault: p.restDefaultSeconds)
         s.onChange = { w in
             ActiveWorkoutStore.save(w)                                                   // crash-safe autosave
-            PhoneSessionManager.shared.publish(plan: .from(w, units: p.units))           // keep the watch in sync
+            PhoneSessionManager.shared.publish(plan: .from(w, units: p.units, recordMotion: MotionRecordings.optedIn))           // keep the watch in sync
         }
         PhoneSessionManager.shared.onSetCompleted = { [weak s] r in s?.apply(r) }
         ActiveWorkoutStore.save(record)

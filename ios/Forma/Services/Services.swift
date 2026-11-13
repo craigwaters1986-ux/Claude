@@ -106,6 +106,14 @@ final class PhoneSessionManager: NSObject, WCSessionDelegate {
     nonisolated func sessionDidBecomeInactive(_ s: WCSession) {}
     nonisolated func sessionDidDeactivate(_ s: WCSession) { s.activate() }
     nonisolated func session(_ s: WCSession, didReceiveMessageData data: Data) { Task { @MainActor in self.handle(data) } }
+
+    /// Labelled motion recordings from the watch (opt-in). The file must be moved before this returns.
+    nonisolated func session(_ s: WCSession, didReceive file: WCSessionFile) {
+        guard file.metadata?["type"] as? String == "motionRecording" else { return }
+        let dir = MotionRecordings.directory
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        try? FileManager.default.moveItem(at: file.fileURL, to: dir.appendingPathComponent(file.fileURL.lastPathComponent))
+    }
     nonisolated func session(_ s: WCSession, didReceiveUserInfo info: [String: Any]) {
         guard let data = info[Envelope.key] as? Data else { return }
         Task { @MainActor in self.handle(data) }
@@ -146,4 +154,11 @@ struct AnyEncodable: Encodable {
     private let enc: (Encoder) throws -> Void
     init<T: Encodable>(_ v: T) { enc = v.encode }
     func encode(to encoder: Encoder) throws { try enc(encoder) }
+}
+
+/// Opt-in labelled motion recordings received from Apple Watch (see docs/04).
+enum MotionRecordings {
+    static var directory: URL { FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("motion-recordings") }
+    static var files: [URL] { ((try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []).filter { $0.pathExtension == "csv" } }
+    static var optedIn: Bool { get { UserDefaults.standard.bool(forKey: "forma.recordMotion") } set { UserDefaults.standard.set(newValue, forKey: "forma.recordMotion") } }
 }

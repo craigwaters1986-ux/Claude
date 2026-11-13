@@ -63,6 +63,7 @@ public struct RepCounter: Sendable {
     private var highT = 0.0, peak = -Double.infinity
     private var lastRepT: Double? = nil
     private var typicalSwing: Double? = nil
+    private var repPeriod: Double? = nil
 
     public init(profile: RepProfile, sampleRate: Double = 50) {
         self.profile = profile; self.sampleRate = sampleRate
@@ -77,7 +78,9 @@ public struct RepCounter: Sendable {
     @discardableResult
     public mutating func push(_ s: MotionSample) -> Bool {
         let signal: Double
-        let horizon = profile.signal == .orientation ? 3.0 : 4.0
+        // Window adapts to tempo: ≥ 1.6 rep periods so slow reps are seen whole (3–8 s).
+        let base = profile.signal == .orientation ? 3.0 : 4.0
+        let horizon = repPeriod.map { min(8, max(base, 1.6 * $0)) } ?? base
         if profile.signal == .orientation {
             let g = SIMD3(lowPass(0, s.gravity.x), lowPass(1, s.gravity.y), lowPass(2, s.gravity.z))
             window.append((s.t, g))
@@ -116,6 +119,7 @@ public struct RepCounter: Sendable {
         let consistent = typicalSwing.map { swing >= 0.5 * $0 } ?? true
         guard sinceLast >= profile.minRepSeconds, s.t - highT <= profile.maxRepSeconds, consistent else { return false }
         typicalSwing = typicalSwing.map { 0.7 * $0 + 0.3 * swing } ?? swing
+        if let last = lastRepT { let p = s.t - last; repPeriod = repPeriod.map { 0.6 * $0 + 0.4 * p } ?? p }
         count += 1; lastRepT = s.t; repTimestamps.append(s.t)
         return true
     }

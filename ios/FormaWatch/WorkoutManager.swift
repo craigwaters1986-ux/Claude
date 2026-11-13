@@ -80,10 +80,23 @@ final class MotionRepTracker {
     var reps: Int { counter?.count ?? manualReps }
     private var manualReps = 0
     var isCounting = false
+    /// Opt-in raw motion capture for labelled recordings (see docs/04).
+    var recordMotion = false
+    private var recorded: [MotionSample] = []
+    private var exerciseID = ""
     var autoAvailable: Bool { counter != nil }
 
     func begin(for exercise: ExerciseDefinition?) {
-        manualReps = 0
+        manualReps = 0; recorded = []; exerciseID = exercise?.id ?? ""
+        if recordMotion, motion.isDeviceMotionAvailable, exercise.flatMap(RepProfile.forExercise) == nil {
+            // Unsupported exercises can still contribute data for future models.
+            motion.deviceMotionUpdateInterval = 1.0 / 50
+            motion.startDeviceMotionUpdates(to: queue) { [weak self] m, _ in
+                guard let m else { return }
+                let s = MotionSample(t: m.timestamp, gravity: SIMD3(m.gravity.x, m.gravity.y, m.gravity.z), userAcceleration: SIMD3(m.userAcceleration.x, m.userAcceleration.y, m.userAcceleration.z))
+                Task { @MainActor in self?.recorded.append(s) }
+            }
+        }
         counter = exercise.flatMap(RepProfile.forExercise).map { RepCounter(profile: $0, sampleRate: 50) }
         isCounting = true
         guard counter != nil, motion.isDeviceMotionAvailable else { return }
@@ -94,6 +107,7 @@ final class MotionRepTracker {
                                       userAcceleration: SIMD3(m.userAcceleration.x, m.userAcceleration.y, m.userAcceleration.z))
             Task { @MainActor in
                 guard let self, self.isCounting else { return }
+                if self.recordMotion { self.recorded.append(sample) }
                 if self.counter?.push(sample) == true { WKInterfaceDevice.current().play(.click) }
             }
         }
@@ -105,9 +119,21 @@ final class MotionRepTracker {
         WKInterfaceDevice.current().play(.click)
     }
 
-    func end() -> (reps: Int, auto: Bool, corrections: Int) {
+    func end() -> (reps: Int, auto: Bool, corrections: Int, recording: MotionRecording?) {
         motion.stopDeviceMotionUpdates(); isCounting = false
-        return (reps, counter != nil, counter?.corrections ?? 0)
+        // Label = the count the user confirmed (auto count + Digital Crown corrections).
+        let rec = recordMotion && !recorded.isEmpty
+            ? MotionRecording(exerciseID: exerciseID, sampleRate: 50, trueReps: reps, autoCount: counter.map { $0.count - $0.corrections },
+                              user: Self.anonymousID, source: "watch", samples: recorded)
+            : nil
+        recorded = []
+        return (reps, counter != nil, counter?.corrections ?? 0, rec)
+    }
+
+    /// Random per-install id: lets the evaluator count distinct people without identifying anyone.
+    static var anonymousID: String {
+        if let id = UserDefaults.standard.string(forKey: "forma.anonID") { return id }
+        let id = "anon-" + UUID().uuidString.prefix(8); UserDefaults.standard.set(id, forKey: "forma.anonID"); return id
     }
 }
 
@@ -115,7 +141,15 @@ final class MotionRepTracker {
 @MainActor @Observable
 final class WatchSessionManager: NSObject, WCSessionDelegate {
     var plan: ActivePlan?
+    var onPlan: ((ActivePlan) -> Void)?
     private var dedup = EnvelopeDeduplicator()
+
+    /// Queued file transfer to the iPhone (survives suspension; delivered when reachable).
+    func send(recording r: MotionRecording) {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(r.exerciseID)-\(Int(Date.now.timeIntervalSince1970)).csv")
+        guard (try? r.csv().write(to: url, atomically: true, encoding: .utf8)) != nil else { return }
+        WCSession.default.transferFile(url, metadata: ["type": "motionRecording"])
+    }
 
     func activate() { WCSession.default.delegate = self; WCSession.default.activate() }
 
@@ -129,7 +163,7 @@ final class WatchSessionManager: NSObject, WCSessionDelegate {
     private func handle(_ data: Data) {
         guard let env = try? Envelope.decode(data), dedup.accept(env) else { return }
         switch env.message {
-        case .plan(let p): plan = p
+        case .plan(let p): plan = p; onPlan?(p)
         case .rest(_, let until): WKInterfaceDevice.current().play(.start); _ = until
         default: break
         }
