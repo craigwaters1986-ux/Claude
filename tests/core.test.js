@@ -266,3 +266,40 @@ test('generator explains when the weekly volume cap blocks a target', () => {
   assert.ok(p.warnings.some((w) => /weekly cap/.test(w)), p.warnings.join(' '));
   assert.ok(!p.warnings.some((w) => /equipment/.test(w)));
 });
+
+// ── Sync (client) ─────────────────────────────────────────────────────────
+import { collectChanges, applyRemote, entities } from '../prototype/js/core/sync.js';
+import { defaultState } from '../prototype/js/core/store.js';
+
+test('sync: first sync pushes everything except sample/active data; second sync pushes nothing', () => {
+  const s = defaultState();
+  s.workouts = [{ id: 'a', name: 'A', startedAt: 1, endedAt: 2, exercises: [] }, { id: 'sample', sample: true, endedAt: 2, startedAt: 1, exercises: [] }];
+  s.active = { id: 'live', exercises: [] };
+  const c1 = collectChanges(s, 1000);
+  assert.deepEqual(c1.map((c) => `${c.kind}:${c.id}`).sort(), ['profile:me', 'workout:a']);
+  const s2 = applyRemote(s, c1, c1);
+  assert.deepEqual(collectChanges(s2, 2000), []);
+  // Edit + delete produce an upsert and a tombstone
+  s2.workouts[0].name = 'A2'; s2.workouts = s2.workouts.filter((w) => w.id !== 'a').concat([]);
+  const c3 = collectChanges(s2, 3000);
+  assert.deepEqual(c3.map((c) => [c.id, c.deleted]), [['a', true]]);
+});
+
+test('sync: remote changes upsert, delete and merge profile; newer local edits are kept', () => {
+  const s = defaultState();
+  s.workouts = [{ id: 'x', name: 'Old', startedAt: 1, endedAt: 2, exercises: [] }];
+  const out = applyRemote(s, [
+    { kind: 'workout', id: 'x', updatedAt: 10, deleted: false, payload: { id: 'x', name: 'From iPad', startedAt: 1, endedAt: 2, exercises: [] } },
+    { kind: 'workout', id: 'y', updatedAt: 10, deleted: false, payload: { id: 'y', name: 'New', startedAt: 3, endedAt: 4, exercises: [] } },
+    { kind: 'profile', id: 'me', updatedAt: 10, deleted: false, payload: { units: 'lb' } },
+  ]);
+  assert.deepEqual(out.workouts.map((w) => w.name), ['From iPad', 'New']);
+  assert.equal(out.profile.units, 'lb');
+  assert.deepEqual(collectChanges(out, 20).filter((c) => c.kind === 'workout'), [], 'applied remote state is clean');
+  const gone = applyRemote(out, [{ kind: 'workout', id: 'y', updatedAt: 11, deleted: true, payload: null }]);
+  assert.deepEqual(gone.workouts.map((w) => w.id), ['x']);
+  const pushed = [{ kind: 'workout', id: 'x', updatedAt: 50, deleted: false, payload: { id: 'x', name: 'Mine' } }];
+  const kept = applyRemote({ ...out, workouts: [{ id: 'x', name: 'Mine', startedAt: 1, endedAt: 2, exercises: [] }] }, [{ kind: 'workout', id: 'x', updatedAt: 40, deleted: false, payload: { id: 'x', name: 'Theirs' } }], pushed);
+  assert.equal(kept.workouts[0].name, 'Mine');
+  assert.ok(entities(kept)['workout:x']);
+});

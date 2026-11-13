@@ -1,6 +1,6 @@
 import { getState, subscribe } from './core/store.js';
 import { icon, setHaptics, haptic } from './ui/dom.js';
-import { navigate } from './app.js';
+import { navigate, startAutoSync } from './app.js';
 
 import * as home from './screens/home.js';
 import * as train from './screens/train.js';
@@ -69,3 +69,4 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 }
 
 render();
+startAutoSync();

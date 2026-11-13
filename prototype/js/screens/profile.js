@@ -1,7 +1,9 @@
 import { html, icon, delegate, haptic, toast, confirmSheet, openSheet, download } from '../ui/dom.js';
 import { SIM } from '../ui/widgets.js';
 import { derived, loadSampleData, clearSampleData, connectSimulatedHealth } from '../app.js';
-import { getState, setState, exportData, deleteAllData, storageAvailable } from '../core/store.js';
+import { getState, setState, exportData, deleteAllData, storageAvailable, uid } from '../core/store.js';
+import { signInDev, deleteCloudAccount } from '../core/sync.js';
+import { runSync } from '../app.js';
 import { GOALS, EXPERIENCE, INJURY_TAGS } from '../core/generator.js';
 import { EQUIPMENT } from '../core/exercises.js';
 import * as onboarding from './onboarding.js';
@@ -17,7 +19,7 @@ export const FEATURE_STATUS = [
   ['Apple Health (sleep, HRV, resting HR)', 'Simulated values', 'sim'],
   ['Apple Watch companion & sync', 'Simulated in browser', 'sim'],
   ['Wrist rep counting algorithm', 'Synthetic + phone sensors', 'sim'],
-  ['Account sign-in & cloud sync', 'Not in prototype', 'sim'],
+  ['Accounts & cloud sync (dev sign-in; Apple sign-in native)', 'Working with Forma server', 'live'],
 ];
 
 const row = (label, right, act = '', sub = '') => html`<div class="list-item ${act ? 'tap' : ''}" ${act ? html`data-act="${act}"` : ''}><div style="flex:1"><div style="font-size:15px">${label}</div>${sub ? html`<div class="tiny dim" style="margin-top:2px">${sub}</div>` : ''}</div>${right}</div>`;
@@ -65,7 +67,17 @@ export function render({ navigate }) {
   <div class="card" style="padding:2px 14px">
     ${row('Coach can use my workout history', toggle('coach-history', p.coachUsesHistory !== false, 'Coach can use my workout history'), '', 'Off = answers are generic and use no personal data')}
     ${row('Cloud AI (Forma server)', toggle('cloud', p.aiCloud, 'Cloud AI'), '', 'Off by default. Sends a minimal training summary — never your name or notes — to your configured Forma server, which calls Claude. No API keys live in the app.')}
-    ${p.aiCloud ? html`<div style="padding:10px 0 14px"><label class="field">Server URL<input class="input" data-endpoint value="${p.aiEndpoint}" placeholder="http://localhost:8787" inputmode="url"></label><div class="tiny dim" style="margin-top:6px">Run <code>npm run server</code> (see server/README). Results are re-validated on device.</div></div>` : ''}
+  </div>
+
+  <div class="section-h"><h2>Account & sync</h2>${s.sync?.token ? html`<span class="badge live">Signed in</span>` : html`<span class="badge">Local only</span>`}</div>
+  <div class="card" style="padding:2px 14px">
+    <div style="padding:12px 0"><label class="field" for="server-url">Forma server<input id="server-url" class="input" data-endpoint value="${p.aiEndpoint}" placeholder="http://localhost:8787" inputmode="url"></label>
+      <div class="tiny dim" style="margin-top:6px">Used for sync and Cloud AI. Run <code>FORMA_DEV=1 npm run server</code> locally (see server/README).</div></div>
+    ${s.sync?.token ? html`
+      ${row('Sync now', icon('refresh', 'sm'), 'sync-now', s.sync.lastSyncAt ? `Last synced ${new Date(s.sync.lastSyncAt).toLocaleString()}` : 'Not synced yet')}
+      ${row('Sign out on this device', icon('chevR', 'sm'), 'sign-out', 'Your data stays on this device')}
+      ${row(html`<span style="color:var(--danger)">Delete cloud account</span>`, icon('trash', 'sm'), 'delete-cloud', 'Removes everything stored on the server')}`
+    : row('Sign in (development account)', icon('user', 'sm'), 'sign-in', 'Syncs workouts, templates and settings across devices. The iPhone app uses Sign in with Apple.')}
   </div>
 
   <div class="section-h"><h2>Your data</h2></div>
@@ -99,6 +111,22 @@ export function render({ navigate }) {
         rest: (b) => set((pp) => { pp.restDefaultSec = Math.min(600, Math.max(15, pp.restDefaultSec + +b.dataset.d)); }),
         haptics: () => set((pp) => { pp.haptics = !pp.haptics; }),
         theme: () => set((pp) => { pp.theme = pp.theme === 'light' ? 'dark' : 'light'; }),
+        'sign-in': async () => {
+          if (!getState().profile.aiEndpoint) { toast('Enter the Forma server URL first'); return; }
+          try {
+            const deviceId = getState().sync?.deviceId || uid('dev_');
+            const r = await signInDev(getState().profile.aiEndpoint, deviceId);
+            setState((st) => { st.sync = { deviceId, token: r.token, userId: r.userId, cursor: 0, meta: {} }; }, { op: 'account.signIn' });
+            await runSync(true);
+          } catch (e) { toast(`Sign-in failed: ${e.message}`); }
+        },
+        'sync-now': () => runSync(true),
+        'sign-out': () => setState((st) => { st.sync = { deviceId: st.sync?.deviceId }; }, { op: 'account.signOut' }),
+        'delete-cloud': async () => {
+          if (!(await confirmSheet('Delete cloud account?', 'Everything stored on the Forma server is permanently deleted. Data on this device is kept.', 'Delete cloud data', { danger: true }))) return;
+          try { await deleteCloudAccount(getState().profile.aiEndpoint, getState().sync.token); setState((st) => { st.sync = { deviceId: st.sync?.deviceId }; }, { op: 'account.delete' }); toast('Cloud account deleted'); }
+          catch (e) { toast(`Could not delete: ${e.message}`); }
+        },
         'coach-history': () => set((pp) => { pp.coachUsesHistory = pp.coachUsesHistory === false; }),
         cloud: () => set((pp) => { pp.aiCloud = !pp.aiCloud; }),
         watch: () => navigate('/watch'),

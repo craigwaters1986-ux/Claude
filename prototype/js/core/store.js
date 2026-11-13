@@ -24,6 +24,7 @@ export function defaultState() {
     active: null, personal: {}, likes: [], dislikes: [],
     health: null, // { sleepHours, hrvZ, rhrDelta, restingHr, hrv, source: 'simulated' | 'healthkit' }
     syncQueue: [], sampleData: false,
+    sync: null, // { deviceId, token, userId, cursor, meta, lastSyncAt }
   };
 }
 
