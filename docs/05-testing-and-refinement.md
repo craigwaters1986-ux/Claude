@@ -59,6 +59,6 @@ No history (no fabricated weights, baseline instead of PR) · first-ever session
 1. **Build and run the iOS + watchOS targets in Xcode.** A CI job is ready, but no GitHub-hosted macOS runner picked it up on this account (two attempts, `macos-15` and `macos-latest`). Set repository variable `ENABLE_MACOS_CI=true` once macOS runners are available, or (`cd ios && xcodegen`). Fix any compile issues (the code was only syntax-checked here), then test on a real iPhone + Apple Watch.
 2. Record labelled wrist-motion data and measure real rep-count accuracy before enabling auto-count by default (see doc 04).
 3. Run a live call against the Claude API with a real key (the server is tested against a mocked client only).
-4. Implement `/v1/sync` + Sign in with Apple; production token verification.
-5. License or commission an anatomically accurate muscle asset (see doc 01).
+4. Deploy the server: HTTPS, managed Postgres (`DATABASE_URL`), a strong `FORMA_SESSION_SECRET`, and the iOS bundle id as `FORMA_APPLE_AUDIENCE`. Sync and Sign in with Apple are implemented and tested.
+5. Confirm the BodyParts3D licence with DBCLS (CC BY 4.0 page vs CC BY-SA 2.1 JP file headers), or license/commission a complete model. BodyParts3D lacks abs and lats (see `prototype/models/ATTRIBUTION.md`).
 6. On-device accessibility pass (VoiceOver, Dynamic Type at the largest sizes) once the app is built; the web audit is automated.
