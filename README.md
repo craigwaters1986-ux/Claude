@@ -179,9 +179,17 @@ to an **outbox** in IndexedDB (`src/lib/offline/outbox-db.ts`) and clears the fo
 Each step is recorded in the outbox as it completes, and every step is idempotent (client ids, fixed
 paths, duplicate inserts recognised), so a retry never repeats work or duplicates anything.
 
-- **No signal / weak signal:** the entry stays "waiting" and retries with growing pauses (3 s → 90 s),
-  and immediately when the signal returns or the app comes back to the foreground. Nothing is lost if
-  the page reloads, the tab is closed or the phone restarts.
+- **No signal / weak signal:** the entry stays "waiting" and retries with short growing pauses (2 s → 30 s),
+  and immediately when the signal returns or the app comes back to the foreground. Phones don't reliably
+  report a returning signal (an iPhone on weak signal often stays "online" while nothing gets through), so
+  while anything is waiting the app also pings the server (`/auth/v1/health`) every 4 s and starts the
+  moment it answers. Nothing is lost if the page reloads, the tab is closed or the phone restarts.
+- **Dead connections:** a photo upload with no progress for 15 s is abandoned and retried on a fresh
+  connection, and every other request gives up after 20 s, so nothing sits on a connection that died when
+  the signal dropped. If the server answers a ping while a run looks stuck, the run restarts at once.
+- **Speed:** up to three photos upload at a time (across issues); issues are then saved one at a time in
+  the order logged. Measured: 4 issues / 8 photos up within ~6–8 s of signal returning on slow 4G
+  (previously ~50 s, up to ~2 min).
 - **Refused by the server** (e.g. its project was deleted): marked "not saved" and kept until the user
   retries or discards it. Never silently dropped.
 - **Order:** uploads stop at the first network failure, so snag numbers follow the order logged.

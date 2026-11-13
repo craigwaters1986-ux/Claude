@@ -12,7 +12,7 @@ import { useSyncExternalStore } from "react";
 export type CaptureStage = "compressing" | "uploading" | "saving";
 export type CaptureProgress = {
   stage: CaptureStage;
-  /** Upload progress of the current photo, 0–1. */
+  /** Upload progress, 0–1. */
   fraction?: number;
   /** Which photo is being processed (1-based) out of how many. */
   photo?: number;

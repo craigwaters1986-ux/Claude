@@ -27,11 +27,15 @@ export function getPublicImageUrl(supabase: TypedSupabaseClient, path: string): 
  * between "it's working" and "it's frozen", so this calls the same Storage
  * REST endpoint via XMLHttpRequest instead.
  */
+/** No upload progress for this long means the connection is dead (signal dropped mid-upload). */
+const STALL_MS = 15_000;
+
 export async function uploadImage(
   supabase: TypedSupabaseClient,
   path: string,
   file: Blob,
   onProgress?: (fraction: number) => void,
+  signal?: AbortSignal,
 ): Promise<void> {
   const {
     data: { session },
@@ -48,12 +52,42 @@ export async function uploadImage(
     xhr.setRequestHeader("x-upsert", "true"); // a retry overwrites its own earlier attempt
     xhr.setRequestHeader("cache-control", "max-age=31536000"); // photos never change at a given path
     xhr.setRequestHeader("content-type", file.type || "image/jpeg");
-    xhr.timeout = 120_000;
+    xhr.timeout = 180_000; // upper bound; a stalled upload is caught much sooner below
+
+    // A dead connection often doesn't error, it just stops. Give up when nothing has moved for a while,
+    // so the upload is retried (from scratch, on a fresh connection) as soon as there's signal again.
+    let lastActivity = Date.now();
+    let stalled = false;
+    const watchdog = setInterval(() => {
+      if (Date.now() - lastActivity > STALL_MS) {
+        stalled = true;
+        xhr.abort();
+      }
+    }, 1_000);
+    const onAbort = () => xhr.abort();
+    signal?.addEventListener("abort", onAbort, { once: true });
+    const finish = () => {
+      clearInterval(watchdog);
+      signal?.removeEventListener("abort", onAbort);
+    };
+    if (signal?.aborted) {
+      finish();
+      return reject(new ServiceError("Upload stopped.", "network"));
+    }
 
     xhr.upload.onprogress = (e) => {
+      lastActivity = Date.now();
       if (e.lengthComputable) onProgress?.(e.loaded / e.total);
     };
+    xhr.onreadystatechange = () => {
+      lastActivity = Date.now();
+    };
+    xhr.onabort = () => {
+      finish();
+      reject(new ServiceError(stalled ? "Upload stalled. Check your signal." : "Upload stopped.", "network"));
+    };
     xhr.onload = () => {
+      finish();
       if (xhr.status >= 200 && xhr.status < 300) return resolve();
       let message = `Upload failed (${xhr.status})`;
       try {
@@ -63,8 +97,14 @@ export async function uploadImage(
       const permanent = xhr.status >= 400 && xhr.status < 500 && xhr.status !== 408 && xhr.status !== 429;
       reject(new ServiceError(message, permanent ? "upload_rejected" : "upload_failed"));
     };
-    xhr.onerror = () => reject(new ServiceError("Upload failed. Check your signal.", "network"));
-    xhr.ontimeout = () => reject(new ServiceError("Upload timed out. Check your signal.", "network"));
+    xhr.onerror = () => {
+      finish();
+      reject(new ServiceError("Upload failed. Check your signal.", "network"));
+    };
+    xhr.ontimeout = () => {
+      finish();
+      reject(new ServiceError("Upload timed out. Check your signal.", "network"));
+    };
     xhr.send(file);
   });
 }
