@@ -50,7 +50,7 @@ export function render({ navigate }) {
 
   <div class="section-h"><h2>Preferences</h2></div>
   <div class="card" style="padding:2px 14px">
-    ${row('Units', html`<div class="seg" style="width:120px"><button aria-selected="${p.units === 'kg'}" data-act="units" data-v="kg">kg</button><button aria-selected="${p.units === 'lb'}" data-act="units" data-v="lb">lb</button></div>`)}
+    ${row('Units', html`<div class="seg" style="width:120px"><button aria-pressed="${p.units === 'kg'}" data-act="units" data-v="kg">kg</button><button aria-pressed="${p.units === 'lb'}" data-act="units" data-v="lb">lb</button></div>`)}
     ${row('Default rest timer', html`<div class="row" style="gap:6px"><button class="icon-btn sm" data-act="rest" data-d="-15" aria-label="Decrease rest">${icon('minus', 'sm')}</button><b class="num" style="width:48px;text-align:center">${p.restDefaultSec}s</b><button class="icon-btn sm" data-act="rest" data-d="15" aria-label="Increase rest">${icon('plus', 'sm')}</button></div>`, '', 'Isolation exercises use 60% of this')}
     ${row('Haptic feedback', toggle('haptics', p.haptics, 'Haptic feedback'), '', 'Uses vibration where the browser supports it; native app uses Taptic Engine')}
     ${row('Light appearance', toggle('theme', p.theme === 'light', 'Light appearance'), '', 'Dark is the default')}

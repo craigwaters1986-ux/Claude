@@ -75,7 +75,7 @@ export function render({ navigate }) {
     <div class="body-stage" data-stage>
       ${gl ? '' : html`<div class="empty" style="padding-top:120px">${icon('body')}<div class="title-m">3D view unavailable</div><p class="tiny">WebGL isn't available on this device. Use the muscle list below.</p></div>`}
       <div class="floor"></div>
-      <div class="overlay" style="top:12px"><div class="seg" style="width:150px"><button aria-selected="${ui.side === 'front'}" data-act="side" data-s="front">Front</button><button aria-selected="${ui.side === 'back'}" data-act="side" data-s="back">Rear</button></div>
+      <div class="overlay" style="top:12px"><div class="seg" style="width:150px"><button aria-pressed="${ui.side === 'front'}" data-act="side" data-s="front">Front</button><button aria-pressed="${ui.side === 'back'}" data-act="side" data-s="back">Rear</button></div>
         <div class="row" style="gap:6px"><button class="icon-btn sm" data-act="zoom" data-z="0.8" aria-label="Zoom in">${icon('plus', 'sm')}</button><button class="icon-btn sm" data-act="zoom" data-z="1.25" aria-label="Zoom out">${icon('minus', 'sm')}</button><button class="icon-btn sm" data-act="reset" aria-label="Reset view">${icon('rotate', 'sm')}</button></div></div>
       <div class="overlay" style="bottom:10px;justify-content:center"><span class="tiny dim">Drag to rotate 360° · pinch to zoom · tap a muscle</span></div>
     </div>

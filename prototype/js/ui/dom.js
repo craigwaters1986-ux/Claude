@@ -13,7 +13,8 @@ export function html(strings, ...vals) {
     out += s;
     if (i < vals.length) {
       const v = vals[i];
-      if (v == null || v === false) return;
+      if (v == null) return;
+      if (typeof v === 'boolean') { out += String(v); return; }   // so aria-pressed/checked="false" is announced
       if (Array.isArray(v)) out += v.map((x) => (x instanceof Raw ? x.s : esc(x))).join('');
       else out += v instanceof Raw ? v.s : esc(v);
     }

@@ -61,7 +61,7 @@ export function render({ navigate }) {
     <div class="watch-wrap" style="margin-top:14px"><div class="watch"><div class="watch-screen" data-face>${watchFace()}</div></div></div>
     <div class="card" style="margin-top:16px">
       <div class="row between"><b>Motion source</b>${t.linked ? html`<span class="badge live">Synced to active workout</span>` : html`<span class="badge">Demo exercise</span>`}</div>
-      <div class="seg" style="margin-top:10px"><button aria-selected="${source === 'synthetic'}" data-act="source" data-v="synthetic">Synthetic motion</button><button aria-selected="${source === 'phone'}" data-act="source" data-v="phone">This phone's sensors</button></div>
+      <div class="seg" style="margin-top:10px"><button aria-pressed="${source === 'synthetic'}" data-act="source" data-v="synthetic">Synthetic motion</button><button aria-pressed="${source === 'phone'}" data-act="source" data-v="phone">This phone's sensors</button></div>
       <p class="tiny dim" style="margin-top:8px;line-height:1.5">${source === 'phone' ? 'Hold the phone like a dumbbell (screen facing in) and do slow curls or presses. Experimental: a phone in the hand is not a watch on the wrist.' : `Streams a realistic noisy ${prof?.id === 'verticalPush' ? 'press' : prof?.id === 'lateralRaise' ? 'raise' : 'curl'} signal at 50 Hz with tempo variation and fatigue slow-down.`}</p>
       <div class="eyebrow" style="margin-top:12px">Live signal · ${prof ? `${prof.signal} profile` : 'unsupported'}</div>
       <canvas class="wave" data-wave width="680" height="180" aria-label="Live motion signal with rep detection thresholds"></canvas>
