@@ -133,7 +133,7 @@ export const PhotoPicker = forwardRef<PhotoPickerHandle, Props>(function PhotoPi
               <Camera className="size-7" />
             </span>
             <span className="font-medium">Take photo</span>
-            <span className="text-muted-foreground text-xs">Up to {MAX_PHOTOS_PER_SNAG} per snag<span className="hidden lg:inline"> · or drop photos here</span></span>
+            <span className="text-muted-foreground text-xs">Up to {MAX_PHOTOS_PER_SNAG} per issue<span className="hidden lg:inline"> · or drop photos here</span></span>
           </button>
           <Button type="button" variant="ghost" onClick={() => inputs.current?.openGallery()}>
             <Images /> Choose from gallery
@@ -141,7 +141,7 @@ export const PhotoPicker = forwardRef<PhotoPickerHandle, Props>(function PhotoPi
         </div>
       ) : (
         <div className="grid gap-2">
-          <ul className="grid grid-cols-3 gap-2 lg:gap-3" aria-label="Photos for this snag">
+          <ul className="grid grid-cols-3 gap-2 lg:gap-3" aria-label="Photos for this issue">
             {value.map((photo, i) => (
               <li key={photo.id} className="bg-muted relative aspect-square overflow-hidden rounded-xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Site Auditor +",
     short_name: "Site Auditor +",
-    description: "Log building-site snags, attach photos and generate PDF reports.",
+    description: "Log building-site issues, attach photos and generate PDF reports.",
     start_url: "/",
     display: "standalone",
     background_color: "#000000",

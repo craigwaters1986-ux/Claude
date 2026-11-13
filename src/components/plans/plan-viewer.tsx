@@ -96,7 +96,7 @@ export function PlanViewer({ level, pins = [], onPinClick, placing, className }:
                       }}
                       disabled={!onPinClick}
                       title={pin.title}
-                      aria-label={`Snag ${pin.label}${pin.title ? `: ${pin.title}` : ""}`}
+                      aria-label={`Issue ${pin.label}${pin.title ? `: ${pin.title}` : ""}`}
                       className={cn(
                         "flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white text-[11px] font-bold text-white shadow-md outline-none focus-visible:ring-[3px] focus-visible:ring-black/40",
                         PIN_COLOUR[pin.status],

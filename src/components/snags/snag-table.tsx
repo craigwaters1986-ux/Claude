@@ -23,12 +23,12 @@ export function SnagTable({ snags, levelNames, onOpen, onStatusChange, onDelete 
   const showLevels = levelNames.size > 0;
   return (
     <div className="surface overflow-hidden">
-      <table className="w-full text-sm" aria-label="Snags">
+      <table className="w-full text-sm" aria-label="Issues">
         <thead className="bg-muted/60 text-muted-foreground text-left text-xs font-medium">
           <tr>
             <th className="w-14 px-4 py-3">#</th>
             <th className="w-20 py-3">Photo</th>
-            <th className="py-3 pr-4">Snag</th>
+            <th className="py-3 pr-4">Issue</th>
             <th className="w-36 py-3 pr-4">Assigned to</th>
             {showLevels && <th className="w-32 py-3 pr-4">Level</th>}
             <th className="w-32 py-3 pr-4">Status</th>
@@ -109,7 +109,7 @@ export function SnagTable({ snags, levelNames, onOpen, onStatusChange, onDelete 
                 <td className="py-2.5 pr-4" onClick={(e) => e.stopPropagation()}>
                   <div className="relative inline-block">
                     <select
-                      aria-label={`Status of snag ${snag._pending ? "(saving)" : `#${snag.snag_number}`}`}
+                      aria-label={`Status of issue ${snag._pending ? "(saving)" : `#${snag.snag_number}`}`}
                       value={snag.status}
                       onChange={(e) => onStatusChange(snag, e.target.value as SnagStatus)}
                       disabled={snag._pending}
@@ -135,7 +135,7 @@ export function SnagTable({ snags, levelNames, onOpen, onStatusChange, onDelete 
                     className="text-muted-foreground"
                     onClick={() => onDelete(snag)}
                     disabled={snag._pending}
-                    aria-label={`Delete snag ${snag.snag_number}`}
+                    aria-label={`Delete issue ${snag.snag_number}`}
                   >
                     <Trash2 />
                   </Button>

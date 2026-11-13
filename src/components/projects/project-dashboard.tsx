@@ -55,7 +55,7 @@ export function ProjectDashboard() {
           {projects && projects.length > 0 && (
             <p className="text-muted-foreground text-sm">
               {projects.filter((p) => p.status === "active").length} active ·{" "}
-              {projects.reduce((n, p) => n + p.open_snags + p.in_progress_snags, 0)} snags outstanding
+              {projects.reduce((n, p) => n + p.open_snags + p.in_progress_snags, 0)} issues outstanding
             </p>
           )}
         </div>
@@ -92,7 +92,7 @@ export function ProjectDashboard() {
         <EmptyState
           icon={HardHat}
           title="No projects yet"
-          description="Create a project for each site or job, then start logging snags."
+          description="Create a project for each site or job, then start logging issues."
           action={
             <Button onClick={openCreate} size="lg">
               <FolderPlus /> Create your first project

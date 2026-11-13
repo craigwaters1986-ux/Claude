@@ -104,7 +104,7 @@ function ProjectForm({
       <DialogHeader>
         <DialogTitle>{isEdit ? "Edit project" : "New project"}</DialogTitle>
         <DialogDescription>
-          {isEdit ? "Update the project details." : "Add a site or job to start logging snags."}
+          {isEdit ? "Update the project details." : "Add a site or job to start logging issues."}
         </DialogDescription>
       </DialogHeader>
 

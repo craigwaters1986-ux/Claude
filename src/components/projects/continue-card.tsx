@@ -43,7 +43,7 @@ export function ContinueCard({ projects }: { projects: ProjectSummary[] }) {
         <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/70">
           <span className="inline-flex items-center gap-1">
             <ViewIcon className="size-3.5" />
-            {onPlans ? `Plans${level ? ` · ${level.name}` : ""}` : "Snag list"}
+            {onPlans ? `Plans${level ? ` · ${level.name}` : ""}` : "Issue list"}
           </span>
           {device && DeviceIcon && (
             <span className="inline-flex items-center gap-1">

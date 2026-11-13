@@ -43,7 +43,7 @@ export function DeleteProjectDialog({ project, onOpenChange, onDeleted }: Props)
         <AlertDialogHeader>
           <AlertDialogTitle>Delete this project?</AlertDialogTitle>
           <AlertDialogDescription>
-            “{project?.name}” and its {plural(project?.total_snags ?? 0, "snag")}, including photos,
+            “{project?.name}” and its {plural(project?.total_snags ?? 0, "issue")}, including photos,
             will be permanently deleted. This can’t be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>

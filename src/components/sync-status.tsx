@@ -34,16 +34,16 @@ export function SyncStatus() {
 
   function explain() {
     if (failed) {
-      toast.error(`${plural(failed, "snag")} couldn’t be saved. Open Add snags on the project to retry or discard.`);
+      toast.error(`${plural(failed, "issue")} couldn’t be saved. Open Add issues on the project to retry or discard.`);
     } else if (waiting) {
       toast(
         online
-          ? `${plural(waiting, "snag")} saved on this phone, uploading now.`
-          : `${plural(waiting, "snag")} saved safely on this phone. They’ll upload by themselves when there’s signal.`,
+          ? `${plural(waiting, "issue")} saved on this phone, uploading now.`
+          : `${plural(waiting, "issue")} saved safely on this phone. They’ll upload by themselves when there’s signal.`,
       );
       if (online) void sync();
     } else {
-      toast("No signal. You can keep logging snags; they’re saved on this phone and upload when the signal is back.");
+      toast("No signal. You can keep logging issues; they’re saved on this phone and upload when the signal is back.");
     }
   }
 

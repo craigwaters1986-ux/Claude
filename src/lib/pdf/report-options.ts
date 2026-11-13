@@ -37,8 +37,8 @@ export const DEFAULT_REPORT_OPTIONS: ReportOptions = {
 };
 
 export const DESIGNS: { value: ReportDesign; label: string; description: string }[] = [
-  { value: "table", label: "Standard table", description: "Every snag in one table with a small photo." },
-  { value: "photos", label: "Photo report", description: "A large photo per snag. Best for clients." },
+  { value: "table", label: "Standard table", description: "Every issue in one table with a small photo." },
+  { value: "photos", label: "Photo report", description: "A large photo per issue. Best for clients." },
   { value: "checklist", label: "Checklist", description: "No photos, with tick boxes. Best for trades on site." },
 ];
 
@@ -125,8 +125,8 @@ export function groupSnags<T extends Pick<Snag, "status" | "assigned_to" | "leve
 /** One line describing any filters, printed in the report header. Null if unfiltered. */
 export function describeFilters(options: ReportOptions): string | null {
   const parts: string[] = [];
-  if (options.status === "outstanding") parts.push("Outstanding snags only (open and in progress)");
-  if (options.status === "resolved") parts.push("Resolved snags only");
+  if (options.status === "outstanding") parts.push("Outstanding issues only (open and in progress)");
+  if (options.status === "resolved") parts.push("Resolved issues only");
   if (options.assignees.length) parts.push(`Assigned to: ${options.assignees.join(", ")}`);
   return parts.length ? parts.join(" · ") : null;
 }

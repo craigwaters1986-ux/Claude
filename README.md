@@ -1,4 +1,4 @@
-# Site Auditor + — Building-site snagging app
+# Site Auditor + — Building-site issue tracker
 
 Mobile-first web app for logging construction defects (snags / punch-list items) on site,
 attaching photos, and generating PDF reports for clients.
@@ -44,6 +44,13 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
      On phones the email often opens in a different browser from the one that asked for the link,
      and then the link can't complete sign-in. The 6-digit code always works.
 4. `npm run dev`
+
+## Wording
+
+The app says **issue** everywhere people see it ("Issue #3", "Add issues", "Issue report"), so it suits
+inspections, defects, jobs lists and snagging alike. Code, routes and the database keep the original
+`snag` names (`snags` table, `snag_number`, `use-snags.ts`, …); renaming those would gain nothing visible
+and would break saved data and offline queues.
 
 ## Data model
 

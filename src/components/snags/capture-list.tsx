@@ -29,7 +29,7 @@ type Props = {
 export function CaptureList({ items, onRetry, onDiscard }: Props) {
   if (items.length === 0) return null;
   return (
-    <ul className="grid grid-cols-1 gap-2" aria-label="Snags logged this visit" aria-live="polite">
+    <ul className="grid grid-cols-1 gap-2" aria-label="Issues logged this visit" aria-live="polite">
       {items.map((item) => (
         <CaptureRow key={item.id} item={item} onRetry={onRetry} onDiscard={onDiscard} />
       ))}

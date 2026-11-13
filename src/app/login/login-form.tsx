@@ -146,7 +146,7 @@ export function LoginForm() {
           <ClipboardCheck className="size-7" strokeWidth={2.25} />
         </div>
         <h1 className="text-3xl font-bold tracking-tight">Site Auditor +</h1>
-        <p className="mt-1 text-sm text-white/60">Snagging for building sites</p>
+        <p className="mt-1 text-sm text-white/60">Site issues, photos and reports</p>
       </div>
 
       <Card className="gap-5 rounded-2xl border-0 py-7 shadow-2xl">

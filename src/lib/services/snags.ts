@@ -36,13 +36,13 @@ export async function listSnags(supabase: TypedSupabaseClient, projectId: string
     .eq("project_id", projectId)
     .order("snag_number", { ascending: true });
 
-  if (error) throw toServiceError(error, "Could not load snags.");
+  if (error) throw toServiceError(error, "Could not load issues.");
   return (data as SnagWithEmbed[]).map(normalise);
 }
 
 export async function getSnag(supabase: TypedSupabaseClient, snagId: string): Promise<Snag> {
   const { data, error } = await supabase.from("snags").select(SNAG_SELECT).eq("id", snagId).single();
-  if (error) throw toServiceError(error, "Could not load snag.");
+  if (error) throw toServiceError(error, "Could not load issue.");
   return normalise(data as SnagWithEmbed);
 }
 
@@ -60,7 +60,7 @@ export async function createSnag(
   photos: SnagPhotoInput[] = [],
 ): Promise<Snag> {
   const { error } = await supabase.from("snags").insert({ ...input, title: input.title.trim() });
-  if (error && error.code !== "23505") throw toServiceError(error, "Could not save snag.");
+  if (error && error.code !== "23505") throw toServiceError(error, "Could not save issue.");
 
   if (photos.length) await addSnagPhotos(supabase, input.id, photos);
   return getSnag(supabase, input.id);
@@ -74,7 +74,7 @@ export async function updateSnag(supabase: TypedSupabaseClient, snagId: string, 
     .select(SNAG_SELECT)
     .single();
 
-  if (error) throw toServiceError(error, "Could not update snag.");
+  if (error) throw toServiceError(error, "Could not update issue.");
   return normalise(data as SnagWithEmbed);
 }
 
@@ -114,6 +114,6 @@ export async function deleteSnagPhoto(supabase: TypedSupabaseClient, photo: Pick
 /** Delete a snag (its photo rows go with it). Returns all its photos' storage paths for cleanup. */
 export async function deleteSnag(supabase: TypedSupabaseClient, snagId: string): Promise<string[]> {
   const { data, error } = await supabase.from("snags").delete().eq("id", snagId).select(SNAG_SELECT).single();
-  if (error) throw toServiceError(error, "Could not delete snag.");
+  if (error) throw toServiceError(error, "Could not delete issue.");
   return [...new Set(normalise(data as SnagWithEmbed).photos.map((p) => p.image_path).filter(Boolean))];
 }

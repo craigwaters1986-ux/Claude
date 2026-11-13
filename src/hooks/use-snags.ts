@@ -159,7 +159,7 @@ export function useCreateSnag(projectId: string) {
       // valid sign-in, which it gets once the signal is back.
       const { data } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
       const userId = data.session?.user.id ?? lastUserId();
-      if (!userId) throw new ServiceError("Please sign in again to save snags.", "no_session");
+      if (!userId) throw new ServiceError("Please sign in again to save issues.", "no_session");
       await addToOutbox({
         id: input.id,
         userId,

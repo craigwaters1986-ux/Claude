@@ -17,7 +17,7 @@ type Props = {
 
 export function SnagCard({ snag, levelName, onOpen, onStatusChange, onDelete }: Props) {
   const cover = snag.photos[0]?.image_url ?? snag.image_url;
-  const label = snag._pending ? snag.title : `snag ${snag.snag_number}, ${snag.title}`;
+  const label = snag._pending ? snag.title : `issue ${snag.snag_number}, ${snag.title}`;
   return (
     <div className={cn("surface flex gap-3 p-3", snag._pending && "opacity-70")}>
       <button
@@ -59,7 +59,7 @@ export function SnagCard({ snag, levelName, onOpen, onStatusChange, onDelete }: 
                 </span>
               ) : snag._offline === "failed" ? (
                 <span className="text-destructive inline-flex items-center gap-1">
-                  <AlertCircle className="size-3" /> Not saved · see Add snags
+                  <AlertCircle className="size-3" /> Not saved · see Add issues
                 </span>
               ) : snag._pending ? (
                 <span className="inline-flex items-center gap-1">
@@ -77,7 +77,7 @@ export function SnagCard({ snag, levelName, onOpen, onStatusChange, onDelete }: 
             className="text-muted-foreground -mt-1 -mr-1 shrink-0"
             onClick={onDelete}
             disabled={snag._pending}
-            aria-label={`Delete snag ${snag.snag_number}`}
+            aria-label={`Delete issue ${snag.snag_number}`}
           >
             <Trash2 />
           </Button>
@@ -112,7 +112,7 @@ export function SnagCard({ snag, levelName, onOpen, onStatusChange, onDelete }: 
         {/* Native select styled as a status pill: one tap opens the OS picker. */}
         <div className="relative mt-2 inline-block">
           <select
-            aria-label={`Status of snag ${snag._pending ? "(saving)" : `#${snag.snag_number}`}`}
+            aria-label={`Status of issue ${snag._pending ? "(saving)" : `#${snag.snag_number}`}`}
             value={snag.status}
             onChange={(e) => onStatusChange(e.target.value as SnagStatus)}
             disabled={snag._pending}

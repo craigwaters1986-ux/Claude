@@ -79,7 +79,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
   function addPhotoRows(files: FileList | null) {
     const { photos, skipped } = filesToPhotos(files, room);
     if (photos.length) setRows((rs) => [...rs, ...photos.map((p) => newRow({ photos: [p] }))]);
-    if (skipped) toast.warning(`Up to ${MAX_ROWS} snags at a time: ${skipped} photos not added.`);
+    if (skipped) toast.warning(`Up to ${MAX_ROWS} issues at a time: ${skipped} photos not added.`);
   }
 
   /** Extra photos for one row (e.g. a wide shot and a close-up). */
@@ -89,7 +89,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
     if (!row) return;
     const { photos, skipped } = filesToPhotos(files, MAX_PHOTOS_PER_SNAG - row.photos.length);
     if (photos.length) patchRow(row.key, { photos: [...row.photos, ...photos] });
-    if (skipped) toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per snag: ${skipped} not added.`);
+    if (skipped) toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per issue: ${skipped} not added.`);
   }
 
   function addListRows() {
@@ -101,14 +101,14 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
     const kept = lines.slice(0, room);
     setRows((rs) => [...rs, ...kept.map((title) => newRow({ title: title.slice(0, 200) }))]);
     setListText("");
-    if (lines.length > kept.length) toast.warning(`Up to ${MAX_ROWS} snags at a time: ${lines.length - kept.length} lines not added.`);
+    if (lines.length > kept.length) toast.warning(`Up to ${MAX_ROWS} issues at a time: ${lines.length - kept.length} lines not added.`);
   }
 
   async function saveAll() {
     if (!rows.length) return;
     if (missingTitles) {
       setShowErrors(true);
-      toast.error(`Give ${plural(missingTitles, "snag")} a title first.`);
+      toast.error(`Give ${plural(missingTitles, "issue")} a title first.`);
       return;
     }
     setSaving(true);
@@ -129,10 +129,10 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
       const count = rows.length;
       setRows([]);
       setShowErrors(false);
-      toast.success(`${plural(count, "snag")} saved`);
+      toast.success(`${plural(count, "issue")} saved`);
       onSaved?.(count);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Couldn’t save the snags");
+      toast.error(err instanceof Error ? err.message : "Couldn’t save the issues");
     } finally {
       setSaving(false);
     }
@@ -146,15 +146,15 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
       <PhotoInputs ref={rowPhotoInputs} onFiles={addPhotosToRow} testIdPrefix="batch-row-" />
 
       {/* 1. Shared details */}
-      <section className="surface grid gap-4 p-4" aria-label="Applies to every snag">
-        <h2 className="text-sm font-semibold">For every snag in this batch</h2>
+      <section className="surface grid gap-4 p-4" aria-label="Applies to every issue">
+        <h2 className="text-sm font-semibold">For every issue in this batch</h2>
         <div className="grid gap-2">
           <Label htmlFor="batch-assigned">Assigned to</Label>
           <Input
             id="batch-assigned"
             value={shared.assignedTo}
             onChange={(e) => setShared((s) => ({ ...s, assignedTo: e.target.value }))}
-            placeholder="e.g. Decorator (each snag can be changed below)"
+            placeholder="e.g. Decorator (each issue can be changed below)"
             maxLength={200}
             autoCapitalize="words"
           />
@@ -202,7 +202,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
         )}
         <div className="grid gap-2">
           <Label htmlFor="batch-comments">
-            Comments <span className="text-muted-foreground font-normal">(optional, added to every snag)</span>
+            Comments <span className="text-muted-foreground font-normal">(optional, added to every issue)</span>
           </Label>
           <Textarea
             id="batch-comments"
@@ -223,9 +223,9 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
             <Camera /> Take photo
           </Button>
         </div>
-        <p className="text-muted-foreground -mt-1 text-xs">Each photo becomes its own snag. Pick several at once from your gallery.</p>
+        <p className="text-muted-foreground -mt-1 text-xs">Each photo becomes its own issue. Pick several at once from your gallery.</p>
         <div className="grid gap-2">
-          <Label htmlFor="batch-list">Or type a list, one snag per line</Label>
+          <Label htmlFor="batch-list">Or type a list, one issue per line</Label>
           <Textarea
             id="batch-list"
             value={listText}
@@ -241,10 +241,10 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
 
       {/* 3. The batch */}
       {rows.length > 0 && (
-        <section className="grid gap-2" aria-label="Snags in this batch">
+        <section className="grid gap-2" aria-label="Issues in this batch">
           <div className="flex items-baseline justify-between">
             <h2 className="text-sm font-semibold">
-              {plural(rows.length, "snag")} ready
+              {plural(rows.length, "issue")} ready
               {missingTitles > 0 && <span className="text-muted-foreground font-normal"> · {missingTitles} need a title</span>}
             </h2>
             <button type="button" className="text-muted-foreground text-xs underline-offset-2 hover:underline" onClick={() => setRows([])}>
@@ -265,7 +265,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
                       }}
                       disabled={row.photos.length >= MAX_PHOTOS_PER_SNAG}
                       className="bg-muted text-muted-foreground relative flex size-16 items-center justify-center overflow-hidden rounded-lg"
-                      aria-label={row.photos.length ? `Add another photo to snag ${i + 1}` : `Add a photo to snag ${i + 1}`}
+                      aria-label={row.photos.length ? `Add another photo to issue ${i + 1}` : `Add a photo to issue ${i + 1}`}
                     >
                       {row.photos[0] ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -289,7 +289,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
                         type="button"
                         onClick={() => setMarkingUpRow(row.key)}
                         className="absolute bottom-0.5 left-0.5 flex size-7 items-center justify-center rounded-full bg-black/65 text-white outline-none focus-visible:ring-[3px] focus-visible:ring-white/70"
-                        aria-label={`Mark up photo for snag ${i + 1}`}
+                        aria-label={`Mark up photo for issue ${i + 1}`}
                       >
                         <Pencil className="size-3.5" />
                       </button>
@@ -299,8 +299,8 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
                     <Input
                       value={row.title}
                       onChange={(e) => patchRow(row.key, { title: e.target.value })}
-                      placeholder={`Snag ${i + 1}: what’s wrong?`}
-                      aria-label={`Title of snag ${i + 1}`}
+                      placeholder={`Issue ${i + 1}: what’s wrong?`}
+                      aria-label={`Title of issue ${i + 1}`}
                       aria-invalid={titleMissing || undefined}
                       maxLength={200}
                       className="h-10 md:h-9"
@@ -310,7 +310,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
                         value={row.assignedTo}
                         onChange={(e) => patchRow(row.key, { assignedTo: e.target.value })}
                         placeholder={shared.assignedTo ? `Assigned to: ${shared.assignedTo}` : "Assigned to (optional)"}
-                        aria-label={`Assigned to, snag ${i + 1}`}
+                        aria-label={`Assigned to, issue ${i + 1}`}
                         maxLength={200}
                         className="h-9 min-w-0 flex-1 text-sm md:h-8"
                       />
@@ -321,7 +321,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
                           size="sm"
                           className="h-9 shrink-0 md:h-8"
                           onClick={() => setPinningRow(row.key)}
-                          aria-label={`${row.pin ? "Move pin" : "Pin"} for snag ${i + 1}`}
+                          aria-label={`${row.pin ? "Move pin" : "Pin"} for issue ${i + 1}`}
                         >
                           {row.pin ? <MapPin /> : <MapPinOff />}
                           {row.pin ? "Pinned" : "Pin"}
@@ -335,7 +335,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
                     size="icon"
                     className="text-muted-foreground"
                     onClick={() => removeRow(row.key)}
-                    aria-label={`Remove snag ${i + 1}`}
+                    aria-label={`Remove issue ${i + 1}`}
                   >
                     {row.photos.length ? <Trash2 /> : <X />}
                   </Button>
@@ -350,7 +350,7 @@ export function BatchEntry({ projectId, levels, recentAssignees, onSaved }: Prop
       <div className="bg-background/95 sticky bottom-0 -mx-4 border-t px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur lg:static lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
         <Button type="button" size="lg" className="h-12 w-full text-base" onClick={saveAll} disabled={!rows.length || saving}>
           {saving ? <Loader2 className="size-5 animate-spin" /> : <Save className="size-5" />}
-          {rows.length ? `Save ${plural(rows.length, "snag")}` : "Add snags to the batch first"}
+          {rows.length ? `Save ${plural(rows.length, "issue")}` : "Add issues to the batch first"}
         </Button>
       </div>
 

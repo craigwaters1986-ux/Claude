@@ -100,7 +100,7 @@ export async function generateSnagReport(
   const { renderSnagReport } = await import("./snag-report"); // loads the PDF engine on first use
   const blob = await renderSnagReport({ project, snags, levels, plans, thumbnails, snippets, branding, generatedAt, options });
 
-  const kind = { table: "snag-report", photos: "photo-report", checklist: "snag-checklist" }[options.design];
+  const kind = { table: "issue-report", photos: "photo-report", checklist: "issue-checklist" }[options.design];
   const who = options.assignees.length === 1 ? `-${slugify(options.assignees[0])}` : "";
   return {
     blob,

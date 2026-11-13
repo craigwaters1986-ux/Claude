@@ -37,7 +37,7 @@ import { cn } from "@/lib/utils";
 function progressLabel(progress: ReportProgress): string {
   switch (progress.stage) {
     case "loading":
-      return "Loading snags…";
+      return "Loading issues…";
     case "photos":
       return progress.total ? `Photos ${progress.done}/${progress.total}` : "Preparing…";
     case "rendering":
@@ -164,7 +164,7 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
 
       {/* Which snags */}
       <fieldset className="grid gap-2" disabled={busy}>
-        <legend className="mb-2 text-sm font-medium">Which snags</legend>
+        <legend className="mb-2 text-sm font-medium">Which issues</legend>
         <div className="grid grid-cols-3 gap-2">
           {STATUS_FILTERS.map((f) => (
             <label
@@ -272,9 +272,9 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
             className="accent-primary mt-0.5 size-4"
           />
           <span>
-            <span className="font-medium">Show where each snag is</span>
+            <span className="font-medium">Show where each issue is</span>
             <span className="text-muted-foreground block text-xs">
-              A small cut-out of the drawing around each pinned snag, next to its details.
+              A small cut-out of the drawing around each pinned issue, next to its details.
             </span>
           </span>
         </label>
@@ -292,7 +292,7 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
           <span>
             <span className="font-medium">Include marked-up plans</span>
             <span className="text-muted-foreground block text-xs">
-              A page per level showing its drawing with the pinned snags numbered on it.
+              A page per level showing its drawing with the pinned issues numbered on it.
             </span>
           </span>
         </label>
@@ -301,10 +301,10 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
       <DialogFooter className="flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-muted-foreground text-center text-sm sm:text-left" aria-live="polite">
           {snags.isPending
-            ? "Counting snags…"
+            ? "Counting issues…"
             : includedCount === 0
-              ? "No snags match these options."
-              : `${includedCount} ${includedCount === 1 ? "snag" : "snags"} will be included.`}
+              ? "No issues match these options."
+              : `${includedCount} ${includedCount === 1 ? "issue" : "issues"} will be included.`}
         </p>
         <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={busy || snags.isPending || includedCount === 0}>
           {busy ? <Loader2 className="animate-spin" /> : <FileDown />}

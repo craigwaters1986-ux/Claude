@@ -198,7 +198,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       ...form.location,
       photos: form.photos,
     };
-    createSnag.save(capture).catch((err) => toast.error(err instanceof Error ? err.message : "Couldn’t save the snag"));
+    createSnag.save(capture).catch((err) => toast.error(err instanceof Error ? err.message : "Couldn’t save the issue"));
 
     // …and reset at once, ready for the next defect.
     // The level stays selected (you snag one floor at a time); the pin is per snag.
@@ -214,7 +214,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
 
   async function discard(item: CaptureItem) {
     await discardEntry(item.id);
-    toast("Snag discarded");
+    toast("Issue discarded");
   }
 
   if (project.error) {
@@ -238,7 +238,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
       </div>
 
       <div>
-        <h1 className="text-[28px] leading-tight font-bold lg:text-4xl">Add snags</h1>
+        <h1 className="text-[28px] leading-tight font-bold lg:text-4xl">Add issues</h1>
         {project.data ? (
           <p className="text-muted-foreground truncate text-sm">{project.data.name}</p>
         ) : (
@@ -278,7 +278,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
           <div className="border-brand text-header-foreground flex flex-col items-center gap-2 rounded-3xl border-4 border-dashed px-12 py-10 text-center">
             <Images className="size-10" />
             <p className="text-xl font-semibold">Drop photos to add them</p>
-            <p className="text-sm text-white/70">Up to {MAX_PHOTOS_PER_SNAG} per snag</p>
+            <p className="text-sm text-white/70">Up to {MAX_PHOTOS_PER_SNAG} per issue</p>
           </div>
         </div>
       )}
@@ -288,7 +288,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
           onSubmit={submit}
           onKeyDown={onFormKeyDown}
           className="grid gap-4 lg:grid-cols-2 lg:items-start lg:gap-8"
-          aria-label="New snag"
+          aria-label="New issue"
         >
           <div className="lg:surface lg:p-4">
           <PhotoPicker
@@ -296,7 +296,7 @@ export function RapidEntry({ projectId }: { projectId: string }) {
             value={form.photos}
             onChange={(photos) => update("photos", photos)}
             onLimitReached={(skipped) =>
-              toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per snag: ${skipped} not added.`)
+              toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per issue: ${skipped} not added.`)
             }
           />
           </div>

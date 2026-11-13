@@ -168,7 +168,7 @@ function ReportHeader({
         <View style={{ flex: 1, paddingRight: 16 }}>
           <Text style={styles.eyebrow}>
             {branding.companyName ? `${branding.companyName} · ` : ""}
-            {options.design === "checklist" ? "Snagging checklist" : "Snagging report"}
+            {options.design === "checklist" ? "Issue checklist" : "Issue report"}
           </Text>
           <Text style={styles.projectName}>{project.name}</Text>
           {project.location ? <Text style={styles.meta}>{project.location}</Text> : null}
@@ -218,7 +218,7 @@ function GroupHeading({ label, count }: { label: string; count: number }) {
     <View style={styles.groupHeading}>
       <Text style={styles.groupTitle}>{label}</Text>
       <Text style={styles.groupCount}>
-        {count} {count === 1 ? "snag" : "snags"}
+        {count} {count === 1 ? "issue" : "issues"}
       </Text>
     </View>
   );
@@ -228,7 +228,7 @@ function Footer({ project, generatedAt, design }: { project: ProjectSummary; gen
   return (
     <View style={styles.footer} fixed>
       <Text>
-        {project.name} · {design === "checklist" ? "Snagging checklist" : "Snagging report"} · {formatDate(generatedAt)}
+        {project.name} · {design === "checklist" ? "Issue checklist" : "Issue report"} · {formatDate(generatedAt)}
       </Text>
       <Text render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`} />
     </View>
@@ -339,7 +339,7 @@ function PhotoCard({ snag, thumbnails, levelName, snippet }: RowProps) {
           </View>
         )}
         <View style={styles.cardBody}>
-          <Text style={styles.cardNumber}>SNAG #{snag.snag_number}</Text>
+          <Text style={styles.cardNumber}>ISSUE #{snag.snag_number}</Text>
           <Text style={styles.cardTitle}>{snag.title}</Text>
           <StatusPill status={snag.status} />
   
@@ -535,7 +535,7 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
   return (
     <Document
       title={`${designLabel}: ${project.name}`}
-      subject="Snagging report"
+      subject="Issue report"
       creator="Site Auditor +"
       producer="Site Auditor +"
       author={options.preparedBy || undefined}
@@ -547,7 +547,7 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
         {options.design === "checklist" ? <ChecklistHeader /> : null}
 
         {snags.length === 0 ? (
-          <Text style={styles.empty}>No snags match the options chosen for this report.</Text>
+          <Text style={styles.empty}>No issues match the options chosen for this report.</Text>
         ) : (
           <Groups
             groups={groups}

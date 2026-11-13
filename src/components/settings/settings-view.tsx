@@ -119,7 +119,7 @@ export function SettingsView() {
         </Field>
       </Section>
 
-      <Section title="Snag list">
+      <Section title="Issue list">
         <Field label="Layout on tablets and computers">
           <Segmented
             name="snag-view"

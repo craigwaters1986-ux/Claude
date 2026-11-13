@@ -57,7 +57,7 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
           <div
             className="bg-muted mt-3 h-1.5 overflow-hidden rounded-full"
             role="progressbar"
-            aria-label="Snags resolved"
+            aria-label="Issues resolved"
             aria-valuenow={Math.round(progress * 100)}
             aria-valuemin={0}
             aria-valuemax={100}

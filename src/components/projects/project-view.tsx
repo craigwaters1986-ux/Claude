@@ -157,7 +157,7 @@ export function ProjectView({
     if (!snagToDelete) return;
     const { id, snag_number } = snagToDelete;
     deleteSnag.mutate(id, {
-      onSuccess: () => toast.success(`Snag #${snag_number} deleted`),
+      onSuccess: () => toast.success(`Issue #${snag_number} deleted`),
       onError: (err) => toast.error(err.message),
     });
     setSnagToDelete(null);
@@ -241,7 +241,7 @@ export function ProjectView({
           <GenerateReportButton projectId={projectId} disabled={pending.length > 0} />
           <Button size="lg" asChild>
             <Link href={`/projects/${projectId}/add`}>
-              <Camera /> Add snags
+              <Camera /> Add issues
             </Link>
           </Button>
         </div>
@@ -266,7 +266,7 @@ export function ProjectView({
       <div className="bg-muted flex w-full rounded-lg p-0.5 lg:w-auto" role="group" aria-label="View">
         {(
           [
-            ["list", ClipboardList, "Snags"],
+            ["list", ClipboardList, "Issues"],
             ["plans", Layers, "Plans"],
           ] as const
         ).map(([value, Icon, label]) => (
@@ -284,7 +284,7 @@ export function ProjectView({
           </button>
         ))}
       </div>
-      <div role="tablist" aria-label="Filter snags by status" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:px-0 lg:pb-0">
+      <div role="tablist" aria-label="Filter issues by status" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:px-0 lg:pb-0">
         {FILTERS.map((f) => (
           <button
             key={f}
@@ -307,11 +307,11 @@ export function ProjectView({
             <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
             <Input
               type="search"
-              placeholder="Search snags"
+              placeholder="Search issues"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="h-10 pl-9 md:h-9"
-              aria-label="Search snags"
+              aria-label="Search issues"
             />
           </div>
           <div className={cn("bg-muted hidden rounded-lg p-0.5", mode === "list" && "md:flex")} role="group" aria-label="Layout">
@@ -358,11 +358,11 @@ export function ProjectView({
       ) : snags.error && !snags.data ? (
         <ErrorState message={snags.error.message} onRetry={() => snags.refetch()} />
       ) : visibleSnags.length === 0 && query.trim() ? (
-        <EmptyState icon={Search} title="No matching snags" description="Try a different search." />
+        <EmptyState icon={Search} title="No matching issues" description="Try a different search." />
       ) : visibleSnags.length === 0 ? (
         <EmptyState
           icon={ClipboardList}
-          title={filter === "all" ? "No snags logged yet" : `No ${SNAG_STATUS_LABEL[filter].toLowerCase()} snags`}
+          title={filter === "all" ? "No issues logged yet" : `No ${SNAG_STATUS_LABEL[filter].toLowerCase()} issues`}
           description={filter === "all" ? "Walk the site and log each defect with a photo." : undefined}
           action={
             filter === "all" ? (
@@ -414,7 +414,7 @@ export function ProjectView({
       <AlertDialog open={!!snagToDelete} onOpenChange={(open) => !open && setSnagToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete snag #{snagToDelete?.snag_number}?</AlertDialogTitle>
+            <AlertDialogTitle>Delete issue #{snagToDelete?.snag_number}?</AlertDialogTitle>
             <AlertDialogDescription>
               “{snagToDelete?.title}” and its {snagToDelete?.photos.length === 1 ? "photo" : "photos"} will be permanently deleted.
             </AlertDialogDescription>

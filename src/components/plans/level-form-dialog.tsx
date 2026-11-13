@@ -169,8 +169,8 @@ function LevelForm({ projectId, level, snagCount = 0, onCreated, onDeleted, onDo
           <p>
             Delete “{level.name}” and its drawing?{" "}
             {snagCount > 0
-              ? `Its ${plural(snagCount, "snag")} will be kept, but will lose ${snagCount === 1 ? "its" : "their"} level and pin.`
-              : "No snags are on this level."}
+              ? `Its ${plural(snagCount, "issue")} will be kept, but will lose ${snagCount === 1 ? "its" : "their"} level and pin.`
+              : "No issues are on this level."}
           </p>
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" size="sm" onClick={() => setConfirmDelete(false)} disabled={busy}>

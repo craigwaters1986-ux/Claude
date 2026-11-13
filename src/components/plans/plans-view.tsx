@@ -53,7 +53,7 @@ export function PlansView({ projectId, allSnags, visibleSnags, onOpenSnag, selec
         <EmptyState
           icon={Layers}
           title="No levels yet"
-          description="Add a level for each floor or area and upload its drawing. Then pin snags to the spot they’re at."
+          description="Add a level for each floor or area and upload its drawing. Then pin issues to the spot they’re at."
           action={
             <Button size="lg" onClick={() => setAdding(true)}>
               <Plus /> Add level
@@ -104,7 +104,7 @@ export function PlansView({ projectId, allSnags, visibleSnags, onOpenSnag, selec
               <p className="text-muted-foreground text-sm" aria-live="polite">
                 {pins.length} pinned on this drawing
                 {unpinned.length > 0 && ` · ${unpinned.length} on this level without a pin`}
-                {pins.length === 0 && onLevel.length === 0 && ". Pin snags from “Add snags”, or open a snag and set its location."}
+                {pins.length === 0 && onLevel.length === 0 && ". Pin issues from “Add issues”, or open an issue and set its location."}
               </p>
             </>
           ) : (
@@ -112,7 +112,7 @@ export function PlansView({ projectId, allSnags, visibleSnags, onOpenSnag, selec
               <EmptyState
                 icon={MapPinOff}
                 title={`No drawing for ${selected.name}`}
-                description="Upload a PDF or image of the plan to pin snags on it."
+                description="Upload a PDF or image of the plan to pin issues on it."
                 action={
                   <Button size="lg" onClick={() => setEditing(true)}>
                     <Plus /> Add drawing

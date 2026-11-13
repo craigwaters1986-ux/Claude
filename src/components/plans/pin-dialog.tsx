@@ -41,7 +41,7 @@ function PinPlacer({ level, value, onDone }: { level: Level; value: Pin; onDone:
     <>
       <DialogHeader>
         <DialogTitle>{level.name}</DialogTitle>
-        <DialogDescription>Tap the plan where the snag is. Pinch or scroll to zoom.</DialogDescription>
+        <DialogDescription>Tap the plan where the issue is. Pinch or scroll to zoom.</DialogDescription>
       </DialogHeader>
       <PlanViewer level={level} placing={{ value: draft, onPlace: (x, y) => setDraft({ x, y }) }} className="min-h-0" />
       <DialogFooter className="flex-row justify-between sm:justify-between">

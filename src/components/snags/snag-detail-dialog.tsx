@@ -59,8 +59,8 @@ function SnagDetail({ projectId, snag, onClose }: { projectId: string; snag: Lis
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Snag #{snag.snag_number}</DialogTitle>
-        <DialogDescription className="sr-only">Photos and details of this snag</DialogDescription>
+        <DialogTitle>Issue #{snag.snag_number}</DialogTitle>
+        <DialogDescription className="sr-only">Photos and details of this issue</DialogDescription>
       </DialogHeader>
       <div className="grid gap-5 lg:grid-cols-[1.3fr_1fr] lg:items-start lg:gap-8">
         <PhotoGallery projectId={projectId} snag={snag} />
@@ -140,7 +140,7 @@ function PhotoGallery({ projectId, snag }: { projectId: string; snag: ListedSnag
 
   function add(files: FileList | null) {
     const { photos: picked, skipped } = filesToPhotos(files, remaining);
-    if (skipped) toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per snag: ${skipped} not added.`);
+    if (skipped) toast.warning(`Up to ${MAX_PHOTOS_PER_SNAG} photos per issue: ${skipped} not added.`);
     if (!picked.length) return;
     const startPosition = photos.reduce((max, p) => Math.max(max, p.position + 1), 0);
     addPhotos.mutate(
@@ -348,15 +348,15 @@ function SnagFields({ projectId, snag, onSaved }: { projectId: string; snag: Lis
           ...location,
         },
       });
-      toast.success("Snag updated");
+      toast.success("Issue updated");
       onSaved();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Could not update snag");
+      toast.error(err instanceof Error ? err.message : "Could not update issue");
     }
   }
 
   return (
-    <form onSubmit={save} className="grid gap-4" aria-label="Snag details">
+    <form onSubmit={save} className="grid gap-4" aria-label="Issue details">
       <div className="grid gap-2">
         <Label htmlFor="detail-title">Title</Label>
         <Input id="detail-title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} required />

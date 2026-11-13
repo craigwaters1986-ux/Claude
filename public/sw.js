@@ -138,7 +138,7 @@ main{max-width:340px;text-align:center}h1{font-size:22px;margin:16px 0 8px}p{col
 .logo{width:56px;height:56px;border-radius:16px;background:#facc15;display:inline-flex;align-items:center;justify-content:center;font-size:28px}
 a{display:inline-block;background:#facc15;color:#000;font-weight:600;padding:12px 20px;border-radius:12px;text-decoration:none}</style></head>
 <body><main><div class="logo">📋</div><h1>No signal</h1>
-<p>This page hasn’t been opened on this phone before, so it can’t load offline. Snags you’ve saved are safe on this phone and will upload when the signal is back.</p>
+<p>This page hasn’t been opened on this phone before, so it can’t load offline. Issues you’ve saved are safe on this phone and will upload when the signal is back.</p>
 <a href="/">Go to your projects</a></main></body></html>`;
   return new Response(html, { status: 200, headers: { "content-type": "text/html; charset=utf-8" } });
 }
