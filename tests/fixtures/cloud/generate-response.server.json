@@ -1,0 +1,47 @@
+{
+  "plan": {
+    "name": "Chest & Triceps",
+    "exercises": [
+      {
+        "exerciseId": "bench",
+        "name": "Barbell Bench Press",
+        "sets": 3,
+        "reps": [
+          6,
+          10
+        ],
+        "restSec": 120,
+        "suggestedWeightKg": 82.5,
+        "why": [
+          "Main chest lift; +2.5 kg from 80×8."
+        ],
+        "alternatives": [
+          "dbBench"
+        ],
+        "instructions": [
+          "Lie with eyes under the bar, feet planted, shoulder blades pinched.",
+          "Lower the bar under control to mid-chest.",
+          "Press up and slightly back until elbows lock out."
+        ],
+        "targetMuscles": {
+          "primary": [
+            "chest"
+          ],
+          "secondary": [
+            "frontDelts",
+            "triceps"
+          ]
+        }
+      }
+    ],
+    "notes": [
+      "Knee-friendly selection."
+    ],
+    "warnings": [],
+    "estimatedMinutes": 11,
+    "source": "cloud-ai"
+  },
+  "issues": [
+    "Removed Cable Tricep Pushdown: conflicts with equipment, injuries or avoided muscles."
+  ]
+}

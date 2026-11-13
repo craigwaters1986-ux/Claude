@@ -6,10 +6,11 @@
 |---|---|---|---|
 | Core logic (JS): recovery, metrics/PRs, overload, generator + safety, rep counter (+ Swift parity), units, coach grounding, sync, anatomy mapping | `npm test` | 36 | Node 22 |
 | Browser end-to-end: onboarding → log → PR → discard race → units → edit → body/3D → generator → coach → watch sync → export/delete | `npm run test:e2e` | 12 flows | Headless Chromium (WebGL via SwiftShader) |
-| Server: AI (mocked model), Apple/session auth, sync store contract on **memory and Postgres 16**, HTTP account + sync flows | `npm run test:server` | 13 | Node 22 + tsx |
+| Server: AI (mocked model), Apple/session auth, sync store contract on **memory and Postgres 16**, HTTP account + sync flows, iPhone↔server contract fixtures | `npm run test:server` | 14 |
+| Accessibility: axe-core WCAG 2.1 A/AA on every screen, onboarding and sheets | `npm run test:a11y` | 13 views, 0 violations | Node 22 + tsx |
 | Two-device sync through the real server (+ Postgres) | `npm run test:sync` | 5 steps | Chromium × 2 |
 | Live Claude smoke test (generate + coach + "data I don't have") | `npm run smoke:ai` | 3 | needs `ANTHROPIC_API_KEY` |
-| GymCore (Swift): recovery, strength/PRs/progression, rep counter, protocol/de-dup, plan validator, offline generator, logger session, sync engine, rep evaluation, anatomy mapping | `npm run test:swift` | 31 | Swift 6.0 on Linux (also in CI) |
+| GymCore (Swift): recovery, strength/PRs/progression, rep counter, protocol/de-dup, plan validator, offline generator + weekly programmes, offline coach, logger session, sync engine, rep evaluation, anatomy mapping, iPhone↔server contract | `npm run test:swift` | 36 | Swift 6.0 on Linux (also in CI) |
 | CI (GitHub Actions) | every push | web+server+sync, GymCore on Linux; Xcode job gated | ubuntu (macOS when available) |
 | Type check (server) | `npx tsc -p tsconfig.json` | — | strict TS |
 | Syntax check (iOS/watchOS app sources) | `swiftc -parse` per file | 15 files | Linux. **Not a compile; needs Xcode** |
@@ -36,6 +37,11 @@
 | 16 | Simplifier couldn't reduce BodyParts3D meshes (vertices unwelded) | Size sweep | Weld before simplify (5.6 MB → 1.6 MB) |
 | 17 | Device frame could be scrolled sideways by focus | Screenshot after loading the anatomical model | `overflow: clip` |
 | 18 | Apple nonce compared un-hashed (weak replay protection) | Review while building iOS sign-in | Compare SHA-256(raw nonce) |
+| 19 | Pinch-zoom disabled (`maximum-scale=1`) | axe-core | Removed |
+| 20 | Switches and chips announced no state when off: the template helper dropped `false`, leaving `aria-checked=""` (35 attributes) | axe-core | Booleans render as `true`/`false` |
+| 21 | Segmented buttons used `aria-selected` outside tabs | axe-core | `aria-pressed` |
+| 22 | **iPhone AI client couldn't decode the server's response** (expected `items`/`exerciseID`, server sends `exercises`/`exerciseId`) | Writing the native cloud path | Typed `GymCore.CloudAPI` + two-way contract fixtures |
+| 23 | Avoiding one muscle (calves) avoided the whole group (legs) on the server | Contract fixture review | Group avoided only when all its muscles are; per-muscle rule enforced on device |
 
 ## Edge cases covered by tests
 
@@ -55,5 +61,4 @@ No history (no fabricated weights, baseline instead of PR) · first-ever session
 3. Run a live call against the Claude API with a real key (the server is tested against a mocked client only).
 4. Implement `/v1/sync` + Sign in with Apple; production token verification.
 5. License or commission an anatomically accurate muscle asset (see doc 01).
-6. Native weekly-programme generator (exists in the JS engine; the native port covers single sessions).
-7. Formal accessibility audit (VoiceOver, Dynamic Type at the largest sizes) on device.
+6. On-device accessibility pass (VoiceOver, Dynamic Type at the largest sizes) once the app is built; the web audit is automated.

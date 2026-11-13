@@ -12,16 +12,22 @@ struct GeneratorView: View {
     @State var prefillTargets: [Muscle]
     @State private var goal: TrainingGoal = .hypertrophy
     @State private var minutes = 45
+    @State private var weekly = false
+    @State private var daysPerWeek = 4
     @State private var injuries: Set<JointStress> = []
     @State private var plan: GeneratedPlan?
+    @State private var program: WeeklyProgram?
     @State private var issues: [String] = []
+    @State private var source = ""
     @State private var busy = false
 
     var body: some View {
         let repo = WorkoutRepository(context: context)
         Form {
+            Section { Picker("Plan", selection: $weekly) { Text("Single workout").tag(false); Text("Weekly programme").tag(true) }.pickerStyle(.segmented) }
             Section("Goal") { Picker("Goal", selection: $goal) { ForEach(TrainingGoal.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) } }.pickerStyle(.segmented) }
             Section("Duration") { Picker("Minutes", selection: $minutes) { ForEach([20, 30, 45, 60, 75, 90], id: \.self) { Text("\($0)").tag($0) } }.pickerStyle(.segmented) }
+            if weekly { Section("Days per week") { Stepper("\(daysPerWeek) days · \(TrainingSplit.auto(daysPerWeek: daysPerWeek).label)", value: $daysPerWeek, in: 2...6) } }
             Section("Target muscles (empty = recovery decides)") {
                 ScrollView(.horizontal, showsIndicators: false) { HStack { ForEach(Muscle.allCases) { m in
                     Toggle(m.displayName, isOn: Binding(get: { prefillTargets.contains(m) }, set: { on in if on { prefillTargets.append(m) } else { prefillTargets.removeAll { $0 == m } } })).toggleStyle(.button)
@@ -32,10 +38,27 @@ struct GeneratorView: View {
                 Text("Restricted joints remove exercises that load them. Not medical advice.").font(.caption).foregroundStyle(Theme.text2)
             }
             Section {
-                Button { Task { await generate(repo) } } label: { Label(busy ? "Thinking…" : "Generate workout", systemImage: "sparkles") }.buttonStyle(PrimaryButtonStyle(ai: true)).disabled(busy)
+                Button { Task { await generate(repo) } } label: { Label(busy ? "Thinking…" : weekly ? "Generate programme" : "Generate workout", systemImage: "sparkles") }
+                    .buttonStyle(PrimaryButtonStyle(ai: true)).disabled(busy)
             }.listRowBackground(Color.clear)
-            if let plan {
+            if let program, weekly {
+                Section(program.split.label) {
+                    ForEach(program.rationale, id: \.self) { Text($0).font(.footnote).foregroundStyle(Theme.text1) }
+                    ForEach(Array(program.sessions.enumerated()), id: \.offset) { _, day in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(day.name).font(.headline)
+                            Text(day.items.compactMap { ExerciseLibrary.byID[$0.exerciseID]?.name }.joined(separator: " · ")).font(.caption).foregroundStyle(Theme.text2)
+                            Button("Start") { app.start(WorkoutSession.fromPlan(day, history: repo.completedWorkouts()), repo: repo) }.font(.caption.bold())
+                        }
+                    }
+                    Button("Save all as templates") {
+                        for day in program.sessions { context.insert(TemplateEntity(name: day.name, items: day.items.map { TemplateItem(exerciseID: $0.exerciseID, sets: $0.sets, restSeconds: $0.restSeconds) })) }
+                        try? context.save(); Haptics.success()
+                    }
+                }
+            } else if let plan {
                 Section(plan.name) {
+                    Text(source).font(.caption2.bold()).foregroundStyle(Theme.violet)
                     ForEach(issues, id: \.self) { Label($0, systemImage: "shield.lefthalf.filled").font(.caption) }
                     ForEach(plan.notes, id: \.self) { Text($0).font(.footnote).foregroundStyle(Theme.text1) }
                     ForEach(Array(plan.items.enumerated()), id: \.offset) { _, it in
@@ -59,42 +82,87 @@ struct GeneratorView: View {
         let constraints = GenerationConstraints(experience: Experience(rawValue: p.experience) ?? .intermediate,
                                                 equipment: Set(p.equipment.compactMap(Equipment.init(rawValue:))),
                                                 injuries: injuries.union(p.injuries.compactMap(JointStress.init(rawValue:))), dislikes: Set(p.dislikes))
-        let history = repo.completedWorkouts()
-        let local = OfflineGenerator.generate(.init(goal: goal, durationMinutes: minutes, targets: prefillTargets, constraints: constraints, preferred: Set(p.likes)),
-                                              recovery: repo.recovery(health: app.health), history: history, catalog: repo.catalog())
-        // Cloud AI (when enabled) would be called here via AIClient; its plan is ALWAYS
-        // re-validated on device. The offline plan is used if the call fails or is disabled.
-        let v = PlanValidator.validate(local, constraints: constraints, history: history, catalog: repo.catalog())
-        withAnimation(Theme.Motion.spring) { plan = v.plan; issues = v.issues }
+        let history = repo.completedWorkouts(), catalog = repo.catalog()
+        let recovery = repo.recovery(health: app.health)
+        let input = GeneratorInput(goal: goal, durationMinutes: minutes, targets: prefillTargets, constraints: constraints, preferred: Set(p.likes))
+        if weekly {
+            let pr = OfflineGenerator.program(input, daysPerWeek: daysPerWeek, history: history, catalog: catalog)
+            withAnimation(Theme.Motion.spring) { program = pr }; Haptics.success(); return
+        }
+        var candidate = OfflineGenerator.generate(input, recovery: recovery, history: history, catalog: catalog)
+        var label = "On-device AI"; var extra: [String] = []
+        if p.cloudAIEnabled {
+            do {
+                let req = CloudAPI.generateRequest(input, location: p.location, likes: p.likes, recovery: recovery, history: history, includeHistory: p.coachUsesHistory)
+                let res = try await AIClient().generate(req)
+                candidate = res.generatedPlan; label = "Cloud AI · validated on device"; extra = res.issues
+            } catch { extra = ["Cloud AI unavailable — used the on-device engine."] }
+        }
+        // Defence in depth: every plan, cloud or local, passes the same safety rules.
+        let v = PlanValidator.validate(candidate, constraints: constraints, history: history, catalog: catalog)
+        withAnimation(Theme.Motion.spring) { plan = v.plan; issues = extra + v.issues; source = label; program = nil }
         Haptics.success()
     }
 }
 
-// MARK: - Coach (cloud assistant through Forma's server; grounded context only)
+// MARK: - Coach (grounded; cloud via Forma's server when enabled, otherwise on device)
 
 struct CoachView: View {
-    @State private var messages: [(Bool, String)] = []
+    @Environment(\.modelContext) private var context
+    @Environment(AppState.self) private var app
+    @State private var messages: [(user: Bool, text: String, plan: GeneratedPlan?)] = []
     @State private var draft = ""
+    @State private var thinking = false
+    private let suggestions = ["Build me a 45-minute chest and triceps workout.", "What muscles should I train today?", "Why has my bench press stopped improving?", "Give me an alternative to barbell squats.", "How much should I bench next session?"]
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     if messages.isEmpty {
-                        GlassCard { Text("Ask about your training. Answers use only your logged workouts and estimated recovery — the coach says so when it lacks data, and never invents records.").font(.subheadline) }
+                        GlassCard { Text("I answer from your logged workouts and estimated recovery only. When I don't have the data, I'll say so — I never invent records.").font(.subheadline) }
+                        ForEach(suggestions, id: \.self) { s in Button(s) { Task { await send(s) } }.buttonStyle(.bordered).frame(maxWidth: .infinity, alignment: .leading) }
                     }
                     ForEach(Array(messages.enumerated()), id: \.offset) { _, m in
-                        Text(m.1).padding(12).background(m.0 ? AnyShapeStyle(Theme.accentGradient) : AnyShapeStyle(Color.white.opacity(0.07)), in: RoundedRectangle(cornerRadius: 18))
-                            .frame(maxWidth: .infinity, alignment: m.0 ? .trailing : .leading)
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(m.text)
+                            if let plan = m.plan {
+                                Button("Start this workout") { let repo = WorkoutRepository(context: context); app.start(WorkoutSession.fromPlan(plan, history: repo.completedWorkouts()), repo: repo) }.buttonStyle(.borderedProminent)
+                            }
+                        }
+                        .padding(12).background(m.user ? AnyShapeStyle(Theme.accentGradient) : AnyShapeStyle(Color.white.opacity(0.07)), in: RoundedRectangle(cornerRadius: 18))
+                        .frame(maxWidth: .infinity, alignment: m.user ? .trailing : .leading)
                     }
+                    if thinking { ProgressView().padding() }
                 }.padding()
             }
             .safeAreaInset(edge: .bottom) {
-                HStack { TextField("Ask your coach…", text: $draft).textFieldStyle(.roundedBorder)
-                    Button { messages.append((true, draft)); messages.append((false, "The cloud coach requires the Forma server (see server/README.md). The prototype includes an offline coach engine.")); draft = "" } label: { Image(systemName: "paperplane.fill") }.disabled(draft.isEmpty)
+                HStack { TextField("Ask your coach…", text: $draft).textFieldStyle(.roundedBorder).submitLabel(.send).onSubmit { Task { await send(draft) } }
+                    Button { Task { await send(draft) } } label: { Image(systemName: "paperplane.fill") }.disabled(draft.isEmpty || thinking).accessibilityLabel("Send")
                 }.padding()
             }
             .background(Theme.bg0).navigationTitle("Coach")
         }
+    }
+
+    private func send(_ q: String) async {
+        let q = q.trimmingCharacters(in: .whitespaces); guard !q.isEmpty, !thinking else { return }
+        draft = ""; messages.append((true, q, nil)); thinking = true; defer { thinking = false }
+        let repo = WorkoutRepository(context: context); let p = repo.profile()
+        let history = p.coachUsesHistory ? repo.completedWorkouts() : []
+        let recovery = repo.recovery(health: app.health)
+        let constraints = GenerationConstraints(experience: Experience(rawValue: p.experience) ?? .intermediate, equipment: Set(p.equipment.compactMap(Equipment.init(rawValue:))),
+                                                injuries: Set(p.injuries.compactMap(JointStress.init(rawValue:))), dislikes: Set(p.dislikes))
+        let local = OfflineCoach.answer(q, .init(history: history, recovery: recovery, constraints: constraints, goal: TrainingGoal(rawValue: p.goal) ?? .hypertrophy,
+                                                 durationMinutes: p.durationMinutes, healthConnected: app.health != nil, catalog: repo.catalog()))
+        if p.cloudAIEnabled {
+            let transcript = messages.dropLast().suffix(8).map { CloudAPI.CoachRequest.Turn(role: $0.user ? "user" : "bot", text: $0.text) }
+            if let r = try? await AIClient().coach(.init(question: q, transcript: Array(transcript), context: CloudAPI.context(recovery: recovery, history: history, includeHistory: p.coachUsesHistory), healthConnected: app.health != nil)) {
+                messages.append((false, r.text, local.plan.map { PlanValidator.validate($0, constraints: constraints, history: history).plan })); return
+            }
+            messages.append((false, local.text + "\n\n(Cloud coach unavailable — answered on device.)", local.plan)); return
+        }
+        messages.append((false, local.text, local.plan))
     }
 }
 

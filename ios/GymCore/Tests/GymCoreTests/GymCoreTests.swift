@@ -173,3 +173,17 @@ final class OfflineGeneratorTests: XCTestCase {
         XCTAssertTrue(PlanValidator.validate(p, constraints: c, history: ws).issues.isEmpty, "engine output is already safe")
     }
 }
+
+final class WeeklyProgramTests: XCTestCase {
+    func testSplitChoiceAndWeeklyCaps() {
+        let c = GenerationConstraints(experience: .beginner, equipment: Set(Equipment.allCases))
+        let p = OfflineGenerator.program(.init(goal: .hypertrophy, durationMinutes: 90, targets: [], constraints: c), daysPerWeek: 6, history: [])
+        XCTAssertEqual(p.split, .ppl); XCTAssertEqual(p.sessions.count, 6)
+        XCTAssertTrue(p.sessions.allSatisfy { !$0.items.isEmpty })
+        for (m, v) in p.weeklySets { XCTAssertLessThanOrEqual(v, Experience.beginner.weeklyCap, m.rawValue) }
+        XCTAssertEqual(TrainingSplit.auto(daysPerWeek: 4), .upperLower)
+        XCTAssertEqual(TrainingSplit.auto(daysPerWeek: 2), .fullBody)
+        let pushDay = p.sessions[0].items.flatMap { ExerciseLibrary.byID[$0.exerciseID]!.primary }
+        XCTAssertTrue(Set(pushDay).isSubset(of: [.chest, .frontDelts, .sideDelts, .triceps]), "push day stays on push muscles")
+    }
+}

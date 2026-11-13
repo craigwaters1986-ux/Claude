@@ -17,8 +17,9 @@ npm start                 # prototype → http://localhost:5173 (open on your ph
 npm test                  # 36 core logic tests (JS)
 npm run test:e2e          # 12 browser end-to-end flows (Playwright/Chromium)
 npm run test:sync         # two-device sync through the real server (set DATABASE_URL for Postgres)
-npm run test:server       # 13 server tests: AI (mocked model), auth, sync store on memory + Postgres
-npm run test:swift        # 31 GymCore Swift tests (needs a Swift toolchain)
+npm run test:a11y         # axe-core WCAG 2.1 AA audit of every screen
+npm run test:server       # 14 server tests: AI (mocked model), auth, sync store on memory + Postgres, iPhone↔server contract
+npm run test:swift        # 36 GymCore Swift tests (needs a Swift toolchain)
 npm run smoke:ai          # live Claude calls through the server (needs ANTHROPIC_API_KEY)
 npm run rep-eval -- <dir> # rep-count accuracy on labelled motion recordings (also: swift run rep-eval)
 ```
@@ -34,13 +35,15 @@ First launch shows onboarding. Choose **Explore with sample data** to see ~10 we
 | Offline-first storage, crash-safe autosave, export & delete all data | ✅ Prototype (localStorage + service worker) · native implemented (SwiftData + atomic file) |
 | Recovery model (configurable, labelled as estimate), dashboard, trends, frequency, personal feedback | ✅ Working + tested |
 | 3D mannequin: front/rear, 360° rotate, zoom, tap muscles, recovery/volume/exercise colouring | ✅ Stylised model (default) + ✅ **anatomical model from BodyParts3D** (16 real muscle groups; abs & lats approximate) + load-your-own `.glb`. Licence needs confirmation before shipping — see [attribution](prototype/models/ATTRIBUTION.md) |
-| AI workout generator (all inputs, explanations, alternatives, per-exercise regenerate, weekly programmes, recovery-aware, safety caps) | ✅ On-device engine working · Cloud (Claude) path implemented + tested with a mocked model, **not yet run against the live API** |
-| Smart coach (grounded, never invents data) | ✅ On-device engine · cloud path implemented |
+| AI workout generator (all inputs, explanations, alternatives, per-exercise regenerate, weekly programmes, recovery-aware, safety caps) | ✅ On-device engine working (web + native, incl. weekly programmes) · iPhone↔server contract tested both ways · Cloud (Claude) path implemented + tested with a mocked model, **not yet run against the live API** |
+| Smart coach (grounded, never invents data) | ✅ On-device engine (web + native, tested) · cloud path implemented on both |
 | Progress analytics: 7D/30D/90D/1Y, volume, e1RM, PRs, streaks, calendar, distribution, comparisons | ✅ Working (interactive SVG charts) |
 | Apple Health (sleep, RHR, HRV) | 🟡 **Simulated** in the prototype · HealthKit code implemented natively, untested on device |
 | Apple Watch app (workout session, HR, calories, rest, haptics, sync) | 🟡 **Simulated preview** in the browser · watchOS code implemented, **not built or tested on hardware** |
 | Wrist rep counting | 🟡 Algorithm exact on synthetic traces (JS + Swift, cross-checked). Opt-in labelled recording on the watch + `rep-eval` accuracy gate are ready; **real-world accuracy unmeasured until data is collected** — see [doc 04](docs/04-apple-watch-rep-counting.md) |
 | Accounts & cloud sync | ✅ Server (Sign in with Apple, sessions, Postgres, export/delete) tested against Postgres 16 · ✅ prototype sync verified across two browsers · native `SyncService` written (unbuilt) |
 | Xcode build of iPhone + Watch apps | ⚠️ CI job ready but **this GitHub account has no hosted macOS runner available**; enable `ENABLE_MACOS_CI` once it does, or build locally (`cd ios && xcodegen`) |
+
+Accessibility: axe-core reports no WCAG 2.1 A/AA violations on any screen (checked in CI). Zoom is allowed, and every control has a name and an announced state.
 
 Nothing here claims Apple Watch integration works until it has been built and tested on real hardware.

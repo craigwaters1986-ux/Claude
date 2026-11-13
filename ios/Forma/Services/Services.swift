@@ -122,38 +122,27 @@ final class PhoneSessionManager: NSObject, WCSessionDelegate {
 
 // MARK: - AI client (talks ONLY to Forma's server; no model API keys on device)
 
+/// Typed client for the AI endpoints (wire types: GymCore.CloudAPI, contract-tested
+/// against the server). Every plan is re-validated on device by the caller.
+@MainActor
 struct AIClient {
-    var baseURL: URL
-    var authToken: () async -> String?   // app session token (Sign in with Apple), not an AI key
+    var baseURL: URL = SyncService.shared.baseURL
+    var token: () -> String? = { Keychain.get() }
+    enum Failure: Error { case unavailable(Int) }
 
-    struct GenerateRequest: Encodable { var input: [String: AnyEncodable]; var context: TrainingContext }
-    struct TrainingContext: Encodable {
-        var profile: [String: AnyEncodable]
-        var recovery: [RecoveryItem]
-        var history: [HistoryItem]
-        var exerciseCatalog: [String]
-        struct RecoveryItem: Encodable { var muscle: String; var estimatedPct: Int; var weeklySets: Double; var hoursToReady: Int }
-        struct HistoryItem: Encodable { var exerciseId: String; var recent: [Session]; struct Session: Encodable { var date: String; var sets: [[Double?]] } }
-    }
-    struct GenerateResponse: Decodable { var plan: GeneratedPlan; var explanation: [String]? }
-
-    func generate(_ req: GenerateRequest) async throws -> GenerateResponse {
-        var r = URLRequest(url: baseURL.appendingPathComponent("v1/workouts/generate"))
-        r.httpMethod = "POST"; r.timeoutInterval = 30
+    private func post<B: Encodable, R: Decodable>(_ path: String, _ body: B) async throws -> R {
+        var r = URLRequest(url: baseURL.appendingPathComponent(path)); r.httpMethod = "POST"; r.timeoutInterval = 30
         r.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let t = await authToken() { r.setValue("Bearer \(t)", forHTTPHeaderField: "Authorization") }
-        r.httpBody = try JSONEncoder().encode(req)
+        if let t = token() { r.setValue("Bearer \(t)", forHTTPHeaderField: "Authorization") }
+        r.httpBody = try JSONEncoder().encode(body)
         let (data, resp) = try await URLSession.shared.data(for: r)
-        guard (resp as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
-        return try JSONDecoder().decode(GenerateResponse.self, from: data)
-        // Callers ALWAYS pass the plan through PlanValidator.validate before display.
+        let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
+        guard code == 200 else { throw Failure.unavailable(code) }   // 503 = model declined/failed → use on-device engine
+        return try JSONDecoder().decode(R.self, from: data)
     }
-}
 
-struct AnyEncodable: Encodable {
-    private let enc: (Encoder) throws -> Void
-    init<T: Encodable>(_ v: T) { enc = v.encode }
-    func encode(to encoder: Encoder) throws { try enc(encoder) }
+    func generate(_ req: CloudAPI.GenerateRequest) async throws -> CloudAPI.GenerateResponse { try await post("v1/workouts/generate", req) }
+    func coach(_ req: CloudAPI.CoachRequest) async throws -> CloudAPI.CoachResponse { try await post("v1/coach", req) }
 }
 
 /// Opt-in labelled motion recordings received from Apple Watch (see docs/04).

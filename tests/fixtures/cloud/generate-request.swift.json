@@ -1,0 +1,159 @@
+{
+  "context" : {
+    "history" : [
+      {
+        "exerciseId" : "bench",
+        "recent" : [
+          {
+            "date" : "2027-01-14",
+            "sets" : [
+              [
+                80,
+                8,
+                8.5
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "recovery" : [
+      {
+        "estimatedPct" : 97,
+        "hoursToReady" : 0,
+        "muscle" : "chest",
+        "weeklySets" : 1
+      },
+      {
+        "estimatedPct" : 99,
+        "hoursToReady" : 0,
+        "muscle" : "frontDelts",
+        "weeklySets" : 0.5
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "sideDelts",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "rearDelts",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "biceps",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 99,
+        "hoursToReady" : 0,
+        "muscle" : "triceps",
+        "weeklySets" : 0.5
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "forearms",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "abs",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "obliques",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "traps",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "lats",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "upperBack",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "lowerBack",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "glutes",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "quads",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "hamstrings",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "adductors",
+        "weeklySets" : 0
+      },
+      {
+        "estimatedPct" : 100,
+        "hoursToReady" : 0,
+        "muscle" : "calves",
+        "weeklySets" : 0
+      }
+    ],
+    "units" : "kg"
+  },
+  "input" : {
+    "avoid" : [
+
+    ],
+    "dislikes" : [
+      "dip"
+    ],
+    "durationMin" : 45,
+    "equipment" : [
+      "barbell",
+      "bench",
+      "dumbbell"
+    ],
+    "experience" : "intermediate",
+    "goal" : "hypertrophy",
+    "injuries" : [
+      "knee"
+    ],
+    "likes" : [
+      "bench"
+    ],
+    "location" : "gym",
+    "target" : [
+      "arms",
+      "chest"
+    ]
+  }
+}
