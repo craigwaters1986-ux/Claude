@@ -1,0 +1,65 @@
+name: CI
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  web-and-server:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_PASSWORD: forma, POSTGRES_DB: forma_test }
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      FORMA_TEST_DATABASE_URL: postgres://postgres:forma@localhost:5432/forma_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm test
+      - run: npx tsc -p tsconfig.json
+      - run: npm run test:server
+      - name: Browser end-to-end
+        run: |
+          npm i --no-save playwright@1.48.2
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+
+  gymcore-linux:
+    runs-on: ubuntu-latest
+    container: swift:6.0
+    steps:
+      - uses: actions/checkout@v4
+      - run: cd ios/GymCore && swift test
+
+  apple:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Xcode
+        run: xcodebuild -version
+      - name: GymCore tests (macOS)
+        run: cd ios/GymCore && swift test
+      - name: Generate Xcode project
+        run: brew install xcodegen && cd ios && xcodegen generate
+      - name: Build iPhone app (+ embedded Watch app) for Simulator
+        run: |
+          cd ios
+          set -o pipefail
+          xcodebuild -project Forma.xcodeproj -scheme Forma -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tee build-ios.log | grep -E "error:|warning: .*(deprecated|unused)|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" build-ios.log
+      - name: Build Watch app for Simulator
+        run: |
+          cd ios
+          set -o pipefail
+          xcodebuild -project Forma.xcodeproj -scheme FormaWatch -destination 'generic/platform=watchOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tee build-watch.log | grep -E "error:|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" build-watch.log
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: xcode-logs, path: ios/*.log, if-no-files-found: ignore }

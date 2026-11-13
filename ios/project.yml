@@ -17,6 +17,12 @@ targets:
     type: application
     platform: iOS
     sources: [Forma]
+    scheme: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.forma.Forma
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: 
     dependencies:
       - package: GymCore
       - target: FormaWatch
@@ -39,6 +45,10 @@ targets:
     type: application
     platform: watchOS
     sources: [FormaWatch]
+    scheme: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.forma.Forma.watchkitapp
     dependencies:
       - package: GymCore
     info:
