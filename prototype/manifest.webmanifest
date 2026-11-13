@@ -1,0 +1,9 @@
+{
+  "name": "Forma — Gym Tracker Prototype",
+  "short_name": "Forma",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050608",
+  "theme_color": "#050608",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

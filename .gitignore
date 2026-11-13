@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+*.log
+.build/
+ios/**/.build/
+ios/**/.swiftpm/
+server/node_modules/
+xcuserdata/
+DerivedData/

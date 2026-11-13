@@ -1,0 +1,71 @@
+/* ─────────────────────────────────────────────────────────────
+   Forma design tokens — mirrored in ios/Forma/DesignSystem/Theme.swift
+   Dark by default. A light theme exists for accessibility testing.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg-0: #050608;          /* app background */
+  --bg-1: #0b0d12;          /* raised background */
+  --bg-2: #12151c;          /* cards (solid fallback) */
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --hairline: rgba(255, 255, 255, 0.06);
+
+  /* Text (contrast ≥ 4.5:1 on --bg-0 for body copy) */
+  --text-0: #f4f8ff;        /* icy white */
+  --text-1: #b9c3d6;        /* secondary — 10.4:1 */
+  --text-2: #8792a8;        /* tertiary — 6.1:1 */
+  --text-3: #5b6578;        /* disabled / decorative only */
+
+  /* Accents */
+  --accent: #2f8cff;        /* electric blue */
+  --accent-2: #5ce1ff;      /* ice cyan */
+  --accent-3: #8b7bff;      /* violet — AI features */
+  --accent-glow: rgba(47, 140, 255, 0.45);
+  --accent-grad: linear-gradient(135deg, #5ce1ff 0%, #2f8cff 55%, #6d5cff 100%);
+  --ai-grad: linear-gradient(135deg, #8b7bff 0%, #2f8cff 60%, #5ce1ff 100%);
+
+  /* Recovery semantic colours (spec) */
+  --rec-green: #30e8a0;     /* 90–100 */
+  --rec-blue: #3aa8ff;      /* 70–89  */
+  --rec-yellow: #ffd23f;    /* 40–69  */
+  --rec-red: #ff4d6d;       /* 0–39   */
+
+  --pr: #ffcf5c;            /* personal record gold */
+  --danger: #ff5c7a;
+  --success: #30e8a0;
+
+  /* Type scale — SF Pro on Apple platforms, Inter elsewhere */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --fs-hero: 56px; --fs-xl: 34px; --fs-l: 24px; --fs-m: 17px; --fs-s: 15px; --fs-xs: 13px; --fs-xxs: 11px;
+
+  /* Shape + space (4pt grid) */
+  --r-xl: 28px; --r-l: 22px; --r-m: 16px; --r-s: 12px; --r-pill: 999px;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px;
+
+  /* Motion */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --t-fast: 160ms; --t-med: 320ms; --t-slow: 640ms;
+
+  --shadow: 0 20px 60px rgba(0, 0, 0, .55);
+  --tabbar-h: 84px;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg-0: #f3f5f9; --bg-1: #ffffff; --bg-2: #ffffff;
+  --glass: rgba(10, 20, 40, 0.04); --glass-strong: rgba(10, 20, 40, 0.07);
+  --glass-border: rgba(10, 20, 40, 0.1); --hairline: rgba(10, 20, 40, 0.08);
+  --text-0: #0a0f1a; --text-1: #36405a; --text-2: #5a647a; --text-3: #9aa3b5;
+  --accent: #0a6cff; --accent-glow: rgba(10, 108, 255, .25);
+  --shadow: 0 20px 50px rgba(20, 30, 60, .15);
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-fast: 0ms; --t-med: 0ms; --t-slow: 0ms; }
+  *, *::before, *::after { animation-duration: 0ms !important; transition-duration: 0ms !important; }
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#050608" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Forma Prototype</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs><linearGradient id="tabGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ce1ff"/><stop offset="1" stop-color="#2f8cff"/></linearGradient></defs>
+  </svg>
+  <div class="stage">
+    <main class="device" id="app" aria-live="polite">
+      <div class="view" id="view"><div class="topbar"><div class="skeleton" style="width:160px;height:34px"></div></div><div class="skeleton" style="height:260px"></div></div>
+      <nav class="tabbar" id="tabbar" aria-label="Main"></nav>
+    </main>
+  </div>
+  <noscript><p style="padding:24px;color:#fff">Forma's prototype needs JavaScript.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
