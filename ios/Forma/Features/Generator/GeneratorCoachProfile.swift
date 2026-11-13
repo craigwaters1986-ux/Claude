@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import GymCore
 import UniformTypeIdentifiers
+import AuthenticationServices
 
 // MARK: - AI generator
 
@@ -125,6 +126,19 @@ struct ProfileView: View {
                     Toggle("Coach can use my workout history", isOn: Bindable(p).coachUsesHistory)
                     Toggle("Cloud AI", isOn: Bindable(p).cloudAIEnabled)
                 } header: { Text("AI & privacy") } footer: { Text("Cloud AI sends a minimal training summary (no name, no notes) to Forma's server, which calls the model. No AI keys are stored on this device.") }
+                Section {
+                    let sync = SyncService.shared
+                    if sync.isSignedIn {
+                        LabeledContent("Last synced", value: sync.lastSync.map { $0.formatted(.relative(presentation: .named)) } ?? "Not yet")
+                        Button("Sync now") { Task { await sync.sync(context: context) } }
+                        Button("Sign out on this iPhone") { sync.signOut() }
+                        Button("Delete cloud account", role: .destructive) { Task { await sync.deleteAccount() } }
+                    } else {
+                        SignInWithAppleButton(.signIn) { sync.prepare($0) } onCompletion: { r in Task { await sync.complete(r, context: context) } }
+                            .signInWithAppleButtonStyle(.white).frame(height: 48)
+                    }
+                    if let e = sync.lastError { Text(e).font(.caption).foregroundStyle(.orange) }
+                } header: { Text("Account & sync") } footer: { Text("Optional. Backs up workouts, templates and settings and keeps your devices in step. Logging always works offline.") }
                 Section("Your data") {
                     Button("Export all data (JSON)") {
                         let url = FileManager.default.temporaryDirectory.appendingPathComponent("forma-export.json")

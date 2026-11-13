@@ -5,7 +5,7 @@
 //   (the app's bundle id) and expiry using node:crypto only.
 // • Forma session tokens are HS256 JWTs signed with FORMA_SESSION_SECRET.
 //   They identify the user to /v1/sync and the AI endpoints. They are NOT AI keys.
-import { createHmac, createPublicKey, createVerify, timingSafeEqual } from 'node:crypto';
+import { createHash, createHmac, createPublicKey, createVerify, timingSafeEqual } from 'node:crypto';
 
 type Jwk = { kid: string; kty: string; n?: string; e?: string; [k: string]: unknown };
 
@@ -67,7 +67,8 @@ export async function verifyAppleIdentityToken(token: string, opts: { audience: 
   if (p.iss !== 'https://appleid.apple.com') throw new AuthError('bad issuer');
   if (p.aud !== opts.audience) throw new AuthError('bad audience');
   if (typeof p.exp !== 'number' || p.exp < now) throw new AuthError('expired');
-  if (opts.nonce && p.nonce !== opts.nonce) throw new AuthError('bad nonce');
+  // The app sends its raw nonce; Apple embeds SHA-256(nonce) in the token (replay protection).
+  if (opts.nonce && p.nonce !== createHash('sha256').update(opts.nonce).digest('hex')) throw new AuthError('bad nonce');
   if (typeof p.sub !== 'string' || !p.sub) throw new AuthError('missing subject');
   return p.sub;
 }

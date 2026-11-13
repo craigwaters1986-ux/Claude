@@ -1,6 +1,6 @@
 import { test, describe, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { generateKeyPairSync, createSign } from 'node:crypto';
+import { generateKeyPairSync, createSign, createHash } from 'node:crypto';
 import type { AddressInfo } from 'node:net';
 import type Anthropic from '@anthropic-ai/sdk';
 import { issueSession, verifySession, verifyAppleIdentityToken, AuthError } from '../src/auth.js';
@@ -36,7 +36,9 @@ describe('auth', () => {
     await assert.rejects(verifyAppleIdentityToken(appleToken({ aud: 'com.evil' }), { audience: 'app.forma.Forma', jwks }), /audience/);
     await assert.rejects(verifyAppleIdentityToken(appleToken({ exp: 1 }), { audience: 'app.forma.Forma', jwks }), /expired/);
     await assert.rejects(verifyAppleIdentityToken(appleToken({}, 'other'), { audience: 'app.forma.Forma', jwks }), /unknown key/);
-    await assert.rejects(verifyAppleIdentityToken(appleToken({ nonce: 'a' }), { audience: 'app.forma.Forma', jwks, nonce: 'b' }), /nonce/);
+    const hashed = createHash('sha256').update('raw-nonce').digest('hex');
+    assert.equal(await verifyAppleIdentityToken(appleToken({ nonce: hashed }), { audience: 'app.forma.Forma', jwks, nonce: 'raw-nonce' }), '001234.abcd');
+    await assert.rejects(verifyAppleIdentityToken(appleToken({ nonce: hashed }), { audience: 'app.forma.Forma', jwks, nonce: 'other' }), /nonce/);
     await assert.rejects(verifyAppleIdentityToken(appleToken({ iss: 'https://evil' }), { audience: 'app.forma.Forma', jwks }), /issuer/);
   });
 });

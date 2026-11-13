@@ -9,7 +9,10 @@ struct FormaApp: App {
         catch { fatalError("Could not open the local database: \(error)") }
     }()
 
-    init() { PhoneSessionManager.shared.activate() }
+    init() {
+        PhoneSessionManager.shared.activate()
+        SyncService.shared.start(container: container)   // network-regain + background refresh sync
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -48,6 +51,7 @@ final class AppState {
     func finish(_ w: WorkoutRecord, prs: [StrengthAnalytics.PersonalRecord], repo: WorkoutRepository) {
         try? repo.save(w)
         ActiveWorkoutStore.clear()
+        Task { await SyncService.shared.sync(context: repo.context) }
         PhoneSessionManager.shared.send(.workoutEnded(workoutID: w.id, at: w.endedAt ?? .now, activeEnergyKcal: nil, avgHeartRate: nil))
         session = nil; showingWorkout = false; lastSummary = (w, prs)
     }
