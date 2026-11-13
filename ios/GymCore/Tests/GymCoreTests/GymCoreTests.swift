@@ -148,3 +148,28 @@ final class ProtocolAndSafetyTests: XCTestCase {
         XCTAssertFalse(r.issues.isEmpty)
     }
 }
+
+final class OfflineGeneratorTests: XCTestCase {
+    let all = Set(Equipment.allCases)
+
+    func testRespectsDurationEquipmentAndInjuries() {
+        let rec = RecoveryEngine().snapshot(workouts: [], at: now)
+        for minutes in [20, 30, 45, 60, 75, 90] {
+            let p = OfflineGenerator.generate(.init(goal: .hypertrophy, durationMinutes: minutes, targets: [.chest, .triceps], constraints: .init(experience: .intermediate, equipment: all)), recovery: rec, history: [])
+            XCTAssertFalse(p.items.isEmpty, "\(minutes)")
+            XCTAssertLessThanOrEqual(OfflineGenerator.estimateMinutes(p.items), minutes + 2)
+        }
+        let p = OfflineGenerator.generate(.init(goal: .strength, durationMinutes: 90, targets: [.quads, .chest], constraints: .init(experience: .intermediate, equipment: all, injuries: [.knee, .shoulder])), recovery: rec, history: [])
+        for it in p.items { XCTAssertTrue(ExerciseLibrary.byID[it.exerciseID]!.stress.allSatisfy { $0 != .knee && $0 != .shoulder }, it.exerciseID) }
+    }
+
+    func testSkipsFatiguedTargetsAndOutputPassesValidator() {
+        let ws = [workout(2, [("bench", Array(repeating: set(80, 8, rpe: 10), count: 12))])]
+        let rec = RecoveryEngine().snapshot(workouts: ws, at: now)
+        let c = GenerationConstraints(experience: .beginner, equipment: all)
+        let p = OfflineGenerator.generate(.init(goal: .hypertrophy, durationMinutes: 60, targets: [.chest, .lats], constraints: c), recovery: rec, history: ws)
+        XCTAssertFalse(p.items.contains { ExerciseLibrary.byID[$0.exerciseID]!.primary.contains(.chest) })
+        XCTAssertTrue(p.notes.contains { $0.contains("Chest") })
+        XCTAssertTrue(PlanValidator.validate(p, constraints: c, history: ws).issues.isEmpty, "engine output is already safe")
+    }
+}
