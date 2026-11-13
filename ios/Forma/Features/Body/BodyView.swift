@@ -1,5 +1,7 @@
 import SwiftUI
 import SceneKit
+import ModelIO
+import SceneKit.ModelIO
 import SwiftData
 import GymCore
 
@@ -16,6 +18,7 @@ struct BodyView: View {
     @State private var selected: Muscle?
     @State private var showBack = false
     @State private var tab = 0
+    @AppStorage("forma.anatomicalModel") private var anatomical = false
 
     var body: some View {
         let repo = WorkoutRepository(context: context)
@@ -26,14 +29,17 @@ struct BodyView: View {
                     Picker("View", selection: $tab) { Text("Anatomy").tag(0); Text("Recovery dashboard").tag(1) }.pickerStyle(.segmented)
                     if tab == 0 {
                         ZStack(alignment: .top) {
-                            MuscleMapView(colors: Dictionary(uniqueKeysWithValues: snap.muscles.map { ($0.muscle, UIColor(Theme.recovery($0.status))) }), selected: $selected, showBack: showBack)
+                            MuscleMapView(colors: Dictionary(uniqueKeysWithValues: snap.muscles.map { ($0.muscle, UIColor(Theme.recovery($0.status))) }), selected: $selected, showBack: showBack, anatomical: anatomical)
+                                .id(anatomical)
                                 .frame(height: 460)
                                 .accessibilityLabel("3D muscle model. Use the list below for VoiceOver.")
                             Picker("Side", selection: $showBack) { Text("Front").tag(false); Text("Rear").tag(true) }.pickerStyle(.segmented).frame(width: 160)
                         }
                         if let m = selected { MuscleCallout(r: snap[m], repo: repo) }
                         else { Text("Tap a muscle for details").font(.footnote).foregroundStyle(Theme.text2) }
-                        Text("Stylised muscle-group model for training guidance — not anatomically exact.").font(.caption2).foregroundStyle(Theme.text2)
+                        Picker("Model", selection: $anatomical) { Text("Stylised").tag(false); Text("Anatomical").tag(true) }.pickerStyle(.segmented)
+                        Text(anatomical ? "Muscle meshes from BodyParts3D © DBCLS (see Acknowledgements). Abs and lats are approximate." : "Stylised muscle-group model for training guidance — not anatomically exact.")
+                            .font(.caption2).foregroundStyle(Theme.text2)
                     } else {
                         RecoveryDashboard(snapshot: snap, health: app.health)
                     }
@@ -109,12 +115,13 @@ struct MuscleMapView: UIViewRepresentable {
     var colors: [Muscle: UIColor]
     @Binding var selected: Muscle?
     var showBack: Bool
+    var anatomical = false
 
     func makeCoordinator() -> Coordinator { Coordinator(self) }
 
     func makeUIView(context: Context) -> SCNView {
         let v = SCNView()
-        v.scene = MuscleMapScene.build()
+        v.scene = (anatomical ? MuscleMapScene.loadAnatomical() : nil) ?? MuscleMapScene.build()
         v.backgroundColor = .clear
         v.allowsCameraControl = true            // 360° rotate + pinch zoom
         v.defaultCameraController.interactionMode = .orbitTurntable
@@ -127,7 +134,7 @@ struct MuscleMapView: UIViewRepresentable {
     func updateUIView(_ v: SCNView, context: Context) {
         context.coordinator.parent = self
         v.scene?.rootNode.enumerateChildNodes { node, _ in
-            guard let name = node.name, let m = Muscle(rawValue: name), let mat = node.geometry?.firstMaterial else { return }
+            guard let name = node.name, let m = AnatomyMapping.muscle(forMeshName: name), let mat = node.geometry?.firstMaterial else { return }
             let c = colors[m] ?? .darkGray
             mat.diffuse.contents = c
             mat.emission.contents = c.withAlphaComponent(m == selected ? 0.9 : (selected == nil ? 0.35 : 0.1))
@@ -143,14 +150,35 @@ struct MuscleMapView: UIViewRepresentable {
         init(_ p: MuscleMapView) { parent = p }
         @MainActor @objc func tap(_ g: UITapGestureRecognizer) {
             guard let v = g.view as? SCNView else { return }
-            let hit = v.hitTest(g.location(in: v), options: [.searchMode: SCNHitTestSearchMode.closest.rawValue]).first { $0.node.name.flatMap(Muscle.init(rawValue:)) != nil }
-            parent.selected = hit?.node.name.flatMap(Muscle.init(rawValue:))
+            let hit = v.hitTest(g.location(in: v), options: [.searchMode: SCNHitTestSearchMode.closest.rawValue]).first { $0.node.name.flatMap(AnatomyMapping.muscle(forMeshName:)) != nil }
+            parent.selected = hit?.node.name.flatMap(AnatomyMapping.muscle(forMeshName:))
             if hit != nil { Haptics.tap() }
         }
     }
 }
 
 enum MuscleMapScene {
+    /// Bundled BodyParts3D muscle model (USD text, built by tools/anatomy/build-bodyparts3d.mjs).
+    /// Any USD/USDZ whose mesh names use anatomical terms works the same way.
+    static func loadAnatomical(named name: String = "bodyparts3d-muscles", ext: String = "usda") -> SCNScene? {
+        guard let url = Bundle.main.url(forResource: name, withExtension: ext) else { return nil }
+        let asset = MDLAsset(url: url)
+        guard asset.count > 0 else { return nil }
+        let loaded = SCNScene(mdlAsset: asset)
+        let scene = SCNScene()
+        let body = SCNNode(); body.name = "body"; scene.rootNode.addChildNode(body)
+        loaded.rootNode.childNodes.forEach { body.addChildNode($0) }
+        body.enumerateChildNodes { node, _ in
+            guard node.geometry != nil else { return }
+            let mat = SCNMaterial(); mat.lightingModel = .physicallyBased; mat.roughness.contents = 0.45
+            if node.name.flatMap(AnatomyMapping.muscle(forMeshName:)) == nil { mat.diffuse.contents = UIColor(red: 0.08, green: 0.1, blue: 0.15, alpha: 1) }
+            node.geometry?.materials = [mat]
+        }
+        let base = build()      // reuse camera + lights from the stylised scene
+        base.rootNode.childNodes.filter { $0.light != nil || $0.camera != nil }.forEach { scene.rootNode.addChildNode($0) }
+        return scene
+    }
+
     /// Procedural stylised mannequin (metres). Muscle nodes are named by Muscle.rawValue.
     static func build() -> SCNScene {
         let scene = SCNScene()

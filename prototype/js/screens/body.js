@@ -11,7 +11,8 @@ import { relDay } from '../core/units.js';
 
 export const selfManaged = true;
 
-let ui = { tab: 'anatomy', mode: 'recovery', exercise: 'bench', selected: null, side: 'front' };
+let ui = { tab: 'anatomy', mode: 'recovery', exercise: 'bench', selected: null, side: 'front', model: 'builtin', customUrl: null, report: null, modelError: null };
+const ANATOMICAL_URL = 'models/bodyparts3d-muscles.glb';
 
 // Sequential single-hue ramp (dark → bright cyan) for weekly-volume mode.
 const VOL_RAMP = ['#1a2335', '#183a63', '#1d5b95', '#2f8cff', '#5cb8ff', '#8fe6ff'];
@@ -53,6 +54,14 @@ function callout(m, recovery) {
   </section>`;
 }
 
+function modelNote() {
+  if (ui.modelError) return html`<span style="color:var(--danger)">${ui.modelError}</span>`;
+  if (ui.model === 'anatomical') return html`Muscle meshes from <b>BodyParts3D</b> © DBCLS (CC BY / CC BY-SA, see attribution). Abs and lats are approximate — the dataset has no meshes for them.`;
+  if (ui.model === 'custom' && ui.report) return html`Your model: ${ui.report.found.length} of 18 muscle groups found${ui.report.missing.length ? html` · missing ${ui.report.missing.join(', ')}` : ''}. Mesh names are matched to anatomical terms.`;
+  if (ui.model === 'custom') return html`Choose a .glb whose meshes use anatomical names (e.g. “Pectoralis_Major.L”) or Forma ids.`;
+  return html`Stylised muscle-group model for training guidance — not anatomically exact.`;
+}
+
 export function render({ navigate }) {
   const { recovery, health, workouts, profile } = derived();
   const gl = webglAvailable();
@@ -73,8 +82,13 @@ export function render({ navigate }) {
     <div class="legend" style="margin:-4px 0 12px">${ui.mode === 'recovery' ? Object.entries({ ready: '90–100%', light: '70–89%', caution: '40–69%', fatigued: '0–39%' }).map(([k, r]) => html`<span><i class="dot" style="background:${STATUS_META[k].hex}"></i>${r}</span>`)
       : ui.mode === 'volume' ? html`<span>Sets / 7 days:</span>${VOL_RAMP.map((c, i) => html`<span><i class="dot" style="background:${c}"></i>${i === 0 ? '0' : i === VOL_RAMP.length - 1 ? `${i * 4 - 3}+` : `${i * 4 - 3}–${i * 4}`}</span>`)}`
       : html`<span><i class="dot" style="background:#5ce1ff"></i>Primary</span><span><i class="dot" style="background:#8b7bff"></i>Secondary</span>`}</div>
+    <div class="seg" role="tablist" aria-label="3D model" style="margin:0 0 6px">
+      <button role="tab" aria-selected="${ui.model === 'builtin'}" data-act="model" data-v="builtin">Stylised</button>
+      <button role="tab" aria-selected="${ui.model === 'anatomical'}" data-act="model" data-v="anatomical">Anatomical</button>
+      <button role="tab" aria-selected="${ui.model === 'custom'}" data-act="model" data-v="custom">Your model…</button></div>
+    <input type="file" accept=".glb,model/gltf-binary" data-model-file hidden aria-label="Load a .glb anatomy model">
+    <p class="tiny dim" style="text-align:center;margin:4px 0 10px;line-height:1.5" data-model-note>${modelNote()}</p>
     <div data-callout>${callout(ui.selected, recovery)}</div>
-    <p class="tiny dim" style="text-align:center;margin:10px 0 0;line-height:1.5">Stylised muscle-group model for training guidance — not anatomically exact.</p>
     <div class="section-h"><h2>All muscles</h2><span class="tiny dim">sorted by readiness</span></div>
     <div class="card" style="padding:2px 14px">${[...recovery.muscles].sort((a, b) => a.pct - b.pct).map((m) => recoveryRow(m))}</div>`;
 
@@ -135,6 +149,13 @@ export function render({ navigate }) {
       mq.setColors(colorsFor(ui.mode, recovery, ui.exercise));
       mq.select(ui.selected);
       if (ui.side === 'back') mq.view('back');
+      const url = ui.model === 'anatomical' ? ANATOMICAL_URL : ui.model === 'custom' ? ui.customUrl : null;
+      if (url) {
+        stage.dataset.loading = '1';
+        mq.loadModel(url).then((r) => { ui.report = r; ui.modelError = null; })
+          .catch(() => { ui.modelError = 'Could not load that model — showing the stylised one.'; mq?.useBuiltIn(); })
+          .finally(() => { delete stage.dataset.loading; const n = root.querySelector('[data-model-note]'); if (n) n.innerHTML = String(modelNote()); });
+      }
     } catch (e) { stage.insertAdjacentHTML('afterbegin', `<div class="banner err">3D view failed to start: ${String(e.message).replace(/</g, '&lt;')}</div>`); }
   };
 
@@ -145,10 +166,19 @@ export function render({ navigate }) {
     mount(el) {
       root = el;
       if (ui.tab === 'anatomy') mountGl(); else { animateRings(el); bindCharts(el, registry); }
+      el.addEventListener('change', (e) => {
+        if (!e.target.matches('[data-model-file]') || !e.target.files?.[0]) return;
+        if (ui.customUrl) URL.revokeObjectURL(ui.customUrl);
+        ui.customUrl = URL.createObjectURL(e.target.files[0]); ui.model = 'custom'; ui.report = null; ui.modelError = null; rerender();
+      });
       el.addEventListener('change', (e) => { if (e.target.matches('[data-ex-select]')) { ui.exercise = e.target.value; mq?.setColors(colorsFor(ui.mode, recovery, ui.exercise)); } });
       const off = delegate(el, {
         tab: (b) => { ui.tab = b.dataset.t; haptic('light'); rerender(); },
         mode: (b) => { ui.mode = b.dataset.m; haptic('light'); rerender(); },
+        model: (b) => {
+          if (b.dataset.v === 'custom' && !ui.customUrl) { el.querySelector('[data-model-file]').click(); return; }
+          ui.model = b.dataset.v; ui.modelError = null; ui.report = null; haptic('light'); rerender();
+        },
         side: (b) => { ui.side = b.dataset.s; mq?.view(ui.side); el.querySelectorAll('[data-act="side"]').forEach((x) => x.setAttribute('aria-selected', x.dataset.s === ui.side)); haptic('light'); },
         zoom: (b) => mq?.zoom(+b.dataset.z),
         reset: () => { mq?.reset(); ui.side = 'front'; el.querySelectorAll('[data-act="side"]').forEach((x) => x.setAttribute('aria-selected', x.dataset.s === 'front')); },

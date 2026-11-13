@@ -8,6 +8,8 @@
 
 import * as THREE from '../../vendor/three.module.min.js';
 import { OrbitControls } from '../../vendor/OrbitControls.js';
+import { GLTFLoader } from '../../vendor/GLTFLoader.js';
+import { muscleForMeshName, mappingReport } from '../core/anatomy.js';
 
 export function webglAvailable() {
   try { const c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); }
@@ -175,8 +177,7 @@ export function createMannequin(container, { onSelect, autoRotate = true } = {})
       const pulse = isSel ? 0.9 + 0.5 * (0.5 + 0.5 * Math.sin(t * 5)) : (selected ? 0.12 : 0.38);
       mesh.material.emissiveIntensity += (pulse - mesh.material.emissiveIntensity) * 0.2;
       mesh.material.opacity += ((selected && !isSel ? 0.55 : 0.95) - mesh.material.opacity) * 0.15;
-      const k = isSel ? 1.08 : 1; const b = mesh.userData.baseScale;
-      mesh.scale.lerp(new THREE.Vector3(b.x * k, b.y * k, b.z * k), 0.2);
+      if (!mesh.userData.noScale) { const k = isSel ? 1.08 : 1; const b = mesh.userData.baseScale; mesh.scale.lerp(new THREE.Vector3(b.x * k, b.y * k, b.z * k), 0.2); }
     }
     halo.material.opacity = 0.22 + 0.08 * Math.sin(t * 1.6);
     controls.update();
@@ -184,7 +185,45 @@ export function createMannequin(container, { onSelect, autoRotate = true } = {})
   };
   loop();
 
+  // ── External anatomy assets (GLB) ───────────────────────────────────
+  // Any GLB whose mesh names follow anatomical terms or Forma ids drops in:
+  // meshes are mapped with core/anatomy.js; unmapped parts render as skin.
+  let external = null; const builtIn = muscleMeshes.slice();
+  const loadModel = async (url) => {
+    const gltf = await new GLTFLoader().loadAsync(url);
+    const model = gltf.scene; const names = [];
+    const loaded = [];
+    model.traverse((o) => {
+      if (!o.isMesh) return;
+      const name = o.name || o.parent?.name || '';
+      names.push(name);
+      const id = muscleForMeshName(name) || muscleForMeshName(o.parent?.name || '');
+      if (id) {
+        o.material = new THREE.MeshStandardMaterial({ color: 0x3aa8ff, emissive: 0x3aa8ff, emissiveIntensity: 0.35, roughness: 0.45, metalness: 0.05, transparent: true, opacity: 0.95 });
+        o.userData = { ...o.userData, muscleId: id, noScale: true };
+        loaded.push({ mesh: o, id });
+      } else { o.material = skinMat; }
+      o.geometry.computeBoundingSphere();
+    });
+    // Normalise to ~1.75 m tall, feet on the floor, centred.
+    const box = new THREE.Box3().setFromObject(model); const size = box.getSize(new THREE.Vector3());
+    const s = 1.62 / (size.y || 1); model.scale.setScalar(s);
+    const box2 = new THREE.Box3().setFromObject(model); const c = box2.getCenter(new THREE.Vector3());
+    model.position.set(-c.x, model.position.y - box2.min.y + 0.12, -c.z);
+    if (external) { scene.remove(external); }
+    external = model; scene.add(model); root.visible = false;
+    muscleMeshes.length = 0; muscleMeshes.push(...loaded);
+    api.setColors(colors); api.select(selected);
+    return mappingReport(names);
+  };
+  const useBuiltIn = () => {
+    if (external) { scene.remove(external); external.traverse((o) => { if (o.isMesh) { o.geometry.dispose(); if (o.material !== skinMat) o.material.dispose(); } }); external = null; }
+    root.visible = true; muscleMeshes.length = 0; muscleMeshes.push(...builtIn); api.setColors(colors);
+  };
+
   const api = {
+    loadModel, useBuiltIn,
+    get usingExternal() { return !!external; },
     setColors(map) {
       colors = map;
       for (const { mesh, id } of muscleMeshes) {

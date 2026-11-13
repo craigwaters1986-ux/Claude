@@ -323,3 +323,22 @@ test('rep counter: long, slow sets (adaptive window regression)', () => {
     assert.equal(countSamples(synthesize({ kind, reps, seed, repSec: 3.4, noise: 0.04 }), REP_PROFILES[prof]), reps, `${kind} s${seed} r${reps}`);
   }
 });
+
+// ── Anatomy asset mapping ─────────────────────────────────────────────────
+import { muscleForMeshName, mappingReport, normaliseName } from '../prototype/js/core/anatomy.js';
+
+test('anatomy: anatomical and Forma mesh names map to muscle groups', () => {
+  const cases = {
+    'Pectoralis_Major.L': 'chest', 'pectoralis minor.r': 'chest', 'Deltoid_Anterior_R': 'frontDelts', 'Deltoid (posterior part).L': 'rearDelts',
+    'Deltoid.L': 'sideDelts', 'BicepsBrachii_L': 'biceps', 'Brachialis.R': 'biceps', 'Brachioradialis.L': 'forearms', 'Triceps_brachii_long_head': 'triceps',
+    'Rectus_abdominis': 'abs', 'External_oblique.L': 'obliques', 'Trapezius.R': 'traps', 'Latissimus_dorsi.L': 'lats', 'Rhomboid_major.R': 'upperBack',
+    'Erector_spinae': 'lowerBack', 'Gluteus_maximus.L': 'glutes', 'Rectus_femoris.R': 'quads', 'Vastus_lateralis.L': 'quads',
+    'Biceps_femoris.L': 'hamstrings', 'Semitendinosus.R': 'hamstrings', 'Adductor_magnus.L': 'adductors', 'Gastrocnemius_medial_head.R': 'calves',
+    'chest_L': 'chest', 'lats.001': 'lats', 'Femur.L': null, 'Skin_body': null, 'Skull': null,
+    'abdominal aorta': null, 'deltoid branch of right thoraco-acromial artery': null, 'investing fascia of left forearm': null, 'right forearm': null, 'anterior abdominal wall': null,
+  };
+  for (const [name, want] of Object.entries(cases)) assert.equal(muscleForMeshName(name), want, name);
+  assert.equal(normaliseName('Pectoralis_Major.L.001'), 'pectoralis major');
+  const r = mappingReport(['Pectoralis_Major.L', 'Femur.L']);
+  assert.deepEqual(r.found, ['chest']); assert.deepEqual(r.unmapped, ['Femur.L']); assert.equal(r.missing.length, 17);
+});

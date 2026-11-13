@@ -158,6 +158,17 @@ const SHOTS = process.env.SHOTS;
       await page.waitForTimeout(800);
       await page.click('[data-act="mode"][data-m="volume"]');
       await page.waitForTimeout(800);
+      // Anatomical (BodyParts3D) model loads and its meshes are tappable via the same mapping
+      await page.click('[data-act="model"][data-v="anatomical"]');
+      await page.waitForFunction(() => !document.querySelector('[data-stage]')?.dataset.loading, null, { timeout: 30000 });
+      assert.match(await page.locator('[data-model-note]').innerText(), /BodyParts3D/);
+      await page.waitForTimeout(800);
+      const box = await page.locator('[data-stage] canvas').boundingBox();
+      await page.mouse.click(box.x + box.width / 2 - 18, box.y + box.height * 0.27);
+      await page.waitForTimeout(500);
+      assert.match(await page.locator('[data-callout]').innerText(), /CHEST/i);
+      await shot('e2e-body-anatomical');
+      await page.click('[data-act="model"][data-v="builtin"]');
       await page.click('[data-act="tab"][data-t="dashboard"]');
       await page.waitForSelector('text=Recovery trend');
       await shot('e2e-recovery-dashboard');
