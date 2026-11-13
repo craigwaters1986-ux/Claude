@@ -213,12 +213,22 @@ upload anything waiting.
 
 | Option | Choices |
 |---|---|
-| Design | **Standard table** (every snag, small photo) · **Photo report** (large photo per snag, for clients) · **Checklist** (no photos, tick box + initials per snag and a sign-off block, for trades) |
+| Design | **Modern** (default: cover page with logo, report title, reference, date, client, issue count, signature and a summary by trade; then a card per issue: photo left, title in capitals, assigned to, location, comments, status and the drawing cut-out) · **Standard table** (every snag, small photo) · **Photo report** (large photo per snag, for clients) · **Checklist** (no photos, tick box + initials per snag and a sign-off block, for trades) |
 | Which snags | All · Outstanding (open + in progress) · Resolved |
 | Assigned to | Any combination of the project's assignees (including Unassigned); none selected = everyone |
 | Group by | None · By trade · By status (a heading per group, never left alone at the foot of a page) |
 | Prepared for / by | Optional names shown in the header ("by" defaults to the one in Settings) |
 | Show where each snag is | Shown when the project has drawings: a small cut-out of the drawing around each pinned snag, with the pin and level name, in every design |
+
+**Modern design extras:** a report title (e.g. "Site inspection", "Handover inspection"; remembered) and a
+reference (automatic, e.g. `PLOT14-261113`, or typed). Settings → Reports adds a **signature** (drawn with a
+finger, saved as a transparent PNG and printed on the cover; untick "Sign the report" to leave it off) and a
+**report colour** (rules and headings; print-safe, separate from the app accent).
+
+**When it's ready:** a "Report ready" step shows the size and an editable file name, with **Share** (the
+phone's share sheet: email, WhatsApp, Files… where the device can share files) and **Download**.
+**CSV** exports the same issues (same filters and order) as a spreadsheet: number, title, status, assigned
+to, comments, level, location, dates, photo count and photo links (UTF-8 with BOM; formula-safe).
 
 The screen shows exactly how many snags the report will include. Design, grouping and "prepared by" are
 remembered on the device; the filters reset each time. Filters in use are noted in the PDF header, and the

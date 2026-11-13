@@ -7,7 +7,7 @@
  */
 import { SNAG_STATUS_LABEL, type Snag, type SnagStatus } from "@/types/models";
 
-export type ReportDesign = "table" | "photos" | "checklist";
+export type ReportDesign = "modern" | "table" | "photos" | "checklist";
 export type StatusFilter = "all" | "outstanding" | "resolved";
 export type GroupBy = "none" | "assigned_to" | "status" | "level";
 
@@ -23,10 +23,19 @@ export type ReportOptions = {
   includeSnippets: boolean;
   preparedBy: string;
   preparedFor: string;
+  /** Big title on the cover of the modern design, e.g. "Site inspection". */
+  reportTitle: string;
+  /** Reference printed on the cover, e.g. "PLOT14-261113". Per report. */
+  reference: string;
+  /** Print the signature from Settings on the cover (when there is one). */
+  includeSignature: boolean;
 };
 
+export const DEFAULT_REPORT_TITLE = "Site inspection";
+export const REPORT_TITLE_SUGGESTIONS = ["Site inspection", "Snag list", "Handover inspection", "Defects report", "Health & safety inspection"];
+
 export const DEFAULT_REPORT_OPTIONS: ReportOptions = {
-  design: "table",
+  design: "modern",
   status: "all",
   assignees: [],
   groupBy: "none",
@@ -34,9 +43,13 @@ export const DEFAULT_REPORT_OPTIONS: ReportOptions = {
   includeSnippets: true,
   preparedBy: "",
   preparedFor: "",
+  reportTitle: DEFAULT_REPORT_TITLE,
+  reference: "",
+  includeSignature: true,
 };
 
 export const DESIGNS: { value: ReportDesign; label: string; description: string }[] = [
+  { value: "modern", label: "Modern", description: "Cover page, then a photo and details per issue." },
   { value: "table", label: "Standard table", description: "Every issue in one table with a small photo." },
   { value: "photos", label: "Photo report", description: "A large photo per issue. Best for clients." },
   { value: "checklist", label: "Checklist", description: "No photos, with tick boxes. Best for trades on site." },
@@ -134,7 +147,7 @@ export function describeFilters(options: ReportOptions): string | null {
 /** Whether a design shows photos, and how big (longest edge, px) to fetch them. */
 export function photoSizeFor(design: ReportDesign): number | null {
   if (design === "checklist") return null;
-  return design === "photos" ? 1000 : 320;
+  return design === "photos" ? 1000 : design === "modern" ? 640 : 320;
 }
 
 // ---------------------------------------------------------------------------
@@ -142,7 +155,10 @@ export function photoSizeFor(design: ReportDesign): number | null {
 // design, grouping and who prepared it. Filters are per report, so they reset.
 // ---------------------------------------------------------------------------
 const STORAGE_KEY = "snaglist.report-options.v1";
-type Remembered = Pick<ReportOptions, "design" | "groupBy" | "preparedBy" | "includePlans" | "includeSnippets">;
+type Remembered = Pick<
+  ReportOptions,
+  "design" | "groupBy" | "preparedBy" | "includePlans" | "includeSnippets" | "reportTitle" | "includeSignature"
+>;
 
 export function loadRememberedOptions(): ReportOptions {
   try {
@@ -154,6 +170,8 @@ export function loadRememberedOptions(): ReportOptions {
       preparedBy: typeof saved.preparedBy === "string" ? saved.preparedBy : "",
       includePlans: saved.includePlans !== false,
       includeSnippets: saved.includeSnippets !== false,
+      reportTitle: typeof saved.reportTitle === "string" && saved.reportTitle.trim() ? saved.reportTitle.slice(0, 60) : DEFAULT_REPORT_TITLE,
+      includeSignature: saved.includeSignature !== false,
     };
   } catch {
     return DEFAULT_REPORT_OPTIONS;
@@ -162,12 +180,20 @@ export function loadRememberedOptions(): ReportOptions {
 
 export function rememberOptions(options: ReportOptions) {
   try {
-    const { design, groupBy, preparedBy, includePlans, includeSnippets } = options;
+    const { design, groupBy, preparedBy, includePlans, includeSnippets, reportTitle, includeSignature } = options;
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ design, groupBy, preparedBy, includePlans, includeSnippets } satisfies Remembered),
+      JSON.stringify({ design, groupBy, preparedBy, includePlans, includeSnippets, reportTitle, includeSignature } satisfies Remembered),
     );
   } catch {
     // Private browsing / storage blocked: just don't remember.
   }
+}
+
+/** A short reference for the cover: project initials/number + date, e.g. "PLOT14-261113". */
+export function suggestReference(projectName: string, date = new Date()): string {
+  const words = projectName.toUpperCase().replace(/[^A-Z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
+  const head = words.length === 1 ? words[0].slice(0, 8) : words.slice(0, 2).map((w) => (/^\d+$/.test(w) ? w : w.slice(0, 4))).join("");
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${head || "REPORT"}-${String(date.getFullYear()).slice(2)}${pad(date.getMonth() + 1)}${pad(date.getDate())}`;
 }

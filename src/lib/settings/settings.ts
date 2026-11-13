@@ -8,6 +8,7 @@
 export type Theme = "system" | "light" | "dark";
 export type Accent = "yellow" | "orange" | "green" | "blue" | "pink";
 export type TextSize = "standard" | "large";
+export type ReportColor = "red" | "orange" | "green" | "blue" | "navy" | "charcoal";
 
 export type Settings = {
   theme: Theme;
@@ -21,6 +22,11 @@ export type Settings = {
   logoPath: string | null;
   /** Default "Prepared by" on reports. */
   preparedBy: string;
+  /** Hand-drawn signature (transparent PNG), printed on report cover pages. */
+  signatureUrl: string | null;
+  signaturePath: string | null;
+  /** Colour of rules and headings in reports. */
+  reportColor: ReportColor;
 };
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -32,7 +38,21 @@ export const DEFAULT_SETTINGS: Settings = {
   logoUrl: null,
   logoPath: null,
   preparedBy: "",
+  signatureUrl: null,
+  signaturePath: null,
+  reportColor: "red",
 };
+
+/** Report colours: dark enough to read on white paper and to print well. */
+export const REPORT_COLORS: { value: ReportColor; label: string; hex: string }[] = [
+  { value: "red", label: "Red", hex: "#d32f2f" },
+  { value: "orange", label: "Orange", hex: "#e8590c" },
+  { value: "green", label: "Green", hex: "#2f7d32" },
+  { value: "blue", label: "Blue", hex: "#1f6feb" },
+  { value: "navy", label: "Navy", hex: "#1e3a5f" },
+  { value: "charcoal", label: "Charcoal", hex: "#2b2b2b" },
+];
+export const reportColorHex = (c: ReportColor) => REPORT_COLORS.find((r) => r.value === c)?.hex ?? REPORT_COLORS[0].hex;
 
 export const ACCENTS: { value: Accent; label: string; swatch: string }[] = [
   { value: "yellow", label: "Safety yellow", swatch: "oklch(0.86 0.173 91.9)" },
@@ -58,6 +78,9 @@ export function normaliseSettings(raw: unknown): Settings {
     logoUrl: typeof r.logoUrl === "string" ? r.logoUrl : null,
     logoPath: typeof r.logoPath === "string" ? r.logoPath : null,
     preparedBy: text(r.preparedBy, 120),
+    signatureUrl: typeof r.signatureUrl === "string" ? r.signatureUrl : null,
+    signaturePath: typeof r.signaturePath === "string" ? r.signaturePath : null,
+    reportColor: oneOf(r.reportColor, ["red", "orange", "green", "blue", "navy", "charcoal"] as const, DEFAULT_SETTINGS.reportColor),
   };
 }
 

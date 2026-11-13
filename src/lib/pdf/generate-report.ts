@@ -3,10 +3,11 @@ import { compressImage } from "@/lib/image/compress";
 import { getProject } from "@/lib/services/projects";
 import { listLevels } from "@/lib/services/levels";
 import { getSettings } from "@/lib/services/settings";
+import { reportColorHex } from "@/lib/settings/settings";
 import { makeLocationSnippets } from "./location-snippets";
 import { listSnags } from "@/lib/services/snags";
 import type { SnagPhoto } from "@/types/models";
-import { filterSnags, photoSizeFor, type ReportOptions } from "./report-options";
+import { filterSnags, photoSizeFor, suggestReference, type ReportOptions } from "./report-options";
 
 export type ReportProgress =
   | { stage: "loading" }
@@ -60,8 +61,8 @@ export async function generateSnagReport(
   const wanted: { photo: SnagPhoto; size: number }[] = !photoSize
     ? []
     : included.flatMap((snag) =>
-        options.design === "photos"
-          ? snag.photos.map((photo, i) => ({ photo, size: i === 0 ? photoSize : EXTRA_PHOTO_PX }))
+        options.design === "photos" || options.design === "modern"
+          ? snag.photos.map((photo, i) => ({ photo, size: i === 0 ? photoSize : options.design === "modern" ? 360 : EXTRA_PHOTO_PX }))
           : snag.photos.slice(0, 1).map((photo) => ({ photo, size: photoSize })),
       );
 
@@ -90,17 +91,32 @@ export async function generateSnagReport(
 
   // Company branding (Settings → Reports)
   const logo = settings?.logoUrl ? await makeThumbnail(settings.logoUrl, 600, 0.9) : null;
-  const branding = { companyName: settings?.companyName ?? "", logo };
+  // The signature is a transparent PNG: embed it as it is (re-encoding as JPEG would give it a black box).
+  const signature = options.includeSignature && settings?.signatureUrl ? await fetchAsDataUrl(settings.signatureUrl) : null;
+  const branding = {
+    companyName: settings?.companyName ?? "",
+    logo,
+    signature,
+    accent: reportColorHex(settings?.reportColor ?? "red"),
+  };
 
   // Where each snag is: a cut-out of its drawing around the pin
   const snippets = options.includeSnippets ? await makeLocationSnippets(included, levels) : {};
 
   onProgress?.({ stage: "rendering" });
   const generatedAt = new Date();
+  if (options.design === "modern" && !options.reference.trim()) {
+    options = { ...options, reference: suggestReference(project.name, generatedAt) };
+  }
   const { renderSnagReport } = await import("./snag-report"); // loads the PDF engine on first use
   const blob = await renderSnagReport({ project, snags, levels, plans, thumbnails, snippets, branding, generatedAt, options });
 
-  const kind = { table: "issue-report", photos: "photo-report", checklist: "issue-checklist" }[options.design];
+  const kind = {
+    modern: slugify(options.reportTitle || "report"),
+    table: "issue-report",
+    photos: "photo-report",
+    checklist: "issue-checklist",
+  }[options.design];
   const who = options.assignees.length === 1 ? `-${slugify(options.assignees[0])}` : "";
   return {
     blob,
@@ -119,6 +135,17 @@ async function makeThumbnail(url: string, maxDimension: number, quality?: number
     // The PDF engine only reads JPEG and PNG. (An undecodable HEIC comes back unchanged.)
     if (small.type !== "image/jpeg" && small.type !== "image/png") return null;
     return await blobToDataUrl(small);
+  } catch {
+    return null;
+  }
+}
+
+async function fetchAsDataUrl(url: string): Promise<string | null> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return null;
+    const blob = await response.blob();
+    return blob.type === "image/png" || blob.type === "image/jpeg" ? await blobToDataUrl(blob) : null;
   } catch {
     return null;
   }

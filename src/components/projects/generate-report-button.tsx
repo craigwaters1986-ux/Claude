@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, FileDown, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Check, Download, FileDown, FileSpreadsheet, Loader2, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,19 +17,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { useLevels } from "@/hooks/use-levels";
+import { useProject } from "@/hooks/use-projects";
 import { useSettings } from "@/hooks/use-settings";
 import { useSnags } from "@/hooks/use-snags";
 import { useSupabase } from "@/hooks/use-supabase";
 import { downloadBlob, generateSnagReport, type ReportProgress } from "@/lib/pdf/generate-report";
+import { buildIssuesCsv } from "@/lib/pdf/csv";
 import {
   DESIGNS,
   GROUP_BY_OPTIONS,
+  REPORT_TITLE_SUGGESTIONS,
   STATUS_FILTERS,
   filterSnags,
   listAssignees,
   loadRememberedOptions,
   rememberOptions,
   type GroupBy,
+  suggestReference,
   type ReportDesign,
   type ReportOptions,
 } from "@/lib/pdf/report-options";
@@ -54,18 +59,31 @@ export function GenerateReportButton({ projectId, disabled }: { projectId: strin
         <FileDown /> Generate report
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-xl">
-          {open && <ReportOptionsForm projectId={projectId} onDone={() => setOpen(false)} />}
+        <DialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-xl">
+          {open && <ReportFlow projectId={projectId} onDone={() => setOpen(false)} />}
         </DialogContent>
       </Dialog>
     </>
   );
 }
 
-function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: () => void }) {
+type Ready = { blob: Blob; filename: string; kind: "pdf" | "csv"; note?: string };
+
+/** Options first, then a "ready" step to share or save the file. */
+function ReportFlow({ projectId, onDone }: { projectId: string; onDone: () => void }) {
+  const [ready, setReady] = useState<Ready | null>(null);
+  return ready ? (
+    <ReportReady ready={ready} onBack={() => setReady(null)} onDone={onDone} />
+  ) : (
+    <ReportOptionsForm projectId={projectId} onReady={setReady} />
+  );
+}
+
+function ReportOptionsForm({ projectId, onReady }: { projectId: string; onReady: (ready: Ready) => void }) {
   const supabase = useSupabase();
   const snags = useSnags(projectId);
   const levels = useLevels(projectId);
+  const project = useProject(projectId);
   const hasLevels = (levels.data?.length ?? 0) > 0;
   const hasPlans = (levels.data ?? []).some((l) => l.drawing_url);
   const { settings } = useSettings();
@@ -103,15 +121,15 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
     setProgress({ stage: "loading" });
     try {
       const report = await generateSnagReport(supabase, projectId, chosen, setProgress);
-      downloadBlob(report.blob, report.filename);
-      if (report.missingPhotos > 0) {
-        toast.warning(
-          `Report created, but ${report.missingPhotos} photo${report.missingPhotos === 1 ? "" : "s"} couldn’t be included.`,
-        );
-      } else {
-        toast.success("Report downloaded");
-      }
-      onDone();
+      onReady({
+        blob: report.blob,
+        filename: report.filename,
+        kind: "pdf",
+        note:
+          report.missingPhotos > 0
+            ? `${report.missingPhotos} photo${report.missingPhotos === 1 ? "" : "s"} couldn’t be included.`
+            : undefined,
+      });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not generate the report");
     } finally {
@@ -119,7 +137,15 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
     }
   }
 
+  function exportCsv() {
+    const csv = buildIssuesCsv(snags.data ?? [], levels.data ?? [], options);
+    const date = new Date().toISOString().slice(0, 10);
+    const slug = slugify(project.data?.name ?? "") || "project";
+    onReady({ blob: new Blob([csv], { type: "text/csv;charset=utf-8" }), filename: `issues-${slug}-${date}.csv`, kind: "csv" });
+  }
+
   const busy = !!progress;
+  const isModern = options.design === "modern";
 
   return (
     <form onSubmit={generate} className="grid gap-5">
@@ -131,12 +157,12 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
       {/* Design */}
       <fieldset className="grid gap-2" disabled={busy}>
         <legend className="mb-2 text-sm font-medium">Design</legend>
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {DESIGNS.map((d) => (
             <label
               key={d.value}
               className={cn(
-                "relative flex cursor-pointer gap-3 rounded-lg border p-2.5 transition-colors sm:flex-col sm:gap-2",
+                "relative flex cursor-pointer flex-col items-center gap-2 rounded-lg border p-2.5 transition-colors sm:items-stretch",
                 "has-[:focus-visible]:ring-ring/50 has-[:focus-visible]:ring-[3px]",
                 options.design === d.value ? "border-primary bg-accent" : "hover:bg-accent/60",
               )}
@@ -155,11 +181,14 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
                   {d.label}
                   {options.design === d.value && <Check className="size-3.5" />}
                 </span>
-                <span className="text-muted-foreground block text-xs">{d.description}</span>
+                <span className="text-muted-foreground hidden text-xs sm:block">{d.description}</span>
               </span>
             </label>
           ))}
         </div>
+        <p className="text-muted-foreground text-xs sm:hidden" aria-live="polite">
+          {DESIGNS.find((d) => d.value === options.design)?.description}
+        </p>
       </fieldset>
 
       {/* Which snags */}
@@ -262,6 +291,65 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
         </div>
       </div>
 
+      {isModern && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-2">
+            <Label htmlFor="report-title">Report title</Label>
+            <Input
+              id="report-title"
+              list="report-title-suggestions"
+              value={options.reportTitle}
+              onChange={(e) => set("reportTitle", e.target.value)}
+              maxLength={60}
+              disabled={busy}
+            />
+            <datalist id="report-title-suggestions">
+              {REPORT_TITLE_SUGGESTIONS.map((t) => (
+                <option key={t} value={t} />
+              ))}
+            </datalist>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="report-ref">Reference</Label>
+            <Input
+              id="report-ref"
+              value={options.reference}
+              onChange={(e) => set("reference", e.target.value)}
+              placeholder={project.data ? `Automatic: ${suggestReference(project.data.name)}` : "Automatic"}
+              maxLength={40}
+              disabled={busy}
+            />
+          </div>
+        </div>
+      )}
+
+      {isModern &&
+        (settings.signatureUrl ? (
+          <label className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50">
+            <input
+              type="checkbox"
+              checked={options.includeSignature}
+              onChange={(e) => set("includeSignature", e.target.checked)}
+              disabled={busy}
+              className="accent-primary size-4"
+            />
+            <span className="flex-1">
+              <span className="font-medium">Sign the report</span>
+              <span className="text-muted-foreground block text-xs">Your signature on the cover page.</span>
+            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={settings.signatureUrl} alt="" className="h-8 max-w-24 rounded bg-white object-contain p-0.5" />
+          </label>
+        ) : (
+          <p className="text-muted-foreground -mt-2 text-xs">
+            Tip: add your signature and logo in{" "}
+            <Link href="/settings" className="text-foreground underline underline-offset-2">
+              Settings
+            </Link>{" "}
+            to have them on the cover.
+          </p>
+        ))}
+
       {hasPlans && (
         <label className="flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring/50">
           <input
@@ -306,12 +394,90 @@ function ReportOptionsForm({ projectId, onDone }: { projectId: string; onDone: (
               ? "No issues match these options."
               : `${includedCount} ${includedCount === 1 ? "issue" : "issues"} will be included.`}
         </p>
-        <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={busy || snags.isPending || includedCount === 0}>
-          {busy ? <Loader2 className="animate-spin" /> : <FileDown />}
-          <span aria-live="polite">{progress ? progressLabel(progress) : "Generate PDF"}</span>
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            onClick={exportCsv}
+            disabled={busy || snags.isPending || includedCount === 0}
+            title="Spreadsheet of the same issues (Excel, Numbers, Google Sheets)"
+          >
+            <FileSpreadsheet /> CSV
+          </Button>
+          <Button type="submit" size="lg" className="flex-1 sm:flex-none" disabled={busy || snags.isPending || includedCount === 0}>
+            {busy ? <Loader2 className="animate-spin" /> : <FileDown />}
+            <span aria-live="polite">{progress ? progressLabel(progress) : "Generate PDF"}</span>
+          </Button>
+        </div>
       </DialogFooter>
     </form>
+  );
+}
+
+function slugify(text: string) {
+  return text.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+}
+
+/** Share (email, WhatsApp, Files…) or save the finished file. */
+function ReportReady({ ready, onBack, onDone }: { ready: Ready; onBack: () => void; onDone: () => void }) {
+  const ext = ready.kind === "pdf" ? ".pdf" : ".csv";
+  const [name, setName] = useState(ready.filename.replace(/\.(pdf|csv)$/i, ""));
+  const filename = `${slugify(name) || "report"}${ext}`;
+  const file = useMemo(
+    () => new File([ready.blob], filename, { type: ready.kind === "pdf" ? "application/pdf" : "text/csv" }),
+    [ready, filename],
+  );
+  const canShare = typeof navigator !== "undefined" && !!navigator.canShare?.({ files: [file] });
+  const size = ready.blob.size > 1_048_576 ? `${(ready.blob.size / 1_048_576).toFixed(1)} MB` : `${Math.max(1, Math.round(ready.blob.size / 1024))} KB`;
+
+  async function share() {
+    try {
+      await navigator.share({ files: [file], title: name });
+      onDone();
+    } catch (err) {
+      if ((err as Error).name !== "AbortError") toast.error("Couldn’t open sharing. Try Download instead.");
+    }
+  }
+
+  function save() {
+    downloadBlob(file, filename);
+    toast.success(ready.kind === "pdf" ? "Report downloaded" : "Spreadsheet downloaded");
+    onDone();
+  }
+
+  return (
+    <div className="grid gap-5">
+      <DialogHeader>
+        <DialogTitle>{ready.kind === "pdf" ? "Report ready" : "Spreadsheet ready"}</DialogTitle>
+        <DialogDescription>
+          {ready.kind === "pdf" ? "PDF" : "CSV"} · {size}
+          {ready.note ? ` · ${ready.note}` : ""}
+        </DialogDescription>
+      </DialogHeader>
+      <div className="grid gap-2">
+        <Label htmlFor="report-filename">File name</Label>
+        <div className="flex items-center gap-2">
+          <Input id="report-filename" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} />
+          <span className="text-muted-foreground text-sm">{ext}</span>
+        </div>
+      </div>
+      <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:justify-between">
+        <Button type="button" variant="ghost" onClick={onBack}>
+          Back to options
+        </Button>
+        <div className="flex gap-2">
+          {canShare && (
+            <Button type="button" size="lg" className="flex-1" onClick={share}>
+              <Share2 /> Share
+            </Button>
+          )}
+          <Button type="button" size="lg" variant={canShare ? "outline" : "default"} className="flex-1" onClick={save}>
+            <Download /> Download
+          </Button>
+        </div>
+      </DialogFooter>
+    </div>
   );
 }
 
@@ -321,7 +487,7 @@ function DesignThumbnail({ design }: { design: ReportDesign }) {
   return (
     <div
       aria-hidden
-      className="bg-background flex h-16 w-14 shrink-0 flex-col gap-[3px] rounded border p-1.5 shadow-xs sm:h-20 sm:w-full"
+      className="bg-background flex h-20 w-full max-w-28 shrink-0 flex-col gap-[3px] rounded border p-1.5 shadow-xs sm:max-w-none"
     >
       <div className="bg-foreground/70 h-[3px] w-1/2 rounded-[1px]" />
       <div className="mb-[2px] flex gap-[2px]">
@@ -329,6 +495,21 @@ function DesignThumbnail({ design }: { design: ReportDesign }) {
           <div key={i} className={cn(bar, "h-[5px] flex-1")} />
         ))}
       </div>
+      {design === "modern" && (
+        <div className="flex flex-1 flex-col gap-[3px]">
+          <div className="bg-foreground/70 h-[3px] w-3/4 rounded-[1px]" />
+          <div className="h-[2px] w-full rounded-[1px] bg-red-600/80" />
+          {[0, 1].map((i) => (
+            <div key={i} className="flex flex-1 gap-[3px] border-t border-red-600/60 pt-[2px]">
+              <div className="bg-foreground/25 w-2/5 rounded-[1px]" />
+              <div className="flex flex-1 flex-col gap-[2px]">
+                <div className={cn(bar, "h-[2px]")} />
+                <div className={cn(bar, "h-[2px] w-2/3")} />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       {design === "table" &&
         [0, 1, 2, 3].map((i) => (
           <div key={i} className="flex items-center gap-[3px]">

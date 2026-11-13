@@ -11,7 +11,8 @@ import { useSettings } from "@/hooks/use-settings";
 import { useSupabase } from "@/hooks/use-supabase";
 import { compressImage } from "@/lib/image/compress";
 import { buildImagePath, getPublicImageUrl, removeImages, uploadImage } from "@/lib/services/storage";
-import { ACCENTS, type Settings } from "@/lib/settings/settings";
+import { ACCENTS, REPORT_COLORS, type Settings } from "@/lib/settings/settings";
+import { SignatureField } from "./signature-field";
 import { cn } from "@/lib/utils";
 import { uuid } from "@/lib/uuid";
 
@@ -105,6 +106,33 @@ export function SettingsView() {
           />
         </Field>
         <LogoField logoUrl={settings.logoUrl} logoPath={settings.logoPath} onChange={change} />
+        <SignatureField signatureUrl={settings.signatureUrl} signaturePath={settings.signaturePath} onChange={change} />
+        <Field label="Report colour">
+          <div className="flex flex-wrap gap-3" role="radiogroup" aria-label="Report colour">
+            {REPORT_COLORS.map((c) => {
+              const on = settings.reportColor === c.value;
+              return (
+                <button
+                  key={c.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  aria-label={`${c.label} reports`}
+                  title={c.label}
+                  onClick={() => change({ reportColor: c.value })}
+                  className={cn(
+                    "focus-visible:ring-ring/50 flex size-11 items-center justify-center rounded-full border-2 outline-none focus-visible:ring-[3px]",
+                    on ? "border-foreground" : "border-transparent",
+                  )}
+                  style={{ backgroundColor: c.hex }}
+                >
+                  {on && <Check className="size-5 text-white" strokeWidth={3} />}
+                </button>
+              );
+            })}
+          </div>
+          <Hint>The rules and headings in your reports. Separate from the app’s accent so it always prints clearly.</Hint>
+        </Field>
         <Field label="Default “Prepared by”" htmlFor="prepared-by">
           <Input
             id="prepared-by"

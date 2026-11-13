@@ -4,7 +4,8 @@
  * This file is loaded on demand (see generate-report.ts) so the PDF engine,
  * which is large, isn't downloaded until someone generates a report.
  *
- * Three designs share one header and footer:
+ * Four designs. The modern one has a cover page and a card per issue; the
+ * other three share one header and footer:
  *   - table:     every snag in one table with a small photo (the original report)
  *   - photos:    a card per snag with a large photo, for clients
  *   - checklist: a dense table with no photos and tick boxes, for trades on site
@@ -15,7 +16,7 @@
 import { Document, Font, Image, Page, StyleSheet, Text, View, pdf } from "@react-pdf/renderer";
 import { formatDate } from "@/lib/format";
 import { SNAG_STATUS_LABEL, type Level, type ProjectSummary, type Snag, type SnagStatus } from "@/types/models";
-import { DESIGNS, describeFilters, filterSnags, groupSnags, type ReportOptions, type SnagGroup } from "./report-options";
+import { DESIGNS, UNASSIGNED, describeFilters, filterSnags, groupSnags, listAssignees, type ReportOptions, type SnagGroup } from "./report-options";
 
 export type ReportData = {
   project: ProjectSummary;
@@ -30,7 +31,7 @@ export type ReportData = {
   /** snag id → JPEG data URL: a cut-out of the drawing around the snag's pin. */
   snippets: Record<string, string>;
   /** From Settings → Reports. */
-  branding: { companyName: string; logo: string | null };
+  branding: { companyName: string; logo: string | null; signature?: string | null; accent?: string };
   generatedAt: Date;
   options: ReportOptions;
 };
@@ -213,10 +214,10 @@ function ReportHeader({
   );
 }
 
-function GroupHeading({ label, count }: { label: string; count: number }) {
+function GroupHeading({ label, count, accent }: { label: string; count: number; accent?: string }) {
   return (
-    <View style={styles.groupHeading}>
-      <Text style={styles.groupTitle}>{label}</Text>
+    <View style={accent ? [styles.groupHeading, { borderBottomColor: accent }] : styles.groupHeading}>
+      <Text style={accent ? [styles.groupTitle, { color: accent }] : styles.groupTitle}>{label}</Text>
       <Text style={styles.groupCount}>
         {count} {count === 1 ? "issue" : "issues"}
       </Text>
@@ -224,11 +225,22 @@ function GroupHeading({ label, count }: { label: string; count: number }) {
   );
 }
 
-function Footer({ project, generatedAt, design }: { project: ProjectSummary; generatedAt: Date; design: ReportOptions["design"] }) {
+function Footer({
+  project,
+  generatedAt,
+  design,
+  title,
+}: {
+  project: ProjectSummary;
+  generatedAt: Date;
+  design: ReportOptions["design"];
+  title?: string;
+}) {
+  const label = design === "modern" && title ? title : design === "checklist" ? "Issue checklist" : "Issue report";
   return (
     <View style={styles.footer} fixed>
       <Text>
-        {project.name} · {design === "checklist" ? "Issue checklist" : "Issue report"} · {formatDate(generatedAt)}
+        {project.name} · {label} · {formatDate(generatedAt)}
       </Text>
       <Text render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`} />
     </View>
@@ -240,14 +252,22 @@ function Footer({ project, generatedAt, design }: { project: ProjectSummary; gen
  * first snag sit in one unbreakable block, so a heading is never left alone at
  * the bottom of a page with its snags on the next.
  */
-function Groups({ groups, renderSnag }: { groups: SnagGroup<Snag>[]; renderSnag: (snag: Snag) => React.ReactNode }) {
+function Groups({
+  groups,
+  renderSnag,
+  accent,
+}: {
+  groups: SnagGroup<Snag>[];
+  renderSnag: (snag: Snag) => React.ReactNode;
+  accent?: string;
+}) {
   return (
     <>
       {groups.map((group) =>
         group.snags.map((snag, i) =>
           group.label && i === 0 ? (
             <View key={snag.id} wrap={false}>
-              <GroupHeading label={group.label} count={group.snags.length} />
+              <GroupHeading label={group.label} count={group.snags.length} accent={accent} />
               {renderSnag(snag)}
             </View>
           ) : (
@@ -256,6 +276,201 @@ function Groups({ groups, renderSnag }: { groups: SnagGroup<Snag>[]; renderSnag:
         ),
       )}
     </>
+  );
+}
+
+
+// ---------------------------------------------------------------------------
+// Design 0: Modern (cover page, then a card per issue)
+// ---------------------------------------------------------------------------
+const longDate = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+
+const modern = StyleSheet.create({
+  coverPage: { paddingTop: 40, paddingBottom: 48, paddingHorizontal: 48, fontFamily: "Helvetica", fontSize: 10, color: INK },
+  coverTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", minHeight: 90 },
+  coverLogo: { maxWidth: 170, maxHeight: 70, objectFit: "contain" },
+  signer: { alignItems: "flex-end", maxWidth: 220 },
+  signature: { maxWidth: 150, maxHeight: 54, objectFit: "contain", marginBottom: 4 },
+  signerName: { fontSize: 9, fontFamily: "Helvetica-Bold", textAlign: "right" },
+  signerCompany: { fontSize: 8.5, color: MUTED, marginTop: 2, textAlign: "right" },
+  coverTitle: { fontSize: 32, fontFamily: "Helvetica-Bold", letterSpacing: 0.6, marginTop: 190, textTransform: "uppercase" },
+  coverRule: { height: 3.5, marginTop: 12, marginBottom: 22 },
+  coverLine: { fontSize: 11, marginBottom: 9 },
+  coverStrong: { fontFamily: "Helvetica-Bold" },
+  coverMuted: { color: MUTED },
+  coverStats: { flexDirection: "row", gap: 10, marginTop: 26 },
+  coverStat: { flex: 1, borderTopWidth: 2.5, paddingTop: 7 },
+  coverStatValue: { fontSize: 20, fontFamily: "Helvetica-Bold" },
+  coverStatLabel: { fontSize: 8, color: MUTED, marginTop: 2, textTransform: "uppercase", letterSpacing: 0.8 },
+  summary: { marginTop: 30 },
+  summaryHead: { flexDirection: "row", borderBottomWidth: 1.2, paddingBottom: 4, marginBottom: 2, fontSize: 7.5, fontFamily: "Helvetica-Bold", color: MUTED, letterSpacing: 0.8, textTransform: "uppercase" },
+  summaryRow: { flexDirection: "row", borderBottomWidth: 0.6, borderBottomColor: LINE, paddingVertical: 4.5, fontSize: 9.5 },
+  summaryName: { flex: 1 },
+  summaryNum: { width: 70, textAlign: "right" },
+  sectionTitle: { fontSize: 9, fontFamily: "Helvetica-Bold", letterSpacing: 1.4, textTransform: "uppercase", marginBottom: 10 },
+
+  item: { borderTopWidth: 2, paddingTop: 9, paddingBottom: 14 },
+  itemRow: { flexDirection: "row", gap: 14 },
+  photoCol: { width: 176 },
+  photo: { width: 176, height: 132, objectFit: "cover", borderRadius: 2 },
+  noPhoto: { width: 176, height: 132, borderRadius: 2, backgroundColor: SOFT, alignItems: "center", justifyContent: "center" },
+  extras: { flexDirection: "row", gap: 4, marginTop: 4 },
+  extra: { width: 56, height: 42, objectFit: "cover", borderRadius: 2 },
+  body: { flex: 1 },
+  titleRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", gap: 8 },
+  title: { flex: 1, fontSize: 11, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 0.3 },
+  number: { fontSize: 8, fontFamily: "Helvetica-Bold", color: MUTED, letterSpacing: 0.8 },
+  assigned: { fontSize: 8.5, color: MUTED, marginTop: 3 },
+  detail: { fontSize: 9, marginTop: 6 },
+  label: { fontFamily: "Helvetica-Bold" },
+  metaRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 7 },
+  metaText: { fontSize: 8, color: MUTED },
+  snippet: { width: 132, height: 99, borderRadius: 2, marginTop: 8, borderWidth: 1, borderColor: LINE },
+});
+
+function CoverPage({
+  project,
+  snags,
+  generatedAt,
+  options,
+  branding,
+  accent,
+}: Pick<ReportData, "project" | "snags" | "generatedAt" | "options" | "branding"> & { accent: string }) {
+  const count = (status: SnagStatus) => snags.filter((s) => s.status === status).length;
+  const filterNote = describeFilters(options);
+  const signer = options.preparedBy || null;
+  return (
+    <Page size="A4" style={modern.coverPage}>
+      <View style={modern.coverTop}>
+        <View>
+          {branding.logo ? (
+            // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+            <Image src={branding.logo} style={modern.coverLogo} />
+          ) : branding.companyName ? (
+            <Text style={{ fontSize: 14, fontFamily: "Helvetica-Bold" }}>{branding.companyName}</Text>
+          ) : null}
+        </View>
+        {branding.signature || signer ? (
+          <View style={modern.signer}>
+            {branding.signature ? (
+              // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+              <Image src={branding.signature} style={modern.signature} />
+            ) : null}
+            {signer ? <Text style={modern.signerName}>{signer}</Text> : null}
+            {branding.companyName ? <Text style={modern.signerCompany}>{branding.companyName}</Text> : null}
+          </View>
+        ) : null}
+      </View>
+
+      <Text style={modern.coverTitle}>{options.reportTitle || "Report"}</Text>
+      <View style={[modern.coverRule, { backgroundColor: accent }]} />
+
+      {options.reference ? <Text style={[modern.coverLine, modern.coverStrong]}>{options.reference}</Text> : null}
+      <Text style={[modern.coverLine, modern.coverStrong]}>{longDate.format(generatedAt)}</Text>
+      <Text style={[modern.coverLine, modern.coverStrong]}>
+        {project.name}
+        {project.location ? <Text style={modern.coverMuted}> · {project.location}</Text> : null}
+      </Text>
+      {options.preparedFor ? <Text style={[modern.coverLine, modern.coverStrong]}>Prepared for {options.preparedFor}</Text> : null}
+      <Text style={[modern.coverLine, modern.coverStrong]}>
+        {snags.length} {snags.length === 1 ? "issue" : "issues"} identified
+      </Text>
+      {filterNote ? <Text style={[styles.filterNote, { marginTop: 4 }]}>{filterNote}</Text> : null}
+
+      <View style={modern.coverStats}>
+        {(["open", "in_progress", "resolved"] as const).map((st) => (
+          <View key={st} style={[modern.coverStat, { borderTopColor: STATUS_COLOURS[st].fg }]}>
+            <Text style={[modern.coverStatValue, { color: STATUS_COLOURS[st].fg }]}>{count(st)}</Text>
+            <Text style={modern.coverStatLabel}>{SNAG_STATUS_LABEL[st]}</Text>
+          </View>
+        ))}
+      </View>
+
+      {(() => {
+        const people = listAssignees(snags);
+        if (people.length < 2) return null;
+        const rows = people.slice(0, 12).map((name) => {
+          const mine = snags.filter((sn) => (sn.assigned_to?.trim() || UNASSIGNED).toLowerCase() === name.toLowerCase());
+          return { name, open: mine.filter((sn) => sn.status === "open").length, prog: mine.filter((sn) => sn.status === "in_progress").length, done: mine.filter((sn) => sn.status === "resolved").length };
+        });
+        return (
+          <View style={modern.summary} wrap={false}>
+            <Text style={[modern.sectionTitle, { color: accent }]}>Summary by trade</Text>
+            <View style={[modern.summaryHead, { borderBottomColor: INK }]}>
+              <Text style={modern.summaryName}>Assigned to</Text>
+              <Text style={modern.summaryNum}>Open</Text>
+              <Text style={modern.summaryNum}>In progress</Text>
+              <Text style={modern.summaryNum}>Resolved</Text>
+            </View>
+            {rows.map((r) => (
+              <View key={r.name} style={modern.summaryRow}>
+                <Text style={modern.summaryName}>{r.name}</Text>
+                <Text style={[modern.summaryNum, r.open ? { color: STATUS_COLOURS.open.fg, fontFamily: "Helvetica-Bold" } : { color: MUTED }]}>{r.open}</Text>
+                <Text style={[modern.summaryNum, r.prog ? {} : { color: MUTED }]}>{r.prog}</Text>
+                <Text style={[modern.summaryNum, { color: MUTED }]}>{r.done}</Text>
+              </View>
+            ))}
+            {people.length > 12 ? <Text style={[modern.metaText, { marginTop: 4 }]}>+{people.length - 12} more</Text> : null}
+          </View>
+        );
+      })()}
+    </Page>
+  );
+}
+
+function ModernItem({ snag, thumbnails, levelName, snippet, accent }: RowProps & { accent: string }) {
+  const [first, ...rest] = snag.photos;
+  const cover = first ? thumbnails[first.id] : undefined;
+  const extras = rest.map((p) => thumbnails[p.id]).filter((src): src is string => !!src).slice(0, 3);
+  const where = [levelName, snag.location_details].filter(Boolean).join(" · ");
+  return (
+    <View style={[modern.item, { borderTopColor: accent }]} wrap={false}>
+      <View style={modern.itemRow}>
+        <View style={modern.photoCol}>
+          {cover ? (
+            // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+            <Image src={cover} style={modern.photo} />
+          ) : (
+            <View style={modern.noPhoto}>
+              <Text style={styles.noThumbText}>No photo</Text>
+            </View>
+          )}
+          {extras.length ? (
+            <View style={modern.extras}>
+              {extras.map((src, k) => (
+                // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+                <Image key={k} src={src} style={modern.extra} />
+              ))}
+            </View>
+          ) : null}
+        </View>
+        <View style={modern.body}>
+          <View style={modern.titleRow}>
+            <Text style={modern.title}>{snag.title}</Text>
+            <Text style={modern.number}>#{snag.snag_number}</Text>
+          </View>
+          <Text style={modern.assigned}>{snag.assigned_to ? `Assigned to ${snag.assigned_to}` : "Not assigned"}</Text>
+          {where ? (
+            <Text style={modern.detail}>
+              <Text style={modern.label}>Location: </Text>
+              {where}
+            </Text>
+          ) : null}
+          {snag.description ? <Text style={modern.detail}>{snag.description}</Text> : null}
+          <View style={modern.metaRow}>
+            <StatusPill status={snag.status} />
+            <Text style={modern.metaText}>
+              Logged {formatDate(snag.created_at)}
+              {snag.resolved_at ? ` · resolved ${formatDate(snag.resolved_at)}` : ""}
+            </Text>
+          </View>
+          {snippet ? (
+            // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf's Image has no alt prop
+            <Image src={snippet} style={modern.snippet} />
+          ) : null}
+        </View>
+      </View>
+    </View>
   );
 }
 
@@ -464,6 +679,7 @@ function PlanPage({
   project,
   generatedAt,
   design,
+  title,
 }: {
   level: Level;
   src: string;
@@ -471,6 +687,7 @@ function PlanPage({
   project: ProjectSummary;
   generatedAt: Date;
   design: ReportOptions["design"];
+  title?: string;
 }) {
   const ratio = (level.drawing_width ?? 4) / (level.drawing_height ?? 3);
   const landscape = ratio > 1;
@@ -515,7 +732,7 @@ function PlanPage({
         ))}
       </View>
 
-      <Footer project={project} generatedAt={generatedAt} design={design} />
+      <Footer project={project} generatedAt={generatedAt} design={design} title={title} />
     </Page>
   );
 }
@@ -530,7 +747,9 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
   // When grouped by level the heading already says it.
   const levelOf = (snag: Snag) => (options.groupBy === "level" || !snag.level_id ? undefined : levelNames.get(snag.level_id));
   const planPages = levels.filter((l) => plans[l.id]);
-  const designLabel = DESIGNS.find((d) => d.value === options.design)?.label ?? "Report";
+  const isModern = options.design === "modern";
+  const accent = branding.accent ?? "#d32f2f";
+  const designLabel = isModern ? options.reportTitle || "Report" : (DESIGNS.find((d) => d.value === options.design)?.label ?? "Report");
 
   return (
     <Document
@@ -540,8 +759,16 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
       producer="Site Auditor +"
       author={options.preparedBy || undefined}
     >
+      {isModern ? (
+        <CoverPage project={project} snags={snags} generatedAt={generatedAt} options={options} branding={branding} accent={accent} />
+      ) : null}
+
       <Page size="A4" style={styles.page}>
-        <ReportHeader project={project} snags={snags} generatedAt={generatedAt} options={options} branding={branding} />
+        {isModern ? (
+          <Text style={[modern.sectionTitle, { color: accent }]}>Issues</Text>
+        ) : (
+          <ReportHeader project={project} snags={snags} generatedAt={generatedAt} options={options} branding={branding} />
+        )}
 
         {options.design === "table" ? <StandardTableHeader /> : null}
         {options.design === "checklist" ? <ChecklistHeader /> : null}
@@ -551,8 +778,11 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
         ) : (
           <Groups
             groups={groups}
+            accent={isModern ? accent : undefined}
             renderSnag={(snag) =>
-              options.design === "photos" ? (
+              isModern ? (
+                <ModernItem snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} snippet={snippets[snag.id]} accent={accent} />
+              ) : options.design === "photos" ? (
                 <PhotoCard snag={snag} thumbnails={thumbnails} levelName={levelOf(snag)} snippet={snippets[snag.id]} />
               ) : options.design === "checklist" ? (
                 <ChecklistRow snag={snag} levelName={levelOf(snag)} snippet={snippets[snag.id]} />
@@ -565,7 +795,7 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
 
         {options.design === "checklist" && snags.length > 0 ? <ChecklistSignOff /> : null}
 
-        <Footer project={project} generatedAt={generatedAt} design={options.design} />
+        <Footer project={project} generatedAt={generatedAt} design={options.design} title={options.reportTitle} />
       </Page>
 
       {planPages.map((level) => (
@@ -577,6 +807,7 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
           project={project}
           generatedAt={generatedAt}
           design={options.design}
+          title={options.reportTitle}
         />
       ))}
     </Document>
