@@ -64,7 +64,9 @@ To get anatomical accuracy for a commercial release:
 | **Commission an artist** | Exact art direction (glass/neon look), owned IP | 6–10 weeks, cost |
 | **Derive from open anatomical datasets** | Low cost | Licences often restrict commercial use (check carefully); heavy clean-up |
 
-The integration contract is already in place. Each muscle node is named by `Muscle.rawValue` (`chest`, `lats`, …), and colouring, picking and camera code iterate over node names. Swapping the asset means changing one function (`MuscleMapScene.build()` / `createMannequin` geometry).
+**Implemented since:** an anatomical option built from **BodyParts3D** (DBCLS). `tools/anatomy/build-bodyparts3d.mjs` selects 194 muscle elements covering 16 of the 18 groups, then welds, simplifies (974k → 80k triangles) and exports a 1.6 MB GLB for the web plus a USD file for iOS (validated with Pixar's `usd-core`). BodyParts3D has no rectus abdominis or latissimus dorsi meshes, so those two are approximate volumes and are labelled as such. **Licence:** the dataset page says CC BY 4.0 but the files' headers say CC BY-SA 2.1 JP, so the derived model is treated as BY-SA until DBCLS confirms. The stylised model stays the default (see `prototype/models/ATTRIBUTION.md`). Users and designers can also load any `.glb`; the app reports which muscle groups it found.
+
+The integration contract is already in place. Each muscle node is named by `Muscle.rawValue` (`chest`, `lats`, …), and colouring, picking and camera code iterate over node names. Mesh names are matched by `core/anatomy.js` / `GymCore.AnatomyMapping` (Latin or English terms, or Forma ids; vessels, nerves and fascia excluded). A licensed asset therefore drops in with **no code changes**: load it in the Body tab (*Your model…*), or bundle it in place of `bodyparts3d-muscles.*`.
 
 ## Feature status
 

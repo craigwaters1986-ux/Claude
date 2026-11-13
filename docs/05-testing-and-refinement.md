@@ -4,10 +4,13 @@
 
 | Suite | Command | Count | Runs on |
 |---|---|---|---|
-| Core logic (JS): recovery, metrics/PRs, overload, generator + safety, rep counter, units, coach grounding | `npm test` | 31 | Node 22 |
+| Core logic (JS): recovery, metrics/PRs, overload, generator + safety, rep counter (+ Swift parity), units, coach grounding, sync, anatomy mapping | `npm test` | 36 | Node 22 |
 | Browser end-to-end: onboarding → log → PR → discard race → units → edit → body/3D → generator → coach → watch sync → export/delete | `npm run test:e2e` | 12 flows | Headless Chromium (WebGL via SwiftShader) |
-| AI server: auth, schema, refusal/invalid-output fallback, safeguards, rate/body limits, app↔server contract | `npm run test:server` | 7 | Node 22 + tsx (mocked model) |
-| GymCore (Swift): recovery, strength/PRs/progression, rep counter, protocol/de-dup, plan validator, offline generator, logger session | `npm run test:swift` | 25 | Swift 6.0 on Linux (also runs in Xcode) |
+| Server: AI (mocked model), Apple/session auth, sync store contract on **memory and Postgres 16**, HTTP account + sync flows | `npm run test:server` | 13 | Node 22 + tsx |
+| Two-device sync through the real server (+ Postgres) | `npm run test:sync` | 5 steps | Chromium × 2 |
+| Live Claude smoke test (generate + coach + "data I don't have") | `npm run smoke:ai` | 3 | needs `ANTHROPIC_API_KEY` |
+| GymCore (Swift): recovery, strength/PRs/progression, rep counter, protocol/de-dup, plan validator, offline generator, logger session, sync engine, rep evaluation, anatomy mapping | `npm run test:swift` | 31 | Swift 6.0 on Linux (also in CI) |
+| CI (GitHub Actions) | every push | web+server+sync, GymCore on Linux; Xcode job gated | ubuntu (macOS when available) |
 | Type check (server) | `npx tsc -p tsconfig.json` | — | strict TS |
 | Syntax check (iOS/watchOS app sources) | `swiftc -parse` per file | 15 files | Linux. **Not a compile; needs Xcode** |
 
@@ -28,6 +31,11 @@
 | 11 | Rep counter: phantom reps from sensor noise and end-of-set settling; missed slow presses | Synthetic accuracy sweep | Noise floor, swing-consistency gate, retuned integrator (0.99 leak, 0.1 Hz drift filter) |
 | 12 | Strength chart made a 1 % dip look like a cliff | Screenshot | Minimum visible y-span (±6 %) |
 | 13 | Visual polish: underlined tab labels, wrapped watch button, gaps at mannequin joints | Screenshots | CSS + joint spheres |
+| 14 | Rep counter dropped a rep in long, slow sets (window shorter than one rep) | `rep-eval` on a wider synthetic dataset | Adaptive window (Swift + JS) + regression tests |
+| 15 | Anatomy mapping matched vessels and regions ("abdominal aorta", "deltoid branch of … artery", "extensor digitorum longus" (a leg muscle) as forearm) | Running the mapping on real BodyParts3D names | Non-muscle exclusions + tighter forearm rule, shared Swift/JS cases |
+| 16 | Simplifier couldn't reduce BodyParts3D meshes (vertices unwelded) | Size sweep | Weld before simplify (5.6 MB → 1.6 MB) |
+| 17 | Device frame could be scrolled sideways by focus | Screenshot after loading the anatomical model | `overflow: clip` |
+| 18 | Apple nonce compared un-hashed (weak replay protection) | Review while building iOS sign-in | Compare SHA-256(raw nonce) |
 
 ## Edge cases covered by tests
 
@@ -42,7 +50,7 @@ No history (no fabricated weights, baseline instead of PR) · first-ever session
 
 ## Known gaps / next steps
 
-1. **Build and run the iOS + watchOS targets in Xcode** (`cd ios && xcodegen`). Fix any compile issues (the code was only syntax-checked here), then test on a real iPhone + Apple Watch.
+1. **Build and run the iOS + watchOS targets in Xcode.** A CI job is ready, but no GitHub-hosted macOS runner picked it up on this account (two attempts, `macos-15` and `macos-latest`). Set repository variable `ENABLE_MACOS_CI=true` once macOS runners are available, or (`cd ios && xcodegen`). Fix any compile issues (the code was only syntax-checked here), then test on a real iPhone + Apple Watch.
 2. Record labelled wrist-motion data and measure real rep-count accuracy before enabling auto-count by default (see doc 04).
 3. Run a live call against the Claude API with a real key (the server is tested against a mocked client only).
 4. Implement `/v1/sync` + Sign in with Apple; production token verification.

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Forma — premium AI gym tracker: web prototype, AI server and native iOS/watchOS sources",
+  "description": "Forma \u2014 premium AI gym tracker: web prototype, AI server and native iOS/watchOS sources",
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.js",
@@ -12,7 +12,8 @@
     "server": "tsx server/src/index.ts",
     "test:e2e": "node tests/e2e/flows.cjs",
     "test:sync": "node tests/e2e/sync.cjs",
-    "rep-eval": "node tools/rep-eval.mjs"
+    "rep-eval": "node tools/rep-eval.mjs",
+    "smoke:ai": "tsx server/scripts/smoke.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",

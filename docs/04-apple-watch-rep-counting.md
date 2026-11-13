@@ -45,3 +45,16 @@ Analogy: a turnstile that only clicks when the arm swings fully past the top bar
 `ios/FormaWatch`: start and finish the workout (`HKWorkoutSession` + `HKLiveWorkoutBuilder`, saved to Health); current exercise, set number and target weight × reps from the phone's plan; live heart rate; elapsed time; active energy (Apple Watch's own HealthKit estimate); start/end set with live rep count; Digital Crown correction; automatic 90 s rest timer with haptics; sets sent to the iPhone over WatchConnectivity with queued fallback.
 
 The browser **Watch preview** (`#/watch`) runs the same algorithm on synthetic motion or a phone's real motion sensors, and pushes results into the active workout through a mock WatchConnectivity log. It is clearly labelled as simulated.
+
+## Data pipeline (implemented)
+
+Validating on real wrists needs labelled data, so the pipeline that collects and scores it is in place:
+
+1. **Opt-in recording:** iPhone Profile → *Help improve rep counting*. During a set the watch keeps the raw 50 Hz motion and labels it with the **user-confirmed** count, meaning the auto count plus any Digital Crown corrections. That way every correction becomes a training label. Recordings use an anonymous per-install id, go to the iPhone with a queued `transferFile`, and can be exported from Profile. Unsupported exercises (e.g. leg press) can be recorded too, to build future models.
+2. **Format:** CSV with a metadata header (`GymCore.MotionRecording`). Swift and JS read and write the same files.
+3. **Scoring:** `swift run rep-eval <dir>` or `npm run rep-eval -- <dir>` reports, per exercise: sets, people, exact-match rate, ±1-rep rate and mean absolute error. **Auto-count is switched on by default for an exercise only at ≥ 90 % exact over ≥ 30 sets from ≥ 5 people.**
+4. **Parity:** the JS counter is run on Swift-generated recordings in CI, so the two implementations can't drift.
+
+The evaluator already found one bug: in long, slow sets (≥ 3.4 s per rep, slowing with fatigue) a rep could last longer than the counter's fixed 3 s window, and one rep was dropped. Both implementations now size the window to ≥ 1.6 × the observed rep period (3–8 s), with regression tests.
+
+**What remains (needs hardware + people):** collect recordings from at least 5 people per exercise on a real Apple Watch, run `rep-eval`, and tune or train per-exercise models until the gate passes.

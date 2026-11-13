@@ -22,11 +22,11 @@ ProgressionAdvisor, RepCounter, OfflineGenerator, PlanValidator, WatchProtocol, 
 
 | Module | Responsibility | Tested |
 |---|---|---|
-| `ios/GymCore` | All domain logic. No UIKit/HealthKit, so it builds on Linux CI and is shared by the iPhone and Watch apps | 25 XCTests (`swift test`, Linux) |
+| `ios/GymCore` | All domain logic. No UIKit/HealthKit, so it builds on Linux CI and is shared by the iPhone and Watch apps | 31 XCTests (`swift test`, Linux, also in CI) |
 | `ios/Forma` | SwiftUI app, SwiftData persistence, services | Syntax-checked only here. **Needs an Xcode build** |
 | `ios/FormaWatch` | watchOS app: workout session, motion, sync | Syntax-checked only. **Needs hardware testing** |
-| `server/` | AI proxy + safeguards (Node/TypeScript) | 7 tests with a mocked model, type-checked |
-| `prototype/` | Interactive web prototype; reference JS implementations | 31 unit + 12 browser E2E tests |
+| `server/` | AI proxy + safeguards, accounts, sync (Node/TypeScript, Postgres) | 13 tests (mocked model; store on memory + real Postgres) · live smoke script |
+| `prototype/` | Interactive web prototype; reference JS implementations | 36 unit + 12 browser E2E flows + two-device sync E2E |
 
 ## Data model
 
@@ -56,7 +56,9 @@ create policy own_rows on workouts using (user_id = auth.uid()) with check (user
 -- templates, custom_exercises, profile: same pattern. Account deletion cascades.
 ```
 
-**Sync protocol (planned):** client pushes outbox entries (`upsert`/`delete` with `updatedAt`). The server applies last-writer-wins per workout (workouts are single-author, so conflicts are rare) and returns changes since the client's cursor. iOS drains the outbox on launch, on network regain (`NWPathMonitor`) and from a `BGAppRefreshTask` (`app.forma.sync`), with exponential backoff.
+**Sync (implemented):** `server/src/store.ts` (Postgres + in-memory, one tested contract), schema in `server/db/001_init.sql`: one `records` row per entity (`kind`, `id`, `payload jsonb`, client `updated_at`, server `seq`), `on delete cascade` from `users`. Auth: Sign in with Apple identity tokens (RS256 via Apple's JWKS; issuer, audience and expiry checked; nonce SHA-256 compared) exchanged for 30-day HS256 session tokens. Clients detect changes by diffing against hashes from the last sync (`prototype/js/core/sync.js`, `GymCore.SyncEngine`), push, then pull from their cursor. The server applies last-writer-wins. Endpoints: `POST /v1/auth/apple`, `POST /v1/auth/dev` (dev mode only), `POST /v1/sync`, `GET /v1/account/export`, `DELETE /v1/account`.
+
+**Original sync design notes:** client pushes outbox entries (`upsert`/`delete` with `updatedAt`). The server applies last-writer-wins per workout (workouts are single-author, so conflicts are rare) and returns changes since the client's cursor. iOS drains the outbox on launch, on network regain (`NWPathMonitor`) and from a `BGAppRefreshTask` (`app.forma.sync`), with exponential backoff.
 
 ## API
 

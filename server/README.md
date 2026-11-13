@@ -17,6 +17,13 @@ Then in the prototype: Profile → *Cloud AI* on → server URL `http://localhos
 | `FORMA_ALLOWED_ORIGINS` | CORS allow-list |
 | `FORMA_RATE_LIMIT` | Requests per token per minute (default 20) |
 | `PORT` | Default 8787 |
+| `DATABASE_URL` | Postgres for accounts + sync (schema applied automatically). Without it, dev mode uses an in-memory store |
+| `FORMA_SESSION_SECRET` | Signs session tokens (required in production) |
+| `FORMA_APPLE_AUDIENCE` | Bundle id expected in Sign in with Apple tokens (default `app.forma.Forma`) |
+
+Accounts & sync: `POST /v1/auth/apple` (identity token + raw nonce) → session token; `POST /v1/sync`; `GET /v1/account/export`; `DELETE /v1/account`. `POST /v1/auth/dev` exists only with `FORMA_DEV=1`, for the web prototype.
+
+Live check against Claude: `ANTHROPIC_API_KEY=... npm run smoke:ai`.
 
 **Behaviour.** Requests are validated with zod. The model (`claude-opus-5-5`, server-side refusal fallback enabled) returns JSON constrained to the real exercise catalogue. The output then passes through the **same `validatePlan` safety rules the app uses** (`prototype/js/core/generator.js`). On a refusal, truncation, invalid output or upstream error, the server returns `503 {fallback: "on_device"}` and the app uses its offline engine. Request bodies are never logged.
 
