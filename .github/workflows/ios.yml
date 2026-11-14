@@ -1,0 +1,43 @@
+name: iOS build
+# Compiles the iPhone app (with embedded Watch app) and the Watch app with real
+# Xcode on a GitHub-hosted Mac. macOS minutes are limited on the free plan
+# (~190/month), so this runs only when ios/ changes, or manually.
+on:
+  push:
+    paths: ['ios/**', '.github/workflows/ios.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apple:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Xcode
+        run: xcodebuild -version
+      - name: GymCore tests (macOS)
+        run: cd ios/GymCore && swift test
+      - name: Generate Xcode project
+        run: brew install xcodegen && cd ios && xcodegen generate
+      - name: Build iPhone app (+ embedded Watch app) for Simulator
+        run: |
+          cd ios
+          set -o pipefail
+          xcodebuild -project Forma.xcodeproj -scheme Forma -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tee build-ios.log | grep -E "error:|warning: .*(deprecated|unused)|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" build-ios.log
+      - name: Build Watch app for Simulator
+        run: |
+          cd ios
+          set -o pipefail
+          xcodebuild -project Forma.xcodeproj -scheme FormaWatch -destination 'generic/platform=watchOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tee build-watch.log | grep -E "error:|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" build-watch.log
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: xcode-logs, path: ios/*.log, if-no-files-found: ignore }
