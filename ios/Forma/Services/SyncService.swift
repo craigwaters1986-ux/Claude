@@ -173,7 +173,7 @@ extension WorkoutRepository {
             switch a {
             case .upsert("workout", _, let payload):
                 let rec = try payload.decode(WorkoutRecord.self); let id = rec.id
-                if let e = try context.fetch(FetchDescriptor<WorkoutEntity>(predicate: #Predicate { $0.id == id })).first { try e.update(from: rec); e.isDeleted = false }
+                if let e = try context.fetch(FetchDescriptor<WorkoutEntity>(predicate: #Predicate { $0.id == id })).first { try e.update(from: rec); e.isTombstoned = false }
                 else { context.insert(try WorkoutEntity(record: rec)) }
             case .delete("workout", let idString):
                 guard let id = UUID(uuidString: idString) else { continue }
@@ -198,8 +198,8 @@ extension WorkoutRepository {
                 if case .string(let v)? = o["units"] { p.unitsRaw = v }
                 if case .number(let v)? = o["durationMin"] { p.durationMinutes = Int(v) }
                 if case .number(let v)? = o["restDefaultSec"] { p.restDefaultSeconds = Int(v) }
-                if case .array(let a)? = o["equipment"] { p.equipment = a.compactMap { if case .string(let s) = $0 { s } else { nil } } }
-                if case .array(let a)? = o["injuries"] { p.injuries = a.compactMap { if case .string(let s) = $0 { s } else { nil } } }
+                if case .array(let a)? = o["equipment"] { p.equipment = a.compactMap { v -> String? in if case .string(let s) = v { return s }; return nil } }
+                if case .array(let a)? = o["injuries"] { p.injuries = a.compactMap { v -> String? in if case .string(let s) = v { return s }; return nil } }
             default: continue
             }
         }

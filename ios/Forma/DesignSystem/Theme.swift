@@ -98,3 +98,9 @@ struct EstimateDisclaimer: View {
         Label(text, systemImage: "info.circle").font(.caption2).foregroundStyle(Theme.text2)
     }
 }
+
+/// Binding<Bool> for "is `value` in this set" — for toggle chips.
+func membership<T: Hashable>(_ set: Binding<Set<T>>, _ value: T) -> Binding<Bool> {
+    Binding(get: { set.wrappedValue.contains(value) },
+            set: { if $0 { set.wrappedValue.insert(value) } else { set.wrappedValue.remove(value) } })
+}

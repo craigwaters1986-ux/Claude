@@ -34,7 +34,7 @@ struct GeneratorView: View {
                 } } }
             }
             Section("Injuries / restrictions") {
-                ForEach(JointStress.allCases, id: \.self) { j in Toggle(j.rawValue.capitalized, isOn: Binding(get: { injuries.contains(j) }, set: { $0 ? _ = injuries.insert(j) : _ = injuries.remove(j) })) }
+                ForEach(JointStress.allCases, id: \.self) { j in Toggle(j.rawValue.capitalized, isOn: membership($injuries, j)) }
                 Text("Restricted joints remove exercises that load them. Not medical advice.").font(.caption).foregroundStyle(Theme.text2)
             }
             Section {
@@ -244,12 +244,12 @@ struct OnboardingView: View {
                 page(1, "Your goal", "Shapes rep ranges, rest and exercise choice.") { Picker("", selection: $goal) { ForEach(TrainingGoal.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) } }.pickerStyle(.wheel) }
                 page(2, "Experience", "Sets safe volume limits for the AI.") { Picker("", selection: $experience) { ForEach(Experience.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) } }.pickerStyle(.segmented) }
                 page(3, "Training days & length", "We'll suggest a split that fits.") {
-                    HStack { ForEach(1...7, id: \.self) { d in Toggle(Calendar.current.veryShortWeekdaySymbols[d % 7], isOn: Binding(get: { days.contains(d) }, set: { $0 ? _ = days.insert(d) : _ = days.remove(d) })).toggleStyle(.button) } }
+                    HStack { ForEach(1...7, id: \.self) { d in Toggle(Calendar.current.veryShortWeekdaySymbols[d % 7], isOn: membership($days, d)).toggleStyle(.button) } }
                     Picker("Minutes", selection: $minutes) { ForEach([20, 30, 45, 60, 75, 90], id: \.self) { Text("\($0) min").tag($0) } }.pickerStyle(.menu)
                 }
                 page(4, "Equipment & units", "") {
                     Picker("Units", selection: $units) { Text("Kilograms").tag("kg"); Text("Pounds").tag("lb") }.pickerStyle(.segmented)
-                    ForEach(Equipment.allCases, id: \.self) { e in Toggle(e.rawValue.capitalized, isOn: Binding(get: { equipment.contains(e) }, set: { $0 ? _ = equipment.insert(e) : _ = equipment.remove(e) })) }
+                    ForEach(Equipment.allCases, id: \.self) { e in Toggle(e.rawValue.capitalized, isOn: membership($equipment, e)) }
                 }
                 page(5, "Apple Health (optional)", "Sleep, resting HR and HRV can refine recovery estimates. Everything works without it.") {
                     Button("Connect Apple Health") { Task { try? await HealthKitManager.shared.requestAuthorization(); WorkoutRepository(context: context).profile().healthKitEnabled = true } }.buttonStyle(.bordered)

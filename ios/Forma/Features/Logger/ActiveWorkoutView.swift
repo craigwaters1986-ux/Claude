@@ -146,10 +146,11 @@ private struct SetRow: View {
             Button { model.copyPrevious(i, j); Haptics.tap() } label: {
                 Text(prev.map { "\(fmt(model.units.display($0.weightKg ?? 0)))×\($0.reps ?? 0)" } ?? "—").font(.caption.monospacedDigit()).foregroundStyle(Theme.text2)
             }.disabled(prev == nil).accessibilityLabel(prev == nil ? "No previous set" : "Copy previous set")
-            TextField("kg", value: Binding(get: { set.weightKg.map { model.units.display($0) } }, set: { model.setWeight($0.map(model.units.toKg), i, j) }), format: .number)
+            TextField(model.units.rawValue, text: Binding(get: { set.weightKg.map { fmt(model.units.display($0)) } ?? "" },
+                                                         set: { model.setWeight(Double($0.replacingOccurrences(of: ",", with: ".")).map(model.units.toKg), i, j) }))
                 .keyboardType(.decimalPad).multilineTextAlignment(.center).font(.body.weight(.semibold).monospacedDigit())
                 .frame(height: 40).background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
-            TextField("reps", value: Binding(get: { set.reps }, set: { model.setReps($0, i, j) }), format: .number)
+            TextField("reps", text: Binding(get: { set.reps.map(String.init) ?? "" }, set: { model.setReps(Int($0), i, j) }))
                 .keyboardType(.numberPad).multilineTextAlignment(.center).font(.body.weight(.semibold).monospacedDigit())
                 .frame(height: 40).background(Color.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
             Menu(set.rpe.map { fmt($0) } ?? "RPE") {

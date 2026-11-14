@@ -1,6 +1,5 @@
 import Foundation
 import Observation
-import GymCore
 
 /// A template row (shared by the app's SwiftData templates and plans).
 public struct TemplateItem: Codable, Hashable, Sendable {

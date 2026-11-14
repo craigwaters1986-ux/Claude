@@ -11,8 +11,8 @@ final class WorkoutRepository {
     init(context: ModelContext) { self.context = context }
 
     func completedWorkouts(since: Date? = nil) -> [WorkoutRecord] {
-        var d = FetchDescriptor<WorkoutEntity>(predicate: #Predicate { !$0.isDeleted }, sortBy: [SortDescriptor(\.startedAt)])
-        if let since { d.predicate = #Predicate { !$0.isDeleted && $0.startedAt >= since } }
+        var d = FetchDescriptor<WorkoutEntity>(predicate: #Predicate { !$0.isTombstoned }, sortBy: [SortDescriptor(\.startedAt)])
+        if let since { d.predicate = #Predicate { !$0.isTombstoned && $0.startedAt >= since } }
         return ((try? context.fetch(d)) ?? []).compactMap(\.record)
     }
 
@@ -29,7 +29,7 @@ final class WorkoutRepository {
 
     func delete(id: UUID) throws {
         guard let e = try context.fetch(FetchDescriptor<WorkoutEntity>(predicate: #Predicate { $0.id == id })).first else { return }
-        e.isDeleted = true; e.updatedAt = .now
+        e.isTombstoned = true; e.updatedAt = .now
         context.insert(OutboxEntity(operation: "workout.delete", entityID: id.uuidString))
         try context.save()
     }

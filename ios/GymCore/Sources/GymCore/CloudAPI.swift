@@ -26,8 +26,9 @@ public enum CloudAPI {
     }
 
     public struct CoachRequest: Codable, Equatable, Sendable {
-        public struct Turn: Codable, Equatable, Sendable { public var role: String; public var text: String }
+        public struct Turn: Codable, Equatable, Sendable { public var role: String; public var text: String; public init(role: String, text: String) { self.role = role; self.text = text } }
         public var question: String; public var transcript: [Turn]; public var context: Context; public var healthConnected: Bool
+        public init(question: String, transcript: [Turn], context: Context, healthConnected: Bool) { self.question = question; self.transcript = transcript; self.context = context; self.healthConnected = healthConnected }
     }
 
     /// Server target/avoid lists use muscle *groups*.

@@ -21,14 +21,14 @@ import GymCore
     var hardSets: Int
     var exerciseIDs: [String]
     var updatedAt: Date
-    var isDeleted: Bool   // tombstone for sync
+    var isTombstoned: Bool   // tombstone for sync
 
     init(record: WorkoutRecord) throws {
         id = record.id; name = record.name; startedAt = record.startedAt; endedAt = record.endedAt; notes = record.notes
         payload = try JSONEncoder().encode(record)
         volumeKg = record.volumeKg; hardSets = record.hardSetCount
         exerciseIDs = Array(Set(record.exercises.map(\.exerciseID)))
-        updatedAt = .now; isDeleted = false
+        updatedAt = .now; isTombstoned = false
     }
 
     var record: WorkoutRecord? { try? JSONDecoder().decode(WorkoutRecord.self, from: payload) }

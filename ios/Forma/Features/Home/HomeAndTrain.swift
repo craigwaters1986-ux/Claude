@@ -93,7 +93,7 @@ struct TrainView: View {
                         Button { app.start(WorkoutSession.fromTemplate(name: t.name, items: t.items, history: repo.completedWorkouts()), repo: repo) } label: {
                             VStack(alignment: .leading) { Text(t.name).font(.headline); Text(t.items.compactMap { ExerciseLibrary.byID[$0.exerciseID]?.name }.joined(separator: " · ")).font(.caption).foregroundStyle(Theme.text2).lineLimit(2) }
                         }
-                    }.onDelete { idx in idx.map { templates[$0] }.forEach(context.delete) }
+                    }.onDelete { idx in for i in idx { context.delete(templates[i]) } }
                 }
                 Section("Recent") {
                     ForEach(repo.completedWorkouts().suffix(10).reversed()) { w in
