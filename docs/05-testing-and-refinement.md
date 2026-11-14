@@ -11,7 +11,8 @@
 | Two-device sync through the real server (+ Postgres) | `npm run test:sync` | 5 steps | Chromium × 2 |
 | Live Claude smoke test (generate + coach + "data I don't have") | `npm run smoke:ai` | 3 | needs `ANTHROPIC_API_KEY` |
 | GymCore (Swift): recovery, strength/PRs/progression, rep counter, protocol/de-dup, plan validator, offline generator + weekly programmes, offline coach, logger session, sync engine, rep evaluation, anatomy mapping, iPhone↔server contract | `npm run test:swift` | 36 | Swift 6.0 on Linux (also in CI) |
-| CI (GitHub Actions) | every push | web+server+sync, GymCore on Linux; Xcode job gated | ubuntu (macOS when available) |
+| CI (GitHub Actions) | every push | web+server+sync+a11y, GymCore on Linux | ubuntu |
+| iOS build (GitHub Actions) | `ios/` changes or manual | GymCore on macOS; Xcode builds of iPhone (+Watch) and Watch apps | macos-latest |
 | Type check (server) | `npx tsc -p tsconfig.json` | — | strict TS |
 | Syntax check (iOS/watchOS app sources) | `swiftc -parse` per file | 15 files | Linux. **Not a compile; needs Xcode** |
 
@@ -41,6 +42,8 @@
 | 20 | Switches and chips announced no state when off: the template helper dropped `false`, leaving `aria-checked=""` (35 attributes) | axe-core | Booleans render as `true`/`false` |
 | 21 | Segmented buttons used `aria-selected` outside tabs | axe-core | `aria-pressed` |
 | 22 | **iPhone AI client couldn't decode the server's response** (expected `items`/`exerciseID`, server sends `exercises`/`exerciseId`) | Writing the native cloud path | Typed `GymCore.CloudAPI` + two-way contract fixtures |
+| 24 | First Xcode compile: invalid ternary set-toggles; CloudAPI types lacked public initialisers | GitHub macOS build | `membership()` binding helper; public inits |
+| 25 | SwiftData already defines `isDeleted`; optional-value `TextField` needs iOS 18; two type-inference issues | Review before the second build | Renamed `isTombstoned`; string bindings; explicit types |
 | 23 | Avoiding one muscle (calves) avoided the whole group (legs) on the server | Contract fixture review | Group avoided only when all its muscles are; per-muscle rule enforced on device |
 
 ## Edge cases covered by tests
@@ -56,7 +59,7 @@ No history (no fabricated weights, baseline instead of PR) · first-ever session
 
 ## Known gaps / next steps
 
-1. **Build and run the iOS + watchOS targets in Xcode.** A CI job is ready, but no GitHub-hosted macOS runner picked it up on this account (two attempts, `macos-15` and `macos-latest`). Set repository variable `ENABLE_MACOS_CI=true` once macOS runners are available, or (`cd ios && xcodegen`). Fix any compile issues (the code was only syntax-checked here), then test on a real iPhone + Apple Watch.
+1. **Run on a real iPhone + Apple Watch.** The apps now compile with Xcode on GitHub-hosted Macs (*iOS build* workflow). Install them through TestFlight without a Mac: see [doc 06](06-building-without-a-mac.md).
 2. Record labelled wrist-motion data and measure real rep-count accuracy before enabling auto-count by default (see doc 04).
 3. Run a live call against the Claude API with a real key (the server is tested against a mocked client only).
 4. Deploy the server: HTTPS, managed Postgres (`DATABASE_URL`), a strong `FORMA_SESSION_SECRET`, and the iOS bundle id as `FORMA_APPLE_AUDIENCE`. Sync and Sign in with Apple are implemented and tested.

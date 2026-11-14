@@ -7,7 +7,7 @@ Effortless logging, an interactive 3D muscle map with **estimated** recovery, ex
 | **Interactive prototype** | [`prototype/`](prototype) | Full working web app (iPhone-sized, offline-capable): every main screen, real persistence, real algorithms |
 | **Native app** | [`ios/`](ios) | SwiftUI iPhone app + watchOS companion + the `GymCore` Swift package (tested) |
 | **AI server** | [`server/`](server) | Secure Claude-backed generator/coach with server-side safeguards |
-| **Docs** | [`docs/`](docs) | [Product & design system](docs/01-product-design.md) · [Architecture](docs/02-architecture.md) · [Recovery model](docs/03-recovery-model.md) · [Watch & rep counting](docs/04-apple-watch-rep-counting.md) · [Testing](docs/05-testing-and-refinement.md) |
+| **Docs** | [`docs/`](docs) | [Product & design system](docs/01-product-design.md) · [Architecture](docs/02-architecture.md) · [Recovery model](docs/03-recovery-model.md) · [Watch & rep counting](docs/04-apple-watch-rep-counting.md) · [Testing](docs/05-testing-and-refinement.md) · [Building without a Mac](docs/06-building-without-a-mac.md) |
 
 ## Run it
 
@@ -42,7 +42,7 @@ First launch shows onboarding. Choose **Explore with sample data** to see ~10 we
 | Apple Watch app (workout session, HR, calories, rest, haptics, sync) | 🟡 **Simulated preview** in the browser · watchOS code implemented, **not built or tested on hardware** |
 | Wrist rep counting | 🟡 Algorithm exact on synthetic traces (JS + Swift, cross-checked). Opt-in labelled recording on the watch + `rep-eval` accuracy gate are ready; **real-world accuracy unmeasured until data is collected** — see [doc 04](docs/04-apple-watch-rep-counting.md) |
 | Accounts & cloud sync | ✅ Server (Sign in with Apple, sessions, Postgres, export/delete) tested against Postgres 16 · ✅ prototype sync verified across two browsers · native `SyncService` written (unbuilt) |
-| Xcode build of iPhone + Watch apps | ⚠️ CI job ready but **this GitHub account has no hosted macOS runner available**; enable `ENABLE_MACOS_CI` once it does, or build locally (`cd ios && xcodegen`) |
+| Xcode build of iPhone + Watch apps | ✅ **Compiles with Xcode** on GitHub-hosted Macs (Actions → *iOS build*, on every `ios/` change) — no Mac needed. Not yet run on a device: see [building without a Mac](docs/06-building-without-a-mac.md) for TestFlight |
 
 Accessibility: axe-core reports no WCAG 2.1 A/AA violations on any screen (checked in CI). Zoom is allowed, and every control has a name and an announced state.
 

@@ -3,10 +3,14 @@
 | Folder | What | Verified |
 |---|---|---|
 | `GymCore/` | Swift package with all domain logic (recovery, strength/PRs, progression, rep counter, generator, plan safety, watch protocol, logger session) | ✅ `swift test`: 25 tests pass on Linux (Swift 6.0.3) |
-| `Forma/` | SwiftUI iPhone app (SwiftData, HealthKit, WatchConnectivity, SceneKit, Swift Charts) | ⚠️ Syntax-checked only — **not yet compiled** (no Xcode in the build environment) |
-| `FormaWatch/` | watchOS app (HKWorkoutSession, Core Motion rep tracking, Digital Crown correction) | ⚠️ Syntax-checked only — **not tested on hardware** |
+| `Forma/` | SwiftUI iPhone app (SwiftData, HealthKit, WatchConnectivity, SceneKit, Swift Charts) | ✅ Compiles with Xcode (GitHub Actions *iOS build*) · not yet run on a device |
+| `FormaWatch/` | watchOS app (HKWorkoutSession, Core Motion rep tracking, Digital Crown correction) | ✅ Compiles with Xcode · **not tested on hardware** |
 
 ## Build
+
+No Mac? Everything builds on GitHub-hosted Macs: see [../docs/06-building-without-a-mac.md](../docs/06-building-without-a-mac.md).
+
+With a Mac:
 
 ```bash
 brew install xcodegen
