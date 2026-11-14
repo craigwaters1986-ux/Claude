@@ -9,7 +9,7 @@
  * - Data (projects, snags) is not handled here: the app keeps its own copy,
  *   and new snags are saved in its outbox until they upload.
  */
-const VERSION = "v4";
+const VERSION = "v5";
 const STATIC = `static-${VERSION}`;
 const PAGES = `pages-${VERSION}`;
 const IMAGES = `images-${VERSION}`;
@@ -34,6 +34,8 @@ self.addEventListener("activate", (event) => {
  */
 self.addEventListener("message", (event) => {
   const data = event.data || {};
+  // A newer version of the app is live: forget saved pages so the reload gets it.
+  if (data.type === "clear-pages") event.waitUntil(caches.delete(PAGES));
   if (!Array.isArray(data.urls)) return;
   if (data.type === "save-pages") event.waitUntil(Promise.all(data.urls.map(savePage)));
   // Drawings: keep them on the phone so plans open with no signal.

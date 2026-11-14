@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAppUpdate } from "@/hooks/use-app-update";
 import { useApplyAppearance } from "@/hooks/use-settings";
 import { rememberUserId } from "@/hooks/use-snags";
 import { useSupabase } from "@/hooks/use-supabase";
@@ -17,6 +18,7 @@ import { startOutbox } from "@/lib/offline/outbox";
  */
 export function OfflineSetup() {
   useApplyAppearance(); // theme, accent and text size follow the user's settings
+  useAppUpdate(); // switch to a newer version as soon as it's live
   const supabase = useSupabase();
   const queryClient = useQueryClient();
 
