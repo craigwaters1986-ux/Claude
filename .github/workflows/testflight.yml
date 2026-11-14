@@ -1,0 +1,80 @@
+name: TestFlight
+# Builds, signs (Apple cloud signing via an App Store Connect API key — no Mac
+# needed) and uploads the iPhone app with its embedded Watch app to TestFlight.
+# Run manually: Actions → TestFlight → Run workflow.
+#
+# One-time setup (see docs/06-building-without-a-mac.md):
+#   Repository secrets:   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (contents of the .p8 file), APPLE_TEAM_ID
+#   Repository variable:  BUNDLE_ID (e.g. com.yourname.forma) — must match the app record in App Store Connect
+on:
+  workflow_dispatch:
+
+jobs:
+  testflight:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    env:
+      BUNDLE_ID: ${{ vars.BUNDLE_ID }}
+      TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check setup
+        run: |
+          missing=""
+          for v in BUNDLE_ID TEAM_ID ASC_KEY_ID ASC_ISSUER_ID; do [ -n "${!v}" ] || missing="$missing $v"; done
+          [ -n "${{ secrets.ASC_KEY_P8 }}" ] || missing="$missing ASC_KEY_P8"
+          if [ -n "$missing" ]; then echo "::error::Missing setup:$missing — see docs/06-building-without-a-mac.md"; exit 1; fi
+
+      - name: Write App Store Connect API key
+        run: |
+          mkdir -p ~/private_keys
+          printf '%s' "${{ secrets.ASC_KEY_P8 }}" > ~/private_keys/AuthKey_${ASC_KEY_ID}.p8
+          echo "ASC_KEY_PATH=$HOME/private_keys/AuthKey_${ASC_KEY_ID}.p8" >> "$GITHUB_ENV"
+
+      - name: Generate project with your bundle id
+        run: |
+          brew install xcodegen
+          cd ios
+          sed -i '' "s/app\.forma\.Forma/${BUNDLE_ID}/g" project.yml
+          xcodegen generate
+
+      - name: Archive (cloud signing)
+        run: |
+          cd ios
+          set -o pipefail
+          xcodebuild -project Forma.xcodeproj -scheme Forma -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/Forma.xcarchive" \
+            DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Automatic CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            -allowProvisioningUpdates -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            archive | tee archive.log | grep -E "error:|warning: .*signing|ARCHIVE (SUCCEEDED|FAILED)" || true
+          grep -q "ARCHIVE SUCCEEDED" archive.log
+
+      - name: Export and upload to App Store Connect
+        run: |
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>${TEAM_ID}</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/Forma.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            -exportPath "$RUNNER_TEMP/export" -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID"
+          echo "Uploaded build ${{ github.run_number }}. It appears in TestFlight after Apple finishes processing (usually 5–30 minutes)."
+
+      - name: Remove key
+        if: always()
+        run: rm -rf ~/private_keys
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: testflight-logs, path: ios/*.log, if-no-files-found: ignore }

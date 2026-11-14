@@ -11,7 +11,9 @@ packages:
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    DEVELOPMENT_TEAM: ""   # set your team
+    DEVELOPMENT_TEAM: ""   # set in CI (Codemagic) or Xcode
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"   # CI overrides with its build number
 targets:
   Forma:
     type: application
@@ -22,7 +24,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.forma.Forma
         TARGETED_DEVICE_FAMILY: "1"
-        ASSETCATALOG_COMPILER_APPICON_NAME: 
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     dependencies:
       - package: GymCore
       - target: FormaWatch
@@ -30,6 +32,10 @@ targets:
       path: Forma/Info.plist
       properties:
         CFBundleDisplayName: Forma
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UILaunchScreen: {}
         UIUserInterfaceStyle: Dark
         NSHealthShareUsageDescription: "Forma reads sleep, resting heart rate and heart-rate variability to refine estimated muscle recovery. Optional."
@@ -50,12 +56,15 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.forma.Forma.watchkitapp
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     dependencies:
       - package: GymCore
     info:
       path: FormaWatch/Info.plist
       properties:
         CFBundleDisplayName: Forma
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WKApplication: true
         WKCompanionAppBundleIdentifier: app.forma.Forma
         NSHealthShareUsageDescription: "Forma reads heart rate and energy during workouts."
