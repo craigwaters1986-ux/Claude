@@ -25,8 +25,6 @@ export type ReportOptions = {
   preparedFor: string;
   /** Big title on the cover of the modern design, e.g. "Site inspection". */
   reportTitle: string;
-  /** Reference printed on the cover, e.g. "PLOT14-261113". Per report. */
-  reference: string;
   /** Print the signature from Settings on the cover (when there is one). */
   includeSignature: boolean;
 };
@@ -44,7 +42,6 @@ export const DEFAULT_REPORT_OPTIONS: ReportOptions = {
   preparedBy: "",
   preparedFor: "",
   reportTitle: DEFAULT_REPORT_TITLE,
-  reference: "",
   includeSignature: true,
 };
 
@@ -190,10 +187,3 @@ export function rememberOptions(options: ReportOptions) {
   }
 }
 
-/** A short reference for the cover: project initials/number + date, e.g. "PLOT14-261113". */
-export function suggestReference(projectName: string, date = new Date()): string {
-  const words = projectName.toUpperCase().replace(/[^A-Z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
-  const head = words.length === 1 ? words[0].slice(0, 8) : words.slice(0, 2).map((w) => (/^\d+$/.test(w) ? w : w.slice(0, 4))).join("");
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${head || "REPORT"}-${String(date.getFullYear()).slice(2)}${pad(date.getMonth() + 1)}${pad(date.getDate())}`;
-}

@@ -7,7 +7,7 @@ import { reportColorHex } from "@/lib/settings/settings";
 import { makeLocationSnippets } from "./location-snippets";
 import { listSnags } from "@/lib/services/snags";
 import type { SnagPhoto } from "@/types/models";
-import { filterSnags, photoSizeFor, suggestReference, type ReportOptions } from "./report-options";
+import { filterSnags, photoSizeFor, type ReportOptions } from "./report-options";
 
 export type ReportProgress =
   | { stage: "loading" }
@@ -105,9 +105,6 @@ export async function generateSnagReport(
 
   onProgress?.({ stage: "rendering" });
   const generatedAt = new Date();
-  if (options.design === "modern" && !options.reference.trim()) {
-    options = { ...options, reference: suggestReference(project.name, generatedAt) };
-  }
   const { renderSnagReport } = await import("./snag-report"); // loads the PDF engine on first use
   const blob = await renderSnagReport({ project, snags, levels, plans, thumbnails, snippets, branding, generatedAt, options });
 

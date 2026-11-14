@@ -33,7 +33,6 @@ import {
   loadRememberedOptions,
   rememberOptions,
   type GroupBy,
-  suggestReference,
   type ReportDesign,
   type ReportOptions,
 } from "@/lib/pdf/report-options";
@@ -292,34 +291,21 @@ function ReportOptionsForm({ projectId, onReady }: { projectId: string; onReady:
       </div>
 
       {isModern && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="grid gap-2">
-            <Label htmlFor="report-title">Report title</Label>
-            <Input
-              id="report-title"
-              list="report-title-suggestions"
-              value={options.reportTitle}
-              onChange={(e) => set("reportTitle", e.target.value)}
-              maxLength={60}
-              disabled={busy}
-            />
-            <datalist id="report-title-suggestions">
-              {REPORT_TITLE_SUGGESTIONS.map((t) => (
-                <option key={t} value={t} />
-              ))}
-            </datalist>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="report-ref">Reference</Label>
-            <Input
-              id="report-ref"
-              value={options.reference}
-              onChange={(e) => set("reference", e.target.value)}
-              placeholder={project.data ? `Automatic: ${suggestReference(project.data.name)}` : "Automatic"}
-              maxLength={40}
-              disabled={busy}
-            />
-          </div>
+        <div className="grid gap-2">
+          <Label htmlFor="report-title">Report title</Label>
+          <Input
+            id="report-title"
+            list="report-title-suggestions"
+            value={options.reportTitle}
+            onChange={(e) => set("reportTitle", e.target.value)}
+            maxLength={60}
+            disabled={busy}
+          />
+          <datalist id="report-title-suggestions">
+            {REPORT_TITLE_SUGGESTIONS.map((t) => (
+              <option key={t} value={t} />
+            ))}
+          </datalist>
         </div>
       )}
 

@@ -117,12 +117,15 @@
     @apply border-border outline-ring/50;
   }
   html {
-    /* Black above the page (behind the top bar when you pull down on a phone),
-       page colour below. */
-    background: linear-gradient(to bottom, var(--header) 0 50%, var(--background) 50% 100%);
+    /* What a phone shows when you pull past the top (or bottom) of the page:
+       the black of the top bar, so no light patch appears above it. (A
+       gradient here isn't stretched into that area on iPhones.) The page
+       itself is painted by body. */
+    background-color: var(--header);
   }
   body {
     @apply bg-background text-foreground antialiased;
+    min-height: 100dvh; /* short pages still fill the screen with the page colour */
     /* Never let anything make the page wider than the screen and slide sideways.
        (clip, unlike hidden, doesn't break the sticky top bar.) */
     overflow-x: clip;

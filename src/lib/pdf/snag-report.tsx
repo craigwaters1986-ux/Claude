@@ -298,10 +298,6 @@ const modern = StyleSheet.create({
   coverLine: { fontSize: 11, marginBottom: 9 },
   coverStrong: { fontFamily: "Helvetica-Bold" },
   coverMuted: { color: MUTED },
-  coverStats: { flexDirection: "row", gap: 10, marginTop: 26 },
-  coverStat: { flex: 1, borderTopWidth: 2.5, paddingTop: 7 },
-  coverStatValue: { fontSize: 20, fontFamily: "Helvetica-Bold" },
-  coverStatLabel: { fontSize: 8, color: MUTED, marginTop: 2, textTransform: "uppercase", letterSpacing: 0.8 },
   summary: { marginTop: 30 },
   summaryHead: { flexDirection: "row", borderBottomWidth: 1.2, paddingBottom: 4, marginBottom: 2, fontSize: 7.5, fontFamily: "Helvetica-Bold", color: MUTED, letterSpacing: 0.8, textTransform: "uppercase" },
   summaryRow: { flexDirection: "row", borderBottomWidth: 0.6, borderBottomColor: LINE, paddingVertical: 4.5, fontSize: 9.5 },
@@ -336,7 +332,6 @@ function CoverPage({
   branding,
   accent,
 }: Pick<ReportData, "project" | "snags" | "generatedAt" | "options" | "branding"> & { accent: string }) {
-  const count = (status: SnagStatus) => snags.filter((s) => s.status === status).length;
   const filterNote = describeFilters(options);
   const signer = options.preparedBy || null;
   return (
@@ -365,7 +360,6 @@ function CoverPage({
       <Text style={modern.coverTitle}>{options.reportTitle || "Report"}</Text>
       <View style={[modern.coverRule, { backgroundColor: accent }]} />
 
-      {options.reference ? <Text style={[modern.coverLine, modern.coverStrong]}>{options.reference}</Text> : null}
       <Text style={[modern.coverLine, modern.coverStrong]}>{longDate.format(generatedAt)}</Text>
       <Text style={[modern.coverLine, modern.coverStrong]}>
         {project.name}
@@ -377,14 +371,6 @@ function CoverPage({
       </Text>
       {filterNote ? <Text style={[styles.filterNote, { marginTop: 4 }]}>{filterNote}</Text> : null}
 
-      <View style={modern.coverStats}>
-        {(["open", "in_progress", "resolved"] as const).map((st) => (
-          <View key={st} style={[modern.coverStat, { borderTopColor: STATUS_COLOURS[st].fg }]}>
-            <Text style={[modern.coverStatValue, { color: STATUS_COLOURS[st].fg }]}>{count(st)}</Text>
-            <Text style={modern.coverStatLabel}>{SNAG_STATUS_LABEL[st]}</Text>
-          </View>
-        ))}
-      </View>
 
       {(() => {
         const people = listAssignees(snags);
