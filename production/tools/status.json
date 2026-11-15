@@ -81,7 +81,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "AWAITING REVIEW",
+          "status": "IN PROGRESS",
           "depends": [
             "research"
           ],
@@ -121,8 +121,8 @@
               "opened": "2026-11-15 15:30"
             }
           ],
-          "next": "Hook pass (optional, recommended by QC) then user approval",
-          "updated": "2026-11-15 15:30"
+          "next": "Scriptwriter hook pass (user chose hook pass before approval)",
+          "updated": "2026-11-15 16:13"
         },
         {
           "id": "script-factcheck",
@@ -276,7 +276,9 @@
             "environments",
             "music-sfx"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/video/ep01-ww2/ep01-hook-preview-wip.mp4"
+          ],
           "issues": [
             {
               "text": "Render speed: 30 s hook preview took >10 min (900 frames) - profile maps/globe/particles before full render",
@@ -288,8 +290,8 @@
               "opened": "2026-11-15 15:27"
             }
           ],
-          "next": "",
-          "updated": "2026-11-15 15:27"
+          "next": "WIP hook preview rendered (30.0 s, 1080p30, AAC)",
+          "updated": "2026-11-15 16:13"
         },
         {
           "id": "final-render",
