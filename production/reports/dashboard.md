@@ -6,7 +6,7 @@ Last updated: 2026-11-15 14:46  ·  Active episode: **ep01-ww2**
 
 ## ep01-ww2 — World War II: How It Started, How It Ended
 
-Progress: NOT STARTED: 8 · IN PROGRESS: 3 · BLOCKED: 2 · AWAITING REVIEW: 3 · COMPLETED: 1
+Progress: NOT STARTED: 8 · IN PROGRESS: 3 · BLOCKED: 2 · AWAITING REVIEW: 2 · COMPLETED: 2
 
 | Task | Agent | Assigned task | Status | Dependencies | Completed deliverables | Outstanding issues | Next action |
 |---|---|---|---|---|---|---|---|
@@ -16,10 +16,10 @@ Progress: NOT STARTED: 8 · IN PROGRESS: 3 · BLOCKED: 2 · AWAITING REVIEW: 3 �
 | `script` | scriptwriter | Write narration script fitted to duration | **AWAITING REVIEW** | research (IN PROGRESS) | `production/scripts/ep01-ww2/script.md`<br>`production/scripts/ep01-ww2/script.json` | — | Fact-check (researcher) then QC, then user approval |
 | `script-factcheck` | researcher | Fact-check the script | **IN PROGRESS** | script (AWAITING REVIEW) | — | — | Two researcher runs in parallel (chapters 1-6, 7-11) |
 | `script-qc` | quality-control | QC review of the script | **NOT STARTED** | script-factcheck (IN PROGRESS) | — | — | — |
-| `style-sample` | animator | Character/animation style sample for approval | **AWAITING REVIEW** | brief (COMPLETED) | `production/characters/ep01-ww2/style-sample.png` | — | User to approve style (checkpoint 2) |
+| `style-sample` | animator | Character/animation style sample for approval | **COMPLETED** | brief (COMPLETED) | `production/characters/ep01-ww2/style-sample.png` | — | — |
 | `narration` | audio-engineer | Generate narration, timings and SRT | **AWAITING REVIEW** | approval:script (NOT REQUESTED) | `the-human-story/episode-01-ww2/output/episode-01-narration.wav`<br>`the-human-story/episode-01-ww2/output/episode-01-subtitles.srt` | #1 Generated from the unapproved draft script — regenerate if the script changes | — |
 | `storyboard` | storyboard | Timestamped storyboard + asset requests | **NOT STARTED** | approval:script (NOT REQUESTED) | — | — | — |
-| `characters` | animator | Build characters and character animation | **BLOCKED** | approval:style (PENDING), approval:storyboard (NOT REQUESTED) | `the-human-story/episode-01-ww2/src/characters/StickFigure.tsx` | — | Core rig built (draft); waits for style + storyboard approval |
+| `characters` | animator | Build characters and character animation | **BLOCKED** | approval:style (APPROVED), approval:storyboard (NOT REQUESTED) | `the-human-story/episode-01-ww2/src/characters/StickFigure.tsx` | — | Style approved; still waits for storyboard approval |
 | `environments` | environment-designer | Build environments, maps, vehicles, effects | **BLOCKED** | approval:storyboard (NOT REQUESTED) | `the-human-story/episode-01-ww2/src/maps/GeoMap.tsx` | — | Core environment/map/vehicle libraries built (draft); waits for storyboard approval |
 | `music-sfx` | audio-engineer | Music, SFX and mix | **NOT STARTED** | storyboard (NOT STARTED) | — | — | — |
 | `assembly` | video-editor | Assemble timeline and preview renders | **NOT STARTED** | narration (AWAITING REVIEW), characters (BLOCKED), environments (BLOCKED), music-sfx (NOT STARTED) | — | — | — |
@@ -28,7 +28,7 @@ Progress: NOT STARTED: 8 · IN PROGRESS: 3 · BLOCKED: 2 · AWAITING REVIEW: 3 �
 | `publishing-pack` | youtube-specialist | Title, description, chapters, tags, thumbnail brief, checklist | **NOT STARTED** | final-qc (NOT STARTED) | — | — | — |
 | `wrap` | director | Final report to the user (user publishes manually) | **NOT STARTED** | approval:final-render (NOT REQUESTED) | — | — | — |
 
-Approvals: Final episode script: **NOT REQUESTED** · Initial character & animation style: **PENDING** · Final storyboard before full production: **NOT REQUESTED** · Final render before publishing: **NOT REQUESTED**
+Approvals: Final episode script: **NOT REQUESTED** · Initial character & animation style: **APPROVED** · Final storyboard before full production: **NOT REQUESTED** · Final render before publishing: **NOT REQUESTED**
 
 ## ep00-test-titanic — Team test: The sinking of the Titanic (45-second teaser)
 
