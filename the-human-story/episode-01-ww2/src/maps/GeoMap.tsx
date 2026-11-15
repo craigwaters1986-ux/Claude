@@ -28,9 +28,13 @@ type Props = {
   land?: string;
   dim?: number; // darken (0..1) for sombre moments
   borders?: boolean;
+  /** Unique suffix for SVG ids when two maps of the same kind are on screen (e.g. a wall map). */
+  idSuffix?: string;
+  /** Sea texture strokes (0 = none; default 18). */
+  seaLines?: number;
 };
 
-export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children, sea = '#9DBCC4', land = C.land, dim = 0, borders = true}) => {
+export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children, sea = '#9DBCC4', land = C.land, dim = 0, borders = true, idSuffix = '', seaLines = 18}) => {
   const bm = baseMap(kind);
   const focus = bm.proj([cam.lon, cam.lat]) ?? [W / 2, H / 2];
   const z = cam.zoom;
@@ -39,12 +43,12 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
     return [W / 2 + (p[0] - focus[0]) * z, H / 2 + (p[1] - focus[1]) * z];
   };
   const tf = `translate(${W / 2},${H / 2}) scale(${z}) translate(${-focus[0]},${-focus[1]})`;
-  const clipId = `land-${kind}`;
+  const clipId = `land-${kind}${idSuffix}`;
   return (
     <g>
       <rect x={-200} y={-200} width={W + 400} height={H + 400} fill={sea} />
       {/* subtle sea texture */}
-      {Array.from({length: 18}).map((_, i) => (
+      {Array.from({length: seaLines}).map((_, i) => (
         <path key={i} d={`M${-100 + ((i * 397) % 2000)},${60 + i * 58} q20,-10 40,0 t40,0`} stroke="#fff" strokeWidth={3} opacity={0.25} fill="none" transform={`translate(${Math.sin(f / 40 + i) * 10},0)`} />
       ))}
       <defs>
@@ -174,7 +178,7 @@ export const Globe: React.FC<{f: number; lon: number; lat: number; r?: number; c
   f, lon, lat, r = 420, cx = W / 2, cy = H / 2, highlights = [], children, dim = 0, landColor = C.land, seaColor = '#9DBCC4',
 }) => {
   const proj = geoOrthographic().rotate([-lon, -lat]).scale(r).translate([cx, cy]).clipAngle(90);
-  const gp = geoPath(proj);
+  const gp = geoPath(proj).digits(1);
   const hl = new Map(highlights.map((h) => [h.name, h]));
   return (
     <g>

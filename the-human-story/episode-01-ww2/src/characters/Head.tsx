@@ -6,7 +6,9 @@ import {hash, noise1} from '../animations/core';
 
 export type Expression =
   | 'neutral' | 'happy' | 'joy' | 'angry' | 'furious' | 'sad' | 'grief' | 'scared'
-  | 'surprised' | 'determined' | 'sleepy' | 'smug' | 'worried' | 'cold' | 'shout';
+  | 'surprised' | 'determined' | 'sleepy' | 'smug' | 'worried' | 'cold' | 'shout'
+  // sombre set (no cartoon marks): tired = heavy half-closed lids; solemn = still, closed mouth
+  | 'tired' | 'solemn';
 
 export type Hair =
   | 'none' | 'spiky' | 'mop' | 'short' | 'side' | 'slick' | 'swept' | 'bald' | 'baldFringe'
@@ -14,7 +16,15 @@ export type Hair =
 
 export type Hat =
   | 'none' | 'brodie' | 'stahlhelm' | 'm1' | 'adrian' | 'sovietHelmet' | 'ushanka' | 'pickelhaube'
-  | 'officerCap' | 'beret' | 'flatCap' | 'fedora' | 'sidecap' | 'headscarf' | 'tophat' | 'sailor' | 'pilot' | 'stripedCap';
+  | 'officerCap' | 'beret' | 'flatCap' | 'fedora' | 'sidecap' | 'headscarf' | 'tophat' | 'sailor' | 'pilot' | 'stripedCap'
+  // ep01 additions
+  | 'jpFieldCap' // Imperial Japanese Army field cap with neck flaps
+  | 'jpHelmet' // Type 90-style rounded helmet (plain, no emblem)
+  | 'chineseCap' // NRA soft peaked cap
+  | 'kepi' // plain brown party cap (no emblem)
+  | 'slouch' // Australian slouch hat, brim pinned up on one side
+  | 'm1Camo' // US M1 helmet with a camouflage cover (Marines)
+  | 'nurseCap';
 
 export type FacialHair = 'none' | 'toothbrush' | 'walrus' | 'kaiser' | 'handlebar' | 'thin' | 'bushy' | 'stubble';
 
@@ -28,6 +38,9 @@ export type HeadSpec = {
   glasses?: 'none' | 'round' | 'pince' | 'dark';
   expression?: Expression;
   wide?: number; // head width multiplier
+  hatAccent?: string; // band colour for officerCap / chineseCap / kepi / fedora
+  chinStrap?: boolean; // helmet chin strap (paratroopers)
+  hatBadge?: 'none' | 'redcross'; // medic helmet: red cross on a white disc
 };
 
 type Props = HeadSpec & {
@@ -41,9 +54,14 @@ type Props = HeadSpec & {
   angerMark?: boolean;
   sweat?: boolean;
   tear?: boolean;
+  eyesClosed?: boolean; // closed "u" eyes (prayer, grief, bowed head)
+  back?: boolean; // seen from behind: no face, hair covers the back of the head
+  lod?: 'full' | 'low'; // low = crowd detail level (no highlights, glasses or marks)
 };
 
 const ink = C.ink;
+// hats that leave the hairstyle visible
+const HAIR_SHOWS: Hat[] = ['beret', 'flatCap', 'sidecap', 'fedora', 'nurseCap'];
 
 function hairShape(h: Hair, R: number, color: string, f: number, seed: number) {
   const sw = R * 0.1;
@@ -136,7 +154,7 @@ function hairShape(h: Hair, R: number, color: string, f: number, seed: number) {
   }
 }
 
-function hatShape(h: Hat, R: number, color: string) {
+function hatShape(h: Hat, R: number, color: string, accent?: string) {
   const s = R * 0.08;
   const o = {stroke: ink, strokeWidth: s, strokeLinejoin: 'round' as const};
   switch (h) {
@@ -191,7 +209,7 @@ function hatShape(h: Hat, R: number, color: string) {
       return (
         <g>
           <path d={`M${-R * 0.95},${-R * 0.5} L${-R * 1.1},${-R * 1.05} Q0,${-R * 1.55} ${R * 1.15},${-R * 1.1} L${R * 0.95},${-R * 0.5}Z`} fill={color} {...o} />
-          <rect x={-R * 0.95} y={-R * 0.72} width={R * 1.9} height={R * 0.22} fill={C.darkRed} {...o} />
+          <rect x={-R * 0.95} y={-R * 0.72} width={R * 1.9} height={R * 0.22} fill={accent ?? C.darkRed} {...o} />
           <path d={`M${R * 0.2},${-R * 0.5} Q${R * 1.0},${-R * 0.55} ${R * 1.3},${-R * 0.28} L${R * 0.4},${-R * 0.4}Z`} fill={ink} />
         </g>
       );
@@ -254,9 +272,98 @@ function hatShape(h: Hat, R: number, color: string) {
           <path d={`M${-R * 0.5},${-R * 0.95} L${-R * 0.5},${-R * 0.55} M0,${-R * 1.05} L0,${-R * 0.55} M${R * 0.5},${-R * 0.95} L${R * 0.5},${-R * 0.55}`} stroke="#4E5A6E" strokeWidth={R * 0.12} />
         </g>
       );
+    case 'jpFieldCap': // soft cap with short peak and neck flaps hanging at the back (-x)
+      return (
+        <g>
+          <path d={`M${-R * 1.02},${-R * 0.42} L${-R * 1.12},${R * 0.55} L${-R * 0.55},${R * 0.5} L${-R * 0.62},${-R * 0.3}Z`} fill={color} {...o} strokeWidth={s * 0.8} />
+          <path d={`M${-R * 0.98},${-R * 0.42} C${-R * 1.0},${-R * 1.2} ${R * 0.95},${-R * 1.22} ${R * 0.98},${-R * 0.42}Z`} fill={color} {...o} />
+          <path d={`M${R * 0.35},${-R * 0.44} Q${R * 1.05},${-R * 0.48} ${R * 1.35},${-R * 0.28} L${R * 0.5},${-R * 0.34}Z`} fill={ink} />
+        </g>
+      );
+    case 'jpHelmet':
+      return (
+        <g>
+          <path d={`M${-R * 1.06},${-R * 0.2} C${-R * 1.08},${-R * 1.38} ${R * 1.08},${-R * 1.38} ${R * 1.06},${-R * 0.2} L${R * 1.16},${-R * 0.12} L${-R * 1.16},${-R * 0.12}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.8},${-R * 0.75} Q0,${-R * 0.95} ${R * 0.8},${-R * 0.75}`} fill="none" stroke={ink} strokeWidth={s * 0.5} opacity={0.5} />
+        </g>
+      );
+    case 'chineseCap': // soft flat-topped peaked cap
+      return (
+        <g>
+          <path d={`M${-R * 0.92},${-R * 0.45} L${-R * 1.0},${-R * 1.12} L${R * 1.02},${-R * 1.14} L${R * 0.94},${-R * 0.45}Z`} fill={color} {...o} />
+          <rect x={-R * 0.93} y={-R * 0.66} width={R * 1.86} height={R * 0.18} fill={accent ?? color} {...o} strokeWidth={s * 0.7} />
+          <path d={`M${R * 0.25},${-R * 0.46} Q${R * 1.0},${-R * 0.5} ${R * 1.3},${-R * 0.3} L${R * 0.45},${-R * 0.38}Z`} fill={ink} />
+        </g>
+      );
+    case 'kepi': // party cap: slanted crown, short peak, chin strap, NO emblem
+      return (
+        <g>
+          <path d={`M${-R * 0.95},${-R * 0.42} L${-R * 0.85},${-R * 1.22} L${R * 0.7},${-R * 1.08} L${R * 0.95},${-R * 0.42}Z`} fill={color} {...o} />
+          <path d={`M${R * 0.3},${-R * 0.44} Q${R * 1.0},${-R * 0.48} ${R * 1.28},${-R * 0.3} L${R * 0.5},${-R * 0.36}Z`} fill={ink} />
+          <line x1={-R * 0.9} y1={-R * 0.55} x2={R * 0.92} y2={-R * 0.55} stroke={accent ?? ink} strokeWidth={s * 0.8} />
+        </g>
+      );
+    case 'slouch': // brim pinned up on the near-left side
+      return (
+        <g>
+          <path d={`M${-R * 1.55},${-R * 0.5} Q0,${-R * 0.7} ${R * 1.55},${-R * 0.5} Q${R * 1.6},${-R * 0.36} ${R * 1.3},${-R * 0.36} Q0,${-R * 0.5} ${-R * 0.95},${-R * 0.42}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.95},${-R * 0.45} L${-R * 1.35},${-R * 1.25} L${-R * 0.75},${-R * 1.05}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.8},${-R * 0.5} C${-R * 0.85},${-R * 1.45} ${R * 0.85},${-R * 1.45} ${R * 0.85},${-R * 0.5}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.5},${-R * 1.25} Q0,${-R * 1.05} ${R * 0.5},${-R * 1.25}`} fill="none" stroke={ink} strokeWidth={s * 0.6} />
+          <rect x={-R * 0.82} y={-R * 0.72} width={R * 1.66} height={R * 0.16} fill={accent ?? '#5B4A2E'} />
+        </g>
+      );
+    case 'm1Camo':
+      return (
+        <g>
+          <path d={`M${-R * 1.12},${-R * 0.15} C${-R * 1.1},${-R * 1.4} ${R * 1.1},${-R * 1.4} ${R * 1.12},${-R * 0.15} Q0,${-R * 0.3} ${-R * 1.12},${-R * 0.15}Z`} fill={color} {...o} />
+          <ellipse cx={-R * 0.5} cy={-R * 0.62} rx={R * 0.22} ry={R * 0.13} fill="#3F4A2A" />
+          <ellipse cx={R * 0.25} cy={-R * 0.9} rx={R * 0.26} ry={R * 0.12} fill="#8C7A4E" />
+          <ellipse cx={R * 0.65} cy={-R * 0.45} rx={R * 0.2} ry={R * 0.12} fill="#3F4A2A" />
+          <ellipse cx={-R * 0.1} cy={-R * 0.4} rx={R * 0.18} ry={R * 0.09} fill="#7A5A3A" />
+          <path d={`M${-R * 0.95},${-R * 0.2} L${-R * 0.7},${R * 0.8}`} stroke={C.darkBrown} strokeWidth={R * 0.05} />
+        </g>
+      );
+    case 'nurseCap':
+      return (
+        <g>
+          <path d={`M${-R * 0.8},${-R * 0.72} L${-R * 0.6},${-R * 1.22} L${R * 0.6},${-R * 1.22} L${R * 0.8},${-R * 0.72} Q0,${-R * 0.85} ${-R * 0.8},${-R * 0.72}Z`} fill={C.paper} {...o} strokeWidth={s * 0.8} />
+        </g>
+      );
     default:
       return null;
   }
+}
+
+/** Draw a hat on its own (e.g. a helmet held at the chest or a pickelhaube in the hand).
+ *  Coordinates are head-relative: the brim sits about y = -0.5R above the origin. */
+export const HatShape: React.FC<{hat: Hat; r?: number; color?: string; accent?: string; badge?: HeadSpec['hatBadge']}> = ({hat, r = 44, color, accent, badge}) => (
+  <g>
+    {hatShape(hat, r, color ?? C.khaki, accent)}
+    {badge === 'redcross' && <RedCrossBadge R={r} />}
+  </g>
+);
+
+const RedCrossBadge: React.FC<{R: number}> = ({R}) => (
+  <g transform={`translate(${R * 0.05},${-R * 0.78})`}>
+    <circle r={R * 0.26} fill={C.paper} stroke={ink} strokeWidth={R * 0.04} />
+    <rect x={-R * 0.07} y={-R * 0.18} width={R * 0.14} height={R * 0.36} fill="#C62828" />
+    <rect x={-R * 0.18} y={-R * 0.07} width={R * 0.36} height={R * 0.14} fill="#C62828" />
+  </g>
+);
+
+/** Back-of-head hair: covers the upper part of the skull. */
+function hairBack(h: Hair, R: number, color: string) {
+  if (h === 'none' || h === 'bald') return null;
+  if (h === 'baldFringe') return <path d={`M${-R * 0.98},${R * 0.1} Q0,${R * 0.45} ${R * 0.98},${R * 0.1} L${R * 0.9},${-R * 0.4} Q0,${-R * 0.05} ${-R * 0.9},${-R * 0.4}Z`} fill={color} />;
+  const low = h === 'bob' ? R * 0.6 : h === 'long' ? R * 1.15 : h === 'crew' ? -R * 0.05 : R * 0.25;
+  const wideK = h === 'bob' || h === 'long' || h === 'curly' || h === 'mop' ? 1.1 : 1.0;
+  return (
+    <g>
+      <path d={`M${-R * wideK},${low} C${-R * 1.15 * wideK},${-R * 1.35} ${R * 1.15 * wideK},${-R * 1.35} ${R * wideK},${low} Q0,${low + R * 0.18} ${-R * wideK},${low}Z`} fill={color} />
+      {h === 'bun' && <circle cx={0} cy={-R * 0.55} r={R * 0.3} fill={color} stroke={C.paper} strokeWidth={R * 0.03} />}
+    </g>
+  );
 }
 
 function facialHair(fh: FacialHair, R: number, color: string, mx: number) {
@@ -297,6 +404,7 @@ export const Head: React.FC<Props> = (p) => {
   const ly = (p.look?.[1] ?? 0) * R * 0.05;
   const sw = R * 0.12;
   const wide = p.wide ?? 1;
+  const lod = p.lod ?? 'full';
 
   // blinking
   const period = 95 + Math.floor(hash(seed) * 70);
@@ -313,7 +421,7 @@ export const Head: React.FC<Props> = (p) => {
 
   // ---- eyes ----
   let eyes: React.ReactNode;
-  if (ex === 'sleepy' || (ex === 'grief' && !p.talking)) {
+  if (p.eyesClosed || ex === 'sleepy' || (ex === 'grief' && !p.talking)) {
     eyes = [-1, 1].map((s) => (
       <path key={s} d={`M${mx + s * eyeSep - R * 0.13},${eyeY} Q${mx + s * eyeSep},${eyeY + R * 0.13} ${mx + s * eyeSep + R * 0.13},${eyeY}`} stroke={ink} strokeWidth={sw * 0.5} fill="none" strokeLinecap="round" />
     ));
@@ -329,11 +437,15 @@ export const Head: React.FC<Props> = (p) => {
       </g>
     ));
   } else {
-    const squint = ex === 'angry' || ex === 'furious' ? 0.85 : ex === 'smug' ? 0.6 : 1;
+    const squint = ex === 'angry' || ex === 'furious' ? 0.85 : ex === 'smug' ? 0.6 : ex === 'tired' ? 0.55 : 1;
+    const lowered = ex === 'tired' ? R * 0.035 : 0;
     eyes = [-1, 1].map((s) => (
       <g key={s}>
-        <ellipse cx={mx + s * eyeSep + lx} cy={eyeY + ly} rx={eyeRx} ry={eyeRy * blinkSquash * squint} fill={ink} />
-        {blinkSquash > 0.5 && <circle cx={mx + s * eyeSep + lx + R * 0.035} cy={eyeY + ly - R * 0.05} r={R * 0.03} fill={C.paper} />}
+        <ellipse cx={mx + s * eyeSep + lx} cy={eyeY + ly + lowered} rx={eyeRx} ry={eyeRy * blinkSquash * squint} fill={ink} />
+        {ex === 'tired' && blinkSquash > 0.5 && (
+          <line x1={mx + s * eyeSep - R * 0.14} y1={eyeY - R * 0.05} x2={mx + s * eyeSep + R * 0.14} y2={eyeY - R * 0.05} stroke={ink} strokeWidth={sw * 0.4} strokeLinecap="round" />
+        )}
+        {blinkSquash > 0.5 && lod !== 'low' && <circle cx={mx + s * eyeSep + lx + R * 0.035} cy={eyeY + ly - R * 0.05 + lowered} r={R * 0.03} fill={C.paper} />}
       </g>
     ));
   }
@@ -343,7 +455,7 @@ export const Head: React.FC<Props> = (p) => {
   const browTable: Record<string, [number, number]> = {
     neutral: [0, 0], happy: [-4, -0.04], joy: [-6, -0.08], angry: [24, 0.05], furious: [32, 0.07], sad: [-20, -0.02],
     grief: [-24, -0.02], scared: [-18, -0.12], surprised: [-6, -0.16], determined: [14, 0.03], sleepy: [0, 0.02], smug: [10, -0.02],
-    worried: [-16, -0.05], cold: [-14, -0.04], shout: [26, 0.04],
+    worried: [-16, -0.05], cold: [-14, -0.04], shout: [26, 0.04], tired: [-10, 0.04], solemn: [-8, 0.0],
   };
   const [bAng, bOff] = browTable[ex] ?? [0, 0];
   const brows = [-1, 1].map((s) => {
@@ -388,6 +500,10 @@ export const Head: React.FC<Props> = (p) => {
       case 'scared':
         mouth = <ellipse cx={mx} cy={my + R * 0.02} rx={R * 0.08} ry={R * 0.11} fill={ink} />;
         break;
+      case 'tired':
+      case 'solemn':
+        mouth = <line x1={mx - mw * 0.6} y1={my + R * 0.02} x2={mx + mw * 0.6} y2={my + R * 0.02} stroke={ink} strokeWidth={sw * 0.45} strokeLinecap="round" />;
+        break;
       case 'sleepy':
         mouth = <path d={`M${mx - mw * 0.6},${my} Q${mx},${my - R * 0.04} ${mx + mw * 0.6},${my + R * 0.02}`} stroke={ink} strokeWidth={sw * 0.45} fill="none" strokeLinecap="round" />;
         break;
@@ -400,17 +516,31 @@ export const Head: React.FC<Props> = (p) => {
   const hatOn = p.hat && p.hat !== 'none';
   const hairBehind = p.hair === 'bob' || p.hair === 'long';
 
+  if (p.back) {
+    return (
+      <g>
+        <ellipse cx={0} cy={0} rx={R * wide} ry={R} fill={C.head} stroke={ink} strokeWidth={sw * 0.95} />
+        {p.hair && (!hatOn || p.hair === 'bob' || p.hair === 'long' || p.hair === 'bun' || p.hair === 'baldFringe') && hairBack(p.hair, R, hairColor)}
+        {hatOn && hatShape(p.hat!, R, p.hatColor ?? C.khaki, p.hatAccent)}
+      </g>
+    );
+  }
+
   return (
     <g>
-      {hairBehind && !hatOn && hairShape(p.hair!, R, hairColor, f, seed)}
+      {hairBehind && (!hatOn || HAIR_SHOWS.includes(p.hat!)) && hairShape(p.hair!, R, hairColor, f, seed)}
       <ellipse cx={0} cy={0} rx={R * wide} ry={R} fill={C.head} stroke={ink} strokeWidth={sw * 0.95} />
       {!hairBehind && p.hair && p.hair !== 'none' &&
-        (!hatOn || ['beret', 'flatCap', 'sidecap', 'fedora'].includes(p.hat!) || p.hair === 'bald' || p.hair === 'baldFringe') &&
+        (!hatOn || HAIR_SHOWS.includes(p.hat!) || p.hair === 'bald' || p.hair === 'baldFringe') &&
         hairShape(p.hair, R, hairColor, f, seed)}
-      {hatOn && hatShape(p.hat!, R, p.hatColor ?? C.khaki)}
+      {hatOn && hatShape(p.hat!, R, p.hatColor ?? C.khaki, p.hatAccent)}
+      {hatOn && p.hatBadge === 'redcross' && <RedCrossBadge R={R} />}
+      {hatOn && p.chinStrap && (
+        <path d={`M${-R * 0.88},${-R * 0.2} Q${mx - R * 0.1},${R * 1.12} ${R * 0.88},${-R * 0.2}`} fill="none" stroke={C.darkBrown} strokeWidth={R * 0.07} />
+      )}
       {brows}
       {eyes}
-      {p.glasses === 'round' && (
+      {lod !== 'low' && p.glasses === 'round' && (
         <g fill="none" stroke={ink} strokeWidth={sw * 0.3}>
           <circle cx={mx - eyeSep} cy={eyeY} r={R * 0.19} />
           <circle cx={mx + eyeSep} cy={eyeY} r={R * 0.19} />
@@ -433,7 +563,7 @@ export const Head: React.FC<Props> = (p) => {
       )}
       {mouth}
       {p.facial && p.facial !== 'none' && facialHair(p.facial, R, p.facialColor ?? ink, mx)}
-      {p.angerMark && (
+      {p.angerMark && lod !== 'low' && (
         <g transform={`translate(${-R * 0.55},${-R * 0.55}) scale(${R / 50})`} stroke={C.red} strokeWidth={5} fill="none" strokeLinecap="round">
           <path d="M-12,-4 Q-4,-4 -4,-12 M4,-12 Q4,-4 12,-4 M12,4 Q4,4 4,12 M-4,12 Q-4,4 -12,4" />
         </g>

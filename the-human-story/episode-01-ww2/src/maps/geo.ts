@@ -7,6 +7,8 @@ import countries50 from 'world-atlas/countries-50m.json';
 import land50 from 'world-atlas/land-50m.json';
 import countries110 from 'world-atlas/countries-110m.json';
 import type {Feature, FeatureCollection, Geometry, Polygon} from 'geojson';
+// Natural Earth 1:10m land clipped to a small Normandy box (generated once; ~600 points).
+import normandyLand from './data/normandy-land-10m.json';
 
 type Countries = FeatureCollection<Geometry, {name: string}>;
 
@@ -78,6 +80,8 @@ export const PROJ = {
   pacific: () => geoMercator().rotate([-160, 0]).center([0, 22]).scale(620).translate([W / 2, H / 2]),
   eastAsia: () => geoMercator().center([125, 38]).scale(1300).translate([W / 2, H / 2]),
   africa: () => geoMercator().center([22, 32]).scale(2600).translate([W / 2, H / 2]),
+  /** Eastern Front: Baltic to Black Sea, Berlin to Stalingrad (zoom 1 spans ~10°E–56°E). */
+  eastFront: () => geoConicConformal().parallels([45, 60]).rotate([-33, 0]).center([0, 52]).scale(3800).translate([W / 2, H / 2]),
 };
 export type MapKind = keyof typeof PROJ;
 
@@ -98,14 +102,24 @@ export function baseMap(kind: MapKind) {
     // Thin internal borders use the lighter 1:110m dataset (5x fewer points): at their faint
     // 1.4 px weight the difference is invisible, and they were ~80% of map paint time.
     const borders = COUNTRIES110.features.map((f) => gp(f) ?? '').join(' ');
-    c = {proj, paths, land: gp(LAND50) ?? '', borders};
+    // Normandy is shown at ~30x the Europe scale: use the 1:10m coast extract there.
+    const landGeo = kind === 'normandy' ? (normandyLand as unknown as Feature) : LAND50;
+    c = {proj, paths, land: gp(landGeo) ?? '', borders};
     cache.set(kind, c);
   }
   return c;
 }
 
+const fpCache = new Map<MapKind, WeakMap<Feature, string>>();
+/** Projected path of a feature in base-projection coords; memoised per (kind, feature object). */
 export function featurePath(kind: MapKind, f: Feature) {
-  return geoPath(baseMap(kind).proj).digits(1)(f) ?? '';
+  let m = fpCache.get(kind);
+  if (!m) fpCache.set(kind, (m = new WeakMap()));
+  const hit = m.get(f);
+  if (hit !== undefined) return hit;
+  const d = geoPath(baseMap(kind).proj).digits(1)(f) ?? '';
+  m.set(f, d);
+  return d;
 }
 
 export const CITY: Record<string, [number, number]> = {
@@ -117,4 +131,20 @@ export const CITY: Record<string, [number, number]> = {
   Nagasaki: [129.87, 32.75], 'Iwo Jima': [141.32, 24.78], Manila: [120.98, 14.6], Guadalcanal: [160.0, -9.6], Saipan: [145.75, 15.18],
   Mukden: [123.43, 41.8], Shanghai: [121.47, 31.23], Nanjing: [118.8, 32.06], Beijing: [116.4, 39.9], Harbin: [126.6, 45.75], Tobruk: [23.96, 32.08],
   Cairo: [31.24, 30.04], Tripoli: [13.18, 32.89], Reims: [4.03, 49.26],
+  // ---- M-12 additions (modern coordinates of the places named; see map-notes.md) ----
+  Abbeville: [1.83, 50.11], Lublin: [22.57, 51.25], Majdanek: [22.6, 51.22], 'Oświęcim': [19.23, 50.03], Auschwitz: [19.2, 50.03],
+  Buchenwald: [11.25, 51.02], Weimar: [11.33, 50.98], 'Bergen-Belsen': [9.91, 52.76], Dachau: [11.43, 48.27],
+  Washington: [-77.04, 38.9], 'New York': [-74.0, 40.71], 'San Francisco': [-122.42, 37.77], Vladivostok: [131.89, 43.12],
+  Khabarovsk: [135.07, 48.48], Changchun: [125.32, 43.82], Hailar: [119.7, 49.2], Seoul: [126.98, 37.57], 'Hong Kong': [114.17, 22.3],
+  Singapore: [103.82, 1.35], Wuhan: [114.3, 30.59], Guangzhou: [113.26, 23.13], Chongqing: [106.55, 29.56],
+  Tarawa: [172.98, 1.42], Guam: [144.79, 13.44], Leyte: [124.95, 10.95], Rabaul: [152.18, -4.2], Wake: [166.61, 19.29],
+  Narvik: [17.43, 68.44], Trondheim: [10.4, 63.43], Bergen: [5.32, 60.39], Antwerp: [4.4, 51.22], 'The Hague': [4.3, 52.08],
+  Anzio: [12.63, 41.45], Cassino: [13.83, 41.49], Naples: [14.27, 40.85], Aachen: [6.08, 50.78], Strasbourg: [7.75, 48.58],
+  Remagen: [7.23, 50.58], Torgau: [13.0, 51.56], Magdeburg: [11.63, 52.12], 'Königsberg': [20.51, 54.71], Breslau: [17.04, 51.11],
+  Budapest: [19.04, 47.5], Bucharest: [26.1, 44.43], Riga: [24.1, 56.95], Tallinn: [24.75, 59.44], Helsinki: [24.94, 60.17],
+  Vilnius: [25.28, 54.69], Lviv: [24.03, 49.84], Smolensk: [32.05, 54.78], Vitebsk: [30.2, 55.19], Bobruisk: [29.22, 53.14],
+  Kalach: [43.53, 48.69], Kharkiv: [36.23, 50.0], Rostov: [39.72, 47.23], Odessa: [30.73, 46.48], 'Brest-Litovsk': [23.69, 52.09],
+  'Memel': [21.13, 55.71], 'Poznań': [16.93, 52.41], Bratislava: [17.1, 48.15], 'Kraków': [19.94, 50.06], Stettin: [14.55, 53.43],
+  Caen: [-0.37, 49.18], Bayeux: [-0.7, 49.28], Cherbourg: [-1.62, 49.64], Carentan: [-1.25, 49.3], 'Sainte-Mère-Église': [-1.32, 49.41],
+  Ranville: [-0.26, 49.23], Ouistreham: [-0.25, 49.29],
 };

@@ -40,6 +40,34 @@ export const CAST: Record<string, CastMember> = {
   sailor: {head: {hair: 'short', hat: 'sailor'}, outfit: {kind: 'sailor', color: '#F2F2F2'}},
   resistance: {head: {hair: 'short', hat: 'beret', hatColor: '#2B2B2B'}, outfit: {kind: 'coat', color: '#5A4A3A'}},
   survivor: {head: {hair: 'none', hat: 'stripedCap'}, outfit: {kind: 'stripes', color: '#C8CCD2'}},
+  // --- ep01 additions: Asia-Pacific (plain, no flags on figures, no costume stereotypes) ---
+  japaneseSoldier: {head: {hair: 'short', hat: 'jpFieldCap', hatColor: '#8C7C4C'}, outfit: {kind: 'tunic', color: '#9A8A58', accent: '#5B4A2E', puttees: '#8C7C4C'}}, // A-01
+  japaneseSoldierHelmet: {head: {hair: 'short', hat: 'jpHelmet', hatColor: '#6E6A44'}, outfit: {kind: 'tunic', color: '#9A8A58', accent: '#5B4A2E', puttees: '#8C7C4C'}}, // A-01 variant
+  japaneseOfficer: {head: {hair: 'crew', hat: 'officerCap', hatColor: '#8C7C4C', hatAccent: '#6E6038'}, outfit: {kind: 'tunic', color: '#9A8A58', accent: '#4B3624', shoulderBoards: '#B8A86A'}}, // A-01 officer
+  chineseSoldier: {head: {hair: 'short', hat: 'chineseCap', hatColor: '#5E6C76'}, outfit: {kind: 'tunic', color: '#6E7C86', accent: '#4B3624', puttees: '#5E6C76'}}, // A-02
+  chineseSoldierHelmet: {head: {hair: 'short', hat: 'stahlhelm', hatColor: '#5A6268'}, outfit: {kind: 'tunic', color: '#6E7C86', accent: '#4B3624', puttees: '#5E6C76'}}, // A-02 variant (German-pattern helmet, as worn by some NRA divisions)
+  chineseSoldierKhaki: {head: {hair: 'short', hat: 'chineseCap', hatColor: '#8A7C55'}, outfit: {kind: 'tunic', color: '#958760', accent: '#4B3624', puttees: '#8A7C55'}}, // A-02 khaki variant
+  japaneseMan: {head: {hair: 'short'}, outfit: {kind: 'shirt', color: '#D6CFBC'}}, // A-03
+  japaneseMan2: {head: {hair: 'crew', hat: 'fedora', hatColor: '#5A5448'}, outfit: {kind: 'coat', color: '#6A6556'}}, // A-03
+  japaneseWoman: {head: {hair: 'bun', hairColor: '#2A2A2A'}, outfit: {kind: 'coat', color: '#5B6577'}}, // A-03 work clothes
+  japaneseWoman2: {head: {hair: 'bob', hairColor: '#2A2A2A'}, outfit: {kind: 'dress', color: '#8A6E5A'}}, // A-03 plain dress
+  japaneseChild: {head: {hair: 'short'}, outfit: {kind: 'shirt', color: '#B9A47C'}, child: true}, // A-03
+  japaneseGirl: {head: {hair: 'bob', hairColor: '#2A2A2A'}, outfit: {kind: 'dress', color: '#7A8A9A'}, child: true}, // A-03
+  japaneseDelegate: {head: {hair: 'slick', hat: 'tophat', hatColor: '#1E1E1E'}, outfit: {kind: 'morningcoat', color: '#232323', accent: '#6A6A6A'}}, // A-09
+  japaneseDelegate2: {head: {hair: 'baldFringe', hat: 'tophat', hatColor: '#1E1E1E', glasses: 'round'}, outfit: {kind: 'morningcoat', color: '#2B2B2B', accent: '#4A4A4A'}}, // A-09
+  usMarine: {head: {hair: 'short', hat: 'm1Camo', hatColor: '#6E7448'}, outfit: {kind: 'tunic', color: '#5E6A44', accent: '#4B3624'}}, // A-23
+  // --- ep01 additions: Europe / Africa ---
+  germanOfficer: {head: {hair: 'slick', hat: 'officerCap', hatColor: '#6A6F5D', hatAccent: '#2E2E2A'}, outfit: {kind: 'tunic', color: C.feldgrau, accent: '#2E2E2A', shoulderBoards: '#B8B8A8'}}, // A-10
+  rafPilot: {head: {hair: 'short', hat: 'pilot', hatColor: '#6B4A2E'}, outfit: {kind: 'tunic', color: '#5A6B85', accent: '#3A4558', lifeVest: '#E3C24A'}}, // A-11
+  medic: {head: {hair: 'short', hat: 'm1', hatColor: '#5E6238', hatBadge: 'redcross'}, outfit: {kind: 'tunic', color: '#6F6A44', accent: '#4B3624', armbandCross: true}}, // A-12 (US)
+  medicBrit: {head: {hair: 'short', hat: 'brodie', hatColor: '#7C7346', hatBadge: 'redcross'}, outfit: {kind: 'tunic', color: '#8C7A4E', accent: '#5B4A2E', armbandCross: true}}, // A-12 (British)
+  nurse: {head: {hair: 'bun', hairColor: '#5A3A22', hat: 'nurseCap'}, outfit: {kind: 'dress', color: '#4E6A8A', apron: '#F4F4F0'}}, // A-12
+  partyMember: {head: {hair: 'short', hat: 'kepi', hatColor: '#8A6A42'}, outfit: {kind: 'tunic', color: '#8E6E46', accent: '#3A2E1E', armband: '#B23A2E'}}, // A-19 plain armband, no emblem
+  paratrooper: {head: {hair: 'short', hat: 'm1', hatColor: '#5E6238', chinStrap: true}, outfit: {kind: 'tunic', color: '#7A7450', accent: '#4B3624', harness: '#3E3424'}}, // A-04
+  ausSoldier: {head: {hair: 'short', hat: 'slouch', hatColor: '#9A8456'}, outfit: {kind: 'tunic', color: '#8C7A4E', accent: '#5B4A2E', puttees: '#8C7A4E'}}, // A-22
+  ausSoldierDesert: {head: {hair: 'short', hat: 'slouch', hatColor: '#9A8456'}, outfit: {kind: 'shirt', color: '#B49C68'}}, // A-22 desert shirt
+  britSoldierDesert: {head: {hair: 'short', hat: 'brodie', hatColor: '#9A8A5A'}, outfit: {kind: 'shirt', color: '#B49C68'}},
+  survivorNoCap: {head: {hair: 'crew', hairColor: '#4A4A4A'}, outfit: {kind: 'stripes', color: '#C8CCD2'}}, // A-05
   // --- historical figures (labelled when shown) ---
   hitler: {head: {hair: 'side', facial: 'toothbrush'}, outfit: {kind: 'tunic', color: '#8A7E5A', accent: '#3A2E1E', armband: '#B23A2E'}, label: 'ADOLF HITLER', sublabel: 'Leader of the Nazi Party'},
   churchill: {head: {hair: 'bald', hairColor: '#C9C2B4', wide: 1.08}, outfit: {kind: 'suit', color: '#2B2B2B', bowtie: true, accent: '#22324A'}, label: 'WINSTON CHURCHILL', sublabel: 'British Prime Minister, 1940–45'},
@@ -56,4 +84,29 @@ export const CAST: Record<string, CastMember> = {
   eisenhower: {head: {hair: 'baldFringe', hairColor: '#B8A890'}, outfit: {kind: 'tunic', color: '#6F6A44', medals: true}, label: 'GEN. DWIGHT D. EISENHOWER', sublabel: 'Supreme Allied Commander'},
   truman: {head: {hair: 'short', hairColor: '#8A8A8A', glasses: 'round'}, outfit: {kind: 'suit', color: '#3A3F4A', bowtie: true, accent: '#22324A'}, label: 'HARRY S. TRUMAN', sublabel: 'US President from April 1945'},
   macarthur: {head: {hair: 'short', hat: 'officerCap', hatColor: '#6F6A44', glasses: 'dark'}, outfit: {kind: 'shirt', color: '#B49C68'}, label: 'GEN. DOUGLAS MACARTHUR', sublabel: 'Allied commander'},
+};
+
+/** Merge a preset with per-shot overrides (expression, hat swap, colours). */
+export function castWith(key: string, head: Partial<CastMember['head']> = {}, outfit: Partial<Outfit> = {}): CastMember {
+  const c = CAST[key];
+  return {...c, head: {...c.head, ...head}, outfit: {...c.outfit, ...outfit}};
+}
+
+/** Spread a preset into <StickFigure {...castProps('chamberlain')} />: head, outfit, child, label, sublabel. */
+export const castProps = (key: string) => {
+  const c = CAST[key];
+  return {head: c.head, outfit: c.outfit, child: c.child, label: c.label, sublabel: c.sublabel};
+};
+
+/** Crowd pools (A-08): preset keys mixed by the Crowd component. Unlabelled figures only. */
+export const CROWD_POOLS: Record<string, string[]> = {
+  germany1930s: ['man1', 'man2', 'man3', 'worker', 'woman1', 'woman3', 'workerW', 'partyMember', 'politician'],
+  britain1938: ['man1', 'man2', 'woman1', 'woman2', 'woman3', 'politician', 'politician2', 'man3'],
+  london1945: ['man1', 'man2', 'man3', 'woman1', 'woman2', 'woman3', 'workerW', 'britSoldier', 'sailor', 'kid1', 'kid2', 'nurse', 'usSoldier'],
+  paris1944: ['man1', 'man2', 'man3', 'woman1', 'woman2', 'woman3', 'resistance', 'kid1', 'kid2', 'frenchSoldier'],
+  congress1941: ['politician', 'politician2', 'man2'],
+  sailors: ['sailor'],
+  japan1945: ['japaneseMan', 'japaneseMan2', 'japaneseWoman', 'japaneseWoman2', 'japaneseChild', 'japaneseGirl'],
+  china1937: ['chineseSoldier', 'chineseSoldierKhaki', 'japaneseMan', 'japaneseWoman', 'japaneseChild'],
+  finale: ['man1', 'woman1', 'kid1', 'britSoldier', 'sovietSoldier', 'usSoldier', 'frenchSoldier', 'chineseSoldier', 'nurse', 'worker', 'woman2', 'kid2', 'sailor', 'polishSoldier', 'man2', 'workerW', 'japaneseMan', 'japaneseWoman', 'canSoldier', 'woman3', 'rafPilot', 'ausSoldier'],
 };
