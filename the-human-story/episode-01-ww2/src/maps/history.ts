@@ -4,7 +4,7 @@
 // are recorded per item in production/environments/ep01-ww2/map-notes.md.
 // Items marked PENDING_R01 wait for production/research/ep01-ww2/map-sources.md.
 import type {Feature, Polygon} from 'geojson';
-import {poly} from './geo';
+import {poly, MR_LINE_AUG1939} from './geo';
 
 export type LL = [number, number];
 
@@ -47,19 +47,16 @@ export function lineKm(pts: LL[]): number {
 }
 
 // ================================================================ M-02 Czechoslovakia
-/** Carpathian Ruthenia (part of Czechoslovakia until March 1939; today Zakarpattia, Ukraine). */
-export const RUTHENIA = poly([
-  [22.15, 48.4], [22.55, 49.08], [23.2, 49.0], [23.9, 48.65], [24.6, 48.0], [24.0, 47.95], [23.3, 48.0], [22.9, 47.95], [22.6, 48.1],
-]);
-/** PENDING_R01 — Sudetenland (1938 cession): placeholder ring along the German-speaking border belt. */
-export const SUDETENLAND_PLACEHOLDER = poly([
-  // western/northern belt (Egerland → Northern Bohemia → Silesian part), outer edge = 1937 border
-  [12.1, 50.3], [12.5, 50.4], [13.3, 50.62], [14.3, 51.05], [15.0, 50.88], [16.4, 50.65], [16.6, 50.2], [17.7, 50.25], [18.0, 49.95],
-  // inner edge (heading back west, roughly 25–40 km inside the border)
-  [17.3, 49.75], [16.6, 49.95], [16.0, 50.25], [15.2, 50.55], [14.3, 50.6], [13.8, 50.45], [13.3, 50.25], [13.0, 50.0], [13.1, 49.6],
-  // south-west (Bohemian Forest) and south (South Moravia) narrow belt
-  [13.7, 49.15], [14.4, 48.85], [15.3, 48.95], [16.0, 48.85], [16.9, 48.7], [16.95, 48.62], [16.0, 48.75], [15.0, 48.62], [14.6, 48.6],
-  [13.8, 48.75], [12.8, 49.35], [12.4, 49.75],
+/** Carpathian Ruthenia (part of Czechoslovakia until March 1939; today Zakarpattia, Ukraine). R-01 §4.3. */
+export const RUTHENIA = poly([[22.15, 48.4], [22.55, 49.08], [22.9, 49.05], [23.6, 48.95], [24.6, 48.0], [23.5, 47.95], [22.9, 47.95], [22.45, 48.1]]);
+/** Rump Czech lands after Munich (Nov 1938 border; = the later Protectorate). Sudetenland = Czechia minus this. R-01 §4.3 (LOW-MEDIUM, ±10–20 km). */
+export const CZECH_RUMP_NOV1938 = poly([
+  [12.85, 49.42], [12.95, 49.55], [13.05, 49.75], [13.25, 50.0], [13.6, 50.2], [13.72, 50.33], [13.9, 50.42], [14.2, 50.45], [14.6, 50.45], [15.0, 50.55],
+  [15.3, 50.62], [15.75, 50.45], [16.25, 50.45], [16.35, 50.15], [16.4, 49.95], [16.5, 49.65], [16.9, 49.65], [17.15, 49.7],
+  [17.4, 49.65], [17.75, 49.55], [18.0, 49.5], [18.1, 49.7], [18.2, 49.8], [18.3, 49.88], [18.42, 49.82], [18.5, 49.6], [18.6, 49.45],
+  [18.4, 49.3], [17.6, 49.0],
+  [17.15, 48.85], [16.85, 48.85], [16.5, 48.95], [16.2, 49.0], [15.85, 49.0], [15.4, 49.05], [15.0, 49.0], [14.75, 48.85],
+  [14.45, 48.92], [14.1, 49.0], [13.85, 49.15], [13.5, 49.3], [13.2, 49.35],
 ]);
 
 // ================================================================ M-03 Nazi–Soviet pact (23 Aug 1939)
@@ -68,11 +65,8 @@ export const BESSARABIA = poly([
   [26.6, 48.3], [27.2, 48.45], [27.8, 48.45], [28.4, 48.15], [29.15, 47.95], [29.2, 47.3], [29.6, 46.85], [29.95, 46.55], [30.3, 46.15],
   [30.0, 45.75], [29.65, 45.35], [28.85, 45.32], [28.25, 45.45], [28.1, 45.9], [28.2, 46.5], [27.8, 47.2], [27.25, 47.75],
 ]);
-/** Secret-protocol line in Poland, 23 Aug 1939: "approximately by the line of the rivers Narew, Vistula and San". */
-export const PACT_LINE_AUG1939: LL[] = [
-  [21.9, 53.42], [21.88, 53.23], [21.57, 53.08], [21.08, 52.7], [20.7, 52.43], [21.0, 52.23], [21.4, 51.9], [21.83, 51.56], [21.95, 51.1],
-  [21.8, 50.68], [22.05, 50.5], [22.5, 50.1], [22.77, 49.78], [22.6, 49.35], [22.7, 49.05],
-];
+/** Secret-protocol line in Poland, 23 Aug 1939 (Narew–Vistula–San). Now sourced from R-01; see geo.ts. */
+export const PACT_LINE_AUG1939: LL[] = MR_LINE_AUG1939;
 
 // ================================================================ M-04 1940 campaigns
 export const ARROWS_1940 = {
@@ -255,18 +249,39 @@ export const ARROWS_MANCHURIA_1945 = {
   firstFarEast: [[131.6, 44.6], [130.2, 44.6], [128.4, 45.0], [126.8, 45.6]] as LL[],
   secondFarEast: [[129.5, 49.6], [128.4, 48.2], [127.3, 46.8], [126.7, 45.9]] as LL[],
 };
-/** PENDING_R01 — Japanese-controlled areas, December 1941. Placeholder rings, NOT verified. */
-export const JAPAN_1941_PLACEHOLDER: Feature<Polygon>[] = [
-  // Korea, Manchukuo and occupied north/east China (very rough eastern China belt)
-  poly([[124.3, 39.7], [119.8, 40.0], [117.5, 38.8], [114.6, 37.0], [113.5, 35.0], [114.3, 32.0], [113.0, 30.5], [114.5, 29.0], [117.0, 29.0],
-    [119.5, 28.0], [121.9, 29.5], [122.5, 32.0], [121.0, 38.4]]),
-  // Manchukuo incl. Jehol (from 1933)
-  poly([[117.5, 40.4], [119.8, 40.0], [124.3, 39.7], [128.1, 42.0], [130.6, 42.45], [131.2, 44.8], [134.7, 47.7], [127.5, 49.8], [125.6, 52.9],
-    [121.0, 53.3], [119.1, 50.3], [116.2, 47.9], [119.8, 46.6], [119.0, 43.5], [117.0, 42.0]]),
-  // Taiwan and French Indochina (Japanese troops from 1940–41)
-  poly([[119.9, 25.4], [122.2, 25.4], [121.0, 21.8], [120.0, 22.4]]),
-  poly([[102.1, 22.4], [106.7, 23.0], [108.5, 21.5], [109.5, 12.0], [105.0, 8.4], [102.3, 12.5], [100.1, 17.5], [101.2, 21.5]]),
-];
+/** Japanese-controlled areas, early December 1941 (R-01 §1.2). Solid = sovereign/colony/puppet; hatched = occupied China
+ * ("points and lines", APPROXIMATE); light = French Indochina (troops stationed, French administration remained). */
+export const JAPAN_1941 = {
+  manchukuo: poly([
+    [117.4, 49.6], [119.5, 50.3], [120.3, 52.6], [121.5, 53.3], [123.5, 53.5], [125.5, 53.0], [127.5, 50.3],
+    [130.6, 48.9], [134.7, 48.3], [133.9, 46.6], [133.1, 45.1], [131.9, 45.3], [131.0, 44.9], [131.3, 43.4],
+    [130.6, 42.4], [129.5, 42.4], [128.1, 41.9], [126.6, 41.7], [125.3, 40.6], [124.3, 39.9],
+    [121.2, 38.7], [122.3, 40.5], [121.0, 40.9], [119.75, 40.0],
+    [118.6, 40.2], [117.3, 40.6], [116.6, 41.3], [117.0, 42.3], [118.0, 43.6], [119.0, 44.7],
+    [119.9, 46.7], [118.8, 47.4], [117.6, 47.8],
+  ]),
+  karafuto: poly([[141.5, 50.0], [145.0, 50.0], [145.0, 45.8], [141.5, 45.8]]),
+  occupiedChina: poly([
+    [119.75, 40.0], [118.6, 40.2], [117.3, 40.6], [115.0, 41.2], [112.0, 41.2], [110.0, 40.9],
+    [110.2, 40.3], [111.6, 39.4], [112.3, 38.4], [111.6, 37.0], [111.3, 36.0], [110.9, 35.0],
+    [113.0, 35.1], [114.3, 34.75], [115.6, 34.1], [116.5, 33.4], [117.0, 32.4],
+    [116.6, 31.4], [116.4, 30.6], [115.0, 30.3], [114.0, 31.0], [113.6, 31.8],
+    [114.4, 32.0], [114.3, 32.35], [113.7, 32.1], [113.0, 31.6], [112.1, 31.1], [111.15, 30.75], [111.2, 30.55], [111.6, 30.2], [112.3, 30.1],
+    [113.1, 29.3], [114.2, 29.1], [115.5, 28.4], [116.3, 28.6],
+    [117.4, 30.0], [118.6, 30.4], [119.6, 30.0], [120.3, 29.9], [121.4, 29.6], [122.0, 29.9],
+    [122.2, 31.4], [121.0, 32.6], [120.3, 34.5], [119.6, 34.8], [121.0, 35.8], [122.8, 37.0], [122.6, 37.4],
+    [120.7, 37.8], [118.9, 38.0], [117.7, 38.9],
+  ]),
+  guangzhou: poly([[112.8, 23.6], [113.8, 23.6], [114.15, 22.75], [113.6, 22.3], [113.1, 22.3], [112.8, 22.8]]),
+  hainan: poly([[108.6, 19.2], [109.6, 20.1], [110.7, 20.1], [111.1, 19.6], [110.5, 18.7], [109.6, 18.15], [108.6, 18.5]]),
+  /** Coastal enclaves shown as dots. */
+  dots: [[118.09, 24.48], [116.68, 23.35]] as LL[],
+  /** Natural Earth names: solid Japan colour / light tone (Indochina). */
+  solidNames: ['Japan', 'North Korea', 'South Korea', 'Taiwan'],
+  lightNames: ['Vietnam', 'Laos', 'Cambodia'],
+};
+/** Back-compat: the old placeholder name now points at the sourced areas. */
+export const JAPAN_1941_PLACEHOLDER = [JAPAN_1941.manchukuo, JAPAN_1941.occupiedChina, JAPAN_1941.guangzhou, JAPAN_1941.hainan];
 
 // ================================================================ M-07 Pacific
 /** Midway, 4 June 1942 (approximate fleet positions at the time of the American strikes). */
@@ -281,18 +296,19 @@ export const MIDWAY = {
 export const ISLAND_HOPPING: LL[] = [[160.0, -9.6], [155.0, -2.0], [150.0, 7.0], [145.75, 15.18], [141.32, 24.78], [127.8, 26.3]];
 export const ISLAND_HOPPING_STOPS = ['Guadalcanal', 'Saipan', 'Iwo Jima', 'Okinawa'];
 
-// ================================================================ M-08 Normandy (PENDING_R01 for verification)
-/** D-Day beaches, west → east. Label points sit offshore of each sector; nationality per standard histories. */
+// ================================================================ M-08 Normandy (R-01 §2, verified)
+/** D-Day beaches, west → east. `at` = approximate centre on the shoreline (R-01 §2.2); `sector` = drawn stretch. */
 export const DDAY_BEACHES: {name: string; nation: 'US' | 'UK' | 'CA'; at: LL; sector: LL[]}[] = [
-  {name: 'UTAH', nation: 'US', at: [-1.17, 49.45], sector: [[-1.26, 49.5], [-1.15, 49.37]]},
-  {name: 'OMAHA', nation: 'US', at: [-0.86, 49.41], sector: [[-0.95, 49.38], [-0.76, 49.36]]},
-  {name: 'GOLD', nation: 'UK', at: [-0.56, 49.375], sector: [[-0.65, 49.35], [-0.47, 49.335]]},
-  {name: 'JUNO', nation: 'CA', at: [-0.42, 49.365], sector: [[-0.47, 49.335], [-0.35, 49.325]]},
-  {name: 'SWORD', nation: 'UK', at: [-0.29, 49.325], sector: [[-0.35, 49.31], [-0.23, 49.29]]},
+  {name: 'UTAH', nation: 'US', at: [-1.19, 49.41], sector: [[-1.22, 49.45], [-1.16, 49.37]]},
+  {name: 'OMAHA', nation: 'US', at: [-0.86, 49.37], sector: [[-0.93, 49.385], [-0.79, 49.36]]},
+  {name: 'GOLD', nation: 'UK', at: [-0.57, 49.34], sector: [[-0.65, 49.345], [-0.5, 49.335]]},
+  {name: 'JUNO', nation: 'CA', at: [-0.42, 49.335], sector: [[-0.48, 49.335], [-0.36, 49.325]]},
+  {name: 'SWORD', nation: 'UK', at: [-0.29, 49.3], sector: [[-0.34, 49.31], [-0.25, 49.29]]},
 ];
-/** Airborne drop zones (approximate centres): US 82nd/101st west of Utah, British 6th east of the Orne. */
+/** Airborne landings (drops were scattered: show clusters). R-01 §2.2. */
 export const DDAY_DROPS: {label: string; at: LL; nation: 'US' | 'UK'}[] = [
-  {label: '82nd', at: [-1.35, 49.41], nation: 'US'},
-  {label: '101st', at: [-1.25, 49.37], nation: 'US'},
-  {label: '6th', at: [-0.24, 49.22], nation: 'UK'},
+  {label: '82nd', at: [-1.32, 49.41], nation: 'US'},
+  {label: '101st', at: [-1.25, 49.36], nation: 'US'},
+  {label: '6th', at: [-0.25, 49.23], nation: 'UK'},
 ];
+export const PEGASUS_BRIDGE: LL = [-0.274, 49.242];

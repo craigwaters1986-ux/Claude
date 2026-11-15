@@ -6,10 +6,10 @@ import React from 'react';
 import {C} from '../styles/theme';
 import {clamp, easeInOut, easeOut, prog, lerp} from '../animations/core';
 import {GeoMap, MapArrow, MapLabel, CityMarker, Cam, camLerp, Highlight, Globe} from './GeoMap';
-import {CITY, GERMANY_1937, EAST_PRUSSIA, ALSACE_LORRAINE, LOST_TO_POLAND, POLAND_1939, POLAND_GERMAN_ZONE, POLAND_SOVIET_ZONE, MR_LINE_COORDS} from './geo';
+import {CITY, GERMANY_1937, EAST_PRUSSIA, POLAND_1939, POLAND_GERMAN_ZONE, POLAND_SOVIET_ZONE, MR_LINE_SEPT1939} from './geo';
 import * as HX from './history';
 import * as VX from './versailles';
-import {FrontLine, LineBracket, pocketHighlight, reichHighlights, CarrierIcon, ParachuteIcon} from './MapKit';
+import {FrontLine, LineBracket, pocketHighlight, reichHighlights, CarrierIcon, ParachuteIcon, countryFeature} from './MapKit';
 
 type Cues = Record<string, number>;
 const cue = (defaults: Cues, over?: Partial<Cues>) => ({...defaults, ...(over ?? {})}) as Cues;
@@ -24,7 +24,8 @@ export const MAPC = {
 
 // ================================================================ M-01 (S02-04) Germany 1914 → Versailles losses
 /** S02-04. Cues: lose0..lose7 (each lost territory flashes red then turns to its new owner), globe (colony inset). */
-export const MapVersailles: React.FC<{f: number; cues?: Partial<Cues>; inset?: boolean}> = ({f, cues, inset = true}) => {
+export const MapVersailles: React.FC<{f: number; cues?: Partial<Cues>; inset?: boolean; upperSilesia?: boolean}> = ({f, cues, inset = true, upperSilesia = false}) => {
+  const losses = VX.LOSSES.filter((L) => upperSilesia || !L.optional);
   const q = cue({start: 10, stagger: 14, globe: 60, colonies: 80}, cues);
   const cam = camAt(f, {lon: 13.5, lat: 52, zoom: 1.4}, {lon: 13.5, lat: 52, zoom: 1.2}, 0, 200);
   const hl: Highlight[] = [
@@ -32,7 +33,7 @@ export const MapVersailles: React.FC<{f: number; cues?: Partial<Cues>; inset?: b
     {feature: EAST_PRUSSIA, fill: MAPC.germany, opacity: 0.85},
   ];
   const outlines: React.ReactNode[] = [];
-  VX.LOSSES.forEach((L, i) => {
+  losses.forEach((L, i) => {
     const t0 = q.start + i * q.stagger;
     const k = prog(f, t0 + 10, t0 + 30, easeInOut);
     hl.push({feature: L.feature, fill: MAPC.germany, opacity: 0.85 * (1 - k)});
@@ -42,14 +43,16 @@ export const MapVersailles: React.FC<{f: number; cues?: Partial<Cues>; inset?: b
     <GeoMap kind="europe" cam={cam} f={f} highlights={hl}>
       {({toScreen}) => (
         <g>
-          {VX.LOSSES.map((L, i) => {
+          {losses.map((L, i) => {
             const t0 = q.start + i * q.stagger;
             // each label shows while its piece changes hands, then fades (keeps the map legible)
             const o = fadeTo(f, t0 + 6) * (1 - prog(f, t0 + q.stagger * 2.5, t0 + q.stagger * 2.5 + 12));
             if (o <= 0) return null;
             const p = toScreen(L.labelAt);
+            const dp = L.dot ? toScreen(L.dot) : null;
             return (
               <g key={i} opacity={o}>
+                {dp && <circle cx={dp[0]} cy={dp[1]} r={11} fill={L.color} stroke={C.red} strokeWidth={4} />}
                 <MapLabel at={p} text={L.label} size={26} />
                 <MapLabel at={p} dy={28} text={`→ ${L.owner}`} size={22} weight={800} color={C.darkRed} />
               </g>
@@ -88,12 +91,13 @@ export const czechHighlights = (stage: number): Highlight[] => {
   return [
     {feature: GERMANY_1937, fill: MAPC.germany, opacity: 0.85},
     {name: 'Austria', fill: MAPC.germany, opacity: 0.85},
-    {name: 'Czechia', fill: MAPC.czech, opacity: 1 - s2},
-    {name: 'Czechia', fill: MAPC.germany, opacity: 0.85 * s2},
+    // Sudetenland = Czechia minus the rump (R-01 §4.3): grey Czechia under a Czech-coloured rump
+    {name: 'Czechia', fill: MAPC.czech},
     {name: 'Slovakia', fill: MAPC.czech, opacity: 1 - s2 * 0.6},
     {feature: HX.RUTHENIA, fill: MAPC.czech, opacity: 1 - s2},
     {feature: HX.RUTHENIA, fill: MAPC.hungary, opacity: s2},
-    {feature: VX.SUDETENLAND, fill: MAPC.germany, opacity: 0.9 * s1, stroke: stage > 0.05 && stage < 1 ? C.red : undefined},
+    {feature: countryFeature('Czechia'), fill: MAPC.germany, opacity: 0.9 * s1},
+    {feature: HX.CZECH_RUMP_NOV1938, fill: MAPC.czech, opacity: s1 * (1 - s2), stroke: stage > 0.05 && stage < 1 ? C.red : undefined},
   ];
 };
 export const MapCzech: React.FC<{f: number; stage: number; cam?: Cam; labels?: boolean; prague?: boolean}> = ({f, stage, cam = {lon: 15.8, lat: 49.6, zoom: 2.0}, labels = true, prague = true}) => (
@@ -102,7 +106,7 @@ export const MapCzech: React.FC<{f: number; stage: number; cam?: Cam; labels?: b
       labels && (
         <g>
           <MapLabel at={toScreen([11.0, 51.6])} text="GERMANY" size={36} />
-          {stage > 0.4 && stage < 1.6 && <MapLabel at={toScreen([13.4, 50.65])} text="SUDETENLAND" size={26} color={C.darkRed} opacity={clamp((stage - 0.4) * 3) * clamp((1.6 - stage) * 3)} />}
+          {stage > 0.4 && stage < 1.6 && <MapLabel at={toScreen([13.4, 50.65])} text="SUDETENLAND (APPROX.)" size={24} color={C.darkRed} opacity={clamp((stage - 0.4) * 3) * clamp((1.6 - stage) * 3)} />}
           <MapLabel at={toScreen([15.4, 49.5])} text={stage < 1.5 ? 'CZECHOSLOVAKIA' : 'BOHEMIA AND MORAVIA'} size={30} />
           {stage >= 1.5 && <MapLabel at={toScreen([15.4, 49.5])} dy={30} text="(occupied by Germany)" size={20} weight={700} />}
           {stage >= 1.5 && <MapLabel at={toScreen([19.6, 48.75])} text="SLOVAKIA" size={26} />}
@@ -134,7 +138,7 @@ export const MapSpheres1939: React.FC<{f: number; cues?: Partial<Cues>; line?: '
     {feature: POLAND_1939, fill: MAPC.poland, opacity: 1},
     {feature: HX.BESSARABIA, fill: MAPC.sphere, opacity: k},
   ];
-  const pl = line === 'aug' ? HX.PACT_LINE_AUG1939 : (MR_LINE_COORDS as HX.LL[]);
+  const pl = line === 'aug' ? HX.PACT_LINE_AUG1939 : (MR_LINE_SEPT1939 as HX.LL[]);
   return (
     <GeoMap kind="europe" cam={cam} f={f} highlights={hl}>
       {({toScreen}) => (
@@ -144,6 +148,7 @@ export const MapSpheres1939: React.FC<{f: number; cues?: Partial<Cues>; line?: '
             <MapLabel at={toScreen([18.6, 50.9])} text="GERMAN SPHERE" size={28} color={C.axisDark} />
             <MapLabel at={toScreen([25.8, 57.4])} text="SOVIET SPHERE" size={28} color={C.darkRed} />
             <MapLabel at={toScreen([24.0, 55.4])} text="LITHUANIA" size={20} weight={700} />
+            {line === 'sept' && <MapLabel at={toScreen([24.6, 51.6])} text="28 SEPT 1939" size={24} color={C.ink} />}
           </g>
           <MapLabel at={toScreen([20.3, 53.6])} text="POLAND" size={28} opacity={fadeTo(f, q.spheres)} />
         </g>
@@ -376,7 +381,16 @@ export const MapEastAsia: React.FC<{f: number; cues?: Partial<Cues>; cam?: Cam; 
     {name: 'Mongolia', fill: MAPC.ussr, opacity: 0.3},
   ];
   if (q.manchuria >= 0) hl.push({feature: HX.MANCHURIA_1931, fill: MAPC.japan, opacity: 0.85 * fadeTo(f, q.manchuria, 25), stroke: f < q.manchuria + 40 ? C.red : undefined});
-  if (q.japan1941 >= 0 && show1941) HX.JAPAN_1941_PLACEHOLDER.forEach((p) => hl.push({feature: p, fill: MAPC.japan, opacity: 0.8 * fadeTo(f, q.japan1941, 30)}));
+  if (q.japan1941 >= 0 && show1941) {
+    const k = fadeTo(f, q.japan1941, 30);
+    const J = HX.JAPAN_1941;
+    J.lightNames.forEach((n) => hl.push({name: n, fill: '#E6CFA0', opacity: k}));
+    hl.push({feature: J.manchukuo, fill: MAPC.japan, opacity: 0.95 * k});
+    hl.push({feature: J.karafuto, fill: MAPC.japan, opacity: 0.95 * k});
+    hl.push({feature: J.occupiedChina, fill: MAPC.japan, opacity: k, hatch: true});
+    hl.push({feature: J.guangzhou, fill: MAPC.japan, opacity: k, hatch: true});
+    hl.push({feature: J.hainan, fill: MAPC.japan, opacity: k, hatch: true});
+  }
   const A = HX.ARROWS_CHINA_1937;
   const B = HX.ARROWS_MANCHURIA_1945;
   return (
@@ -401,6 +415,15 @@ export const MapEastAsia: React.FC<{f: number; cues?: Partial<Cues>; cam?: Cam; 
                 <MapArrow pts={S(B.transbaikal)} progress={prog(f, q.soviet45, q.soviet45 + 50)} color={C.soviet} width={26} />
                 <MapArrow pts={S(B.firstFarEast)} progress={prog(f, q.soviet45 + 6, q.soviet45 + 50)} color={C.soviet} width={24} />
                 <MapArrow pts={S(B.secondFarEast)} progress={prog(f, q.soviet45 + 12, q.soviet45 + 56)} color={C.soviet} width={24} />
+              </g>
+            )}
+            {q.japan1941 >= 0 && show1941 && (
+              <g opacity={fadeTo(f, q.japan1941 + 20)}>
+                {HX.JAPAN_1941.dots.map((d, i) => { const p = toScreen(d); return <circle key={i} cx={p[0]} cy={p[1]} r={9} fill={MAPC.japan} stroke={C.ink} strokeWidth={3} />; })}
+                <MapLabel at={toScreen([116.0, 35.2])} text="OCCUPIED CHINA" size={26} />
+                <MapLabel at={toScreen([106.0, 16.5])} text="FRENCH INDOCHINA" size={22} />
+                <MapLabel at={toScreen([106.0, 16.5])} dy={26} text="(Japanese troops)" size={18} weight={700} />
+                <MapLabel at={toScreen([131.0, 27.5])} text="APPROXIMATE AREAS, 1941" size={28} color={C.darkRed} />
               </g>
             )}
             <MapLabel at={toScreen([138.5, 36.4])} text="JAPAN" size={30} />
@@ -491,10 +514,13 @@ export const MapNormandy: React.FC<{f: number; cues?: Partial<Cues>; cam?: Cam}>
             return (
               <g key={d.label} opacity={o}>
                 {[0, 1, 2, 3, 4].map((k) => <ParachuteIcon key={k} x={p[0] + ((k * 47) % 110) - 55} y={p[1] + ((k * 31) % 60) - 30 - (1 - o) * 60} s={0.9} f={f} seed={k + i * 5} color={d.nation === 'US' ? '#E8E1CF' : '#D9CBA0'} />)}
-                <MapLabel at={[p[0], p[1] + 62]} text={`${d.label} AIRBORNE`} size={20} weight={700} />
+                <MapLabel at={[p[0] + (d.nation === 'UK' ? 70 : 0), p[1] + 62]} text={`${d.label} AIRBORNE`} size={20} weight={700} />
               </g>
             );
           })}
+          <g opacity={fadeTo(f, q.drops + 30)}>
+            <MapLabel at={toScreen(HX.PEGASUS_BRIDGE)} dy={-30} text="PEGASUS BRIDGE" size={18} weight={700} />
+          </g>
           <MapLabel at={toScreen([-0.75, 49.15])} text="NORMANDY" size={34} opacity={0.85} />
           <CityMarker at={toScreen(CITY.Caen)} name="Caen" f={f} size={22} pulse={false} labelDx={-50} labelDy={30} />
           <g transform="translate(1480,140)" opacity={fadeTo(f, q.beaches)}>

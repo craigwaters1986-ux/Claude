@@ -57,6 +57,14 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
         <clipPath id={clipId}>
           <path d={bm.land} />
         </clipPath>
+        {highlights.map((h, i) =>
+          h.hatch ? (
+            <pattern key={i} id={`${clipId}-hatch${i}`} patternUnits="userSpaceOnUse" width={14 / z} height={14 / z} patternTransform="rotate(45)">
+              <rect width={14 / z} height={14 / z} fill={h.fill} opacity={0.3} />
+              <rect width={6 / z} height={14 / z} fill={h.fill} />
+            </pattern>
+          ) : null,
+        )}
       </defs>
       <g transform={tf}>
         <path d={bm.land} fill={land} stroke="none" />
@@ -68,10 +76,11 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
         {borders && <path d={bm.borders} fill="none" stroke="#6B5E48" strokeWidth={1.4 / z} opacity={0.55} />}
         <g clipPath={`url(#${clipId})`}>
           {highlights
-            .filter((h) => h.feature && (h.opacity ?? 1) > 0.002)
-            .map((h, i) => (
-              <path key={'h' + i} d={featurePath(kind, h.feature!)} fill={h.fill} opacity={h.opacity ?? 1} stroke={h.stroke ?? 'none'} strokeWidth={3 / z} />
-            ))}
+            .map((h, i) =>
+              h.feature && (h.opacity ?? 1) > 0.002 ? (
+                <path key={'h' + i} d={featurePath(kind, h.feature)} fill={h.hatch ? `url(#${clipId}-hatch${i})` : h.fill} opacity={h.opacity ?? 1} stroke={h.stroke ?? 'none'} strokeWidth={3 / z} />
+              ) : null,
+            )}
         </g>
       </g>
       <g transform={tf}>
