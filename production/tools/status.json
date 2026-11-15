@@ -53,14 +53,14 @@
           "id": "keywords",
           "agent": "youtube-specialist",
           "task": "Keyword and title research",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "brief"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-15 14:33"
+          "next": "youtube-specialist running (native agent)",
+          "updated": "2026-11-15 14:46"
         },
         {
           "id": "script",
