@@ -105,8 +105,8 @@ Verdict key: VERIFIED · CORRECTION NEEDED · UNVERIFIED · DISPUTED · NUANCE (
 
 | Verdict | Narration (67) | Date cards (14) | Total (81) |
 |---|---|---|---|
-| VERIFIED (incl. VERIFIED estimate / interpretation) | 55 | 14 | 69 |
-| NUANCE | 12 | 0 | 12 |
+| VERIFIED (incl. VERIFIED estimate / interpretation) | 57 | 14 | 71 |
+| NUANCE | 10 | 0 | 10 |
 | CORRECTION NEEDED | 0 | 0 | 0 |
 | UNVERIFIED | 0 | 0 | 0 |
 | DISPUTED | 0 | 0 | 0 |

@@ -86,10 +86,13 @@
           "depends": [
             "script"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/research/ep01-ww2/fact-check-script-part1.md",
+            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part1.md"
+          ],
           "issues": [],
-          "next": "Two researcher runs in parallel (chapters 1-6, 7-11)",
-          "updated": "2026-11-15 14:42"
+          "next": "Part 1 done (0 corrections, 5 nuance rewordings); part 2 (s07-s11) still running",
+          "updated": "2026-11-15 14:47"
         },
         {
           "id": "script-qc",
@@ -180,9 +183,14 @@
           "deliverables": [
             "the-human-story/episode-01-ww2/src/maps/GeoMap.tsx"
           ],
-          "issues": [],
+          "issues": [
+            {
+              "text": "Dunkirk visual: most troops left from the mole on larger ships - don't show little ships carrying most of the army",
+              "opened": "2026-11-15 14:47"
+            }
+          ],
           "next": "Core environment/map/vehicle libraries built (draft); waits for storyboard approval",
-          "updated": "2026-11-15 14:33"
+          "updated": "2026-11-15 14:47"
         },
         {
           "id": "music-sfx",
