@@ -72,10 +72,18 @@
             {
               "text": "Hook review assumed 30 s; real speech window is 21.2 s - redo hook proposals for <=50 words",
               "opened": "2026-11-15 15:30"
+            },
+            {
+              "text": "QC S3: mark hook-review.md superseded by v3",
+              "opened": "2026-11-15 16:19"
+            },
+            {
+              "text": "QC S4: published chapter for s01 should be 'Summer 1939', not 'The Hook'",
+              "opened": "2026-11-15 16:19"
             }
           ],
           "next": "",
-          "updated": "2026-11-15 15:30"
+          "updated": "2026-11-15 16:19"
         },
         {
           "id": "script",
@@ -152,17 +160,19 @@
           "id": "script-qc",
           "agent": "quality-control",
           "task": "QC review of the script",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "script-factcheck"
           ],
           "deliverables": [
             "production/reports/qc/ep01-ww2/qc-script-v2-20261115.md",
-            "production/reports/handoffs/ep01-ww2/04-quality-control-script-v2.md"
+            "production/reports/handoffs/ep01-ww2/04-quality-control-script-v2.md",
+            "production/reports/qc/ep01-ww2/qc-script-v3-hook-20261115.md",
+            "production/reports/handoffs/ep01-ww2/06-quality-control-v3-hook.md"
           ],
           "issues": [],
-          "next": "QC re-check of s01 v3",
-          "updated": "2026-11-15 16:18"
+          "next": "",
+          "updated": "2026-11-15 16:19"
         },
         {
           "id": "style-sample",
@@ -271,9 +281,14 @@
             "storyboard"
           ],
           "deliverables": [],
-          "issues": [],
+          "issues": [
+            {
+              "text": "QC S1: title-card SFX must not crowd the last hook line (ends 22.77 s, card at 22.8 s)",
+              "opened": "2026-11-15 16:19"
+            }
+          ],
           "next": "",
-          "updated": "2026-11-15 14:33"
+          "updated": "2026-11-15 16:19"
         },
         {
           "id": "assembly",
