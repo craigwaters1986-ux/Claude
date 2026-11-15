@@ -40,27 +40,35 @@
           "id": "research",
           "agent": "researcher",
           "task": "Research subject; research notes + sources",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/research/ep01-ww2/fact-check-script-part1.md",
+            "production/research/ep01-ww2/fact-check-script-part2.md"
+          ],
           "issues": [],
-          "next": "Sources compiled as part of the fact-check",
-          "updated": "2026-11-15 14:42"
+          "next": "Sources lists inside both fact-check files",
+          "updated": "2026-11-15 14:50"
         },
         {
           "id": "keywords",
           "agent": "youtube-specialist",
           "task": "Keyword and title research",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/exports/ep01-ww2/youtube/keywords.md",
+            "production/exports/ep01-ww2/youtube/title-options.md",
+            "production/exports/ep01-ww2/youtube/hook-review.md",
+            "production/reports/handoffs/ep01-ww2/02-youtube-specialist-keywords.md"
+          ],
           "issues": [],
-          "next": "youtube-specialist running (native agent)",
-          "updated": "2026-11-15 14:46"
+          "next": "",
+          "updated": "2026-11-15 14:49"
         },
         {
           "id": "script",
@@ -74,25 +82,44 @@
             "production/scripts/ep01-ww2/script.md",
             "production/scripts/ep01-ww2/script.json"
           ],
-          "issues": [],
-          "next": "Fact-check (researcher) then QC, then user approval",
-          "updated": "2026-11-15 14:33"
+          "issues": [
+            {
+              "text": "FACT s08: 156,000 landed by sea AND air (≈132k sea, ≈23k air) - fix wording",
+              "opened": "2026-11-15 14:50"
+            },
+            {
+              "text": "DISPUTED s11: 70-85 million is top of range; use 'an estimated 60 million or more'",
+              "opened": "2026-11-15 14:50"
+            },
+            {
+              "text": "5 nuance rewordings (part 1) + 2 optional (part 2)",
+              "opened": "2026-11-15 14:50"
+            },
+            {
+              "text": "Hook suggestions from youtube-specialist (hook-review.md)",
+              "opened": "2026-11-15 14:50"
+            }
+          ],
+          "next": "Scriptwriter revision combining fact-check + hook review",
+          "updated": "2026-11-15 14:50"
         },
         {
           "id": "script-factcheck",
           "agent": "researcher",
           "task": "Fact-check the script",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "script"
           ],
           "deliverables": [
             "production/research/ep01-ww2/fact-check-script-part1.md",
-            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part1.md"
+            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part1.md",
+            "production/research/ep01-ww2/fact-check-script-part2.md",
+            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part2.md"
           ],
           "issues": [],
-          "next": "Part 1 done (0 corrections, 5 nuance rewordings); part 2 (s07-s11) still running",
-          "updated": "2026-11-15 14:47"
+          "next": "",
+          "updated": "2026-11-15 14:50"
         },
         {
           "id": "script-qc",
@@ -217,9 +244,14 @@
             "music-sfx"
           ],
           "deliverables": [],
-          "issues": [],
+          "issues": [
+            {
+              "text": "Render speed: 30 s hook preview took >10 min (900 frames) - profile maps/globe/particles before full render",
+              "opened": "2026-11-15 15:01"
+            }
+          ],
           "next": "",
-          "updated": "2026-11-15 14:33"
+          "updated": "2026-11-15 15:01"
         },
         {
           "id": "final-render",
