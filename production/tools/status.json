@@ -274,7 +274,9 @@
       "notes": "",
       "approvals": {
         "script": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-15 14:41",
+          "note": "Test only - no approval needed"
         },
         "style": {
           "state": "NOT REQUESTED"
@@ -304,11 +306,15 @@
           "id": "research",
           "agent": "researcher",
           "task": "Research subject; research notes + sources",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/research/ep00-test-titanic/research-notes.md",
+            "production/research/ep00-test-titanic/sources.md",
+            "production/reports/handoffs/ep00-test-titanic/01-researcher-research.md"
+          ],
           "issues": [
             {
               "text": "Nested delegation unavailable: Director ran as a sub-agent without the Agent tool (ToolSearch 'select:Agent,Task' -> 'No matching deferred tools found'). Researcher not launched.",
@@ -316,8 +322,8 @@
               "resolved": "2026-11-15 14:34"
             }
           ],
-          "next": "Researcher running (launched from main chat)",
-          "updated": "2026-11-15 14:34"
+          "next": "",
+          "updated": "2026-11-15 14:37"
         },
         {
           "id": "keywords",
@@ -336,40 +342,59 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "NOT STARTED",
+          "status": "AWAITING REVIEW",
           "depends": [
             "research"
           ],
-          "deliverables": [],
-          "issues": [],
-          "next": "",
-          "updated": "2026-11-15 14:34"
+          "deliverables": [
+            "production/scripts/ep00-test-titanic/script.md",
+            "production/reports/handoffs/ep00-test-titanic/02-scriptwriter-script.md"
+          ],
+          "issues": [
+            {
+              "text": "QC#1 MINOR: runs ~46-50 s; cut 6-8 words to fit 45 s",
+              "opened": "2026-11-15 14:41"
+            },
+            {
+              "text": "QC#3 MINOR: on-screen card 4 too long for mobile; split",
+              "opened": "2026-11-15 14:41"
+            },
+            {
+              "text": "QC#4 MINOR: use 'about' not 'c.' on screen",
+              "opened": "2026-11-15 14:41"
+            }
+          ],
+          "next": "Scriptwriter fixes (team test - optional)",
+          "updated": "2026-11-15 14:41"
         },
         {
           "id": "script-factcheck",
           "agent": "researcher",
           "task": "Fact-check the script",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "script"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-15 14:33"
+          "next": "Covered by QC in team test (2 figures checked against British inquiry)",
+          "updated": "2026-11-15 14:41"
         },
         {
           "id": "script-qc",
           "agent": "quality-control",
           "task": "QC review of the script",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "script-factcheck"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/reports/qc/ep00-test-titanic/qc-script-20261115.md",
+            "production/reports/handoffs/ep00-test-titanic/03-quality-control-script-qc.md"
+          ],
           "issues": [],
           "next": "",
-          "updated": "2026-11-15 14:34"
+          "updated": "2026-11-15 14:41"
         },
         {
           "id": "style-sample",
