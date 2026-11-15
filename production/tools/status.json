@@ -8,9 +8,9 @@
       "notes": "",
       "approvals": {
         "script": {
-          "state": "PENDING",
-          "updated": "2026-11-15 15:30",
-          "note": "v2 passed QC (approved with minor fixes); hook pass recommended first"
+          "state": "APPROVED",
+          "updated": "2026-11-15 16:23",
+          "note": "User approved script v3 in main chat"
         },
         "style": {
           "state": "APPROVED",
@@ -89,7 +89,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "research"
           ],
@@ -133,8 +133,8 @@
               "resolved": "2026-11-15 16:18"
             }
           ],
-          "next": "v3 hook (47 words, 1.006x): researcher spot-check + QC s01 re-check, then user approval",
-          "updated": "2026-11-15 16:18"
+          "next": "",
+          "updated": "2026-11-15 16:23"
         },
         {
           "id": "script-factcheck",
@@ -193,7 +193,7 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "AWAITING REVIEW",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:script"
           ],
@@ -211,14 +211,14 @@
               "opened": "2026-11-15 15:30"
             }
           ],
-          "next": "",
-          "updated": "2026-11-15 15:30"
+          "next": "Audio engineer: sync v3 into engine, rebuild narration/timings/SRT",
+          "updated": "2026-11-15 16:23"
         },
         {
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:script"
           ],
@@ -233,8 +233,8 @@
               "opened": "2026-11-15 16:18"
             }
           ],
-          "next": "",
-          "updated": "2026-11-15 16:18"
+          "next": "Storyboard director building the scene plan",
+          "updated": "2026-11-15 16:23"
         },
         {
           "id": "characters",
