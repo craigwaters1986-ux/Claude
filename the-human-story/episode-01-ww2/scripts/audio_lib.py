@@ -49,6 +49,11 @@ def noise(dur, seed=None):
     return r.standard_normal(int(dur * SR))
 
 
+def noise_n(n, seed=None):
+    r = np.random.default_rng(seed) if seed is not None else RNG
+    return r.standard_normal(int(n))
+
+
 def pink(dur, seed=None):
     """Approximate pink noise (Voss-McCartney style via filtering white noise)."""
     w = noise(dur, seed)
@@ -274,7 +279,7 @@ def string_note(f0, dur, vel=0.5, a=0.6, r=1.2, voices=3, bright=1.0, seed=0, vi
     out = lp(out, max(500, fc), 2)
     out = peak_eq(out, 420, 2.5, 1.2)
     out = peak_eq(out, 2600, -3, 1.0)
-    bow = lp(hp(noise(n / SR, seed + 5), 1200), 5000) * 0.02 * vel
+    bow = lp(hp(noise_n(n, seed + 5), 1200), 5000) * 0.02 * vel
     out = out + bow
     e = env_swell(n, a, r)
     hold = np.ones(n)
@@ -314,14 +319,14 @@ def legato_line(notes, vel=0.6, glide=0.07, vib=16, bright=1.0, timbre="cello", 
         x = peak_eq(x, 650, 3, 1.5)
         x = peak_eq(x, 1500, 2, 2.0)
         x = peak_eq(x, 3500, -6, 1.0)
-        bow = lp(hp(noise(n / SR, seed + 1), 900), 4000) * 0.025
+        bow = lp(hp(noise_n(n, seed + 1), 900), 4000) * 0.025
         x = x + bow
     elif timbre == "violin":
         x = blsaw(fr, n)
         x = lp(x, 4200 * bright, 2)
         x = peak_eq(x, 500, 3, 1.4)
         x = peak_eq(x, 2900, 3, 1.5)
-        x = x + lp(hp(noise(n / SR, seed + 1), 2000), 7000) * 0.02
+        x = x + lp(hp(noise_n(n, seed + 1), 2000), 7000) * 0.02
     elif timbre == "horn":
         x = blsaw(fr, n)
         dark = lp(x, 700, 2)
@@ -332,10 +337,10 @@ def legato_line(notes, vel=0.6, glide=0.07, vib=16, bright=1.0, timbre="cello", 
     elif timbre == "clarinet":
         x = blsquare(fr, n) * 0.7 + blsaw(fr, n) * 0.15
         x = lp(x, 2400 * bright, 2)
-        x = x + bp(noise(n / SR, seed + 2), 1500, 5000) * 0.015
+        x = x + bp(noise_n(n, seed + 2), 1500, 5000) * 0.015
     elif timbre == "flute":
         x = osc_sine(fr, n) + 0.25 * osc_sine(2 * fr, n) + 0.08 * osc_sine(3 * fr, n)
-        x = x + bp(noise(n / SR, seed + 2), 1800, 7000) * 0.05 * np.clip(amp, 0, 1)
+        x = x + bp(noise_n(n, seed + 2), 1800, 7000) * 0.05 * np.clip(amp, 0, 1)
     else:
         x = blsaw(fr, n)
     return hp(x * amp * vel, 45)
@@ -407,7 +412,7 @@ def timpani(f0, vel=0.6, decay=1.6, seed=0):
     fr = f0 * (1 + 0.06 * np.exp(-t / 0.05))
     body = osc_sine(fr, n) * np.exp(-t / decay) + 0.5 * osc_sine(fr * 1.505, n) * np.exp(-t / (decay * 0.5)) \
         + 0.3 * osc_sine(fr * 1.98, n) * np.exp(-t / (decay * 0.35))
-    hit = lp(noise(n / SR, seed), 900) * np.exp(-t / 0.035) * 0.6
+    hit = lp(noise_n(n, seed), 900) * np.exp(-t / 0.035) * 0.6
     return (body + hit) * vel * 0.6
 
 
@@ -433,7 +438,7 @@ def war_drum(vel=0.6, f0=58, seed=0):
     t = np.arange(n) / SR
     fr = f0 * (1 + 0.5 * np.exp(-t / 0.03))
     body = osc_sine(fr, n) * np.exp(-t / 0.35)
-    skin = bp(noise(1.4, seed), 80, 700) * np.exp(-t / 0.05) * 0.5
+    skin = bp(noise_n(n, seed), 80, 700) * np.exp(-t / 0.05) * 0.5
     return (body + skin) * vel * 0.8
 
 
@@ -442,7 +447,7 @@ def snare_soft(vel=0.4, seed=0):
     n = int(0.5 * SR)
     t = np.arange(n) / SR
     tone = osc_sine(185 * (1 + 0.1 * np.exp(-t / 0.01)), n) * np.exp(-t / 0.06)
-    sn = bp(noise(0.5, seed), 1500, 7000) * np.exp(-t / 0.09)
+    sn = bp(noise_n(n, seed), 1500, 7000) * np.exp(-t / 0.09)
     return lp(tone * 0.5 + sn * 0.8, 6000) * vel * 0.5
 
 
