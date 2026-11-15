@@ -40,14 +40,14 @@
           "id": "research",
           "agent": "researcher",
           "task": "Research subject; research notes + sources",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "brief"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "Formal research notes + sources.md for every claim in the draft script",
-          "updated": "2026-11-15 14:33"
+          "next": "Sources compiled as part of the fact-check",
+          "updated": "2026-11-15 14:42"
         },
         {
           "id": "keywords",
@@ -82,14 +82,14 @@
           "id": "script-factcheck",
           "agent": "researcher",
           "task": "Fact-check the script",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "script"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-15 14:33"
+          "next": "Two researcher runs in parallel (chapters 1-6, 7-11)",
+          "updated": "2026-11-15 14:42"
         },
         {
           "id": "script-qc",
