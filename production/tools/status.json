@@ -132,7 +132,7 @@
           "id": "script-factcheck",
           "agent": "researcher",
           "task": "Fact-check the script",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "script"
           ],
@@ -140,10 +140,12 @@
             "production/research/ep01-ww2/fact-check-script-part1.md",
             "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part1.md",
             "production/research/ep01-ww2/fact-check-script-part2.md",
-            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part2.md"
+            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part2.md",
+            "production/research/ep01-ww2/fact-check-script-v3-hook.md",
+            "production/reports/handoffs/ep01-ww2/06-researcher-v3-spotcheck.md"
           ],
           "issues": [],
-          "next": "Researcher spot-check of s01 v3 + s10 tweak",
+          "next": "",
           "updated": "2026-11-15 16:18"
         },
         {
@@ -215,10 +217,14 @@
             {
               "text": "Visual notes from fact-check: Dunkirk mostly larger ships from the mole; Mussolini at Munich; Pearl Harbor include Oahu airfields; camps liberated Jul 1944-Apr 1945; D-Day include paratroopers/gliders",
               "opened": "2026-11-15 15:27"
+            },
+            {
+              "text": "Optional: show 1939 tension in s01 (e.g. Danzig headline on the bench newspaper)",
+              "opened": "2026-11-15 16:18"
             }
           ],
           "next": "",
-          "updated": "2026-11-15 15:27"
+          "updated": "2026-11-15 16:18"
         },
         {
           "id": "characters",
