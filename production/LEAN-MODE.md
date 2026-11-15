@@ -21,6 +21,5 @@ each QC review ~90–100k; tests/failed Director test ~300k; the long main chat 
 9. Suggest a **fresh session per phase** (research+script / storyboard / production / render);
    the dashboard, handoffs and agent memory carry context across.
 10. Point the user to `production/reports/dashboard.md` for free progress checks.
-11. Optional (user approval needed): lighter model (`model: sonnet`) for youtube-specialist and
-    small re-checks.
+11. **Model policy (approved by the user):** haiku for mechanical tasks, sonnet for routine checks/reviews/YouTube copy (default for quality-control, youtube-specialist, director), main model only for hard creative/technical work — see CLAUDE.md "Model policy".
 12. Don't run more than 2–3 agents at once when near the usage limit.

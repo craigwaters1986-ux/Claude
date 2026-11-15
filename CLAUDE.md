@@ -69,6 +69,18 @@ At the start of every new episode, offer **Lean mode** (`production/LEAN-MODE.md
 unless the user declines: research before script, one combined review, YouTube work once at the
 end, MUST-only assets, no WIP previews, batched approvals, fresh session per phase.
 
+## Model policy (user instruction: prioritise tokens)
+
+Match the model to the difficulty of each task; pass `model` on the Agent call to override.
+- **haiku** — easy/mechanical: status summaries, file housekeeping, copying/syncing files,
+  SRT/format checks, ffprobe/loudness measurements, re-checks of a one-line change.
+- **sonnet** (default for `quality-control`, `youtube-specialist`, `director`) — routine checks
+  and reviews, fact spot-checks, YouTube copy, planning.
+- **inherit (main model)** — hard creative/technical work only: research from scratch,
+  scriptwriting, storyboard, character/environment/map building, music composition, assembly
+  and render debugging.
+Keep checks to one pass; no repeated verification loops unless something failed.
+
 ## Shared workspace and handoffs
 
 - Episode IDs look like `ep01-ww2`, `ep02-rome`. Each agent works inside

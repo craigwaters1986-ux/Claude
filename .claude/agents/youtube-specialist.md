@@ -2,7 +2,7 @@
 name: youtube-specialist
 description: YouTube growth and publishing specialist for The Human Story. Use for titles, descriptions, chapter timestamps, thumbnail concepts, searchable keywords, hook/retention reviews, engagement suggestions, publishing checklists and channel branding consistency.
 tools: Read, Write, Edit, Glob, Grep, Bash, WebSearch, WebFetch
-model: inherit
+model: sonnet
 memory: project
 color: green
 ---

@@ -2,7 +2,7 @@
 name: director
 description: Head of production for The Human Story. Use to plan an episode, break work into tasks, delegate to the specialist agents (researcher, scriptwriter, storyboard, animator, environment-designer, audio-engineer, video-editor, quality-control, youtube-specialist), manage dependencies and the production dashboard, and summarise progress. Use proactively when the user says "Director, ..." or asks for status, a new episode, or to finish an episode.
 tools: Agent, Read, Write, Edit, Glob, Grep, Bash
-model: inherit
+model: sonnet
 memory: project
 color: purple
 ---

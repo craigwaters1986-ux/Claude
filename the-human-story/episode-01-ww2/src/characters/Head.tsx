@@ -450,7 +450,7 @@ export const Head: React.FC<Props> = (p) => {
         {ex === 'tired' && blinkSquash > 0.5 && (
           <line x1={mx + s * eyeSep - R * 0.14} y1={eyeY - R * 0.05} x2={mx + s * eyeSep + R * 0.14} y2={eyeY - R * 0.05} stroke={ink} strokeWidth={sw * 0.4} strokeLinecap="round" />
         )}
-        {blinkSquash > 0.5 && lod !== 'low' && <circle cx={mx + s * eyeSep + lx + R * 0.035} cy={eyeY + ly - R * 0.05 + lowered} r={R * 0.03} fill={C.paper} />}
+        {blinkSquash > 0.5 && <circle cx={mx + s * eyeSep + lx + R * 0.035} cy={eyeY + ly - R * 0.05 + lowered} r={R * 0.03} fill={C.paper} />}
       </g>
     ));
   }
