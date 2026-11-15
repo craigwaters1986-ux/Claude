@@ -201,3 +201,21 @@ export const Candle: React.FC<{x: number; y: number; f: number; s?: number; seed
     </g>
   );
 };
+
+/**
+ * FX-01 Sombre grade: scene-level desaturation + cool tint (amount 0..1), combined with a vignette.
+ * Place it LAST inside the scene's <svg> (it blends with everything drawn before it, via CSS
+ * mix-blend-mode; no SVG filters).  Pair with `sombreFrame()` to slow the hand-drawn boil.
+ */
+export const SombreGrade: React.FC<{amount: number; tint?: string; vignette?: number}> = ({amount, tint = '#5A6A80', vignette = 0.5}) => {
+  if (amount <= 0) return null;
+  return (
+    <g pointerEvents="none">
+      <rect x={-200} y={-200} width={W + 400} height={H + 400} fill="#808080" opacity={clamp(amount)} style={{mixBlendMode: 'saturation'}} />
+      <rect x={-200} y={-200} width={W + 400} height={H + 400} fill={tint} opacity={0.22 * clamp(amount)} style={{mixBlendMode: 'multiply'}} />
+      <Vignette strength={vignette * clamp(amount)} />
+    </g>
+  );
+};
+/** Frame to pass to characters' `f` for their boil when sombre: the boil steps advance (1 - 0.6*amount) as fast. */
+export const sombreFrame = (f: number, amount: number) => f * (1 - 0.6 * clamp(amount));

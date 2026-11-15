@@ -278,25 +278,30 @@
           "id": "environments",
           "agent": "environment-designer",
           "task": "Build environments, maps, vehicles, effects",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:storyboard"
           ],
           "deliverables": [
-            "the-human-story/episode-01-ww2/src/maps/GeoMap.tsx"
+            "the-human-story/episode-01-ww2/src/maps/GeoMap.tsx",
+            "production/environments/ep01-ww2/env-all.png",
+            "production/environments/ep01-ww2/map-notes.md",
+            "production/reports/handoffs/ep01-ww2/09-environment-designer.md"
           ],
           "issues": [
             {
               "text": "Dunkirk visual: most troops left from the mole on larger ships - don't show little ships carrying most of the army",
-              "opened": "2026-11-15 14:47"
+              "opened": "2026-11-15 14:47",
+              "resolved": "2026-11-15 19:45"
             },
             {
               "text": "Apply R-01 map corrections (MR_LINE Aug vs 28 Sept; LOST_TO_POLAND; 5 moderate border fixes) - sent to environment-designer",
-              "opened": "2026-11-15 19:34"
+              "opened": "2026-11-15 19:34",
+              "resolved": "2026-11-15 19:45"
             }
           ],
-          "next": "Full production (after storyboard approval)",
-          "updated": "2026-11-15 19:34"
+          "next": "MUST 35/35 done; SHOULD/COULD mostly pending (lean mode)",
+          "updated": "2026-11-15 19:45"
         },
         {
           "id": "music-sfx",
@@ -349,10 +354,18 @@
             {
               "text": "Use public/audio/mix.wav as the single audio track; Hiroshima flash frame 15992, Nagasaki glow ~16485 (estimate)",
               "opened": "2026-11-15 19:39"
+            },
+            {
+              "text": "Weimar flag (black-red-gold, V-13) needed for S02-06 - not built; don't use the imperial flag",
+              "opened": "2026-11-15 19:45"
+            },
+            {
+              "text": "FX-02 atomic flash pending - use existing ScreenFlash with long fade",
+              "opened": "2026-11-15 19:45"
             }
           ],
           "next": "WIP hook preview rendered (30.0 s, 1080p30, AAC)",
-          "updated": "2026-11-15 19:39"
+          "updated": "2026-11-15 19:45"
         },
         {
           "id": "final-render",

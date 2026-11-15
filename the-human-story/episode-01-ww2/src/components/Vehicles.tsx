@@ -91,8 +91,8 @@ export type PlaneKind = 'spitfire' | 'bf109' | 'bomber' | 'zero' | 'stuka' | 'p5
  * 'airliner' (1930s twin-engine airliner, silver, no national markings; `door` shows the open door).
  * `gear` shows the landing wheels; `prop={false}` stops the propeller (parked aircraft).
  */
-export const Plane: React.FC<{x: number; y: number; f: number; s?: number; dir?: 1 | -1; kind?: PlaneKind; bank?: number; trail?: boolean; brakes?: number; gear?: boolean; prop?: boolean; door?: boolean; burning?: boolean}> = ({
-  x, y, f, s = 1, dir = 1, kind = 'spitfire', bank = 0, trail = false, brakes = 0, gear = false, prop = true, door = false, burning = false,
+export const Plane: React.FC<{x: number; y: number; f: number; s?: number; dir?: 1 | -1; kind?: PlaneKind; bank?: number; trail?: boolean; brakes?: number; gear?: boolean; prop?: boolean; door?: boolean; burning?: boolean; mark?: 'roundel' | 'cross' | 'hinomaru' | 'usstar' | 'none'}> = ({
+  x, y, f, s = 1, dir = 1, kind = 'spitfire', bank = 0, trail = false, brakes = 0, gear = false, prop = true, door = false, burning = false, mark,
 }) => {
   const spec: Record<PlaneKind, {body: string; wing: string; mark: 'roundel' | 'cross' | 'hinomaru' | 'usstar' | 'none'; len: number; engines: number; stripes?: boolean; belly?: string}> = {
     spitfire: {body: '#6F7A4A', wing: '#8B7D55', mark: 'roundel', len: 1, engines: 1},
@@ -137,7 +137,7 @@ export const Plane: React.FC<{x: number; y: number; f: number; s?: number; dir?:
       {kind === 'airliner' && Array.from({length: 7}).map((_, i) => <rect key={i} x={-L * 0.32 + i * L * 0.085} y={-12} width={L * 0.045} height={10} rx={2} fill="#4E6A78" stroke={ink} strokeWidth={2} />)}
       {kind === 'airliner' && <rect x={-L * 0.45} y={-14} width={L * 0.07} height={26} rx={2} fill={door ? '#2A2A2A' : '#B3B8BC'} stroke={ink} strokeWidth={2.5} />}
       {sp.stripes && [0, 1, 2, 3, 4].map((i) => <rect key={i} x={-L * 0.35 + i * 8} y={-14} width={8} height={26} fill={i % 2 ? ink : '#fff'} opacity={0.85} />)}
-      <Insignia kind={sp.mark} x={-L * 0.2} y={0} s={0.9} />
+      <Insignia kind={mark ?? sp.mark} x={-L * 0.2} y={0} s={0.9} />
       {/* near wing */}
       <path d={`M${-L * 0.1},6 L${-L * 0.2},44 L${L * 0.15},44 L${L * 0.22},6Z`} fill={sp.wing} stroke={ink} strokeWidth={4} strokeLinejoin="round" />
       {brakes > 0 && (
