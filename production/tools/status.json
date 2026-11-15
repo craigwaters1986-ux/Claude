@@ -1,0 +1,524 @@
+{
+  "active": "ep01-ww2",
+  "episodes": {
+    "ep01-ww2": {
+      "title": "World War II: How It Started, How It Ended",
+      "duration": 600,
+      "created": "2026-11-15 14:33",
+      "notes": "",
+      "approvals": {
+        "script": {
+          "state": "NOT REQUESTED"
+        },
+        "style": {
+          "state": "PENDING",
+          "updated": "2026-11-15 14:33",
+          "note": "Character lineup sample ready for review"
+        },
+        "storyboard": {
+          "state": "NOT REQUESTED"
+        },
+        "final-render": {
+          "state": "NOT REQUESTED"
+        }
+      },
+      "tasks": [
+        {
+          "id": "brief",
+          "agent": "director",
+          "task": "Write episode brief and task plan",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "production/reports/handoffs/ep01-ww2/00-director-brief.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "research",
+          "agent": "researcher",
+          "task": "Research subject; research notes + sources",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "Formal research notes + sources.md for every claim in the draft script",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "keywords",
+          "agent": "youtube-specialist",
+          "task": "Keyword and title research",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "script",
+          "agent": "scriptwriter",
+          "task": "Write narration script fitted to duration",
+          "status": "AWAITING REVIEW",
+          "depends": [
+            "research"
+          ],
+          "deliverables": [
+            "production/scripts/ep01-ww2/script.md",
+            "production/scripts/ep01-ww2/script.json"
+          ],
+          "issues": [],
+          "next": "Fact-check (researcher) then QC, then user approval",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "script-factcheck",
+          "agent": "researcher",
+          "task": "Fact-check the script",
+          "status": "NOT STARTED",
+          "depends": [
+            "script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "script-qc",
+          "agent": "quality-control",
+          "task": "QC review of the script",
+          "status": "NOT STARTED",
+          "depends": [
+            "script-factcheck"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "style-sample",
+          "agent": "animator",
+          "task": "Character/animation style sample for approval",
+          "status": "AWAITING REVIEW",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/characters/ep01-ww2/style-sample.png"
+          ],
+          "issues": [],
+          "next": "User to approve style (checkpoint 2)",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "narration",
+          "agent": "audio-engineer",
+          "task": "Generate narration, timings and SRT",
+          "status": "AWAITING REVIEW",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/output/episode-01-narration.wav",
+            "the-human-story/episode-01-ww2/output/episode-01-subtitles.srt"
+          ],
+          "issues": [
+            {
+              "text": "Generated from the unapproved draft script — regenerate if the script changes",
+              "opened": "2026-11-15 14:33"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "storyboard",
+          "agent": "storyboard",
+          "task": "Timestamped storyboard + asset requests",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "characters",
+          "agent": "animator",
+          "task": "Build characters and character animation",
+          "status": "BLOCKED",
+          "depends": [
+            "approval:style",
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/src/characters/StickFigure.tsx"
+          ],
+          "issues": [],
+          "next": "Core rig built (draft); waits for style + storyboard approval",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "environments",
+          "agent": "environment-designer",
+          "task": "Build environments, maps, vehicles, effects",
+          "status": "BLOCKED",
+          "depends": [
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/src/maps/GeoMap.tsx"
+          ],
+          "issues": [],
+          "next": "Core environment/map/vehicle libraries built (draft); waits for storyboard approval",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "music-sfx",
+          "agent": "audio-engineer",
+          "task": "Music, SFX and mix",
+          "status": "NOT STARTED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "assembly",
+          "agent": "video-editor",
+          "task": "Assemble timeline and preview renders",
+          "status": "NOT STARTED",
+          "depends": [
+            "narration",
+            "characters",
+            "environments",
+            "music-sfx"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "final-render",
+          "agent": "video-editor",
+          "task": "Render and verify final MP4",
+          "status": "NOT STARTED",
+          "depends": [
+            "assembly"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "final-qc",
+          "agent": "quality-control",
+          "task": "QC review of final render",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "publishing-pack",
+          "agent": "youtube-specialist",
+          "task": "Title, description, chapters, tags, thumbnail brief, checklist",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-qc"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "wrap",
+          "agent": "director",
+          "task": "Final report to the user (user publishes manually)",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        }
+      ]
+    },
+    "ep00-test-titanic": {
+      "title": "Team test: The sinking of the Titanic (45-second teaser)",
+      "duration": 45,
+      "created": "2026-11-15 14:33",
+      "notes": "",
+      "approvals": {
+        "script": {
+          "state": "NOT REQUESTED"
+        },
+        "style": {
+          "state": "NOT REQUESTED"
+        },
+        "storyboard": {
+          "state": "NOT REQUESTED"
+        },
+        "final-render": {
+          "state": "NOT REQUESTED"
+        }
+      },
+      "tasks": [
+        {
+          "id": "brief",
+          "agent": "director",
+          "task": "Write episode brief and task plan",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "production/reports/handoffs/ep00-test-titanic/00-director-brief.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "research",
+          "agent": "researcher",
+          "task": "Research subject; research notes + sources",
+          "status": "IN PROGRESS",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [
+            {
+              "text": "Nested delegation unavailable: Director ran as a sub-agent without the Agent tool (ToolSearch 'select:Agent,Task' -> 'No matching deferred tools found'). Researcher not launched.",
+              "opened": "2026-11-15 14:34",
+              "resolved": "2026-11-15 14:34"
+            }
+          ],
+          "next": "Researcher running (launched from main chat)",
+          "updated": "2026-11-15 14:34"
+        },
+        {
+          "id": "keywords",
+          "agent": "youtube-specialist",
+          "task": "Keyword and title research",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "script",
+          "agent": "scriptwriter",
+          "task": "Write narration script fitted to duration",
+          "status": "NOT STARTED",
+          "depends": [
+            "research"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:34"
+        },
+        {
+          "id": "script-factcheck",
+          "agent": "researcher",
+          "task": "Fact-check the script",
+          "status": "NOT STARTED",
+          "depends": [
+            "script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "script-qc",
+          "agent": "quality-control",
+          "task": "QC review of the script",
+          "status": "NOT STARTED",
+          "depends": [
+            "script-factcheck"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:34"
+        },
+        {
+          "id": "style-sample",
+          "agent": "animator",
+          "task": "Character/animation style sample for approval",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "narration",
+          "agent": "audio-engineer",
+          "task": "Generate narration, timings and SRT",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "storyboard",
+          "agent": "storyboard",
+          "task": "Timestamped storyboard + asset requests",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "characters",
+          "agent": "animator",
+          "task": "Build characters and character animation",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:style",
+            "approval:storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "environments",
+          "agent": "environment-designer",
+          "task": "Build environments, maps, vehicles, effects",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "music-sfx",
+          "agent": "audio-engineer",
+          "task": "Music, SFX and mix",
+          "status": "NOT STARTED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "assembly",
+          "agent": "video-editor",
+          "task": "Assemble timeline and preview renders",
+          "status": "NOT STARTED",
+          "depends": [
+            "narration",
+            "characters",
+            "environments",
+            "music-sfx"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "final-render",
+          "agent": "video-editor",
+          "task": "Render and verify final MP4",
+          "status": "NOT STARTED",
+          "depends": [
+            "assembly"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "final-qc",
+          "agent": "quality-control",
+          "task": "QC review of final render",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "publishing-pack",
+          "agent": "youtube-specialist",
+          "task": "Title, description, chapters, tags, thumbnail brief, checklist",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-qc"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "wrap",
+          "agent": "director",
+          "task": "Final report to the user (user publishes manually)",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        }
+      ]
+    }
+  }
+}
