@@ -18,9 +18,9 @@
           "note": "Approved by user via /approve style"
         },
         "storyboard": {
-          "state": "PENDING",
-          "updated": "2026-11-15 16:43",
-          "note": "99 shots, 4 open questions for the user"
+          "state": "APPROVED",
+          "updated": "2026-11-15 19:11",
+          "note": "Approved by user; no mushroom cloud; keep Balkenkreuz; runtime ~605 s for end card"
         },
         "final-render": {
           "state": "NOT REQUESTED"
@@ -228,14 +228,15 @@
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "approval:script"
           ],
           "deliverables": [
             "production/storyboards/ep01-ww2/storyboard.md",
             "production/storyboards/ep01-ww2/asset-requests.md",
-            "production/reports/handoffs/ep01-ww2/07-storyboard.md"
+            "production/reports/handoffs/ep01-ww2/07-storyboard.md",
+            "production/reports/handoffs/ep01-ww2/08-director-storyboard-decisions.md"
           ],
           "issues": [
             {
@@ -249,14 +250,14 @@
               "resolved": "2026-11-15 16:43"
             }
           ],
-          "next": "99 shots; awaiting user approval (checkpoint 3) + 4 questions",
-          "updated": "2026-11-15 16:43"
+          "next": "",
+          "updated": "2026-11-15 19:11"
         },
         {
           "id": "characters",
           "agent": "animator",
           "task": "Build characters and character animation",
-          "status": "BLOCKED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:style",
             "approval:storyboard"
@@ -265,14 +266,14 @@
             "the-human-story/episode-01-ww2/src/characters/StickFigure.tsx"
           ],
           "issues": [],
-          "next": "Style approved; still waits for storyboard approval",
-          "updated": "2026-11-15 14:46"
+          "next": "Full production (after storyboard approval)",
+          "updated": "2026-11-15 19:11"
         },
         {
           "id": "environments",
           "agent": "environment-designer",
           "task": "Build environments, maps, vehicles, effects",
-          "status": "BLOCKED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:storyboard"
           ],
@@ -285,14 +286,14 @@
               "opened": "2026-11-15 14:47"
             }
           ],
-          "next": "Core environment/map/vehicle libraries built (draft); waits for storyboard approval",
-          "updated": "2026-11-15 14:47"
+          "next": "Full production (after storyboard approval)",
+          "updated": "2026-11-15 19:11"
         },
         {
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "storyboard"
           ],
@@ -303,8 +304,8 @@
               "opened": "2026-11-15 16:19"
             }
           ],
-          "next": "",
-          "updated": "2026-11-15 16:19"
+          "next": "Full production (after storyboard approval)",
+          "updated": "2026-11-15 19:11"
         },
         {
           "id": "assembly",
@@ -395,7 +396,7 @@
           "id": "map-sources",
           "agent": "researcher",
           "task": "Source map details (R-01): Japanese-held area 1941, D-Day beaches/nationalities, Versailles territorial losses, Sudetenland outline",
-          "status": "BLOCKED",
+          "status": "IN PROGRESS",
           "depends": [
             "storyboard"
           ],
@@ -403,11 +404,12 @@
           "issues": [
             {
               "text": "Researcher run stopped by account usage limit (resets 7pm UTC) before writing anything - relaunch after reset",
-              "opened": "2026-11-15 19:09"
+              "opened": "2026-11-15 19:09",
+              "resolved": "2026-11-15 19:10"
             }
           ],
-          "next": "Relaunch researcher after 19:00 UTC",
-          "updated": "2026-11-15 19:09"
+          "next": "Researcher resumed after limit reset",
+          "updated": "2026-11-15 19:10"
         }
       ]
     },
