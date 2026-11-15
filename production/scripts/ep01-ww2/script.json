@@ -15,30 +15,30 @@
      "pauseAfter": 0.7
     },
     {
-     "text": "Across much of Europe, life seems to go on as normal."
+     "text": "Across much of Europe, life seems normal."
     },
     {
-     "text": "But within weeks, the world would be plunged into the deadliest war in human history.",
+     "text": "Within weeks, Europe will be at war, in what will become the deadliest war in human history.",
      "pauseAfter": 0.5
     },
     {
-     "text": "Countries would fall.",
+     "text": "Countries will fall.",
      "pauseAfter": 0.25
     },
     {
-     "text": "Cities would burn.",
+     "text": "Cities will burn.",
      "pauseAfter": 0.25
     },
     {
-     "text": "Tens of millions of people would die.",
+     "text": "Tens of millions will die.",
      "pauseAfter": 0.7
     },
     {
-     "text": "So how did the world get here?",
+     "text": "So how did it start?",
      "pauseAfter": 0.3
     },
     {
-     "text": "And how did it finally end?"
+     "text": "And how did it end?"
     }
    ]
   },
@@ -413,7 +413,7 @@
      "say": "On the fifteenth of August, Emperor Hirohito announced Japan's surrender, which was formally signed on the second of September, 1945."
     },
     {
-     "text": "Historians still debate how much the bombs and the Soviet invasion each shaped that decision."
+     "text": "Historians still debate how much the bombs and the Soviet invasion each shaped Japan's decision."
     }
    ]
   },
@@ -450,5 +450,5 @@
    ]
   }
  ],
- "version": "v2"
+ "version": "v3"
 }

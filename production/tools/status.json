@@ -81,7 +81,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "research"
           ],
@@ -89,7 +89,9 @@
             "production/scripts/ep01-ww2/script.md",
             "production/scripts/ep01-ww2/script.json",
             "production/scripts/ep01-ww2/changelog-v2.md",
-            "production/reports/handoffs/ep01-ww2/03-scriptwriter-v2-factcheck.md"
+            "production/reports/handoffs/ep01-ww2/03-scriptwriter-v2-factcheck.md",
+            "production/scripts/ep01-ww2/changelog-v3.md",
+            "production/reports/handoffs/ep01-ww2/05-scriptwriter-v3-hook.md"
           ],
           "issues": [
             {
@@ -114,21 +116,23 @@
             },
             {
               "text": "QC v2 MINOR: hook ~153 wpm, trim to <=50 words (hook pass)",
-              "opened": "2026-11-15 15:30"
+              "opened": "2026-11-15 15:30",
+              "resolved": "2026-11-15 16:18"
             },
             {
               "text": "QC v2 MINOR: hook tense shift present->would",
-              "opened": "2026-11-15 15:30"
+              "opened": "2026-11-15 15:30",
+              "resolved": "2026-11-15 16:18"
             }
           ],
-          "next": "Scriptwriter hook pass (user chose hook pass before approval)",
-          "updated": "2026-11-15 16:13"
+          "next": "v3 hook (47 words, 1.006x): researcher spot-check + QC s01 re-check, then user approval",
+          "updated": "2026-11-15 16:18"
         },
         {
           "id": "script-factcheck",
           "agent": "researcher",
           "task": "Fact-check the script",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "script"
           ],
@@ -139,14 +143,14 @@
             "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part2.md"
           ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-15 14:50"
+          "next": "Researcher spot-check of s01 v3 + s10 tweak",
+          "updated": "2026-11-15 16:18"
         },
         {
           "id": "script-qc",
           "agent": "quality-control",
           "task": "QC review of the script",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "script-factcheck"
           ],
@@ -155,8 +159,8 @@
             "production/reports/handoffs/ep01-ww2/04-quality-control-script-v2.md"
           ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-15 15:30"
+          "next": "QC re-check of s01 v3",
+          "updated": "2026-11-15 16:18"
         },
         {
           "id": "style-sample",

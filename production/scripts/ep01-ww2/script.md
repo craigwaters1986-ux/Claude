@@ -1,28 +1,32 @@
 # Episode 1 — World War II: How It Started, How It Ended
 
-_Draft **v2** — fact-check corrections applied (see `changelog-v2.md`). Hook suggestions from the YouTube specialist are NOT applied yet. Awaiting QC and user approval (checkpoint 1). Machine-readable version: `script.json`._
+_Draft **v3** — hook pass: s01 rewritten, plus one wording tweak in s10 (see `changelog-v3.md`; v2 fact-check changes in `changelog-v2.md`). Awaiting a researcher spot-check and QC re-check of s01, then user approval (checkpoint 1). Machine-readable version: `script.json`._
 
-Total: 1195 words (numerals counted as one word) for 600 s (v1: 1168).
+Total: 1188 words (numerals counted as one word) for 600 s (v2: 1195).
 
-| Section | Window | Words v1 | Words v2 | Est. duration at 145 wpm (speech only) | Fitted TTS speed (bm_george) | Narration ends / budget |
+| Section | Window | Words v2 | Words v3 | Est. duration at 145 wpm (speech only) | Fitted TTS speed (bm_george) | Narration ends / budget |
 |---|---|---|---|---|---|---|
-| s01 The Hook | 00:00–00:30 | 50 | 54 | 22.3 s | 1.139× | 22.75 s / 22.8 s |
+| s01 The Hook | 00:00–00:30 | 54 | 47 | 19.4 s | 1.006× | 22.77 s / 22.8 s |
 | s02 The World After World War I | 00:30–01:30 | 130 | 130 | 53.8 s | 1.075× | 88.53 s / 88.6 s |
 | s03 Hitler's Rise to Power | 01:30–02:30 | 125 | 125 | 51.7 s | 1.154× | 148.29 s / 148.6 s |
-| s04 World War II Begins | 02:30–03:30 | 116 | 123 | 50.9 s | 1.007× | 208.57 s / 208.6 s |
-| s05 Europe Falls | 03:30–04:30 | 109 | 111 | 45.9 s | 1.000× | 261.00 s / 268.6 s |
+| s04 World War II Begins | 02:30–03:30 | 123 | 123 | 50.9 s | 1.007× | 208.57 s / 208.6 s |
+| s05 Europe Falls | 03:30–04:30 | 111 | 111 | 45.9 s | 1.000× | 261.00 s / 268.6 s |
 | s06 The War Becomes Global | 04:30–05:30 | 120 | 120 | 49.7 s | 1.000× | 328.16 s / 328.6 s |
-| s07 The Turning Points | 05:30–06:30 | 111 | 113 | 46.8 s | 1.000× | 380.75 s / 388.6 s |
-| s08 D-Day and the Liberation of Europe | 06:30–07:30 | 108 | 115 | 47.6 s | 1.000× | 442.54 s / 448.6 s |
+| s07 The Turning Points | 05:30–06:30 | 113 | 113 | 46.8 s | 1.000× | 380.75 s / 388.6 s |
+| s08 D-Day and the Liberation of Europe | 06:30–07:30 | 115 | 115 | 47.6 s | 1.000× | 442.54 s / 448.6 s |
 | s09 The Fall of Nazi Germany | 07:30–08:30 | 119 | 119 | 49.2 s | 1.000× | 507.45 s / 508.6 s |
-| s10 How World War II Finally Ended | 08:30–09:30 | 113 | 118 | 48.8 s | 1.000× | 567.44 s / 568.6 s |
+| s10 How World War II Finally Ended | 08:30–09:30 | 118 | 118 | 48.8 s | 1.000× | 567.91 s / 568.6 s |
 | s11 The Human Cost and the Legacy | 09:30–10:00 | 67 | 67 | 27.7 s | 1.000× | 597.96 s / 598.3 s |
 
-Fitted speeds were measured with the engine's Kokoro builder logic on a scratch copy (cap 1.17×). Every v2 wording change is listed in `changelog-v2.md`.
+Fitted speeds were measured with the engine's Kokoro builder logic (`tts.layout` + the same speed-fitting loop) on a scratch copy (cap 1.17×). s01 now runs at 1.006× (v2: 1.139×), about 133 wpm across its 1.6–22.77 s speech span, in line with the body of the script.
 
-## 00:00–00:30 · The Hook (54 words)
+## 00:00–00:30 · The Hook (47 words)
 
-Summer, 1939. Across much of Europe, life seems to go on as normal. But within weeks, the world would be plunged into the deadliest war in human history. Countries would fall. Cities would burn. Tens of millions of people would die. So how did the world get here? And how did it finally end?
+Summer, 1939. Across much of Europe, life seems normal. Within weeks, Europe will be at war, in what will become the deadliest war in human history. Countries will fall. Cities will burn. Tens of millions will die. So how did it start? And how did it end?
+
+_On screen (suggestion for storyboard):_ "SUMMER 1939" date card on the opening street; newspaper headline "WAR BREAKS OUT IN EUROPE" on "Europe will be at war". No title card until after "And how did it end?" (title follows at 22.8 s).
+
+_Tone:_ calm and observational for the first two lines; low and sombre for "Countries will fall. Cities will burn. Tens of millions will die." (no explosions or comic SFX); a held beat (0.7 s) before the two title questions, delivered plainly.
 
 ## 00:30–01:30 · The World After World War I (130 words)
 
@@ -58,7 +62,7 @@ In 1945, Allied armies closed in on Germany from both sides. As they advanced, t
 
 ## 08:30–09:30 · How World War II Finally Ended (118 words)
 
-By 1945, American forces were closing in on Japan, island by island. The Battle of Okinawa, from April to June, killed well over 100,000 soldiers and civilians. Japan's leaders still refused to surrender. On 6 August, the United States dropped an atomic bomb on Hiroshima. Tens of thousands of people died instantly, and many more in the months that followed. On 8 August, the Soviet Union declared war on Japan, and within hours its armies poured into Manchuria. The next day, a second atomic bomb devastated Nagasaki. On 15 August, Emperor Hirohito announced Japan's surrender, which was formally signed on 2 September 1945. Historians still debate how much the bombs and the Soviet invasion each shaped that decision.
+By 1945, American forces were closing in on Japan, island by island. The Battle of Okinawa, from April to June, killed well over 100,000 soldiers and civilians. Japan's leaders still refused to surrender. On 6 August, the United States dropped an atomic bomb on Hiroshima. Tens of thousands of people died instantly, and many more in the months that followed. On 8 August, the Soviet Union declared war on Japan, and within hours its armies poured into Manchuria. The next day, a second atomic bomb devastated Nagasaki. On 15 August, Emperor Hirohito announced Japan's surrender, which was formally signed on 2 September 1945. Historians still debate how much the bombs and the Soviet invasion each shaped Japan's decision.
 
 ## 09:30–10:00 · The Human Cost and the Legacy (67 words)
 
