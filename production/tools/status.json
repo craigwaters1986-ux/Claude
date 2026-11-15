@@ -18,7 +18,9 @@
           "note": "Approved by user via /approve style"
         },
         "storyboard": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-15 16:43",
+          "note": "99 shots, 4 open questions for the user"
         },
         "final-render": {
           "state": "NOT REQUESTED"
@@ -226,23 +228,29 @@
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "approval:script"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/storyboards/ep01-ww2/storyboard.md",
+            "production/storyboards/ep01-ww2/asset-requests.md",
+            "production/reports/handoffs/ep01-ww2/07-storyboard.md"
+          ],
           "issues": [
             {
               "text": "Visual notes from fact-check: Dunkirk mostly larger ships from the mole; Mussolini at Munich; Pearl Harbor include Oahu airfields; camps liberated Jul 1944-Apr 1945; D-Day include paratroopers/gliders",
-              "opened": "2026-11-15 15:27"
+              "opened": "2026-11-15 15:27",
+              "resolved": "2026-11-15 16:43"
             },
             {
               "text": "Optional: show 1939 tension in s01 (e.g. Danzig headline on the bench newspaper)",
-              "opened": "2026-11-15 16:18"
+              "opened": "2026-11-15 16:18",
+              "resolved": "2026-11-15 16:43"
             }
           ],
-          "next": "Storyboard director building the scene plan",
-          "updated": "2026-11-15 16:23"
+          "next": "99 shots; awaiting user approval (checkpoint 3) + 4 questions",
+          "updated": "2026-11-15 16:43"
         },
         {
           "id": "characters",
@@ -382,6 +390,24 @@
           "issues": [],
           "next": "",
           "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "map-sources",
+          "agent": "researcher",
+          "task": "Source map details (R-01): Japanese-held area 1941, D-Day beaches/nationalities, Versailles territorial losses, Sudetenland outline",
+          "status": "BLOCKED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [],
+          "issues": [
+            {
+              "text": "Researcher run stopped by account usage limit (resets 7pm UTC) before writing anything - relaunch after reset",
+              "opened": "2026-11-15 19:09"
+            }
+          ],
+          "next": "Relaunch researcher after 19:00 UTC",
+          "updated": "2026-11-15 19:09"
         }
       ]
     },
