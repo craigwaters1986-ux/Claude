@@ -74,7 +74,7 @@ class Score:
         "strings": (0.32, 3.4, 4200, 1.0),
         "low": (0.22, 2.8, 2500, 1.0),
         "brass": (0.30, 3.0, 3200, 0.8),
-        "horn": (0.34, 3.2, 3000, 0.8),
+        "horn": (0.34, 3.2, 3000, 0.65),
         "piano": (0.30, 3.0, 5000, 1.0),
         "wood": (0.30, 2.8, 5000, 0.8),
         "solo": (0.36, 3.8, 3800, 1.0),
@@ -147,7 +147,7 @@ class Score:
     def ostinato(self, t0, t1, bpm, sub, pattern, vel=0.3, kind="spicc", accent=(1.0,), cresc=None, p=0.0, stem=None):
         """Repeat `pattern` (midi or note names; None = rest) at `sub` notes per beat."""
         step = 60.0 / bpm / sub
-        pat = [nm(x) if isinstance(x, str) else x for x in pattern]
+        pat = [nm(x) if isinstance(x, str) else ([nm(y) for y in x] if isinstance(x, (list, tuple)) else x) for x in pattern]
         k = 0
         t = t0
         while t < t1 - 1e-6:
@@ -272,13 +272,13 @@ def compose(S):
     # 19.0-19.7 near-silence; 19.7-22.6 suspended faint fifth (A4 E5)
     S.swell(19.75, 22.35, "A4 E5", 0.035, 0.05, r=0.35, bright=0.5)
     # 22.9 title sting: timpani roll -> full chord, horn statement of the channel motif
-    S.roll(TITLE_STING, 1.05, "D2", 0.04, 0.55)
-    S.timp(TITLE_STING + 1.05, "D2", 0.75, 2.2)
-    S.brass(TITLE_STING + 1.05, 2.6, "D2 A2 D3", 0.55, r=1.6)
-    S.pad(TITLE_STING + 1.05, 26.4, "D3 A3 D4 F4 A4 E5", vel=0.36, a=0.08, r=1.8, bright=1.2)
+    S.roll(TITLE_STING, 1.05, "D2", 0.03, 0.40)
+    S.timp(TITLE_STING + 1.05, "D2", 0.55, 2.2)
+    S.brass(TITLE_STING + 1.05, 2.6, "D2 A2 D3", 0.40, r=1.6)
+    S.pad(TITLE_STING + 1.05, 26.4, "D3 A3 D4 F4 A4 E5", vel=0.27, a=0.08, r=1.8, bright=1.2)
     S.line("horn", TITLE_STING + 1.15, [(0, 0.6, "A3"), (0.6, 0.6, "D4"), (1.2, 0.5, "E4"), (1.7, 2.2, "F4", 1.1),
                                         (3.9, 0.6, "E4", 0.9), (4.5, 0.6, "D4", 0.85), (5.1, 0.6, "C4", 0.8),
-                                        (5.7, 2.0, "D4", 0.75)], bpm=88, timbre="horn", vel=0.42, p=-0.1)
+                                        (5.7, 2.0, "D4", 0.75)], bpm=88, timbre="horn", vel=0.32, p=-0.1)
     S.prog([(26.2, 28.2, "Bb2 F3 D4 F4"), (28.2, 30.6, "C3 G3 E4"), ], vel=0.27, a=0.6, r=1.5)
     S.prog([(29.4, 33.1, "D3 A3 F4")], vel=0.16, a=1.2)                  # settles into the s02 bed
 
@@ -576,9 +576,9 @@ def compose(S):
     # camps and the Holocaust: a solo cello only, then a single sustained note (no hits)
     S.line("solo", 455.75, [(0, 3, "D3", 0.7), (3, 1.5, "F3"), (4.5, 1.5, "E3"), (6, 3, "D3"),
                             (9, 1.5, "C3"), (10.5, 1.5, "Bb2"), (12, 4.5, "A2", 0.9), (16.5, 1.5, "Bb2", 0.8),
-                            (18, 3.5, "A2", 0.6)], bpm=88, timbre="cello", vel=0.15, a=0.4, r=0.5)
-    S.line("solo", T("s09", 3) + 0.05, [(0, 9.0, "D3", 0.8)], bpm=60, timbre="cello", vel=0.13, a=1.6, r=0.4)
-    S.line("solo", T("s09", 4) - 0.1, [(0, 8.9, "A2", 0.75)], bpm=60, timbre="cello", vel=0.13, a=1.6, r=0.6)
+                            (18, 3.5, "A2", 0.6)], bpm=88, timbre="cello", vel=0.30, a=0.4, r=0.5)
+    S.line("solo", T("s09", 3) + 0.05, [(0, 9.0, "D3", 0.8)], bpm=60, timbre="cello", vel=0.26, a=1.6, r=0.4)
+    S.line("solo", T("s09", 4) - 0.1, [(0, 8.9, "A2", 0.75)], bpm=60, timbre="cello", vel=0.26, a=1.6, r=0.6)
     # Berlin: grim low percussion
     t5 = T("s09", 5)
     S.drums(t5, T("s09", 6), bpm=84, pattern="B.b.B.bb", vel=0.34)
@@ -675,7 +675,11 @@ def master_curve():
     g[i1:] = 0
     # near-silence after "Tens of millions will die." (18.98-19.7)
     a, b = ns(E("s01", 5) + 0.05), ns(T("s01", 6))
-    g[a:b] *= 0.12
+    near = np.ones(b - a) * 0.12
+    k = ns(0.25)
+    near[:k] = np.linspace(1, 0.12, k)
+    near[-k:] = np.linspace(0.12, 1, k)
+    g[a:b] *= near
     for (s0, s1, fo, fi) in MUSIC_SILENCE:
         a, b = ns(s0), ns(s1)
         fo_n, fi_n = ns(fo), ns(fi)

@@ -4,7 +4,7 @@
 import React, {useMemo} from 'react';
 import {StickFigure} from './StickFigure';
 import {CAST, CROWD_POOLS} from './cast';
-import {cheer, wave, stand, standStiff, pose, Pose, mixPose} from './poses';
+import {cheerV, waveSide, stand, standStiff, pose, Pose, mixPose} from './poses';
 import type {Expression, Hat} from './Head';
 import {rng} from '../animations/core';
 
@@ -97,10 +97,10 @@ export const Crowd: React.FC<CrowdProps> = (p) => {
         let ps: Pose;
         switch (act) {
           case 'cheer':
-            ps = cheer(ff, m.seedF);
+            ps = cheerV(ff, m.seedF);
             break;
           case 'wave':
-            ps = wave(ff, m.seedF);
+            ps = waveSide(ff, m.seedF);
             break;
           case 'clap':
             ps = clap(ff, m.seedF);

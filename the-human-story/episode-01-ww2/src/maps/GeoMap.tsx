@@ -52,8 +52,10 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
         <path key={i} d={`M${-100 + ((i * 397) % 2000)},${60 + i * 58} q20,-10 40,0 t40,0`} stroke="#fff" strokeWidth={3} opacity={0.25} fill="none" transform={`translate(${Math.sin(f / 40 + i) * 10},0)`} />
       ))}
       <defs>
+        {/* The clip path lives in base-projection space (no camera transform), so maps of the
+            same kind with different cameras (e.g. during a crossfade) can share the same id. */}
         <clipPath id={clipId}>
-          <path d={bm.land} transform={tf} />
+          <path d={bm.land} />
         </clipPath>
       </defs>
       <g transform={tf}>
@@ -64,15 +66,11 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
             <path key={'c' + i} d={bm.paths.get(h.name!) ?? ''} fill={h.fill} opacity={(h.opacity ?? 1) * (h.pulse ? 0.75 + 0.25 * Math.sin(f / 6) : 1)} />
           ))}
         {borders && <path d={bm.borders} fill="none" stroke="#6B5E48" strokeWidth={1.4 / z} opacity={0.55} />}
-      </g>
-      <g clipPath={`url(#${clipId})`}>
-        <g transform={tf}>
+        <g clipPath={`url(#${clipId})`}>
           {highlights
-            .filter((h) => h.feature)
+            .filter((h) => h.feature && (h.opacity ?? 1) > 0.002)
             .map((h, i) => (
-              <g key={'h' + i} opacity={h.opacity ?? 1}>
-                <path d={featurePath(kind, h.feature!)} fill={h.fill} stroke={h.stroke ?? 'none'} strokeWidth={3 / z} />
-              </g>
+              <path key={'h' + i} d={featurePath(kind, h.feature!)} fill={h.fill} opacity={h.opacity ?? 1} stroke={h.stroke ?? 'none'} strokeWidth={3 / z} />
             ))}
         </g>
       </g>

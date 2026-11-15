@@ -56,7 +56,7 @@ export function solveSkeleton(P: Pose, child?: boolean): Skeleton {
 /**
  * Two-bone arm IK.  Returns {sh, el} angles (pose convention) that put the hand on
  * `target` (local figure space).  `elbowDown` picks the natural elbow bend
- * (elbow below/behind the line); out-of-reach targets give a straight arm pointing at them.
+ * (elbowDown = the lower of the two elbow solutions, false = raised elbow); out-of-reach targets give a straight arm pointing at them.
  */
 export function armIK(P: Pose, target: Pt, child?: boolean, elbowDown = true): {sh: number; el: number} {
   const s = solveSkeleton(P, child);
@@ -67,7 +67,11 @@ export function armIK(P: Pose, target: Pt, child?: boolean, elbowDown = true): {
   const theta = degs(Math.atan2(dx, dy)); // angle from "hanging down", + = forward
   const cosA = (UA * UA + dist * dist - FA * FA) / (2 * UA * dist);
   const alpha = degs(Math.acos(Math.max(-1, Math.min(1, cosA))));
-  const sh = elbowDown ? theta + alpha : theta - alpha;
+  // two solutions; pick the one whose elbow is lower (elbowDown) or higher
+  const c1 = theta + alpha;
+  const c2 = theta - alpha;
+  const lower = Math.cos(rad(c1)) >= Math.cos(rad(c2)) ? c1 : c2;
+  const sh = elbowDown ? lower : lower === c1 ? c2 : c1;
   const ex = s.sh.x + Math.sin(rad(sh)) * UA;
   const ey = s.sh.y + Math.cos(rad(sh)) * UA;
   const tx = s.sh.x + (dx / Math.max(1e-6, Math.hypot(dx, dy))) * dist;

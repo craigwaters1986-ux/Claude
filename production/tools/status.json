@@ -284,10 +284,14 @@
             {
               "text": "Dunkirk visual: most troops left from the mole on larger ships - don't show little ships carrying most of the army",
               "opened": "2026-11-15 14:47"
+            },
+            {
+              "text": "Apply R-01 map corrections (MR_LINE Aug vs 28 Sept; LOST_TO_POLAND; 5 moderate border fixes) - sent to environment-designer",
+              "opened": "2026-11-15 19:34"
             }
           ],
           "next": "Full production (after storyboard approval)",
-          "updated": "2026-11-15 19:11"
+          "updated": "2026-11-15 19:34"
         },
         {
           "id": "music-sfx",
@@ -396,11 +400,14 @@
           "id": "map-sources",
           "agent": "researcher",
           "task": "Source map details (R-01): Japanese-held area 1941, D-Day beaches/nationalities, Versailles territorial losses, Sudetenland outline",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/research/ep01-ww2/map-sources.md",
+            "production/reports/handoffs/ep01-ww2/08-researcher-map-sources.md"
+          ],
           "issues": [
             {
               "text": "Researcher run stopped by account usage limit (resets 7pm UTC) before writing anything - relaunch after reset",
@@ -408,8 +415,8 @@
               "resolved": "2026-11-15 19:10"
             }
           ],
-          "next": "Researcher resumed after limit reset",
-          "updated": "2026-11-15 19:10"
+          "next": "",
+          "updated": "2026-11-15 19:34"
         }
       ]
     },

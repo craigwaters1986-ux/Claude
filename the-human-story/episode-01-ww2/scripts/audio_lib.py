@@ -12,7 +12,7 @@ RNG = np.random.default_rng(1939)
 
 # ----------------------------------------------------------------------------- basics
 def t_axis(dur):
-    return np.arange(int(dur * SR)) / SR
+    return np.arange(int(round(dur * SR))) / SR
 
 
 def ns(sec):
@@ -46,7 +46,7 @@ def peak_eq(x, f0, gain_db, q=1.0):
 
 def noise(dur, seed=None):
     r = np.random.default_rng(seed) if seed is not None else RNG
-    return r.standard_normal(int(dur * SR))
+    return r.standard_normal(int(round(dur * SR)))
 
 
 def noise_n(n, seed=None):

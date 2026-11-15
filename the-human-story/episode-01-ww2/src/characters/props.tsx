@@ -27,7 +27,7 @@ export const DocumentOnTable: React.FC<{x: number; y: number; w?: number; signed
 
 /** A sheet of paper for holdR/holdL (hand space: x along the forearm). */
 export const PaperSheet: React.FC<{flutter?: number}> = ({flutter = 0}) => (
-  <g transform={`rotate(${-80 + flutter})`}>
+  <g transform={`rotate(${-25 + flutter})`}>
     <path d={`M-2,-4 L34,-10 Q38,4 36,22 L2,28 Q-2,12 -2,-4Z`} fill={C.paper} stroke={ink} strokeWidth={2.5} strokeLinejoin="round" />
     <line x1={6} y1={6} x2={28} y2={2} stroke="#9A9180" strokeWidth={2} />
     <line x1={6} y1={13} x2={28} y2={9} stroke="#9A9180" strokeWidth={2} />

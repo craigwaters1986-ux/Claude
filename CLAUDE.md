@@ -63,6 +63,12 @@ load when a session starts; if one is missing in the current session, delegate t
 `general-purpose` with the instruction "Read `.claude/agents/<name>.md` and follow it as your role".
 Before launching any task set it IN PROGRESS on the dashboard; afterwards record deliverables.
 
+## Credits: Lean mode
+
+At the start of every new episode, offer **Lean mode** (`production/LEAN-MODE.md`) and use it
+unless the user declines: research before script, one combined review, YouTube work once at the
+end, MUST-only assets, no WIP previews, batched approvals, fresh session per phase.
+
 ## Shared workspace and handoffs
 
 - Episode IDs look like `ep01-ww2`, `ep02-rome`. Each agent works inside

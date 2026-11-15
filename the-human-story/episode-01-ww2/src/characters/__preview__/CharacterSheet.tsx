@@ -12,6 +12,7 @@ import {
 } from '../poses';
 import {Pen, PaperSheet, FlyingPaper, RifleBetween, RifleAim, HeldItem, Binoculars, DocumentOnTable} from '../props';
 import {handWorld, shoulderWorld} from '../skeleton';
+import {Head} from '../Head';
 import type {Expression} from '../Head';
 
 const Label: React.FC<{x: number; y: number; t: string}> = ({x, y, t}) => (
@@ -103,9 +104,9 @@ export const SheetPoses: React.FC = () => {
         {/* row 2 */}
         <rect x={0} y={900} width={330} height={180} fill={C.sea} opacity={0.85} />
         {[0, 1].map((i) => (
-          <Fig key={i} k="usSoldier" x={90 + i * 150} y={900} f={f} pose={wade(f / 45 + i * 0.4, 45)} expr="determined" cutBelow={900} overlay={(sk: any) => <RifleBetween a={{x: sk.armL.hx - 10, y: sk.armL.hy}} b={{x: sk.armR.hx + 10, y: sk.armR.hy}} />} />
+          <Fig key={i} k="usSoldier" x={90 + i * 150} y={900} f={f} pose={wade(f / 45 + i * 0.4, 60)} expr="determined" cutBelow={900} overlayTop={(sk: any) => <RifleBetween a={{x: sk.armL.hx - 20, y: sk.armL.hy}} b={{x: sk.armR.hx + 30, y: sk.armR.hy}} />} />
         ))}
-        <Label x={160} y={1005} t="wade (depth 45)" />
+        <Label x={160} y={1005} t="wade (depth 60)" />
         {chain.map((c, i) => (
           <Fig key={i} k={i === 1 ? 'workerW' : 'worker'} x={420 + i * 105} y={960} f={f} s={0.85} pose={c.pose} expr="determined" overlayFront={(sk: any) => c.holding ? <HeldItem a={{x: sk.armL.hx, y: sk.armL.hy}} b={{x: sk.armR.hx, y: sk.armR.hy}} kind="brick" /> : null} />
         ))}
@@ -119,7 +120,7 @@ export const SheetPoses: React.FC = () => {
         <Label x={1030} y={1005} t="kneelAim" />
         <Fig k="japaneseWoman" x={1170} y={960} f={f} pose={kneelSit(f)} expr="sad" eyesClosed={f > 45} />
         <Label x={1180} y={1005} t="kneelSit (seiza)" />
-        <Fig k="montgomery" x={1330} y={960} f={f} pose={binocularsPose(f, Math.min(1, f / 30))} overlayTop={(sk: any) => <Binoculars head={sk.head} r={sk.d.R} t={Math.min(1, f / 30)} />} />
+        <Fig k="montgomery" x={1330} y={960} f={f} pose={binocularsPose(f, Math.min(1, f / 30))} nearArmFront overlayTop={(sk: any) => <Binoculars head={sk.head} r={sk.d.R} t={Math.min(1, f / 30)} />} />
         <Label x={1330} y={1005} t="binoculars" />
         <Hug f={f} x={1520} y={960} adult={castProps('anna')} other={castProps('leo')} />
         <Label x={1520} y={1005} t="Hug comfort" />
@@ -157,11 +158,17 @@ export const SheetExpressions: React.FC = () => {
       <svg width={1920} height={1080}>
         <rect y={600} width={1920} height={480} fill={C.floor} />
         {ex.map((e, i) => (
-          <g key={e} transform={`translate(${170 + i * 300},300) scale(2.4)`}>
-            <StickFigure x={0} y={60} f={f} seed={i + 3} pose={standStiff(f)} head={{...CAST.survivor.head, expression: e}} outfit={CAST.survivor.outfit} shadow={false} />
+          <g key={e} transform={`translate(${170 + i * 300},200) scale(2.2)`}>
+            <Head r={44} f={10} seed={i + 3} {...(i % 2 ? CAST.survivorNoCap.head : CAST.japaneseWoman.head)} expression={e} turn={0.3} />
           </g>
         ))}
-        {ex.map((e, i) => <Label key={e} x={170 + i * 300} y={400} t={e} />)}
+        {ex.map((e, i) => <Label key={'c' + e} x={170 + i * 300} y={480} t={e + ' + eyesClosed'} />)}
+        {ex.map((e, i) => <Label key={e} x={170 + i * 300} y={340} t={e} />)}
+        {ex.map((e, i) => (
+          <g key={'e' + e} transform={`translate(${170 + i * 300},420) scale(0.9)`}>
+            <Head r={44} f={10} seed={i + 3} {...CAST.medic.head} expression={e} eyesClosed turn={0.3} />
+          </g>
+        ))}
         <Fig k="kaiser" x={260} y={960} f={f} pose={helmetToChest(f, 0.7)} hatInHand={{rot: -20}} expr="sad" label />
         <Fig k="survivor" x={600} y={960} f={f} pose={sitGround(f)} expr="tired" />
         <Label x={600} y={1005} t="sitGround" />

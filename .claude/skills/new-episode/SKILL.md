@@ -6,6 +6,7 @@ argument-hint: <subject> [duration-seconds]
 
 Act as the Director (see `CLAUDE.md`, `production/WORKFLOW.md`). Subject: **$ARGUMENTS**
 
+0. Offer Lean mode (`production/LEAN-MODE.md`) and use it unless the user declines.
 1. Choose the next episode ID: check `python3 production/tools/status.py show` and use
    `epNN-<short-slug>` (e.g. `ep02-rome`). Default duration 600 s unless given.
 2. `python3 production/tools/status.py new-episode --episode <id> --title "<Title>" [--duration N]`

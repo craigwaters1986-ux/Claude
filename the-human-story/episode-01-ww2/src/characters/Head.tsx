@@ -275,7 +275,8 @@ function hatShape(h: Hat, R: number, color: string, accent?: string) {
     case 'jpFieldCap': // soft cap with short peak and neck flaps hanging at the back (-x)
       return (
         <g>
-          <path d={`M${-R * 1.02},${-R * 0.42} L${-R * 1.12},${R * 0.55} L${-R * 0.55},${R * 0.5} L${-R * 0.62},${-R * 0.3}Z`} fill={color} {...o} strokeWidth={s * 0.8} />
+          <path d={`M${-R * 1.0},${-R * 0.42} L${-R * 1.1},${R * 0.5} L${-R * 0.7},${R * 0.46} L${-R * 0.66},${-R * 0.36}Z`} fill={color} {...o} strokeWidth={s * 0.8} />
+          <path d={`M${-R * 0.96},${-R * 0.1} L${-R * 0.98},${R * 0.45} M${-R * 0.82},${-R * 0.1} L${-R * 0.84},${R * 0.44}`} stroke={ink} strokeWidth={s * 0.45} />
           <path d={`M${-R * 0.98},${-R * 0.42} C${-R * 1.0},${-R * 1.2} ${R * 0.95},${-R * 1.22} ${R * 0.98},${-R * 0.42}Z`} fill={color} {...o} />
           <path d={`M${R * 0.35},${-R * 0.44} Q${R * 1.05},${-R * 0.48} ${R * 1.35},${-R * 0.28} L${R * 0.5},${-R * 0.34}Z`} fill={ink} />
         </g>
@@ -307,7 +308,7 @@ function hatShape(h: Hat, R: number, color: string, accent?: string) {
       return (
         <g>
           <path d={`M${-R * 1.55},${-R * 0.5} Q0,${-R * 0.7} ${R * 1.55},${-R * 0.5} Q${R * 1.6},${-R * 0.36} ${R * 1.3},${-R * 0.36} Q0,${-R * 0.5} ${-R * 0.95},${-R * 0.42}Z`} fill={color} {...o} />
-          <path d={`M${-R * 0.95},${-R * 0.45} L${-R * 1.35},${-R * 1.25} L${-R * 0.75},${-R * 1.05}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.98},${-R * 0.46} Q${-R * 1.3},${-R * 0.9} ${-R * 1.1},${-R * 1.22} Q${-R * 0.85},${-R * 1.1} ${-R * 0.7},${-R * 0.9}Z`} fill={color} {...o} />
           <path d={`M${-R * 0.8},${-R * 0.5} C${-R * 0.85},${-R * 1.45} ${R * 0.85},${-R * 1.45} ${R * 0.85},${-R * 0.5}Z`} fill={color} {...o} />
           <path d={`M${-R * 0.5},${-R * 1.25} Q0,${-R * 1.05} ${R * 0.5},${-R * 1.25}`} fill="none" stroke={ink} strokeWidth={s * 0.6} />
           <rect x={-R * 0.82} y={-R * 0.72} width={R * 1.66} height={R * 0.16} fill={accent ?? '#5B4A2E'} />
@@ -436,6 +437,10 @@ export const Head: React.FC<Props> = (p) => {
         <circle cx={mx + s * eyeSep + lx} cy={eyeY + ly} r={R * 0.07 * Math.min(1, blinkSquash * 2)} fill={ink} />
       </g>
     ));
+  } else if (lod === 'low') {
+    const ry = eyeRy * blinkSquash * (ex === 'angry' || ex === 'furious' ? 0.85 : ex === 'smug' || ex === 'tired' ? 0.6 : 1);
+    const e = (cx: number) => `M${cx - eyeRx},${eyeY + ly}a${eyeRx},${ry} 0 1,0 ${eyeRx * 2},0a${eyeRx},${ry} 0 1,0 ${-eyeRx * 2},0`;
+    eyes = <path d={e(mx - eyeSep + lx) + e(mx + eyeSep + lx)} fill={ink} />;
   } else {
     const squint = ex === 'angry' || ex === 'furious' ? 0.85 : ex === 'smug' ? 0.6 : ex === 'tired' ? 0.55 : 1;
     const lowered = ex === 'tired' ? R * 0.035 : 0;
@@ -458,7 +463,14 @@ export const Head: React.FC<Props> = (p) => {
     worried: [-16, -0.05], cold: [-14, -0.04], shout: [26, 0.04], tired: [-10, 0.04], solemn: [-8, 0.0],
   };
   const [bAng, bOff] = browTable[ex] ?? [0, 0];
-  const brows = [-1, 1].map((s) => {
+  const browSegs = [-1, 1].map((s) => {
+    const cx = mx + s * eyeSep;
+    const cy = browY + bOff * R;
+    const half = R * 0.16;
+    const a = ((bAng * Math.PI) / 180) * -s;
+    return `M${cx - Math.cos(a) * half},${cy - Math.sin(a) * half}L${cx + Math.cos(a) * half},${cy + Math.sin(a) * half}`;
+  });
+  const brows = lod === 'low' ? [<path key="b" d={browSegs.join('')} stroke={ink} strokeWidth={sw * 0.62} strokeLinecap="round" />] : [-1, 1].map((s) => {
     const cx = mx + s * eyeSep;
     const cy = browY + bOff * R;
     const half = R * 0.16;
@@ -536,7 +548,7 @@ export const Head: React.FC<Props> = (p) => {
       {hatOn && hatShape(p.hat!, R, p.hatColor ?? C.khaki, p.hatAccent)}
       {hatOn && p.hatBadge === 'redcross' && <RedCrossBadge R={R} />}
       {hatOn && p.chinStrap && (
-        <path d={`M${-R * 0.88},${-R * 0.2} Q${mx - R * 0.1},${R * 1.12} ${R * 0.88},${-R * 0.2}`} fill="none" stroke={C.darkBrown} strokeWidth={R * 0.07} />
+        <path d={`M${-R * 0.9},${-R * 0.18} Q${-R * 0.82},${R * 0.72} ${-R * 0.25},${R * 0.97}`} fill="none" stroke={C.darkBrown} strokeWidth={R * 0.07} strokeLinecap="round" />
       )}
       {brows}
       {eyes}

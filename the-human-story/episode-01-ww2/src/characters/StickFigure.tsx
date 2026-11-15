@@ -60,8 +60,14 @@ export type FigureProps = {
   overlay?: (sk: Skeleton) => React.ReactNode; // props drawn in local figure space, between far and near arm
   overlayFront?: (sk: Skeleton) => React.ReactNode; // props drawn in local figure space over the body (under the head)
   overlayTop?: (sk: Skeleton) => React.ReactNode; // props drawn over everything incl. the head (binoculars)
+  nearArmFront?: boolean; // draw the near arm OVER the head (hand to the face: binoculars, salute, wiping eyes)
+  part?: 'all' | 'body' | 'head'; // layered two-figure shots: draw body and head in separate passes
 };
 
+
+// circle / ellipse as path sub-commands (lets the crowd LOD merge several shapes into one element)
+const blob = (cx: number, cy: number, rx: number, ry: number) => `M${cx - rx},${cy}a${rx},${ry} 0 1,0 ${rx * 2},0a${rx},${ry} 0 1,0 ${-rx * 2},0`;
+const dot = (cx: number, cy: number, r: number) => blob(cx, cy, r, r);
 
 export const StickFigure: React.FC<FigureProps> = (p) => {
   const s = p.scale ?? 1;
@@ -107,6 +113,7 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
   const o = p.outfit ?? {kind: 'none'};
   let garment: React.ReactNode = null;
   const front = !p.fromBehind;
+  let lapLen = 0;
   const detail = lod !== 'low';
   if (o.kind !== 'none') {
     const c = o.color ?? C.khaki;
@@ -122,14 +129,16 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
     if (o.kind === 'tunic') bottom = 22;
     if (o.kind === 'shirt') bottom = 6;
     if (o.kind === 'stripes') { bottom = 30; botW = hipW + 3; }
+    // seated / kneeling: the skirt of the garment folds onto the thighs instead of hanging through them
+    if ((P.hipL + P.hipR) / 2 > 55 && bottom > 10) { lapLen = Math.min(bottom + 20, 60); bottom = 8; botW = hipW; }
     const path = `M${-shW + w(1)},${top} Q0,${top - 6} ${shW + w(2)},${top} L${botW + w(3)},${bottom} L${-botW + w(4)},${bottom}Z`;
     garment = (
       <g transform={`translate(${hip.x},${hip.y}) rotate(${P.lean})`}>
         {o.kind === 'morningcoat' && (
-          <path d={`M${-hipW + 2},${4} L${-hipW - 6 + w(11)},${58} L${-hipW + 10},${54} L${-2},${8}Z`} fill={c} stroke={C.ink} strokeWidth={4} strokeLinejoin="round" />
+          <path d={`M${-hipW + 4},${4} L${-hipW - 2 + w(11)},${46} L${-hipW + 10},${44} L${-2},${8}Z`} fill={c} stroke={C.ink} strokeWidth={4} strokeLinejoin="round" />
         )}
         <path d={path} fill={c} stroke={C.ink} strokeWidth={4.5} strokeLinejoin="round" />
-        {o.apron && (
+        {o.apron && lapLen === 0 && (
           <path d={front ? `M-12,${top + 10} L12,${top + 10} L13,${-2} L${hipW + 6},${bottom - 6} L${-hipW - 6},${bottom - 6} L-13,${-2}Z` : `M${-hipW - 2},-4 L${hipW + 2},-4`} fill={o.apron} stroke={C.ink} strokeWidth={front ? 3 : 4} strokeLinejoin="round" />
         )}
         {o.kind === 'stripes' && detail && [0, 1, 2, 3].map((i) => <line key={i} x1={-shW + 6 + i * 11} y1={top + 4} x2={-botW + 6 + i * 11.5} y2={bottom - 3} stroke="#4E5A6E" strokeWidth={4} />)}
@@ -170,6 +179,23 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
     );
   }
 
+  let lapEl: React.ReactNode = null;
+  if (lapLen > 0) {
+    const lg = lR;
+    const dx = lg.kx - hip.x;
+    const dy = lg.ky - hip.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const k = Math.min(1, lapLen / len);
+    const ex = hip.x + dx * k;
+    const ey = hip.y + dy * k;
+    const cc = (p.outfit?.apron ?? p.outfit?.color) || C.khaki;
+    lapEl = (
+      <g>
+        <line x1={hip.x - 4} y1={hip.y - 2} x2={ex} y2={ey} stroke={C.ink} strokeWidth={child ? 22 : 27} strokeLinecap="round" />
+        <line x1={hip.x - 4} y1={hip.y - 2} x2={ex} y2={ey} stroke={cc} strokeWidth={child ? 15 : 19} strokeLinecap="round" />
+      </g>
+    );
+  }
   const headSpecIn: HeadSpec = p.head ?? {hair: 'spiky'};
   const hih = p.hatInHand;
   const headSpec: HeadSpec = hih ? {...headSpecIn, hat: 'none', chinStrap: false, hatBadge: 'none'} : headSpecIn;
@@ -177,7 +203,7 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
     if (!hih || (hih.side ?? 'R') !== side || !headSpecIn.hat || headSpecIn.hat === 'none') return null;
     const a = side === 'R' ? aR : aL;
     return (
-      <g transform={`translate(${a.hx + (hih.dx ?? 0)},${a.hy + (hih.dy ?? 0)}) rotate(${hih.rot ?? 12}) translate(0,${R * 0.75}) scale(0.9)`}>
+      <g transform={`translate(${a.hx + (hih.dx ?? 0)},${a.hy + (hih.dy ?? 0)}) rotate(${hih.rot ?? 70}) translate(0,${R * 0.62}) scale(0.85)`}>
         <HatShape hat={headSpecIn.hat} r={R} color={headSpecIn.hatColor} accent={headSpecIn.hatAccent} badge={headSpecIn.hatBadge} />
       </g>
     );
@@ -191,6 +217,34 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
 
   const clipId = `cut${React.useId().replace(/:/g, '')}`;
   const cut = p.cutBelow;
+  const part = p.part ?? 'all';
+  const headEl = (
+    <g transform={`translate(${headC.x},${headC.y}) rotate(${P.headTilt + P.lean * 0.4})`}>
+      <Head
+        r={R}
+        f={p.f}
+        seed={seed}
+        {...headSpec}
+        turn={p.turn ?? 0.35}
+        look={p.look}
+        talking={p.talking}
+        angerMark={p.angerMark}
+        sweat={p.sweat}
+        tear={p.tear}
+        eyesClosed={p.eyesClosed}
+        back={p.fromBehind}
+        lod={lod}
+      />
+    </g>
+  );
+  if (part === 'head') {
+    return (
+      <g opacity={p.opacity ?? 1}>
+        <g transform={`translate(${p.x},${p.y}) scale(${s * dir},${s})`}>{headEl}</g>
+        {labelEl}
+      </g>
+    );
+  }
 
   return (
     <g opacity={p.opacity ?? 1}>
@@ -205,48 +259,49 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
       <g clipPath={cut !== undefined ? `url(#${clipId})` : undefined}>
       <g transform={`translate(${p.x},${p.y}) scale(${s * dir},${s})`}>
         {p.back && <g transform={`translate(${hip.x},${hip.y}) rotate(${P.lean})`}>{p.back}</g>}
-        {/* far limbs */}
-        {limb([sh.x, sh.y, aL.ex + w(5), aL.ey, aL.hx, aL.hy], 'aL')}
-        {hand(aL.hx, aL.hy, 'hL')}
-        {handProp(aL, p.holdL)}
-        {hatHeld('L')}
-        {limb([hip.x, hip.y, lL.kx + w(6), lL.ky, lL.fx, lL.fy], 'lL')}
-        {puttee(lL, 'pL')}
-        {foot(lL.fx, lL.fy, 'fL')}
-        {limb([hip.x, hip.y, lR.kx + w(7), lR.ky, lR.fx, lR.fy], 'lR')}
-        {puttee(lR, 'pR')}
-        {foot(lR.fx, lR.fy, 'fR')}
-        {/* torso */}
-        {limb([hip.x, hip.y, sk.neck.x + w(8), sk.neck.y], 'torso')}
+        {lod === 'low' ? (
+          // crowd LOD: far arm, legs and torso in ONE stroked path, hand + feet in ONE filled path
+          <g>
+            <path d={`M${sh.x},${sh.y}L${aL.ex},${aL.ey}L${aL.hx},${aL.hy}M${hip.x},${hip.y}L${lL.kx},${lL.ky}L${lL.fx},${lL.fy}M${hip.x},${hip.y}L${lR.kx},${lR.ky}L${lR.fx},${lR.fy}M${hip.x},${hip.y}L${sk.neck.x},${sk.neck.y}`} fill="none" stroke={col} strokeWidth={limbW} strokeLinecap="round" strokeLinejoin="round" />
+            <path d={`${dot(aL.hx, aL.hy, child ? 5.5 : 6.5)}${blob(lL.fx + 7, lL.fy - 2, child ? 10 : 13, child ? 6 : 7)}${blob(lR.fx + 7, lR.fy - 2, child ? 10 : 13, child ? 6 : 7)}`} fill={col} />
+            {handProp(aL, p.holdL)}
+            {hatHeld('L')}
+          </g>
+        ) : (
+          <>
+            {/* far limbs */}
+            {limb([sh.x, sh.y, aL.ex + w(5), aL.ey, aL.hx, aL.hy], 'aL')}
+            {hand(aL.hx, aL.hy, 'hL')}
+            {handProp(aL, p.holdL)}
+            {hatHeld('L')}
+            {limb([hip.x, hip.y, lL.kx + w(6), lL.ky, lL.fx, lL.fy], 'lL')}
+            {puttee(lL, 'pL')}
+            {foot(lL.fx, lL.fy, 'fL')}
+            {limb([hip.x, hip.y, lR.kx + w(7), lR.ky, lR.fx, lR.fy], 'lR')}
+            {puttee(lR, 'pR')}
+            {foot(lR.fx, lR.fy, 'fR')}
+            {/* torso */}
+            {limb([hip.x, hip.y, sk.neck.x + w(8), sk.neck.y], 'torso')}
+          </>
+        )}
         {garment}
+        {lapEl}
         {p.overlay?.(sk)}
         {/* near arm */}
-        {limb([sh.x, sh.y, aR.ex + w(9), aR.ey, aR.hx, aR.hy], 'aR')}
-        {hand(aR.hx, aR.hy, 'hR')}
-        {handProp(aR, p.holdR)}
+        {!p.nearArmFront && limb([sh.x, sh.y, aR.ex + w(9), aR.ey, aR.hx, aR.hy], 'aR')}
+        {!p.nearArmFront && lod !== 'low' && hand(aR.hx, aR.hy, 'hR')}
+        {!p.nearArmFront && lod === 'low' && <path d={dot(aR.hx, aR.hy, child ? 5.5 : 6.5)} fill={col} />}
+        {!p.nearArmFront && handProp(aR, p.holdR)}
         {hatHeld('R')}
         {p.overlayFront?.(sk)}
-        <g transform={`translate(${headC.x},${headC.y}) rotate(${P.headTilt + P.lean * 0.4})`}>
-          <Head
-            r={R}
-            f={p.f}
-            seed={seed}
-            {...headSpec}
-            turn={p.turn ?? 0.35}
-            look={p.look}
-            talking={p.talking}
-            angerMark={p.angerMark}
-            sweat={p.sweat}
-            tear={p.tear}
-            eyesClosed={p.eyesClosed}
-            back={p.fromBehind}
-            lod={lod}
-          />
-        </g>
+        {part === 'all' && headEl}
+        {p.nearArmFront && limb([sh.x, sh.y, aR.ex + w(9), aR.ey, aR.hx, aR.hy], 'aR')}
+        {p.nearArmFront && hand(aR.hx, aR.hy, 'hR')}
+        {p.nearArmFront && handProp(aR, p.holdR)}
         {p.overlayTop?.(sk)}
       </g>
       </g>
-      {labelEl}
+      {part === 'all' && labelEl}
     </g>
   );
 };

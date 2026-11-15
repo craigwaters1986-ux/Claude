@@ -93,10 +93,10 @@ export const LineBracket: React.FC<{pts: LL[]; toScreen: ToScreen; label: string
   const mid = off[Math.round((off.length - 1) * labelAt)];
   return (
     <g>
-      <path d={dOf(shown)} fill="none" stroke="#fff" strokeWidth={9} strokeLinecap="round" strokeLinejoin="round" opacity={0.85} />
-      <path d={dOf(shown)} fill="none" stroke={color} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx={first[0]} cy={first[1]} r={8} fill={color} stroke="#fff" strokeWidth={3} />
-      <circle cx={last[0]} cy={last[1]} r={8} fill={color} stroke="#fff" strokeWidth={3} />
+      <path d={dOf(shown)} fill="none" stroke="#F5F0E2" strokeWidth={12} strokeLinecap="round" strokeLinejoin="round" />
+      <path d={dOf(shown)} fill="none" stroke={color} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" strokeDasharray="18 8" />
+      <circle cx={first[0]} cy={first[1]} r={10} fill={color} stroke="#F5F0E2" strokeWidth={4} />
+      <circle cx={last[0]} cy={last[1]} r={10} fill={color} stroke="#F5F0E2" strokeWidth={4} />
       {progress > 0.6 && <MapLabel at={[mid[0] + offset * 1.4, mid[1]]} text={label} size={size} opacity={clamp((progress - 0.6) / 0.3)} />}
     </g>
   );
@@ -110,8 +110,8 @@ export const pocketHighlight = (feature: Feature, f: number, fill = C.axis): Hig
 /** The shrinking German-held block (t: 0 = Dec 1944, 1 = Mar 1945, 2 = Apr 1945), plus neutral overpaint. */
 export const reichHighlights = (t: number, fill = C.axis): Highlight[] => [
   {feature: reichAt(t), fill, opacity: 0.85},
-  {name: 'Switzerland', fill: C.land},
-  {name: 'Sweden', fill: C.land},
+  {feature: countryFeature('Switzerland'), fill: C.land},
+  {feature: countryFeature('Sweden'), fill: C.land},
 ];
 
 // ------------------------------------------------------------------ icons (M-10)
@@ -246,4 +246,4 @@ export const COLD_WAR_HIGHLIGHTS = (k = 1) => [
 ];
 
 /** Country feature lookup (50m) for use as a fill highlight by feature. */
-export const countryFeature = (name: string) => COUNTRIES50.features.find((c) => c.properties.name === name);
+export const countryFeature = (name: string): Feature => COUNTRIES50.features.find((c) => c.properties.name === name) as Feature;

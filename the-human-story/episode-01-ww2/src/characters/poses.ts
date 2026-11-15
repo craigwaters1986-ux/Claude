@@ -2,7 +2,7 @@
 //  hip*: thigh swing from vertical (+ = forward)      knee*: knee bend (+ = shin swings back)
 //  sh*:  arm swing from hanging down (+ = forward/up)  el*:  elbow bend (+ = forearm further forward/up)
 import {noise1} from '../animations/core';
-import {reach as reachTo} from './skeleton';
+import {reach as reachTo, solveSkeleton} from './skeleton';
 
 export type Pose = {
   lean: number;
@@ -184,21 +184,26 @@ export const sitGround = (f = 0, seed = 0): Pose =>
   pose({hipL: 118, kneeL: 70, hipR: 122, kneeR: 74, lean: 6, shL: 70, elL: 30, shR: 75, elR: 28, bob: 100, headTilt: 6 + noise1(f / 70, seed) * 2});
 
 // ---- A-04 paratrooper -------------------------------------------------------
-/** Hanging under a canopy: legs together, knees soft, both hands up on the risers, slow sway.
- *  Attach rigging lines at shoulderWorld() (skeleton.ts). */
+/** Hanging under a canopy: legs together, knees soft, hands up on the front and rear risers
+ *  (kept clear of the big head so they read), slow sway.  Attach rigging lines at
+ *  shoulderWorld() (skeleton.ts); the risers can run through handWorld(..., 'R'/'L'). */
 export const dangle = (f: number, seed = 0): Pose => {
   const sw = Math.sin(f / 28 + seed);
-  return pose({lean: sw * 2, hipL: 8 + sw * 4, kneeL: 16, hipR: 3 + sw * 4, kneeR: 10, shL: 172, elL: -6, shR: 164, elR: -8, headTilt: 3 + sw * 2});
+  return pose({lean: sw * 2, hipL: 8 + sw * 4, kneeL: 16, hipR: 3 + sw * 4, kneeR: 10, shL: -100, elL: -62, shR: 102, elR: 62, headTilt: 3 + sw * 2});
 };
 
 // ---- A-05 survivors (dignified; no exaggeration) ----------------------------
 /** Standing quietly, slight stoop, hands together in front. */
-export const survivorStand = (f: number, seed = 0): Pose =>
-  pose({lean: 6, hipL: -3, hipR: 3, kneeL: 3, kneeR: 3, shL: 22, elL: 52, shR: 18, elR: 58, bob: 2 + Math.sin(f / 34 + seed) * 0.6, headTilt: 7 + noise1(f / 80, seed) * 2});
+export const survivorStand = (f: number, seed = 0): Pose => {
+  const b = pose({lean: 6, hipL: -3, hipR: 3, kneeL: 3, kneeR: 3, bob: 2 + Math.sin(f / 34 + seed) * 0.6, headTilt: 7 + noise1(f / 80, seed) * 2});
+  return {...b, shR: -6, elR: 44, shL: -3, elL: 46};
+};
 
 /** Slow seated pose (on a bench/step, feet on the ground), hands in the lap. */
-export const survivorSit = (f: number, seed = 0): Pose =>
-  pose({hipL: 88, kneeL: 86, hipR: 92, kneeR: 90, lean: 9, shL: 40, elL: 30, shR: 44, elR: 28, bob: 54 + Math.sin(f / 40 + seed) * 0.5, headTilt: 9 + noise1(f / 90, seed) * 2});
+export const survivorSit = (f: number, seed = 0): Pose => {
+  const b = pose({hipL: 88, kneeL: 86, hipR: 92, kneeR: 90, lean: 9, bob: 54 + Math.sin(f / 40 + seed) * 0.5, headTilt: 9 + noise1(f / 90, seed) * 2});
+  return {...b, shR: 8, elR: 62, shL: 12, elL: 58};
+};
 
 /** Receive with both hands.  t: 0 = hands together at the waist, 0.5 = both arms
  *  extended forward (taking), 1 = holding the item close to the chest.
@@ -218,7 +223,8 @@ export const helmetToChest = (f: number, t: number, kneeling = false, seed = 0):
   const base = kneeling ? {...kneel(f), shL: 30, elL: 20, shR: 10, elR: 5, headTilt: 4} : standStiff(f, seed);
   const atHead = {...base, shR: 150, elR: 95, headTilt: base.headTilt - 2};
   const lift = {...base, shR: 125, elR: 70};
-  const chest = {...base, shR: 20, elR: 112, headTilt: base.headTilt + 12};
+  const sk0 = solveSkeleton(base);
+  const chest = {...reachTo(base, 'R', {x: sk0.sh.x + 20, y: sk0.sh.y + 30}), headTilt: base.headTilt + 12};
   return keyPoses(t, [[0, base], [0.3, atHead], [0.45, lift], [1, chest]]);
 };
 /** True once the hat has left the head (pass `hatInHand` to StickFigure). */
@@ -243,14 +249,14 @@ export function signDocument(f: number, o: SignOpts = {}): {pose: Pose; lookingU
   const base = o.seated ? seated(f, seed) : standStiff(f, seed);
   const lookingUp = (o.lookUps ?? []).some(([a, b]) => f >= a && f < b);
   const up = (o.lookUps ?? []).reduce((m, [a, b]) => Math.max(m, Math.min(smooth((f - a) / 8), smooth((b - f) / 8))), 0);
-  const lean = o.seated ? 16 : 24;
+  const lean = o.seated ? 16 : 12;
   const p0 = {...base, lean: lean - up * 8, headTilt: 20 - up * 24};
   const lf = f - (o.start ?? 0);
   const writing = 1 - up;
   const loop = lf / 3.2;
   const drift = ((lf % 75) / 75) * 34;
   const dx = o.deskX ?? 58;
-  const dy = o.deskY ?? -92;
+  const dy = o.deskY ?? (o.seated ? -92 : -118);
   const tR = {x: dx - 10 + drift * writing + Math.cos(loop) * 4 * writing, y: dy - 4 + Math.sin(loop) * 3 * writing - up * 12};
   const tL = {x: dx - 34, y: dy - 2};
   let p = reachTo(p0, 'R', tR);
@@ -261,15 +267,16 @@ export function signDocument(f: number, o: SignOpts = {}): {pose: Pose; lookingU
 // ---- A-14 wading ---------------------------------------------------------------------
 /** High-step wade with the rifle held above the head.  `depth` (local px) sinks the body:
  *  set the figure's y to the WATER SURFACE and cutBelow = that y; draw the rifle with
- *  overlay={(sk) => <RifleBetween a={{x: sk.armL.hx, y: sk.armL.hy}} b={{x: sk.armR.hx, y: sk.armR.hy}} />}. */
-export function wade(phase: number, depth = 40): Pose {
+ *  overlayTop={(sk) => <RifleBetween a={{x: sk.armL.hx - 20, y: sk.armL.hy}} b={{x: sk.armR.hx + 30, y: sk.armR.hy}} />}
+ *  (overlayTop so the rifle reads over the helmet) and nearArmFront. */
+export function wade(phase: number, depth = 70): Pose {
   const a = phase * TAU;
   const s = Math.sin(a);
   return pose({
     lean: 7,
     hipL: 12 + 40 * Math.max(0, s) - 14 * Math.max(0, -s), kneeL: 10 + 70 * Math.max(0, s),
     hipR: 12 + 40 * Math.max(0, -s) - 14 * Math.max(0, s), kneeR: 10 + 70 * Math.max(0, -s),
-    shL: 160 + s * 3, elL: 28, shR: 150 + s * 3, elR: 40,
+    shL: 175 + s * 3, elL: -10, shR: 128 + s * 3, elR: 36,
     bob: depth - Math.abs(s) * 6,
     headTilt: -4,
   });
@@ -308,7 +315,22 @@ export const kneelAim = (f: number, seed = 0): Pose => {
 // ---- A-20 paper wave ------------------------------------------------------------------------
 /** Waving a paper overhead (Chamberlain, Heston 1938).  Paper in holdR via <PaperSheet/>. */
 export const paperWave = (f: number, seed = 0): Pose =>
-  addPose(stand(f, seed), {shR: 150 + Math.sin(f / 4 + seed) * 12, elR: 14 + Math.sin(f / 4 + seed + 0.6) * 10, shL: 4, headTilt: -4});
+  addPose(stand(f, seed), {shR: 118 + Math.sin(f / 4 + seed) * 10, elR: 40 + Math.sin(f / 4 + seed + 0.6) * 14, shL: 4, headTilt: -4});
+
+/** Wave that stays clear of the big head (crowds, Leo waving to camera). */
+export const waveSide = (f: number, seed = 0): Pose =>
+  addPose(stand(f, seed), {shR: 112, elR: 45 + Math.sin(f / 3 + seed) * 28, headTilt: -3});
+
+/** Crowd cheer that reads in profile: near arm up-forward, far arm up-back (a "V"), bouncing.
+ *  (The original cheer() raises both arms straight up, where the big head hides them.) */
+export const cheerV = (f: number, seed = 0): Pose =>
+  pose({
+    hipL: -8, hipR: 8,
+    shL: 245 + Math.sin(f / 4 + seed) * 10, elL: -45,
+    shR: 115 + Math.sin(f / 4 + seed + 1.5) * 10, elR: 45,
+    bob: -Math.abs(Math.sin(f / 5 + seed)) * 12,
+    headTilt: -6,
+  });
 
 // ---- A-21 seiza -----------------------------------------------------------------------------------
 /** Kneeling on the heels, hands on the thighs, head bowed (listening). */
@@ -324,8 +346,8 @@ export const kneelSit = (f = 0, seed = 0): Pose => {
 export const binocularsPose = (f: number, t: number, seed = 0): Pose => {
   const base = stand(f, seed);
   const up = {...standStiff(f, seed), headTilt: -3};
-  let pu = reachTo(up, 'R', {x: 46, y: -232});
-  pu = reachTo(pu, 'L', {x: 52, y: -240});
+  let pu = reachTo(up, 'R', {x: 50, y: -236});
+  pu = reachTo(pu, 'L', {x: 56, y: -244});
   return mixPose(base, pu, smooth(t));
 };
 

@@ -202,6 +202,28 @@ export function reichAt(t: number): Feature<Polygon> {
   return poly(ring);
 }
 
+/** German-held northern Italy: fixed Alpine edge + front interpolated winter 1944–45 (t ≤ 1) → the Po (late April 1945, t = 2). */
+export const ITALY_PO_APR1945: LL[] = [[7.6, 44.95], [9.2, 45.1], [10.6, 45.05], [11.6, 45.0], [12.35, 45.25]];
+export function italyFrontAt(t: number): LL[] {
+  return lerpLine(ITALY_WINTER_1944, ITALY_PO_APR1945, Math.min(1, Math.max(0, t - 1)), 12);
+}
+export function italyHeldAt(t: number): Feature<Polygon> {
+  const front = italyFrontAt(t);
+  return poly([[7.1, 45.1], [6.85, 45.8], [7.6, 45.95], [8.5, 46.4], [10.5, 46.6], [12.3, 46.6], [13.7, 46.5], [13.9, 45.6], ...front.slice().reverse(), [8.0, 43.8], [7.5, 43.8]]);
+}
+/** Area held west of an Eastern-Front line (front north→south), used for the Bagration map fill. */
+export function heldWestOf(front: LL[]): Feature<Polygon> {
+  const n = front[0];
+  const s = front[front.length - 1];
+  return poly([...front, [s[0], 47.5], [5.0, 47.5], [5.0, 58.5], [n[0], 58.5]]);
+}
+/** Area east of an Eastern-Front line (Soviet-held), for the Bagration map fill. */
+export function heldEastOf(front: LL[]): Feature<Polygon> {
+  const n = front[0];
+  const s = front[front.length - 1];
+  return poly([...front, [s[0], 47.5], [50.0, 47.5], [50.0, 62.0], [n[0], 62.0]]);
+}
+
 /** Converging arrows on Berlin, 1945. */
 export const ARROWS_1945 = {
   westNorth: [[6.6, 51.7], [8.5, 52.1], [10.5, 52.3], [11.6, 52.2]] as LL[],
@@ -238,10 +260,9 @@ export const JAPAN_1941_PLACEHOLDER: Feature<Polygon>[] = [
   // Korea, Manchukuo and occupied north/east China (very rough eastern China belt)
   poly([[124.3, 39.7], [119.8, 40.0], [117.5, 38.8], [114.6, 37.0], [113.5, 35.0], [114.3, 32.0], [113.0, 30.5], [114.5, 29.0], [117.0, 29.0],
     [119.5, 28.0], [121.9, 29.5], [122.5, 32.0], [121.0, 38.4]]),
-  poly([[119.8, 40.0], [120.9, 42.2], [120.6, 43.6], [121.4, 45.3], [119.8, 46.6], [118.2, 47.0], [116.2, 47.9], [117.8, 49.5], [119.1, 50.3],
-    [120.0, 52.6], [121.0, 53.3], [123.5, 53.5], [125.6, 52.9], [127.5, 49.8], [130.6, 48.9], [131.0, 47.7], [133.0, 48.1], [134.7, 47.7],
-    [134.1, 46.8], [133.1, 45.5], [132.4, 45.2], [131.2, 44.8], [131.1, 43.3], [130.6, 42.45], [129.8, 42.9], [130.8, 42.3], [129.7, 41.0],
-    [128.5, 38.6], [126.5, 34.3], [125.0, 37.7], [124.3, 39.7]]),
+  // Manchukuo incl. Jehol (from 1933)
+  poly([[117.5, 40.4], [119.8, 40.0], [124.3, 39.7], [128.1, 42.0], [130.6, 42.45], [131.2, 44.8], [134.7, 47.7], [127.5, 49.8], [125.6, 52.9],
+    [121.0, 53.3], [119.1, 50.3], [116.2, 47.9], [119.8, 46.6], [119.0, 43.5], [117.0, 42.0]]),
   // Taiwan and French Indochina (Japanese troops from 1940–41)
   poly([[119.9, 25.4], [122.2, 25.4], [121.0, 21.8], [120.0, 22.4]]),
   poly([[102.1, 22.4], [106.7, 23.0], [108.5, 21.5], [109.5, 12.0], [105.0, 8.4], [102.3, 12.5], [100.1, 17.5], [101.2, 21.5]]),
