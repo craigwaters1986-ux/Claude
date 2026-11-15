@@ -193,26 +193,34 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:script"
           ],
           "deliverables": [
             "the-human-story/episode-01-ww2/output/episode-01-narration.wav",
-            "the-human-story/episode-01-ww2/output/episode-01-subtitles.srt"
+            "the-human-story/episode-01-ww2/output/episode-01-subtitles.srt",
+            "production/audio/ep01-ww2/episode-01-narration.wav",
+            "production/audio/ep01-ww2/episode-01-subtitles.srt",
+            "production/audio/ep01-ww2/narration.json",
+            "production/audio/ep01-ww2/measurements.md",
+            "production/audio/ep01-ww2/licences.md",
+            "production/reports/handoffs/ep01-ww2/07-audio-engineer-narration-v3.md"
           ],
           "issues": [
             {
               "text": "Generated from the unapproved draft script — regenerate if the script changes",
-              "opened": "2026-11-15 14:33"
+              "opened": "2026-11-15 14:33",
+              "resolved": "2026-11-15 16:29"
             },
             {
               "text": "Engine copy research/script.json is still v1 - sync to v2 after approval before rebuilding",
-              "opened": "2026-11-15 15:30"
+              "opened": "2026-11-15 15:30",
+              "resolved": "2026-11-15 16:29"
             }
           ],
-          "next": "Audio engineer: sync v3 into engine, rebuild narration/timings/SRT",
-          "updated": "2026-11-15 16:23"
+          "next": "",
+          "updated": "2026-11-15 16:29"
         },
         {
           "id": "storyboard",
@@ -340,9 +348,14 @@
             "final-render"
           ],
           "deliverables": [],
-          "issues": [],
+          "issues": [
+            {
+              "text": "Listen-test the respelled words: Versailles, Sudetenland, Luftwaffe, El Alamein",
+              "opened": "2026-11-15 16:29"
+            }
+          ],
           "next": "",
-          "updated": "2026-11-15 14:33"
+          "updated": "2026-11-15 16:29"
         },
         {
           "id": "publishing-pack",

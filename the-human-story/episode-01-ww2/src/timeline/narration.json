@@ -6,101 +6,106 @@
    "chapter": "The Hook",
    "start": 0,
    "end": 30,
-   "speed": 1.102,
+   "speed": 1.006,
    "sentences": [
     {
      "text": "Summer, 1939.",
      "start": 1.6,
-     "end": 3.432,
+     "end": 3.519,
      "captions": [
       {
        "text": "Summer, 1939.",
        "start": 1.6,
-       "end": 3.432
+       "end": 3.519
       }
      ]
     },
     {
-     "text": "Across Europe, life goes on as normal.",
-     "start": 4.132,
-     "end": 6.74,
+     "text": "Across much of Europe, life seems normal.",
+     "start": 4.219,
+     "end": 7.063,
      "captions": [
       {
-       "text": "Across Europe, life goes on as normal.",
-       "start": 4.132,
-       "end": 6.74
+       "text": "Across much of Europe, life seems normal.",
+       "start": 4.219,
+       "end": 7.063
       }
      ]
     },
     {
-     "text": "But within weeks, the world would be plunged into the deadliest war in human history.",
-     "start": 7.06,
-     "end": 12.053,
+     "text": "Within weeks, Europe will be at war, in what will become the deadliest war in human history.",
+     "start": 7.383,
+     "end": 13.019,
      "captions": [
       {
-       "text": "But within weeks, the world would be plunged into the deadliest war in human history.",
-       "start": 7.06,
-       "end": 12.053
+       "text": "Within weeks, Europe will be at war, in what",
+       "start": 7.383,
+       "end": 10.108
+      },
+      {
+       "text": "will become the deadliest war in human history.",
+       "start": 10.108,
+       "end": 13.019
       }
      ]
     },
     {
-     "text": "Countries would fall.",
-     "start": 12.553,
-     "end": 13.968,
+     "text": "Countries will fall.",
+     "start": 13.519,
+     "end": 15.1,
      "captions": [
       {
-       "text": "Countries would fall.",
-       "start": 12.553,
-       "end": 13.968
+       "text": "Countries will fall.",
+       "start": 13.519,
+       "end": 15.1
       }
      ]
     },
     {
-     "text": "Cities would burn.",
-     "start": 14.218,
-     "end": 15.487,
+     "text": "Cities will burn.",
+     "start": 15.35,
+     "end": 16.682,
      "captions": [
       {
-       "text": "Cities would burn.",
-       "start": 14.218,
-       "end": 15.487
+       "text": "Cities will burn.",
+       "start": 15.35,
+       "end": 16.682
       }
      ]
     },
     {
-     "text": "Tens of millions of people would die.",
-     "start": 15.737,
-     "end": 18.051,
+     "text": "Tens of millions will die.",
+     "start": 16.932,
+     "end": 18.984,
      "captions": [
       {
-       "text": "Tens of millions of people would die.",
-       "start": 15.737,
-       "end": 18.051
+       "text": "Tens of millions will die.",
+       "start": 16.932,
+       "end": 18.984
       }
      ]
     },
     {
-     "text": "So how did the world get here?",
-     "start": 18.751,
-     "end": 20.611,
+     "text": "So how did it start?",
+     "start": 19.684,
+     "end": 21.104,
      "captions": [
       {
-       "text": "So how did the world get here?",
-       "start": 18.751,
-       "end": 20.611
+       "text": "So how did it start?",
+       "start": 19.684,
+       "end": 21.104
       }
      ]
     },
     {
-     "text": "And how did it finally end?",
-     "start": 20.911,
-     "end": 22.635,
+     "text": "And how did it end?",
+     "start": 21.404,
+     "end": 22.765,
      "captions": [
       {
-       "text": "And how did it finally end?",
-       "start": 20.911,
-       "end": 22.635
+       "text": "And how did it end?",
+       "start": 21.404,
+       "end": 22.765
       }
      ]
     }
@@ -143,13 +148,13 @@
      "end": 47.84,
      "captions": [
       {
-       "text": "The following year, the Treaty of Versailles made Germany accept responsibility for",
+       "text": "The following year, the Treaty of Versailles made",
        "start": 41.412,
-       "end": 46.747
+       "end": 44.562
       },
       {
-       "text": "the war's damage.",
-       "start": 46.747,
+       "text": "Germany accept responsibility for the war's damage.",
+       "start": 44.562,
        "end": 47.84
       }
      ]
@@ -160,13 +165,13 @@
      "end": 59.127,
      "captions": [
       {
-       "text": "It lost around 13 per cent of its European territory and all of its colonies, its",
+       "text": "It lost around 13 per cent of its European territory and all of its colonies,",
        "start": 48.16,
-       "end": 53.854
+       "end": 53.573
       },
       {
-       "text": "army was capped at 100,000 men, and it was ordered to pay huge reparations.",
-       "start": 53.854,
+       "text": "its army was capped at 100,000 men, and it was ordered to pay huge reparations.",
+       "start": 53.573,
        "end": 59.127
       }
      ]
@@ -237,13 +242,13 @@
      "end": 88.53,
      "captions": [
       {
-       "text": "Economic despair, fragile politics, nationalism and antisemitism created an opening,",
+       "text": "Economic despair, fragile politics, nationalism and antisemitism",
        "start": 79.91,
-       "end": 85.749
+       "end": 84.359
       },
       {
-       "text": "and extremists were ready to exploit it.",
-       "start": 85.749,
+       "text": "created an opening, and extremists were ready to exploit it.",
+       "start": 84.359,
        "end": 88.53
       }
      ]
@@ -255,152 +260,162 @@
    "chapter": "Hitler's Rise to Power",
    "start": 90,
    "end": 150,
-   "speed": 1.117,
+   "speed": 1.154,
    "sentences": [
     {
      "text": "One of those extremists was Adolf Hitler, leader of the Nazi Party.",
      "start": 90.8,
-     "end": 95.221,
+     "end": 95.093,
      "captions": [
       {
        "text": "One of those extremists was Adolf Hitler, leader of the Nazi Party.",
        "start": 90.8,
-       "end": 95.221
+       "end": 95.093
       }
      ]
     },
     {
      "text": "Nazi propaganda offered simple answers to complicated problems, blaming Germany's troubles on Jewish people, communists and the peace treaty.",
-     "start": 95.541,
-     "end": 104.496,
+     "start": 95.413,
+     "end": 104.189,
      "captions": [
       {
-       "text": "Nazi propaganda offered simple answers to complicated problems, blaming Germany's",
-       "start": 95.541,
-       "end": 100.722
+       "text": "Nazi propaganda offered simple answers to complicated problems, blaming",
+       "start": 95.413,
+       "end": 99.864
       },
       {
-       "text": "troubles on Jewish people, communists and the peace treaty.",
-       "start": 100.722,
-       "end": 104.496
+       "text": "Germany's troubles on Jewish people, communists and the peace treaty.",
+       "start": 99.864,
+       "end": 104.189
       }
      ]
     },
     {
      "text": "In January 1933, Hitler was appointed Chancellor.",
-     "start": 104.816,
-     "end": 108.768,
+     "start": 104.509,
+     "end": 108.41,
      "captions": [
       {
        "text": "In January 1933, Hitler was appointed Chancellor.",
-       "start": 104.816,
-       "end": 108.768
+       "start": 104.509,
+       "end": 108.41
       }
      ]
     },
     {
      "text": "Within months, he had banned rival parties, crushed the free press and turned Germany into a dictatorship.",
-     "start": 109.088,
-     "end": 115.233,
+     "start": 108.73,
+     "end": 114.721,
      "captions": [
       {
-       "text": "Within months, he had banned rival parties, crushed the free press and turned",
-       "start": 109.088,
-       "end": 113.594
+       "text": "Within months, he had banned rival parties, crushed",
+       "start": 108.73,
+       "end": 111.64
       },
       {
-       "text": "Germany into a dictatorship.",
-       "start": 113.594,
-       "end": 115.233
+       "text": "the free press and turned Germany into a dictatorship.",
+       "start": 111.64,
+       "end": 114.721
       }
      ]
     },
     {
      "text": "Nazi ideology was racist, antisemitic and expansionist.",
-     "start": 115.553,
-     "end": 119.812,
+     "start": 115.041,
+     "end": 119.212,
      "captions": [
       {
        "text": "Nazi ideology was racist, antisemitic and expansionist.",
-       "start": 115.553,
-       "end": 119.812
+       "start": 115.041,
+       "end": 119.212
       }
      ]
     },
     {
      "text": "Jewish Germans were stripped of their rights, while Hitler rebuilt the armed forces.",
-     "start": 120.132,
-     "end": 124.819,
+     "start": 119.532,
+     "end": 124.094,
      "captions": [
       {
-       "text": "Jewish Germans were stripped of their rights, while Hitler rebuilt the armed forces.",
-       "start": 120.132,
-       "end": 124.819
+       "text": "Jewish Germans were stripped of their rights,",
+       "start": 119.532,
+       "end": 122.005
+      },
+      {
+       "text": "while Hitler rebuilt the armed forces.",
+       "start": 122.005,
+       "end": 124.094
       }
      ]
     },
     {
-     "text": "In 1936, German troops marched into the Rhineland.",
-     "start": 125.219,
-     "end": 129.08,
+     "text": "In 1936, German troops reoccupied the demilitarised Rhineland.",
+     "start": 124.494,
+     "end": 129.276,
      "captions": [
       {
-       "text": "In 1936, German troops marched into the Rhineland.",
-       "start": 125.219,
-       "end": 129.08
+       "text": "In 1936, German troops reoccupied the demilitarised Rhineland.",
+       "start": 124.494,
+       "end": 129.276
       }
      ]
     },
     {
      "text": "In March 1938, Germany annexed Austria.",
-     "start": 129.4,
-     "end": 132.861,
+     "start": 129.596,
+     "end": 132.962,
      "captions": [
       {
        "text": "In March 1938, Germany annexed Austria.",
-       "start": 129.4,
-       "end": 132.861
+       "start": 129.596,
+       "end": 132.962
       }
      ]
     },
     {
      "text": "That September, at Munich, Britain and France let Hitler take the Sudetenland from Czechoslovakia, hoping to keep the peace.",
-     "start": 133.181,
-     "end": 140.919,
+     "start": 133.282,
+     "end": 140.818,
      "captions": [
       {
-       "text": "That September, at Munich, Britain and France let Hitler take the Sudetenland from",
-       "start": 133.181,
-       "end": 138.34
+       "text": "That September, at Munich, Britain and France let Hitler take",
+       "start": 133.282,
+       "end": 137.019
       },
       {
-       "text": "Czechoslovakia, hoping to keep the peace.",
-       "start": 138.34,
-       "end": 140.919
+       "text": "the Sudetenland from Czechoslovakia, hoping to keep the peace.",
+       "start": 137.019,
+       "end": 140.818
       }
      ]
     },
     {
      "text": "It didn't work.",
-     "start": 141.239,
-     "end": 142.187,
+     "start": 141.138,
+     "end": 142.086,
      "captions": [
       {
        "text": "It didn't work.",
-       "start": 141.239,
-       "end": 142.187
+       "start": 141.138,
+       "end": 142.086
       }
      ]
     },
     {
      "text": "In March 1939, Germany occupied the rest of the Czech lands. Appeasement had failed.",
-     "start": 142.487,
-     "end": 148.575,
+     "start": 142.386,
+     "end": 148.293,
      "captions": [
       {
-       "text": "In March 1939, Germany occupied the rest of the Czech lands. Appeasement had failed.",
-       "start": 142.487,
-       "end": 148.575
+       "text": "In March 1939, Germany occupied the rest",
+       "start": 142.386,
+       "end": 145.233
+      },
+      {
+       "text": "of the Czech lands. Appeasement had failed.",
+       "start": 145.233,
+       "end": 148.293
       }
      ]
     }
@@ -411,135 +426,145 @@
    "chapter": "World War II Begins",
    "start": 150,
    "end": 210,
-   "speed": 1.0,
+   "speed": 1.007,
    "sentences": [
     {
      "text": "Hitler's next target was Poland. But first, he made a shocking deal.",
      "start": 150.8,
-     "end": 155.341,
+     "end": 155.33,
      "captions": [
       {
        "text": "Hitler's next target was Poland. But first, he made a shocking deal.",
        "start": 150.8,
-       "end": 155.341
+       "end": 155.33
       }
      ]
     },
     {
      "text": "In August 1939, Nazi Germany and the Soviet Union, bitter enemies, signed a non-aggression pact.",
-     "start": 155.661,
-     "end": 163.101,
+     "start": 155.65,
+     "end": 163.09,
      "captions": [
       {
-       "text": "In August 1939, Nazi Germany and the Soviet Union, bitter enemies, signed a",
-       "start": 155.661,
-       "end": 161.535
+       "text": "In August 1939, Nazi Germany and the Soviet Union,",
+       "start": 155.65,
+       "end": 159.566
       },
       {
-       "text": "non-aggression pact.",
-       "start": 161.535,
-       "end": 163.101
+       "text": "bitter enemies, signed a non-aggression pact.",
+       "start": 159.566,
+       "end": 163.09
       }
      ]
     },
     {
-     "text": "A secret protocol divided Eastern Europe between them.",
-     "start": 163.421,
-     "end": 167.278,
+     "text": "A secret protocol divided much of Eastern Europe into German and Soviet spheres of influence.",
+     "start": 163.41,
+     "end": 170.068,
      "captions": [
       {
-       "text": "A secret protocol divided Eastern Europe between them.",
-       "start": 163.421,
-       "end": 167.278
+       "text": "A secret protocol divided much of Eastern Europe",
+       "start": 163.41,
+       "end": 166.884
+      },
+      {
+       "text": "into German and Soviet spheres of influence.",
+       "start": 166.884,
+       "end": 170.068
       }
      ]
     },
     {
      "text": "On 1 September 1939, German forces invaded Poland.",
-     "start": 167.778,
-     "end": 173.16,
+     "start": 170.568,
+     "end": 175.929,
      "captions": [
       {
        "text": "On 1 September 1939, German forces invaded Poland.",
-       "start": 167.778,
-       "end": 173.16
+       "start": 170.568,
+       "end": 175.929
       }
      ]
     },
     {
      "text": "Tanks and aircraft struck with terrifying speed, though the Polish army fought back hard.",
-     "start": 173.48,
-     "end": 178.851,
+     "start": 176.249,
+     "end": 181.568,
      "captions": [
       {
-       "text": "Tanks and aircraft struck with terrifying speed, though the Polish army fought back hard.",
-       "start": 173.48,
-       "end": 178.851
+       "text": "Tanks and aircraft struck with terrifying",
+       "start": 176.249,
+       "end": 178.727
+      },
+      {
+       "text": "speed, though the Polish army fought back hard.",
+       "start": 178.727,
+       "end": 181.568
       }
      ]
     },
     {
      "text": "Two days later, Britain and France declared war on Germany.",
-     "start": 179.171,
-     "end": 183.066,
+     "start": 181.888,
+     "end": 185.783,
      "captions": [
       {
        "text": "Two days later, Britain and France declared war on Germany.",
-       "start": 179.171,
-       "end": 183.066
+       "start": 181.888,
+       "end": 185.783
       }
      ]
     },
     {
      "text": "The Second World War in Europe had begun.",
-     "start": 183.386,
-     "end": 186.169,
+     "start": 186.103,
+     "end": 188.886,
      "captions": [
       {
        "text": "The Second World War in Europe had begun.",
-       "start": 183.386,
-       "end": 186.169
+       "start": 186.103,
+       "end": 188.886
       }
      ]
     },
     {
      "text": "Then, on 17 September, the Soviet Union invaded Poland from the east.",
-     "start": 186.569,
-     "end": 192.168,
+     "start": 189.286,
+     "end": 194.86,
      "captions": [
       {
        "text": "Then, on 17 September, the Soviet Union invaded Poland from the east.",
-       "start": 186.569,
-       "end": 192.168
+       "start": 189.286,
+       "end": 194.86
       }
      ]
     },
     {
      "text": "Within weeks, Poland had been carved up.",
-     "start": 192.488,
-     "end": 194.945,
+     "start": 195.18,
+     "end": 197.637,
      "captions": [
       {
        "text": "Within weeks, Poland had been carved up.",
-       "start": 192.488,
-       "end": 194.945
+       "start": 195.18,
+       "end": 197.637
       }
      ]
     },
     {
      "text": "But war had already come to Asia. Japan had invaded Manchuria in 1931, and launched a full-scale war against China in 1937.",
-     "start": 195.345,
-     "end": 205.883,
+     "start": 198.037,
+     "end": 208.575,
      "captions": [
       {
-       "text": "But war had already come to Asia. Japan had invaded Manchuria in 1931, and launched",
-       "start": 195.345,
-       "end": 202.514
+       "text": "But war had already come to Asia. Japan had invaded Manchuria",
+       "start": 198.037,
+       "end": 203.306
       },
       {
-       "text": "a full-scale war against China in 1937.",
-       "start": 202.514,
-       "end": 205.883
+       "text": "in 1931, and launched a full-scale war against China in 1937.",
+       "start": 203.306,
+       "end": 208.575
       }
      ]
     }
@@ -594,8 +619,13 @@
      "end": 230.207,
      "captions": [
       {
-       "text": "German tanks pushed through the Ardennes forest and raced for the coast, trapping Allied armies.",
+       "text": "German tanks pushed through the Ardennes forest",
        "start": 224.347,
+       "end": 227.246
+      },
+      {
+       "text": "and raced for the coast, trapping Allied armies.",
+       "start": 227.246,
        "end": 230.207
       }
      ]
@@ -606,13 +636,13 @@
      "end": 238.78,
      "captions": [
       {
-       "text": "From Dunkirk, more than 330,000 troops were evacuated across the Channel, helped by",
+       "text": "From Dunkirk, more than 330,000 troops were evacuated",
        "start": 230.527,
-       "end": 236.754
+       "end": 234.503
       },
       {
-       "text": "a flotilla of little ships.",
-       "start": 236.754,
+       "text": "across the Channel, helped by a flotilla of little ships.",
+       "start": 234.503,
        "end": 238.78
       }
      ]
@@ -654,26 +684,31 @@
      ]
     },
     {
-     "text": "So Germany bombed British cities instead. More than 40,000 civilians were killed in the Blitz.",
+     "text": "From September, Germany turned to bombing British cities. More than 40,000 civilians were killed in the Blitz.",
      "start": 251.916,
-     "end": 258.403,
+     "end": 258.997,
      "captions": [
       {
-       "text": "So Germany bombed British cities instead. More than 40,000 civilians were killed in the Blitz.",
+       "text": "From September, Germany turned to bombing British cities.",
        "start": 251.916,
-       "end": 258.403
+       "end": 255.619
+      },
+      {
+       "text": "More than 40,000 civilians were killed in the Blitz.",
+       "start": 255.619,
+       "end": 258.997
       }
      ]
     },
     {
      "text": "But Britain kept fighting.",
-     "start": 258.723,
-     "end": 260.405,
+     "start": 259.317,
+     "end": 260.999,
      "captions": [
       {
        "text": "But Britain kept fighting.",
-       "start": 258.723,
-       "end": 260.405
+       "start": 259.317,
+       "end": 260.999
       }
      ]
     }
@@ -692,8 +727,13 @@
      "end": 278.946,
      "captions": [
       {
-       "text": "On 22 June 1941, Hitler launched Operation Barbarossa, the invasion of the Soviet Union.",
+       "text": "On 22 June 1941, Hitler launched Operation",
        "start": 270.8,
+       "end": 274.733
+      },
+      {
+       "text": "Barbarossa, the invasion of the Soviet Union.",
+       "start": 274.733,
        "end": 278.946
       }
      ]
@@ -704,8 +744,13 @@
      "end": 285.555,
      "captions": [
       {
-       "text": "More than three million Axis soldiers poured across a front nearly 3,000 kilometres long.",
+       "text": "More than three million Axis soldiers poured",
        "start": 279.266,
+       "end": 282.411
+      },
+      {
+       "text": "across a front nearly 3,000 kilometres long.",
+       "start": 282.411,
        "end": 285.555
       }
      ]
@@ -728,74 +773,89 @@
      "end": 297.692,
      "captions": [
       {
-       "text": "German forces reached the outskirts of Moscow, but as winter set in, the Red Army struck back.",
+       "text": "German forces reached the outskirts of Moscow,",
        "start": 291.569,
+       "end": 294.598
+      },
+      {
+       "text": "but as winter set in, the Red Army struck back.",
+       "start": 294.598,
        "end": 297.692
       }
      ]
     },
     {
-     "text": "Meanwhile, Japan was expanding across Asia and the Pacific.",
+     "text": "Meanwhile, Japan was expanding across East and South-East Asia.",
      "start": 298.092,
-     "end": 302.169,
+     "end": 302.632,
      "captions": [
       {
-       "text": "Meanwhile, Japan was expanding across Asia and the Pacific.",
+       "text": "Meanwhile, Japan was expanding across East and South-East Asia.",
        "start": 298.092,
-       "end": 302.169
+       "end": 302.632
       }
      ]
     },
     {
      "text": "On 7 December 1941, Japanese aircraft attacked the American naval base at Pearl Harbor, in Hawaii.",
-     "start": 302.489,
-     "end": 310.992,
+     "start": 302.952,
+     "end": 311.456,
      "captions": [
       {
-       "text": "On 7 December 1941, Japanese aircraft attacked the American naval base at Pearl",
-       "start": 302.489,
-       "end": 309.414
+       "text": "On 7 December 1941, Japanese aircraft attacked the",
+       "start": 302.952,
+       "end": 307.336
       },
       {
-       "text": "Harbor, in Hawaii.",
-       "start": 309.414,
-       "end": 310.992
+       "text": "American naval base at Pearl Harbor, in Hawaii.",
+       "start": 307.336,
+       "end": 311.456
       }
      ]
     },
     {
      "text": "More than 2,400 Americans were killed.",
-     "start": 311.312,
-     "end": 314.757,
+     "start": 311.776,
+     "end": 315.221,
      "captions": [
       {
        "text": "More than 2,400 Americans were killed.",
-       "start": 311.312,
-       "end": 314.757
+       "start": 311.776,
+       "end": 315.221
       }
      ]
     },
     {
      "text": "The United States declared war on Japan. Days later, Germany declared war on the United States.",
-     "start": 315.077,
-     "end": 321.983,
+     "start": 315.541,
+     "end": 322.447,
      "captions": [
       {
-       "text": "The United States declared war on Japan. Days later, Germany declared war on the United States.",
-       "start": 315.077,
-       "end": 321.983
+       "text": "The United States declared war on Japan. Days",
+       "start": 315.541,
+       "end": 318.847
+      },
+      {
+       "text": "later, Germany declared war on the United States.",
+       "start": 318.847,
+       "end": 322.447
       }
      ]
     },
     {
      "text": "Now the war was truly global, fought across Europe, Africa, Asia and the Pacific.",
-     "start": 322.303,
-     "end": 327.701,
+     "start": 322.767,
+     "end": 328.164,
      "captions": [
       {
-       "text": "Now the war was truly global, fought across Europe, Africa, Asia and the Pacific.",
-       "start": 322.303,
-       "end": 327.701
+       "text": "Now the war was truly global, fought across",
+       "start": 322.767,
+       "end": 325.668
+      },
+      {
+       "text": "Europe, Africa, Asia and the Pacific.",
+       "start": 325.668,
+       "end": 328.164
       }
      ]
     }
@@ -821,106 +881,111 @@
      ]
     },
     {
-     "text": "In June, at the Battle of Midway, American forces sank four Japanese aircraft carriers, a blow Japan's navy never recovered from.",
+     "text": "In June, at the Battle of Midway, American forces sank four Japanese aircraft carriers, a blow from which Japan's navy never fully recovered.",
      "start": 334.466,
-     "end": 343.793,
+     "end": 344.355,
      "captions": [
       {
-       "text": "In June, at the Battle of Midway, American forces sank four Japanese aircraft",
+       "text": "In June, at the Battle of Midway, American forces sank four Japanese",
        "start": 334.466,
-       "end": 340.077
+       "end": 339.269
       },
       {
-       "text": "carriers, a blow Japan's navy never recovered from.",
-       "start": 340.077,
-       "end": 343.793
+       "text": "aircraft carriers, a blow from which Japan's navy never fully recovered.",
+       "start": 339.269,
+       "end": 344.355
       }
      ]
     },
     {
      "text": "In North Africa, British and Commonwealth forces under General Montgomery defeated the Axis at El Alamein.",
-     "start": 344.113,
-     "end": 351.515,
+     "start": 344.675,
+     "end": 352.077,
      "captions": [
       {
-       "text": "In North Africa, British and Commonwealth forces under General Montgomery defeated",
-       "start": 344.113,
-       "end": 349.894
+       "text": "In North Africa, British and Commonwealth forces under",
+       "start": 344.675,
+       "end": 348.482
       },
       {
-       "text": "the Axis at El Alamein.",
-       "start": 349.894,
-       "end": 351.515
+       "text": "General Montgomery defeated the Axis at El Alamein.",
+       "start": 348.482,
+       "end": 352.077
       }
      ]
     },
     {
      "text": "And at Stalingrad, on the River Volga, the Red Army encircled more than a quarter of a million Axis soldiers.",
-     "start": 351.835,
-     "end": 358.887,
+     "start": 352.397,
+     "end": 359.449,
      "captions": [
       {
-       "text": "And at Stalingrad, on the River Volga, the Red Army encircled more than a quarter of",
-       "start": 351.835,
-       "end": 357.32
+       "text": "And at Stalingrad, on the River Volga, the Red Army",
+       "start": 352.397,
+       "end": 355.727
       },
       {
-       "text": "a million Axis soldiers.",
-       "start": 357.32,
-       "end": 358.887
+       "text": "encircled more than a quarter of a million Axis soldiers.",
+       "start": 355.727,
+       "end": 359.449
       }
      ]
     },
     {
      "text": "In February 1943, the survivors surrendered. It was a catastrophic defeat for Germany.",
-     "start": 359.207,
-     "end": 365.831,
+     "start": 359.769,
+     "end": 366.393,
      "captions": [
       {
-       "text": "In February 1943, the survivors surrendered. It was a catastrophic defeat for Germany.",
-       "start": 359.207,
-       "end": 365.831
+       "text": "In February 1943, the survivors surrendered.",
+       "start": 359.769,
+       "end": 363.198
+      },
+      {
+       "text": "It was a catastrophic defeat for Germany.",
+       "start": 363.198,
+       "end": 366.393
       }
      ]
     },
     {
      "text": "No single battle won the war.",
-     "start": 366.231,
-     "end": 368.594,
+     "start": 366.793,
+     "end": 369.156,
      "captions": [
       {
        "text": "No single battle won the war.",
-       "start": 366.231,
-       "end": 368.594
+       "start": 366.793,
+       "end": 369.156
       }
      ]
     },
     {
      "text": "But the Allies were also winning a battle of production.",
-     "start": 368.914,
-     "end": 372.308,
+     "start": 369.476,
+     "end": 372.871,
      "captions": [
       {
        "text": "But the Allies were also winning a battle of production.",
-       "start": 368.914,
-       "end": 372.308
+       "start": 369.476,
+       "end": 372.871
       }
      ]
     },
     {
      "text": "American, Soviet and British factories turned out tanks, aircraft and ships faster than the Axis could ever match.",
-     "start": 372.628,
-     "end": 380.189,
+     "start": 373.191,
+     "end": 380.751,
      "captions": [
       {
-       "text": "American, Soviet and British factories turned out tanks, aircraft and ships faster",
-       "start": 372.628,
-       "end": 378.115
+       "text": "American, Soviet and British factories turned out tanks,",
+       "start": 373.191,
+       "end": 376.938
       },
       {
-       "text": "than the Axis could ever match.",
-       "start": 378.115,
-       "end": 380.189
+       "text": "aircraft and ships faster than the Axis could ever match.",
+       "start": 376.938,
+       "end": 380.751
       }
      ]
     }
@@ -958,84 +1023,99 @@
      ]
     },
     {
-     "text": "In the largest seaborne invasion in history, around 156,000 American, British, Canadian and other Allied troops landed on five beaches in Normandy.",
+     "text": "In the largest seaborne invasion in history, around 156,000 American, British, Canadian and other Allied troops landed in Normandy, from the sea on five beaches and from the air.",
      "start": 399.889,
-     "end": 411.915,
+     "end": 413.313,
      "captions": [
       {
-       "text": "In the largest seaborne invasion in history, around 156,000 American, British,",
+       "text": "In the largest seaborne invasion in history, around 156,000",
        "start": 399.889,
-       "end": 406.314
+       "end": 404.389
       },
       {
-       "text": "Canadian and other Allied troops landed on five beaches in Normandy.",
-       "start": 406.314,
-       "end": 411.915
+       "text": "American, British, Canadian and other Allied troops landed",
+       "start": 404.389,
+       "end": 408.813
+      },
+      {
+       "text": "in Normandy, from the sea on five beaches and from the air.",
+       "start": 408.813,
+       "end": 413.313
       }
      ]
     },
     {
      "text": "Thousands were killed or wounded on the first day alone, but by nightfall, the Allies had a foothold in France.",
-     "start": 412.235,
-     "end": 419.395,
+     "start": 413.633,
+     "end": 420.793,
      "captions": [
       {
-       "text": "Thousands were killed or wounded on the first day alone, but by nightfall, the",
-       "start": 412.235,
-       "end": 417.312
+       "text": "Thousands were killed or wounded on the first day alone,",
+       "start": 413.633,
+       "end": 417.278
       },
       {
-       "text": "Allies had a foothold in France.",
-       "start": 417.312,
-       "end": 419.395
+       "text": "but by nightfall, the Allies had a foothold in France.",
+       "start": 417.278,
+       "end": 420.793
       }
      ]
     },
     {
      "text": "As they fought their way inland, resistance fighters sabotaged railways and supply lines.",
-     "start": 419.715,
-     "end": 425.869,
+     "start": 421.113,
+     "end": 427.267,
      "captions": [
       {
-       "text": "As they fought their way inland, resistance fighters sabotaged railways and supply lines.",
-       "start": 419.715,
-       "end": 425.869
+       "text": "As they fought their way inland, resistance",
+       "start": 421.113,
+       "end": 424.12
+      },
+      {
+       "text": "fighters sabotaged railways and supply lines.",
+       "start": 424.12,
+       "end": 427.267
       }
      ]
     },
     {
      "text": "In August 1944, Paris was liberated.",
-     "start": 426.189,
-     "end": 429.806,
+     "start": 427.587,
+     "end": 431.204,
      "captions": [
       {
        "text": "In August 1944, Paris was liberated.",
-       "start": 426.189,
-       "end": 429.806
+       "start": 427.587,
+       "end": 431.204
       }
      ]
     },
     {
      "text": "Meanwhile, in the east, a huge Soviet offensive smashed through German lines.",
-     "start": 430.206,
-     "end": 435.441,
+     "start": 431.604,
+     "end": 436.839,
      "captions": [
       {
        "text": "Meanwhile, in the east, a huge Soviet offensive smashed through German lines.",
-       "start": 430.206,
-       "end": 435.441
+       "start": 431.604,
+       "end": 436.839
       }
      ]
     },
     {
      "text": "Germany was now fighting on several fronts, and running out of men, fuel and time.",
-     "start": 435.761,
-     "end": 441.143,
+     "start": 437.159,
+     "end": 442.541,
      "captions": [
       {
-       "text": "Germany was now fighting on several fronts, and running out of men, fuel and time.",
-       "start": 435.761,
-       "end": 441.143
+       "text": "Germany was now fighting on several fronts,",
+       "start": 437.159,
+       "end": 440.016
+      },
+      {
+       "text": "and running out of men, fuel and time.",
+       "start": 440.016,
+       "end": 442.541
       }
      ]
     }
@@ -1078,13 +1158,13 @@
      "end": 467.931,
      "captions": [
       {
-       "text": "In the concentration and death camps, soldiers found starving survivors and the",
+       "text": "In the concentration and death camps, soldiers found",
        "start": 461.098,
-       "end": 466.339
+       "end": 464.548
       },
       {
-       "text": "evidence of mass murder.",
-       "start": 466.339,
+       "text": "starving survivors and the evidence of mass murder.",
+       "start": 464.548,
        "end": 467.931
       }
      ]
@@ -1095,13 +1175,13 @@
      "end": 477.132,
      "captions": [
       {
-       "text": "In the Holocaust, Nazi Germany and its collaborators systematically murdered around",
+       "text": "In the Holocaust, Nazi Germany and its collaborators systematically",
        "start": 468.431,
-       "end": 474.163
+       "end": 473.058
       },
       {
-       "text": "six million Jewish men, women and children.",
-       "start": 474.163,
+       "text": "murdered around six million Jewish men, women and children.",
+       "start": 473.058,
        "end": 477.132
       }
      ]
@@ -1112,13 +1192,13 @@
      "end": 486.747,
      "captions": [
       {
-       "text": "Millions of others were also persecuted and killed, including Roma, disabled people,",
+       "text": "Millions of others were also persecuted and killed, including Roma,",
        "start": 477.732,
-       "end": 483.602
+       "end": 482.414
       },
       {
-       "text": "Polish civilians and Soviet prisoners of war.",
-       "start": 483.602,
+       "text": "disabled people, Polish civilians and Soviet prisoners of war.",
+       "start": 482.414,
        "end": 486.747
       }
      ]
@@ -1153,13 +1233,13 @@
      "end": 504.71,
      "captions": [
       {
-       "text": "Days later, Germany surrendered unconditionally, and on 8 May, crowds celebrated",
+       "text": "Days later, Germany surrendered unconditionally, and",
        "start": 497.109,
-       "end": 503.071
+       "end": 500.984
       },
       {
-       "text": "Victory in Europe Day.",
-       "start": 503.071,
+       "text": "on 8 May, crowds celebrated Victory in Europe Day.",
+       "start": 500.984,
        "end": 504.71
       }
      ]
@@ -1203,8 +1283,13 @@
      "end": 524.05,
      "captions": [
       {
-       "text": "The Battle of Okinawa, from April to June, killed well over 100,000 soldiers and civilians.",
+       "text": "The Battle of Okinawa, from April to June,",
        "start": 517.099,
+       "end": 520.343
+      },
+      {
+       "text": "killed well over 100,000 soldiers and civilians.",
+       "start": 520.343,
        "end": 524.05
       }
      ]
@@ -1239,62 +1324,77 @@
      "end": 538.56,
      "captions": [
       {
-       "text": "Tens of thousands of people died instantly, and many more in the months that followed.",
+       "text": "Tens of thousands of people died instantly,",
        "start": 533.396,
+       "end": 536.008
+      },
+      {
+       "text": "and many more in the months that followed.",
+       "start": 536.008,
        "end": 538.56
       }
      ]
     },
     {
-     "text": "On 8 August, the Soviet Union declared war on Japan and invaded Manchuria.",
+     "text": "On 8 August, the Soviet Union declared war on Japan, and within hours its armies poured into Manchuria.",
      "start": 539.06,
-     "end": 545.043,
+     "end": 546.744,
      "captions": [
       {
-       "text": "On 8 August, the Soviet Union declared war on Japan and invaded Manchuria.",
+       "text": "On 8 August, the Soviet Union declared war on Japan,",
        "start": 539.06,
-       "end": 545.043
+       "end": 542.977
+      },
+      {
+       "text": "and within hours its armies poured into Manchuria.",
+       "start": 542.977,
+       "end": 546.744
       }
      ]
     },
     {
      "text": "The next day, a second atomic bomb devastated Nagasaki.",
-     "start": 545.363,
-     "end": 549.373,
+     "start": 547.064,
+     "end": 551.073,
      "captions": [
       {
        "text": "The next day, a second atomic bomb devastated Nagasaki.",
-       "start": 545.363,
-       "end": 549.373
+       "start": 547.064,
+       "end": 551.073
       }
      ]
     },
     {
      "text": "On 15 August, Emperor Hirohito announced Japan's surrender, which was formally signed on 2 September 1945.",
-     "start": 549.773,
-     "end": 559.173,
+     "start": 551.473,
+     "end": 560.874,
      "captions": [
       {
-       "text": "On 15 August, Emperor Hirohito announced Japan's surrender, which was formally",
-       "start": 549.773,
-       "end": 556.756
+       "text": "On 15 August, Emperor Hirohito announced Japan's",
+       "start": 551.473,
+       "end": 555.771
       },
       {
-       "text": "signed on 2 September 1945.",
-       "start": 556.756,
-       "end": 559.173
+       "text": "surrender, which was formally signed on 2 September 1945.",
+       "start": 555.771,
+       "end": 560.874
       }
      ]
     },
     {
-     "text": "Historians still debate how much the bombs and the Soviet invasion each shaped that decision.",
-     "start": 559.493,
-     "end": 565.738,
+     "text": "Historians still debate how much the bombs and the Soviet invasion each shaped Japan's decision.",
+     "start": 561.194,
+     "end": 567.913,
      "captions": [
       {
-       "text": "Historians still debate how much the bombs and the Soviet invasion each shaped that decision.",
-       "start": 559.493,
-       "end": 565.738
+       "text": "Historians still debate how much the bombs and",
+       "start": 561.194,
+       "end": 564.447
+      },
+      {
+       "text": "the Soviet invasion each shaped Japan's decision.",
+       "start": 564.447,
+       "end": 567.913
       }
      ]
     }
@@ -1305,77 +1405,82 @@
    "chapter": "The Human Cost and the Legacy",
    "start": 570,
    "end": 600,
-   "speed": 1.017,
+   "speed": 1.0,
    "sentences": [
     {
-     "text": "The war killed an estimated 70 to 85 million people, most of them civilians.",
+     "text": "The war killed an estimated 60 million people or more, most of them civilians.",
      "start": 570.4,
-     "end": 576.509,
+     "end": 575.98,
      "captions": [
       {
-       "text": "The war killed an estimated 70 to 85 million people, most of them civilians.",
+       "text": "The war killed an estimated 60 million people or more, most of them civilians.",
        "start": 570.4,
-       "end": 576.509
+       "end": 575.98
       }
      ]
     },
     {
      "text": "From the ruins came the United Nations, and a new rivalry: the Cold War.",
-     "start": 576.829,
-     "end": 581.879,
+     "start": 576.3,
+     "end": 581.379,
      "captions": [
       {
        "text": "From the ruins came the United Nations, and a new rivalry: the Cold War.",
-       "start": 576.829,
-       "end": 581.879
+       "start": 576.3,
+       "end": 581.379
       }
      ]
     },
     {
      "text": "The war showed how quickly hatred and unchecked aggression can lead to catastrophe.",
-     "start": 582.279,
-     "end": 587.685,
+     "start": 581.779,
+     "end": 587.251,
      "captions": [
       {
-       "text": "The war showed how quickly hatred and unchecked aggression can lead to catastrophe.",
-       "start": 582.279,
-       "end": 587.685
+       "text": "The war showed how quickly hatred and",
+       "start": 581.779,
+       "end": 584.248
+      },
+      {
+       "text": "unchecked aggression can lead to catastrophe.",
+       "start": 584.248,
+       "end": 587.251
       }
      ]
     },
     {
      "text": "But it also showed the courage of ordinary people.",
-     "start": 588.005,
-     "end": 591.094,
+     "start": 587.571,
+     "end": 590.66,
      "captions": [
       {
        "text": "But it also showed the courage of ordinary people.",
-       "start": 588.005,
-       "end": 591.094
+       "start": 587.571,
+       "end": 590.66
       }
      ]
     },
     {
      "text": "Because history isn't just about battles or leaders.",
-     "start": 591.494,
-     "end": 595.014,
+     "start": 591.06,
+     "end": 594.679,
      "captions": [
       {
        "text": "Because history isn't just about battles or leaders.",
-       "start": 591.494,
-       "end": 595.014
+       "start": 591.06,
+       "end": 594.679
       }
      ]
     },
     {
      "text": "It's about people. And every person has a story.",
-     "start": 595.214,
-     "end": 598.219,
+     "start": 594.879,
+     "end": 597.96,
      "captions": [
       {
        "text": "It's about people. And every person has a story.",
-       "start": 595.214,
-       "end": 598.219
+       "start": 594.879,
+       "end": 597.96
       }
      ]
     }

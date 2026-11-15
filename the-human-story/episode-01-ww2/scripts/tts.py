@@ -119,26 +119,47 @@ def layout(section, speed, pause_scale=1.0):
     return out
 
 
-def caption_chunks(text: str, start: float, end: float, max_chars=84):
-    """Split a sentence into caption chunks (<= 2 lines of ~42 chars)."""
+LINE_WIDTH = 42
+
+
+def fits_two_lines(words, width=LINE_WIDTH) -> bool:
+    s = " ".join(words)
+    if len(s) <= width:
+        return True
+    return any(max(len(" ".join(words[:i])), len(" ".join(words[i:]))) <= width
+               for i in range(1, len(words)))
+
+
+def caption_chunks(text: str, start: float, end: float, width=LINE_WIDTH):
+    """Split a sentence into caption chunks that are GUARANTEED to fit in
+    <= 2 lines of <= `width` chars. Uses the fewest chunks possible, with the
+    words spread so chunk lengths are balanced (no tiny trailing chunk)."""
     words = text.split()
-    chunks, cur = [], []
-    for w in words:
-        trial = " ".join(cur + [w])
-        if len(trial) > max_chars and cur:
-            chunks.append(cur)
-            cur = [w]
-        else:
-            cur.append(w)
-    if cur:
-        chunks.append(cur)
-    # rebalance: avoid a tiny trailing chunk
-    if len(chunks) > 1 and len(" ".join(chunks[-1])) < 18:
-        tail = chunks.pop()
-        if len(" ".join(chunks[-1] + tail)) <= max_chars + 14:
-            chunks[-1] += tail
-        else:
-            chunks.append(tail)
+    n = len(words)
+    best = None
+    for k in range(max(1, -(-len(text) // (2 * width))), n + 1):
+        # DP: minimise the longest chunk over partitions into k fitting chunks
+        INF = float("inf")
+        cost = [[INF] * (n + 1) for _ in range(k + 1)]
+        cut = [[0] * (n + 1) for _ in range(k + 1)]
+        cost[0][0] = 0
+        for j in range(1, k + 1):
+            for e in range(1, n + 1):
+                for b in range(j - 1, e):
+                    if cost[j - 1][b] == INF or not fits_two_lines(words[b:e], width):
+                        continue
+                    c = max(cost[j - 1][b], len(" ".join(words[b:e])))
+                    if c < cost[j][e]:
+                        cost[j][e], cut[j][e] = c, b
+        if cost[k][n] < INF:
+            chunks, e = [], n
+            for j in range(k, 0, -1):
+                b = cut[j][e]
+                chunks.insert(0, words[b:e])
+                e = b
+            best = chunks
+            break
+    chunks = best or [[w] for w in words]
     total = sum(len(" ".join(c)) for c in chunks)
     out, t = [], start
     for c in chunks:
@@ -149,7 +170,7 @@ def caption_chunks(text: str, start: float, end: float, max_chars=84):
     return out
 
 
-def two_lines(s: str, width=42) -> str:
+def two_lines(s: str, width=LINE_WIDTH) -> str:
     if len(s) <= width:
         return s
     words = s.split()
@@ -204,7 +225,9 @@ def main():
                                    "end": sec["end"], "speed": speed, "sentences": sents})
 
     peak = np.max(np.abs(track))
-    track *= 0.89 / peak  # about -1 dBFS peak
+    # 0.85 = -1.41 dBFS sample peak: leaves headroom so TRUE peak stays <= -1 dBTP
+    # (0.89 measured -0.98 dBTP on ep01 v3 -- inter-sample overs)
+    track *= 0.85 / peak
     for p in ["assets/audio/episode-01-narration.wav", "public/audio/narration.wav", "output/episode-01-narration.wav"]:
         full = os.path.join(ROOT, p)
         os.makedirs(os.path.dirname(full), exist_ok=True)
