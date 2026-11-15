@@ -15,30 +15,30 @@
      "pauseAfter": 0.7
     },
     {
-     "text": "Across Europe, life goes on as normal."
+     "text": "Across much of Europe, life seems normal."
     },
     {
-     "text": "But within weeks, the world would be plunged into the deadliest war in human history.",
+     "text": "Within weeks, Europe will be at war, in what will become the deadliest war in human history.",
      "pauseAfter": 0.5
     },
     {
-     "text": "Countries would fall.",
+     "text": "Countries will fall.",
      "pauseAfter": 0.25
     },
     {
-     "text": "Cities would burn.",
+     "text": "Cities will burn.",
      "pauseAfter": 0.25
     },
     {
-     "text": "Tens of millions of people would die.",
+     "text": "Tens of millions will die.",
      "pauseAfter": 0.7
     },
     {
-     "text": "So how did the world get here?",
+     "text": "So how did it start?",
      "pauseAfter": 0.3
     },
     {
-     "text": "And how did it finally end?"
+     "text": "And how did it end?"
     }
    ]
   },
@@ -113,7 +113,7 @@
      "pauseAfter": 0.4
     },
     {
-     "text": "In 1936, German troops marched into the Rhineland."
+     "text": "In 1936, German troops reoccupied the demilitarised Rhineland."
     },
     {
      "text": "In March 1938, Germany annexed Austria."
@@ -144,7 +144,7 @@
      "text": "In August 1939, Nazi Germany and the Soviet Union, bitter enemies, signed a non-aggression pact."
     },
     {
-     "text": "A secret protocol divided Eastern Europe between them.",
+     "text": "A secret protocol divided much of Eastern Europe into German and Soviet spheres of influence.",
      "pauseAfter": 0.5
     },
     {
@@ -209,8 +209,8 @@
      "say": "That summer, in the Battle of Britain, the Royal Air Force fought off the Luft-vaffa."
     },
     {
-     "text": "So Germany bombed British cities instead. More than 40,000 civilians were killed in the Blitz.",
-     "say": "So Germany bombed British cities instead. More than forty thousand civilians were killed in the Blitz."
+     "text": "From September, Germany turned to bombing British cities. More than 40,000 civilians were killed in the Blitz.",
+     "say": "From September, Germany turned to bombing British cities. More than forty thousand civilians were killed in the Blitz."
     },
     {
      "text": "But Britain kept fighting."
@@ -240,7 +240,8 @@
      "pauseAfter": 0.4
     },
     {
-     "text": "Meanwhile, Japan was expanding across Asia and the Pacific."
+     "text": "Meanwhile, Japan was expanding across East and South-East Asia.",
+     "say": "Meanwhile, Japan was expanding across East and South East Asia."
     },
     {
      "text": "On 7 December 1941, Japanese aircraft attacked the American naval base at Pearl Harbor, in Hawaii.",
@@ -269,7 +270,7 @@
      "text": "In 1942, the tide began to turn."
     },
     {
-     "text": "In June, at the Battle of Midway, American forces sank four Japanese aircraft carriers, a blow Japan's navy never recovered from."
+     "text": "In June, at the Battle of Midway, American forces sank four Japanese aircraft carriers, a blow from which Japan's navy never fully recovered."
     },
     {
      "text": "In North Africa, British and Commonwealth forces under General Montgomery defeated the Axis at El Alamein.",
@@ -308,8 +309,8 @@
      "say": "On the sixth of June, Operation Overlord began."
     },
     {
-     "text": "In the largest seaborne invasion in history, around 156,000 American, British, Canadian and other Allied troops landed on five beaches in Normandy.",
-     "say": "In the largest seaborne invasion in history, around one hundred and fifty-six thousand American, British, Canadian and other Allied troops landed on five beaches in Normandy."
+     "text": "In the largest seaborne invasion in history, around 156,000 American, British, Canadian and other Allied troops landed in Normandy, from the sea on five beaches and from the air.",
+     "say": "In the largest seaborne invasion in history, around one hundred and fifty-six thousand American, British, Canadian and other Allied troops landed in Normandy, from the sea on five beaches, and from the air."
     },
     {
      "text": "Thousands were killed or wounded on the first day alone, but by nightfall, the Allies had a foothold in France."
@@ -400,8 +401,8 @@
      "pauseAfter": 0.5
     },
     {
-     "text": "On 8 August, the Soviet Union declared war on Japan and invaded Manchuria.",
-     "say": "On the eighth of August, the Soviet Union declared war on Japan, and invaded Manchuria."
+     "text": "On 8 August, the Soviet Union declared war on Japan, and within hours its armies poured into Manchuria.",
+     "say": "On the eighth of August, the Soviet Union declared war on Japan, and within hours its armies poured into Manchuria."
     },
     {
      "text": "The next day, a second atomic bomb devastated Nagasaki.",
@@ -412,7 +413,7 @@
      "say": "On the fifteenth of August, Emperor Hirohito announced Japan's surrender, which was formally signed on the second of September, 1945."
     },
     {
-     "text": "Historians still debate how much the bombs and the Soviet invasion each shaped that decision."
+     "text": "Historians still debate how much the bombs and the Soviet invasion each shaped Japan's decision."
     }
    ]
   },
@@ -425,8 +426,8 @@
    "mustEndBy": 598.3,
    "sentences": [
     {
-     "text": "The war killed an estimated 70 to 85 million people, most of them civilians.",
-     "say": "The war killed an estimated seventy to eighty-five million people, most of them civilians."
+     "text": "The war killed an estimated 60 million people or more, most of them civilians.",
+     "say": "The war killed an estimated sixty million people or more, most of them civilians."
     },
     {
      "text": "From the ruins came the United Nations, and a new rivalry: the Cold War.",
@@ -448,5 +449,6 @@
     }
    ]
   }
- ]
+ ],
+ "version": "v3"
 }
