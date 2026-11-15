@@ -59,7 +59,7 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
           .map((h, i) => (
             <path key={'c' + i} d={bm.paths.get(h.name!) ?? ''} fill={h.fill} opacity={(h.opacity ?? 1) * (h.pulse ? 0.75 + 0.25 * Math.sin(f / 6) : 1)} />
           ))}
-        {borders && [...bm.paths.values()].map((d, i) => <path key={i} d={d} fill="none" stroke="#6B5E48" strokeWidth={1.4} vectorEffect="non-scaling-stroke" opacity={0.55} />)}
+        {borders && <path d={bm.borders} fill="none" stroke="#6B5E48" strokeWidth={1.4 / z} opacity={0.55} />}
       </g>
       <g clipPath={`url(#${clipId})`}>
         <g transform={tf}>
@@ -67,13 +67,13 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
             .filter((h) => h.feature)
             .map((h, i) => (
               <g key={'h' + i} opacity={h.opacity ?? 1}>
-                <path d={featurePath(kind, h.feature!)} fill={h.fill} stroke={h.stroke ?? 'none'} strokeWidth={3} vectorEffect="non-scaling-stroke" />
+                <path d={featurePath(kind, h.feature!)} fill={h.fill} stroke={h.stroke ?? 'none'} strokeWidth={3 / z} />
               </g>
             ))}
         </g>
       </g>
       <g transform={tf}>
-        <path d={bm.land} fill="none" stroke={ink} strokeWidth={3} vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
+        <path d={bm.land} fill="none" stroke={ink} strokeWidth={3 / z} strokeLinejoin="round" />
       </g>
       {dim > 0 && <rect x={-200} y={-200} width={W + 400} height={H + 400} fill="#0E1520" opacity={dim} />}
       {children?.({toScreen, z, kind})}

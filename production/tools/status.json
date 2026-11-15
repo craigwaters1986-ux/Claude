@@ -74,34 +74,39 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "research"
           ],
           "deliverables": [
             "production/scripts/ep01-ww2/script.md",
-            "production/scripts/ep01-ww2/script.json"
+            "production/scripts/ep01-ww2/script.json",
+            "production/scripts/ep01-ww2/changelog-v2.md",
+            "production/reports/handoffs/ep01-ww2/03-scriptwriter-v2-factcheck.md"
           ],
           "issues": [
             {
               "text": "FACT s08: 156,000 landed by sea AND air (≈132k sea, ≈23k air) - fix wording",
-              "opened": "2026-11-15 14:50"
+              "opened": "2026-11-15 14:50",
+              "resolved": "2026-11-15 15:27"
             },
             {
               "text": "DISPUTED s11: 70-85 million is top of range; use 'an estimated 60 million or more'",
-              "opened": "2026-11-15 14:50"
+              "opened": "2026-11-15 14:50",
+              "resolved": "2026-11-15 15:27"
             },
             {
               "text": "5 nuance rewordings (part 1) + 2 optional (part 2)",
-              "opened": "2026-11-15 14:50"
+              "opened": "2026-11-15 14:50",
+              "resolved": "2026-11-15 15:27"
             },
             {
               "text": "Hook suggestions from youtube-specialist (hook-review.md)",
               "opened": "2026-11-15 14:50"
             }
           ],
-          "next": "Scriptwriter applying fact-check corrections (v2)",
-          "updated": "2026-11-15 15:02"
+          "next": "v2 done (9 fact-check fixes); QC review next; hook suggestions still open",
+          "updated": "2026-11-15 15:27"
         },
         {
           "id": "script-factcheck",
@@ -125,14 +130,14 @@
           "id": "script-qc",
           "agent": "quality-control",
           "task": "QC review of the script",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "script-factcheck"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-15 14:33"
+          "next": "QC reviewing script v2",
+          "updated": "2026-11-15 15:27"
         },
         {
           "id": "style-sample",
@@ -179,9 +184,14 @@
             "approval:script"
           ],
           "deliverables": [],
-          "issues": [],
+          "issues": [
+            {
+              "text": "Visual notes from fact-check: Dunkirk mostly larger ships from the mole; Mussolini at Munich; Pearl Harbor include Oahu airfields; camps liberated Jul 1944-Apr 1945; D-Day include paratroopers/gliders",
+              "opened": "2026-11-15 15:27"
+            }
+          ],
           "next": "",
-          "updated": "2026-11-15 14:33"
+          "updated": "2026-11-15 15:27"
         },
         {
           "id": "characters",
@@ -247,11 +257,16 @@
           "issues": [
             {
               "text": "Render speed: 30 s hook preview took >10 min (900 frames) - profile maps/globe/particles before full render",
-              "opened": "2026-11-15 15:01"
+              "opened": "2026-11-15 15:01",
+              "resolved": "2026-11-15 15:27"
+            },
+            {
+              "text": "Render speed: map frames 3.3x faster after border fix (12.7s->3.8s/frame/tab); still profile street/particles before full render",
+              "opened": "2026-11-15 15:27"
             }
           ],
           "next": "",
-          "updated": "2026-11-15 15:01"
+          "updated": "2026-11-15 15:27"
         },
         {
           "id": "final-render",

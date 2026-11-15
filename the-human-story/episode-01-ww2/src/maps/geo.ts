@@ -81,26 +81,31 @@ export const PROJ = {
 };
 export type MapKind = keyof typeof PROJ;
 
-const cache = new Map<string, {proj: GeoProjection; paths: Map<string, string>; land: string}>();
+const cache = new Map<string, {proj: GeoProjection; paths: Map<string, string>; land: string; borders: string}>();
 
 export function baseMap(kind: MapKind) {
   let c = cache.get(kind);
   if (!c) {
-    const proj = PROJ[kind]();
-    const gp = geoPath(proj);
+    // Clip geometry to a margin around the frame (camera zoom is always >= ~1) and
+    // round coordinates: keeps SVG path strings small, which is the main render cost.
+    const proj = PROJ[kind]().clipExtent([[-900, -700], [W + 900, H + 700]]);
+    const gp = geoPath(proj).digits(1);
     const paths = new Map<string, string>();
     for (const f of COUNTRIES50.features) {
       const d = gp(f);
       if (d) paths.set(f.properties.name, d);
     }
-    c = {proj, paths, land: gp(LAND50) ?? ''};
+    // Thin internal borders use the lighter 1:110m dataset (5x fewer points): at their faint
+    // 1.4 px weight the difference is invisible, and they were ~80% of map paint time.
+    const borders = COUNTRIES110.features.map((f) => gp(f) ?? '').join(' ');
+    c = {proj, paths, land: gp(LAND50) ?? '', borders};
     cache.set(kind, c);
   }
   return c;
 }
 
 export function featurePath(kind: MapKind, f: Feature) {
-  return geoPath(baseMap(kind).proj)(f) ?? '';
+  return geoPath(baseMap(kind).proj).digits(1)(f) ?? '';
 }
 
 export const CITY: Record<string, [number, number]> = {
