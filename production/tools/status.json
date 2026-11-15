@@ -257,17 +257,22 @@
           "id": "characters",
           "agent": "animator",
           "task": "Build characters and character animation",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:style",
             "approval:storyboard"
           ],
           "deliverables": [
-            "the-human-story/episode-01-ww2/src/characters/StickFigure.tsx"
+            "the-human-story/episode-01-ww2/src/characters/StickFigure.tsx",
+            "production/reports/handoffs/ep01-ww2/09-animator-characters.md",
+            "production/characters/ep01-ww2/sheet-SheetEurope.png",
+            "production/characters/ep01-ww2/sheet-SheetAsia.png",
+            "production/characters/ep01-ww2/sheet-SheetCrowd.png",
+            "production/characters/ep01-ww2/sheet-SheetExpressions.png"
           ],
           "issues": [],
-          "next": "Full production (after storyboard approval)",
-          "updated": "2026-11-15 19:11"
+          "next": "",
+          "updated": "2026-11-15 19:37"
         },
         {
           "id": "environments",
