@@ -1,2 +1,3 @@
 production/tools/status.json.lock
 production/audio/*/*.wav
+__pycache__/
