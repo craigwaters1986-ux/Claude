@@ -74,7 +74,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "AWAITING REVIEW",
+          "status": "IN PROGRESS",
           "depends": [
             "research"
           ],
@@ -100,8 +100,8 @@
               "opened": "2026-11-15 14:50"
             }
           ],
-          "next": "Scriptwriter revision combining fact-check + hook review",
-          "updated": "2026-11-15 14:50"
+          "next": "Scriptwriter applying fact-check corrections (v2)",
+          "updated": "2026-11-15 15:02"
         },
         {
           "id": "script-factcheck",
