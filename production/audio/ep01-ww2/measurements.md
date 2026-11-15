@@ -68,3 +68,41 @@ The first build had 122 cues and 27 lines over 42 characters (max 49). `caption_
 - Years are spoken as words, e.g. "Summer, nineteen thirty-nine.", "In November nineteen eighteen", "On the first of September, nineteen thirty-nine".
 - Dates and numbers in `say` are written out, e.g. "the twenty-second of June, nineteen forty-one", "three hundred and thirty thousand", "one hundred and fifty-six thousand", "sixty million".
 - No pronunciation fixes were needed. Neither the script nor RESPELL was changed.
+
+---
+
+# Music, SFX and reference mix: ep01-ww2 (2026-11-15)
+
+Built with `scripts/music.py`, `scripts/sfx.py` and `scripts/mix.py` (engine `the-human-story/episode-01-ww2/`). Runtime **605.0 s** (Director decision 08). The narration is padded with silence from 600 s to 605 s. At the Director's request (save tokens) this is **one final measurement pass**, with no re-tuning loops.
+
+## Files (ffprobe)
+| File | Format | Duration |
+|---|---|---|
+| `episode-01-mix-reference.wav` | 48 kHz stereo, 24-bit | 605.000 s |
+| `episode-01-music.wav` (un-ducked stem) | 48 kHz stereo, 24-bit | 605.000 s |
+| `episode-01-sfx.wav` (SFX stem, 159 cues placed) | 48 kHz stereo, 24-bit | 605.000 s |
+| engine `public/audio/music.wav` (ducked), `sfx.wav`, `mix.wav` | 48 kHz stereo, 16-bit | 605.000 s each |
+
+## Reference mix (ffmpeg ebur128, peak=true)
+| Measure | Value |
+|---|---|
+| Integrated loudness | **−14.0 LUFS** (target about −14: PASS) |
+| Loudness range | 1.8 LU |
+| True peak | **−1.5 dBTP** (≤ −1 dBTP: PASS) |
+| silencedetect noise=−50 dB d=2 | **no silence ≥ 2 s anywhere** (PASS) |
+
+The deliberate silence windows (Hiroshima 533.08–534.58, Nagasaki 549.50–550.50, and so on) are silent for music and SFX only. The narration keeps going through them, so none of them reads as programme silence.
+
+## Balance (computed in `mix.py` from the same buffers, BS.1770 K-weighted; not re-measured with ffmpeg)
+| Measure | Value |
+|---|---|
+| Narration, speech blocks only (after the 2:1 glue compressor, before master gain) | −22.0 LUFS |
+| Music (ducked), same speech blocks | −34.0 LUFS → **12.0 dB under the narration** (target ≥ about 12 dB: met, at the limit) |
+| SFX, same speech blocks | −46.0 LUFS |
+| Narration minus music, 400 ms blocks during speech | median 13.0 dB; 5th percentile 5.3 dB |
+| Music in narration gaps and tails | −20.8 LUFS (un-ducked, carries the tails) |
+| Master gain / limiter | +7.74 dB; peak gain reduction 3.25 dB; > 1 dB of reduction only 0.42 % of the time |
+
+The worst momentary blocks fall where music swells or hits sit on short words or breaths: 66.6, 173.3, 175.8, 194.7, 197.5, 278.8, 285.4 and 590.5 s, down to −7 dB in a single 400 ms block. QC should listen at those times. If any word sounds masked, lower that cue by 3–4 dB in `music.py` or deepen `duck_curve(depth_db)` from −9 to −12.
+
+Ducking: −9 dB under every sentence (speech regions from `narration.json`, gaps < 1 s merged), raised-cosine attack 0.30 s starting before the word, release 0.9 s.

@@ -302,19 +302,25 @@
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/audio/ep01-ww2/episode-01-mix-reference.wav",
+            "production/audio/ep01-ww2/measurements.md",
+            "production/audio/ep01-ww2/licences.md",
+            "production/reports/handoffs/ep01-ww2/09-audio-engineer-music-sfx.md"
+          ],
           "issues": [
             {
               "text": "QC S1: title-card SFX must not crowd the last hook line (ends 22.77 s, card at 22.8 s)",
-              "opened": "2026-11-15 16:19"
+              "opened": "2026-11-15 16:19",
+              "resolved": "2026-11-15 19:39"
             }
           ],
-          "next": "Full production (after storyboard approval)",
-          "updated": "2026-11-15 19:11"
+          "next": "Needs a human listen (measured only)",
+          "updated": "2026-11-15 19:39"
         },
         {
           "id": "assembly",
@@ -339,10 +345,14 @@
             {
               "text": "Render speed: map frames 3.3x faster after border fix (12.7s->3.8s/frame/tab); still profile street/particles before full render",
               "opened": "2026-11-15 15:27"
+            },
+            {
+              "text": "Use public/audio/mix.wav as the single audio track; Hiroshima flash frame 15992, Nagasaki glow ~16485 (estimate)",
+              "opened": "2026-11-15 19:39"
             }
           ],
           "next": "WIP hook preview rendered (30.0 s, 1080p30, AAC)",
-          "updated": "2026-11-15 16:13"
+          "updated": "2026-11-15 19:39"
         },
         {
           "id": "final-render",
@@ -370,10 +380,14 @@
             {
               "text": "Listen-test the respelled words: Versailles, Sudetenland, Luftwaffe, El Alamein",
               "opened": "2026-11-15 16:29"
+            },
+            {
+              "text": "Listen for music masking narration at 66.6, 173.3, 175.8, 194.7, 197.5, 278.8, 285.4, 590.5 s (fix: -3/4 dB music or -12 dB ducking)",
+              "opened": "2026-11-15 19:39"
             }
           ],
           "next": "",
-          "updated": "2026-11-15 16:29"
+          "updated": "2026-11-15 19:39"
         },
         {
           "id": "publishing-pack",
