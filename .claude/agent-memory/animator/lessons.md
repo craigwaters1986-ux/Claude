@@ -7,3 +7,6 @@
 - Preview without touching Root.tsx: `src/characters/__preview__/index.ts` plus `npx remotion still <entry> <Id> out.png`. JSX must be in a .tsx file, not index.ts.
 - Render cost: ~0.3 s/frame for 15 figures and ~1.5 s/frame for 210 (4 cores). Crowds dominate, so keep counts modest.
 - The user is token-conscious: one contact sheet and one tsc pass at the end; avoid repeated re-renders.
+- New-episode engine copy: `rsync` is not installed; use `tar --exclude=./node_modules --exclude=./output ...`. A fresh `npm install` takes ~12 s. Add `output/` to the new engine's .gitignore, because ep01 committed its output chunks.
+- Props passed via `back` sit in torso space and hide behind the garment unless they extend well above the shoulder. `RifleSlung` (angle 125, centre (-20,-70)) shows the muzzle behind the back shoulder.
+- WW1 wardrobe (ep02): serviceCap/kepi1914/feldkappe/kabalak/papakha/mobCap/vadVeil/plumedHat hats, `gasMask` head option, and outfit `trousers`/`apronCross`/`blanketRoll`/`satchel`. Keep "canary" munitionettes white-headed (no skin tints).

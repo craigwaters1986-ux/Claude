@@ -877,14 +877,26 @@
           "id": "style-sample",
           "agent": "animator",
           "task": "Character/animation style sample for approval",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
-          "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:12"
+          "deliverables": [
+            "production/characters/ep02-ww1/style-sample.png",
+            "production/reports/handoffs/ep02-ww1/03-animator-style-sample.md"
+          ],
+          "issues": [
+            {
+              "text": "Trench set needed from environment-designer (sample uses a stand-in)",
+              "opened": "2026-11-16 21:20"
+            },
+            {
+              "text": "Decision: 'canary' munitionette yellow tint vs house rule of white heads",
+              "opened": "2026-11-16 21:20"
+            }
+          ],
+          "next": "Batched with script for approvals 1+2",
+          "updated": "2026-11-16 21:20"
         },
         {
           "id": "narration",
