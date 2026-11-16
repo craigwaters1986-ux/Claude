@@ -940,8 +940,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "Phase B: ~70 shots for 12 min, each >=6 s, reuse library; MUST assets incl. trench set",
-          "updated": "2026-11-16 21:28"
+          "next": "Phase B: ~70 shots, each >=6 s, reuse library; MUST assets incl. trench set; keep top-left clear for channel logo",
+          "updated": "2026-11-16 21:31"
         },
         {
           "id": "characters",
@@ -996,8 +996,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Channel logo overlay already wired (ChannelLogo in Episode.tsx) — keep it; top-left safe zone x<170,y<150",
+          "updated": "2026-11-16 21:31"
         },
         {
           "id": "final-render",

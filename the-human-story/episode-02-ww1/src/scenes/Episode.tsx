@@ -1,11 +1,12 @@
 // Episode 1 — full timeline (605 s = 18,150 frames at 30 fps).
 // Layers (bottom → top): section pictures (shots) · section overlays (cards, banners) ·
-// chapter transitions (ink wipe / dip) · captions band.  Audio: the measured master mix only.
+// chapter transitions (ink wipe / dip) · captions band · channel logo (top-left, always on).  Audio: the measured master mix only.
 import React from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame} from 'remotion';
 import {W, H, FPS} from '../styles/theme';
 import {InkWipe} from '../components/Camera';
 import {Captions, ChapterBanner} from '../components/Text';
+import {ChannelLogo} from '../components/ChannelLogo';
 import {S01Picture, S01Overlay} from './S01';
 import {S02Picture, S02Overlay} from './S02';
 import {S03Picture, S03Overlay} from './S03';
@@ -112,5 +113,6 @@ export const Episode: React.FC = () => (
     })}
     <Transitions />
     <CaptionLayer />
+    <ChannelLogo />
   </AbsoluteFill>
 );

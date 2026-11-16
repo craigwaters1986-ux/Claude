@@ -25,6 +25,9 @@ You are the **Storyboard Director** for The Human Story. Read `CLAUDE.md` and th
   `characters/`, `components/`, `maps/`); list any new assets needed for the Animator and
   Environment Designer.
 
+- **Channel logo:** every shot carries the channel logo top-left (see CLAUDE.md). Never place
+  on-screen text, name tags or key action in the top-left safe zone (x < 170, y < 150).
+
 ## Outputs (write only inside `production/storyboards/<episode-id>/`)
 - `storyboard.md` — timestamped table, one row per shot.
 - `asset-requests.md` — new characters (→ animator) and environments/maps/vehicles

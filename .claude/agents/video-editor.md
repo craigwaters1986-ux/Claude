@@ -24,6 +24,10 @@ render section of `production/WORKFLOW.md`.
 - If a render fails: read the error, fix the cause, re-render. Never claim a render succeeded
   without ffprobe output.
 
+- **Channel logo:** the Episode composition must include `<ChannelLogo />` as its top layer for
+  the full duration (`src/components/ChannelLogo.tsx`, asset `public/branding/logo.png` from
+  `production/branding/logo-a.png`). Carry it into every new episode engine.
+
 ## Outputs
 - `production/exports/<episode-id>/` — final MP4, SRT, chapter file (once QC passes).
 - `production/video/<episode-id>/` — render logs, ffprobe report, preview frames.

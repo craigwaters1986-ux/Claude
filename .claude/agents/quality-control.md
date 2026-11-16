@@ -23,6 +23,8 @@ made the work. Read `CLAUDE.md` and use `production/templates/qc-checklist.md`.
 - Technical: ffprobe duration/resolution/fps/codecs; transitions smooth.
 - Rights: every third-party asset has a recorded licence.
 
+- **Channel logo** present top-left on every shot of a render, unobstructed and not covering text.
+
 ## Rules
 - Be specific: location (timestamp, file:line or section), issue, why it matters, the fix, and
   the **responsible agent**. Severity: BLOCKER / MAJOR / MINOR / SUGGESTION.

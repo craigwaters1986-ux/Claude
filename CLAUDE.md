@@ -21,6 +21,11 @@ every agent and every session.
 - **Audio:** clear narration on top; subtle, original or properly licensed music underneath; restrained SFX.
 - **Text:** clear dates, names, places and short factual labels; readable on a phone.
 - **Technical:** 1920×1080, 30 fps, H.264 + AAC MP4, synchronised SRT subtitles, chapters.
+- **Channel logo (user rule, 2026-11-16):** the channel logo (`production/branding/logo-a.png`,
+  gold circle with the spiky-haired stick figure) sits in the **top-left corner for the whole
+  of every video**, via the engine's `ChannelLogo` overlay (`src/components/ChannelLogo.tsx`,
+  104 px at x 32, y 28, top layer). Keep the top-left safe zone (x < 170, y < 150) clear of
+  other on-screen text; date cards default to y = 150. QC checks it is present on every shot.
 
 ## Accuracy and ethics (non-negotiable)
 

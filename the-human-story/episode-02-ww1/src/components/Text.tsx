@@ -65,11 +65,11 @@ export const wrapText = (text: string, size: number, maxW: number, weight = 800,
 
 /**
  * Date + headline card (T-01). Appears at `at`, leaves at `until` (local frames).
- * Top-left at y = 120 by default (clear of the chapter banner at y 32-92). Long titles wrap
+ * Top-left at y = 150 by default (clear of the chapter banner at y 32-92 and the channel logo at y 28-132). Long titles wrap
  * onto two lines (max width 1040 px) and shrink if still too wide; the sub-line is 32 px.
  */
 export const DateCard: React.FC<{at: number; until: number; date: string; title: string; sub?: string; x?: number; y?: number; tone?: 'navy' | 'red' | 'dark' | 'paper'; align?: 'left' | 'center' | 'right'; maxW?: number}> = ({
-  at, until, date, title, sub, x = 70, y = 120, tone = 'navy', align = 'left', maxW = 1040,
+  at, until, date, title, sub, x = 70, y = 150, tone = 'navy', align = 'left', maxW = 1040,
 }) => {
   const f = useCurrentFrame();
   if (f < at - 1 || f > until + 1) return null;
