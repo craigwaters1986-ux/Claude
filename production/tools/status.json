@@ -921,27 +921,27 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:script"
           ],
           "deliverables": [],
           "issues": [],
           "next": "Phase B: install Kokoro (/opt/tts), generate narration + timings + SRT; confirm per-section fit <=1.12x",
-          "updated": "2026-11-16 21:28"
+          "updated": "2026-11-16 21:41"
         },
         {
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:script"
           ],
           "deliverables": [],
           "issues": [],
           "next": "Phase B: ~70 shots, each >=6 s, reuse library; MUST assets incl. trench set; keep top-left clear for channel logo",
-          "updated": "2026-11-16 21:31"
+          "updated": "2026-11-16 21:41"
         },
         {
           "id": "characters",
