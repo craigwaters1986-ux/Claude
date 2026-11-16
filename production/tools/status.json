@@ -23,9 +23,9 @@
           "note": "Approved by user; no mushroom cloud; keep Balkenkreuz; runtime ~605 s for end card"
         },
         "final-render": {
-          "state": "PENDING",
-          "updated": "2026-11-16 19:03",
-          "note": "QC PASS WITH MINOR NOTES (0 blocking, 10 polish). Awaiting user's listen and decision: approve as is, or fix label overlaps (partial re-render)."
+          "state": "APPROVED",
+          "updated": "2026-11-16 19:31",
+          "note": "User approved final render as is (option 1), 2026-11-16. QC polish items N-1..N-10 deferred."
         }
       },
       "tasks": [
@@ -428,14 +428,14 @@
           "id": "publishing-pack",
           "agent": "youtube-specialist",
           "task": "Title, description, chapters, tags, thumbnail brief, checklist",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "final-qc"
           ],
           "deliverables": [],
           "issues": [],
           "next": "",
-          "updated": "2026-11-15 14:33"
+          "updated": "2026-11-16 19:31"
         },
         {
           "id": "wrap",
