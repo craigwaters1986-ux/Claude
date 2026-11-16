@@ -778,10 +778,14 @@
       "notes": "",
       "approvals": {
         "script": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-16 21:27",
+          "note": ""
         },
         "style": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-16 21:27",
+          "note": ""
         },
         "storyboard": {
           "state": "NOT REQUESTED"
@@ -838,7 +842,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "research"
           ],
@@ -853,8 +857,8 @@
               "opened": "2026-11-16 21:22"
             }
           ],
-          "next": "Scriptwriter applying QC fixes (v2)",
-          "updated": "2026-11-16 21:25"
+          "next": "v2: all QC fixes applied and re-checked by Director; awaiting Approval 1 (batched with style)",
+          "updated": "2026-11-16 21:27"
         },
         {
           "id": "script-factcheck",

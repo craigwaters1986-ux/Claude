@@ -3,7 +3,7 @@
 - **From:** scriptwriter
 - **To:** director (cc: quality-control, storyboard, audio-engineer, environment-designer, animator)
 - **Date:** 2026-11-16
-- **Status:** AWAITING REVIEW
+- **Status:** AWAITING REVIEW (v2 — QC fixes applied; needs one-line re-check, then Approval 1)
 
 ## Deliverables
 - `production/scripts/ep02-ww1/script.md` — human-readable script v1: 11 timed sections, narration, on-screen text suggestions, tone notes, fit table, accuracy notes for QC.
@@ -41,6 +41,31 @@ Fit method: `/opt/tts` and the `kokoro` module are absent, so no measured run. E
 - s09: "1917", "Zimmermann telegram — January 1917" + tag Arthur Zimmermann, "USA DECLARES WAR · 6 APRIL 1917", "Tsar Nicholas II abdicates · March 1917", "Bolsheviks seize power · 7 November 1917 (25 October in Russia's old calendar)", "Treaty of Brest-Litovsk · 3 March 1918", "PASSCHENDAELE (Third Ypres) · 31 JULY – 10 NOVEMBER 1917", "≈ 250,000 casualties on each side (est.)".
 - s10: "SPRING OFFENSIVE · 21 MARCH 1918" ("up to 40 miles / 64 km"), tag "Marshal Foch — Allied commander", "AMIENS · 8 AUGUST 1918", quote card Ludendorff, "THE HUNDRED DAYS", "Bulgaria 29 Sep · Ottoman Empire 30 Oct · Austria-Hungary 3 Nov", "COMPIÈGNE · 11 NOVEMBER 1918 · c. 5 a.m.", "11:00", "Last day: an estimated 2,700–3,000 killed (est.)".
 - s11: "≈ 9–10 million military dead (est.)", "≈ 21 million wounded (est.)", "Civilian dead: est. 6–13 million", "1918–19 flu: at least 50 million dead worldwide (est.)", new-states map ("approximate" borders), "TREATY OF VERSAILLES · 28 JUNE 1919", graves card John Parr † 21 Aug 1914 / George Ellison † 11 Nov 1918 (St Symphorien, near Mons), "11 a.m. · 11 November", Binyon poem card, "1939", "WATCH NEXT: WW2 — From Start to Finish".
+
+## v2 changes (QC report `production/reports/qc/ep02-ww1/qc-script-20261116.md`, PASS WITH FIXES)
+1. **s11 (MAJOR):** remembrance block (Parr/Ellison graves, 11 o'clock silence, Binyon + 1 s hold) moved **before** Versailles; section now ends "The peace left grievances that others would exploit. Just 20 years later, Europe was at war again. And that is another story." ("But" dropped). On-screen order updated.
+2. **s06 (MAJOR):** "among them Australians and New Zealanders, the Anzacs," → "including the Anzacs," (Anzac explained on screen); "something darker happened" → "a catastrophe unfolded". Armenian beat wording and pauses unchanged. Est. 1.08× → 1.05×.
+3. **s03:** cut "That morning, a bomb attack on their car failed."; "Later, after a wrong turn" → "After a wrong turn". Debate card left panel → "Main responsibility: Germany (and Austria-Hungary) — e.g. Fritz Fischer, 1961". Est. 1.07× → 1.02×.
+4. **s09:** "Then British intelligence decoded…" → "Earlier that winter, British intelligence had decoded…"; Passchendaele moved before the Russia sentences (Brest-Litovsk stays as the last clause of s09, so s10's "With Russia out" follows directly). To hold the fit: "In Flanders," dropped (Flanders on the card) and "arrived in large numbers only in 1918" → "arrived in strength only in 1918". Added card gloss "U-boats could sink merchant ships without warning".
+5. **s10:** "on what Ludendorff later called…" → "on a day Ludendorff later called…". Optional card "American troops arrive in large numbers" added to the Hundred Days map.
+6. **s06 card:** duplicate "(est.)" removed — "An estimated 600,000 – 1.5 million Armenians died". Flu card keeps "(est.)". Binyon comma kept.
+7. **Counts:** word count now = whitespace words, identical to summing `script.json` texts: **1,519 words**.
+
+### v2 fit (estimated, syllable model; Kokoro still not installed)
+| Section | Words | Est. speed |
+|---|---|---|
+| s01 | 61 | 1.05× |
+| s02 | 157 | 1.00× |
+| s03 | 160 | 1.02× |
+| s04 | 163 | 1.02× |
+| s05 | 136 | 1.04× |
+| s06 | 140 | 1.05× |
+| s07 | 135 | 1.07× |
+| s08 | 104 | 1.03× |
+| s09 | 120 | 1.07× |
+| s10 | 128 | 1.08× |
+| s11 | 215 | 1.05× |
+| **Total** | **1,519** | all ≤ 1.08× (cap 1.17×) |
 
 ## Changes to inputs / assumptions
 - Binyon lines copied from the Wikisource page transcription of *The Times* printing (Page:Binyon._For_the_Fallen.djvu/1): "They shall grow not old, as we that are left grow old, / Age shall not weary them, nor the years condemn." Wikisource has a **comma** after the first line; research §6 shows a colon. Used the comma (source text). QC to confirm.

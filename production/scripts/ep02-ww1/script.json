@@ -1,7 +1,7 @@
 {
  "episode": "The Human Story — Episode 2: World War I: From Start to Finish",
  "voice": "Kokoro-82M bm_george (British English, male)",
- "version": "v1",
+ "version": "v2",
  "duration": 720,
  "sections": [
   {
@@ -104,11 +104,8 @@
      "say": "On the twenty-eighth of June, 1914, Archduke Franz Ferdinand, heir to Austria-Hungary's throne, and his wife Sophie were visiting Sarajevo, in Bosnia."
     },
     {
-     "text": "That morning, a bomb attack on their car failed."
-    },
-    {
-     "text": "Later, after a wrong turn, the car stopped near Gavrilo Princip, a 19-year-old Bosnian Serb. He shot them both dead.",
-     "say": "Later, after a wrong turn, the car stopped near Gav-reelo Prin-tsip, a nineteen-year-old Bosnian Serb. He shot them both dead.",
+     "text": "After a wrong turn, the car stopped near Gavrilo Princip, a 19-year-old Bosnian Serb. He shot them both dead.",
+     "say": "After a wrong turn, the car stopped near Gav-reelo Prin-tsip, a nineteen-year-old Bosnian Serb. He shot them both dead.",
      "pauseAfter": 0.5
     },
     {
@@ -248,8 +245,8 @@
      "text": "In the east, in August 1914, Germany destroyed a Russian army at Tannenberg."
     },
     {
-     "text": "In April 1915, Allied troops, among them Australians and New Zealanders, the Anzacs, landed at Gallipoli, in the Ottoman Empire, Germany's new ally.",
-     "say": "In April 1915, Allied troops, among them Australians and New Zealanders, the Anzacs, landed at Galli-poli, in the Ottoman Empire, Germany's new ally."
+     "text": "In April 1915, Allied troops, including the Anzacs, landed at Gallipoli, in the Ottoman Empire, Germany's new ally.",
+     "say": "In April 1915, Allied troops, including the Anzacs, landed at Galli-poli, in the Ottoman Empire, Germany's new ally."
     },
     {
      "text": "The campaign failed, at a heavy cost in lives."
@@ -262,7 +259,7 @@
      "pauseAfter": 0.7
     },
     {
-     "text": "Inside the Ottoman Empire, something darker happened.",
+     "text": "Inside the Ottoman Empire, a catastrophe unfolded.",
      "pauseAfter": 0.4
     },
     {
@@ -372,11 +369,16 @@
      "text": "In February, Germany resumed unrestricted U-boat warfare against shipping."
     },
     {
-     "text": "Then British intelligence decoded a secret German telegram proposing an alliance with Mexico if America joined the war."
+     "text": "Earlier that winter, British intelligence had decoded a secret German telegram proposing an alliance with Mexico if America joined the war."
     },
     {
-     "text": "Together, the U-boats and the telegram pushed America into the fight. On 6 April 1917, the United States declared war on Germany, though its troops arrived in large numbers only in 1918.",
-     "say": "Together, the U-boats and the telegram pushed America into the fight. On the sixth of April, 1917, the United States declared war on Germany, though its troops arrived in large numbers only in 1918.",
+     "text": "Together, the U-boats and the telegram pushed America into the fight. On 6 April 1917, the United States declared war on Germany, though its troops arrived in strength only in 1918.",
+     "say": "Together, the U-boats and the telegram pushed America into the fight. On the sixth of April, 1917, the United States declared war on Germany, though its troops arrived in strength only in 1918.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "British and Empire troops fought the Battle of Passchendaele, in rain and mud. Each side suffered around a quarter of a million casualties.",
+     "say": "British and Empire troops fought the Battle of Passhen-dale, in rain and mud. Each side suffered around a quarter of a million casualties.",
      "pauseAfter": 0.5
     },
     {
@@ -384,12 +386,7 @@
      "say": "In Russia, revolution in March forced Tsar Nicholas the Second to abdicate."
     },
     {
-     "text": "In November, Lenin's Bolsheviks seized power, and in March 1918, Russia made peace with Germany and its allies.",
-     "pauseAfter": 0.5
-    },
-    {
-     "text": "In Flanders, British and Empire troops fought the Battle of Passchendaele, in rain and mud. Each side suffered around a quarter of a million casualties.",
-     "say": "In Flanders, British and Empire troops fought the Battle of Passhen-dale, in rain and mud. Each side suffered around a quarter of a million casualties."
+     "text": "In November, Lenin's Bolsheviks seized power, and in March 1918, Russia made peace with Germany and its allies."
     }
    ]
   },
@@ -413,8 +410,8 @@
      "say": "But the Allies held, under a single commander, the French general Fosh, and in July they struck back."
     },
     {
-     "text": "On 8 August, at Amiens, they attacked with some 450 tanks, on what Ludendorff later called \"the black day of the German Army\".",
-     "say": "On the eighth of August, at Amiens, they attacked with some four hundred and fifty tanks, on what Ludendorff later called, the black day of the German Army.",
+     "text": "On 8 August, at Amiens, they attacked with some 450 tanks, on a day Ludendorff later called \"the black day of the German Army\".",
+     "say": "On the eighth of August, at Amiens, they attacked with some four hundred and fifty tanks, on a day Ludendorff later called, the black day of the German Army.",
      "pauseAfter": 0.4
     },
     {
@@ -466,14 +463,6 @@
      "text": "Four empires, the German, Austro-Hungarian, Russian and Ottoman, collapsed, and new states such as Poland and Czechoslovakia appeared on the map."
     },
     {
-     "text": "On 28 June 1919, five years to the day after Sarajevo, Germany signed the Treaty of Versailles.",
-     "say": "On the twenty-eighth of June, 1919, five years to the day after Sarajevo, Germany signed the Treaty of Vair-sigh."
-    },
-    {
-     "text": "It lost land and all its colonies, had to accept a \"war guilt\" clause and pay reparations, and its army was strictly limited. Many Germans resented it.",
-     "pauseAfter": 0.6
-    },
-    {
      "text": "Near Mons lie two British soldiers: John Parr, believed to be the first British soldier killed, in August 1914, and George Ellison, believed to be the last, on the final morning. Their graves face each other.",
      "pauseAfter": 0.5
     },
@@ -497,8 +486,16 @@
      "pauseAfter": 1.0
     },
     {
-     "text": "But the peace left grievances that others would exploit. Just 20 years later, Europe was at war again.",
-     "say": "But the peace left grievances that others would exploit. Just twenty years later, Europe was at war again.",
+     "text": "On 28 June 1919, five years to the day after Sarajevo, Germany signed the Treaty of Versailles.",
+     "say": "On the twenty-eighth of June, 1919, five years to the day after Sarajevo, Germany signed the Treaty of Vair-sigh."
+    },
+    {
+     "text": "It lost land and all its colonies, had to accept a \"war guilt\" clause and pay reparations, and its army was strictly limited. Many Germans resented it.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "The peace left grievances that others would exploit. Just 20 years later, Europe was at war again.",
+     "say": "The peace left grievances that others would exploit. Just twenty years later, Europe was at war again.",
      "pauseAfter": 0.5
     },
     {
