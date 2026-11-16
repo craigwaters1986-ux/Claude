@@ -778,14 +778,14 @@
       "notes": "",
       "approvals": {
         "script": {
-          "state": "PENDING",
-          "updated": "2026-11-16 21:27",
-          "note": ""
+          "state": "APPROVED",
+          "updated": "2026-11-16 21:28",
+          "note": "User approved script v2 (1,519 words, 720 s) 2026-11-16"
         },
         "style": {
-          "state": "PENDING",
-          "updated": "2026-11-16 21:27",
-          "note": ""
+          "state": "APPROVED",
+          "updated": "2026-11-16 21:28",
+          "note": "User approved WW1 style sample 2026-11-16; canaries: keep heads white (house style)"
         },
         "storyboard": {
           "state": "NOT REQUESTED"
@@ -924,8 +924,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Phase B: install Kokoro (/opt/tts), generate narration + timings + SRT; confirm per-section fit <=1.12x",
+          "updated": "2026-11-16 21:28"
         },
         {
           "id": "storyboard",
@@ -937,8 +937,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Phase B: ~70 shots for 12 min, each >=6 s, reuse library; MUST assets incl. trench set",
+          "updated": "2026-11-16 21:28"
         },
         {
           "id": "characters",
