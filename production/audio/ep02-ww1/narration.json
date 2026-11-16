@@ -1,0 +1,1696 @@
+{
+ "voice": "bm_george",
+ "sections": [
+  {
+   "id": "s01",
+   "chapter": "Two Shots, One Wrong Turn",
+   "start": 0,
+   "end": 35,
+   "speed": 1.034,
+   "fitAt1": 1.021,
+   "pauseScale": 1.0,
+   "budget": 27.8,
+   "sentences": [
+    {
+     "text": "28 June 1914.",
+     "start": 1.6,
+     "end": 4.437,
+     "captions": [
+      {
+       "text": "28 June 1914.",
+       "start": 1.6,
+       "end": 4.437
+      }
+     ]
+    },
+    {
+     "text": "In Sarajevo, a car carrying the heir to an empire takes a wrong turn,",
+     "start": 5.037,
+     "end": 9.648,
+     "captions": [
+      {
+       "text": "In Sarajevo, a car carrying the heir to an empire takes a wrong turn,",
+       "start": 5.037,
+       "end": 9.648
+      }
+     ]
+    },
+    {
+     "text": "and stops near a 19-year-old with a pistol.",
+     "start": 9.798,
+     "end": 13.038,
+     "captions": [
+      {
+       "text": "and stops near a 19-year-old with a pistol.",
+       "start": 9.798,
+       "end": 13.038
+      }
+     ]
+    },
+    {
+     "text": "Two shots.",
+     "start": 13.438,
+     "end": 14.311,
+     "captions": [
+      {
+       "text": "Two shots.",
+       "start": 13.438,
+       "end": 14.311
+      }
+     ]
+    },
+    {
+     "text": "Within six weeks, Europe's great powers are at war.",
+     "start": 14.911,
+     "end": 18.042,
+     "captions": [
+      {
+       "text": "Within six weeks, Europe's great powers are at war.",
+       "start": 14.911,
+       "end": 18.042
+      }
+     ]
+    },
+    {
+     "text": "Four years later, around 9 to 10 million soldiers are dead, and four empires are falling.",
+     "start": 18.342,
+     "end": 24.27,
+     "captions": [
+      {
+       "text": "Four years later, around 9 to 10 million",
+       "start": 18.342,
+       "end": 21.037
+      },
+      {
+       "text": "soldiers are dead, and four empires are falling.",
+       "start": 21.037,
+       "end": 24.27
+      }
+     ]
+    },
+    {
+     "text": "How did it happen?",
+     "start": 24.87,
+     "end": 26.12,
+     "captions": [
+      {
+       "text": "How did it happen?",
+       "start": 24.87,
+       "end": 26.12
+      }
+     ]
+    },
+    {
+     "text": "And how did it end?",
+     "start": 26.37,
+     "end": 27.718,
+     "captions": [
+      {
+       "text": "And how did it end?",
+       "start": 26.37,
+       "end": 27.718
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "chapter": "Europe Before 1914",
+   "start": 35,
+   "end": 110,
+   "speed": 1.0,
+   "fitAt1": 0.886,
+   "pauseScale": 1.0,
+   "budget": 108.6,
+   "sentences": [
+    {
+     "text": "To understand how, we have to look at Europe before the shooting started.",
+     "start": 36.2,
+     "end": 40.548,
+     "captions": [
+      {
+       "text": "To understand how, we have to look at Europe before the shooting started.",
+       "start": 36.2,
+       "end": 40.548
+      }
+     ]
+    },
+    {
+     "text": "It was a continent of great powers and rival empires, competing for land, trade and colonies around the world.",
+     "start": 40.868,
+     "end": 48.256,
+     "captions": [
+      {
+       "text": "It was a continent of great powers and rival empires,",
+       "start": 40.868,
+       "end": 44.46
+      },
+      {
+       "text": "competing for land, trade and colonies around the world.",
+       "start": 44.46,
+       "end": 48.256
+      }
+     ]
+    },
+    {
+     "text": "Over the years, they had drifted into two camps.",
+     "start": 48.576,
+     "end": 51.704,
+     "captions": [
+      {
+       "text": "Over the years, they had drifted into two camps.",
+       "start": 48.576,
+       "end": 51.704
+      }
+     ]
+    },
+    {
+     "text": "On one side stood France and Russia, with Britain more loosely tied to them: the Triple Entente.",
+     "start": 52.024,
+     "end": 58.182,
+     "captions": [
+      {
+       "text": "On one side stood France and Russia, with Britain",
+       "start": 52.024,
+       "end": 55.2
+      },
+      {
+       "text": "more loosely tied to them: the Triple Entente.",
+       "start": 55.2,
+       "end": 58.182
+      }
+     ]
+    },
+    {
+     "text": "On the other, Germany and Austria-Hungary, partners with Italy in the Triple Alliance, although Italy would stay out of the war in 1914.",
+     "start": 58.502,
+     "end": 67.778,
+     "captions": [
+      {
+       "text": "On the other, Germany and Austria-Hungary, partners with Italy in the",
+       "start": 58.502,
+       "end": 63.243
+      },
+      {
+       "text": "Triple Alliance, although Italy would stay out of the war in 1914.",
+       "start": 63.243,
+       "end": 67.778
+      }
+     ]
+    },
+    {
+     "text": "The powers built ever-larger armies, and Britain and Germany were locked in a naval arms race.",
+     "start": 68.098,
+     "end": 74.202,
+     "captions": [
+      {
+       "text": "The powers built ever-larger armies, and Britain",
+       "start": 68.098,
+       "end": 71.248
+      },
+      {
+       "text": "and Germany were locked in a naval arms race.",
+       "start": 71.248,
+       "end": 74.202
+      }
+     ]
+    },
+    {
+     "text": "In the Balkans, nationalism was on the rise.",
+     "start": 74.522,
+     "end": 77.777,
+     "captions": [
+      {
+       "text": "In the Balkans, nationalism was on the rise.",
+       "start": 74.522,
+       "end": 77.777
+      }
+     ]
+    },
+    {
+     "text": "Austria-Hungary, an empire of many peoples, saw Serb nationalism as a serious threat.",
+     "start": 78.097,
+     "end": 84.106,
+     "captions": [
+      {
+       "text": "Austria-Hungary, an empire of many peoples,",
+       "start": 78.097,
+       "end": 81.173
+      },
+      {
+       "text": "saw Serb nationalism as a serious threat.",
+       "start": 81.173,
+       "end": 84.106
+      }
+     ]
+    },
+    {
+     "text": "And the war plans depended on speed. Germany's plan was to knock France out fast, through Belgium, then turn east against Russia.",
+     "start": 84.426,
+     "end": 93.032,
+     "captions": [
+      {
+       "text": "And the war plans depended on speed. Germany's plan was to knock",
+       "start": 84.426,
+       "end": 88.729
+      },
+      {
+       "text": "France out fast, through Belgium, then turn east against Russia.",
+       "start": 88.729,
+       "end": 93.032
+      }
+     ]
+    },
+    {
+     "text": "None of this made war inevitable.",
+     "start": 93.532,
+     "end": 96.1,
+     "captions": [
+      {
+       "text": "None of this made war inevitable.",
+       "start": 93.532,
+       "end": 96.1
+      }
+     ]
+    },
+    {
+     "text": "But it meant that a local crisis could spread very quickly.",
+     "start": 96.4,
+     "end": 100.371,
+     "captions": [
+      {
+       "text": "But it meant that a local crisis could spread very quickly.",
+       "start": 96.4,
+       "end": 100.371
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "chapter": "Sarajevo and the July Crisis",
+   "start": 110,
+   "end": 190,
+   "speed": 1.0,
+   "fitAt1": 0.983,
+   "pauseScale": 1.0,
+   "budget": 188.6,
+   "sentences": [
+    {
+     "text": "On 28 June 1914, Archduke Franz Ferdinand, heir to Austria-Hungary's throne, and his wife Sophie were visiting Sarajevo, in Bosnia.",
+     "start": 110.8,
+     "end": 121.523,
+     "captions": [
+      {
+       "text": "On 28 June 1914, Archduke Franz Ferdinand, heir to Austria-Hungary's",
+       "start": 110.8,
+       "end": 116.409
+      },
+      {
+       "text": "throne, and his wife Sophie were visiting Sarajevo, in Bosnia.",
+       "start": 116.409,
+       "end": 121.523
+      }
+     ]
+    },
+    {
+     "text": "After a wrong turn, the car stopped near Gavrilo Princip, a 19-year-old Bosnian Serb. He shot them both dead.",
+     "start": 121.843,
+     "end": 129.824,
+     "captions": [
+      {
+       "text": "After a wrong turn, the car stopped near Gavrilo Princip,",
+       "start": 121.843,
+       "end": 126.055
+      },
+      {
+       "text": "a 19-year-old Bosnian Serb. He shot them both dead.",
+       "start": 126.055,
+       "end": 129.824
+      }
+     ]
+    },
+    {
+     "text": "In early July, Germany promised Austria-Hungary its full backing: the so-called \"blank cheque\".",
+     "start": 130.324,
+     "end": 136.548,
+     "captions": [
+      {
+       "text": "In early July, Germany promised Austria-Hungary",
+       "start": 130.324,
+       "end": 133.436
+      },
+      {
+       "text": "its full backing: the so-called \"blank cheque\".",
+       "start": 133.436,
+       "end": 136.548
+      }
+     ]
+    },
+    {
+     "text": "On 23 July, Vienna sent Serbia an ultimatum, with 48 hours to reply.",
+     "start": 136.868,
+     "end": 143.334,
+     "captions": [
+      {
+       "text": "On 23 July, Vienna sent Serbia an ultimatum, with 48 hours to reply.",
+       "start": 136.868,
+       "end": 143.334
+      }
+     ]
+    },
+    {
+     "text": "Serbia accepted most of the demands, but not all.",
+     "start": 143.654,
+     "end": 146.948,
+     "captions": [
+      {
+       "text": "Serbia accepted most of the demands, but not all.",
+       "start": 143.654,
+       "end": 146.948
+      }
+     ]
+    },
+    {
+     "text": "On 28 July, Austria-Hungary declared war.",
+     "start": 147.348,
+     "end": 151.16,
+     "captions": [
+      {
+       "text": "On 28 July, Austria-Hungary declared war.",
+       "start": 147.348,
+       "end": 151.16
+      }
+     ]
+    },
+    {
+     "text": "Russia began to mobilise. Germany declared war on Russia and France, and on 4 August invaded neutral Belgium.",
+     "start": 151.48,
+     "end": 159.655,
+     "captions": [
+      {
+       "text": "Russia began to mobilise. Germany declared war on Russia",
+       "start": 151.48,
+       "end": 155.719
+      },
+      {
+       "text": "and France, and on 4 August invaded neutral Belgium.",
+       "start": 155.719,
+       "end": 159.655
+      }
+     ]
+    },
+    {
+     "text": "Britain had guaranteed Belgium's neutrality, and at 11 p.m. London time, Britain was at war.",
+     "start": 159.975,
+     "end": 167.241,
+     "captions": [
+      {
+       "text": "Britain had guaranteed Belgium's neutrality,",
+       "start": 159.975,
+       "end": 163.488
+      },
+      {
+       "text": "and at 11 p.m. London time, Britain was at war.",
+       "start": 163.488,
+       "end": 167.241
+      }
+     ]
+    },
+    {
+     "text": "Sarajevo was the trigger, not the whole cause.",
+     "start": 167.741,
+     "end": 170.932,
+     "captions": [
+      {
+       "text": "Sarajevo was the trigger, not the whole cause.",
+       "start": 167.741,
+       "end": 170.932
+      }
+     ]
+    },
+    {
+     "text": "Historians still argue about who was most to blame.",
+     "start": 171.252,
+     "end": 174.725,
+     "captions": [
+      {
+       "text": "Historians still argue about who was most to blame.",
+       "start": 171.252,
+       "end": 174.725
+      }
+     ]
+    },
+    {
+     "text": "Some put the main responsibility on Germany and Austria-Hungary. Others stress that many governments, in a tangled system, made choices that led to a world war none of them intended.",
+     "start": 175.045,
+     "end": 187.304,
+     "captions": [
+      {
+       "text": "Some put the main responsibility on Germany and Austria-Hungary.",
+       "start": 175.045,
+       "end": 179.404
+      },
+      {
+       "text": "Others stress that many governments, in a tangled system,",
+       "start": 179.404,
+       "end": 183.286
+      },
+      {
+       "text": "made choices that led to a world war none of them intended.",
+       "start": 183.286,
+       "end": 187.304
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s04",
+   "chapter": "1914: The War of Movement Stops",
+   "start": 190,
+   "end": 260,
+   "speed": 1.0,
+   "fitAt1": 0.956,
+   "pauseScale": 1.0,
+   "budget": 258.6,
+   "sentences": [
+    {
+     "text": "Many on all sides believed the war would be short.",
+     "start": 190.8,
+     "end": 194.101,
+     "captions": [
+      {
+       "text": "Many on all sides believed the war would be short.",
+       "start": 190.8,
+       "end": 194.101
+      }
+     ]
+    },
+    {
+     "text": "In August, German armies swept through Belgium and into France.",
+     "start": 194.501,
+     "end": 198.601,
+     "captions": [
+      {
+       "text": "In August, German armies swept through Belgium and into France.",
+       "start": 194.501,
+       "end": 198.601
+      }
+     ]
+    },
+    {
+     "text": "The British fought their first major battle at Mons, then retreated.",
+     "start": 198.921,
+     "end": 203.124,
+     "captions": [
+      {
+       "text": "The British fought their first major battle at Mons, then retreated.",
+       "start": 198.921,
+       "end": 203.124
+      }
+     ]
+    },
+    {
+     "text": "Then, in early September, French and British troops stopped the German advance east of Paris, at the Battle of the Marne.",
+     "start": 203.444,
+     "end": 211.001,
+     "captions": [
+      {
+       "text": "Then, in early September, French and British troops stopped",
+       "start": 203.444,
+       "end": 207.16
+      },
+      {
+       "text": "the German advance east of Paris, at the Battle of the Marne.",
+       "start": 207.16,
+       "end": 211.001
+      }
+     ]
+    },
+    {
+     "text": "Germany's hopes of a quick victory in the west were over.",
+     "start": 211.321,
+     "end": 215.13,
+     "captions": [
+      {
+       "text": "Germany's hopes of a quick victory in the west were over.",
+       "start": 211.321,
+       "end": 215.13
+      }
+     ]
+    },
+    {
+     "text": "Both sides then raced north, trying to outflank each other, until they reached the sea.",
+     "start": 215.53,
+     "end": 220.749,
+     "captions": [
+      {
+       "text": "Both sides then raced north, trying to outflank",
+       "start": 215.53,
+       "end": 218.382
+      },
+      {
+       "text": "each other, until they reached the sea.",
+       "start": 218.382,
+       "end": 220.749
+      }
+     ]
+    },
+    {
+     "text": "By the end of 1914, a line of trenches ran for about 700 kilometres, from the Belgian coast to Switzerland.",
+     "start": 221.069,
+     "end": 229.315,
+     "captions": [
+      {
+       "text": "By the end of 1914, a line of trenches ran for about",
+       "start": 221.069,
+       "end": 225.114
+      },
+      {
+       "text": "700 kilometres, from the Belgian coast to Switzerland.",
+       "start": 225.114,
+       "end": 229.315
+      }
+     ]
+    },
+    {
+     "text": "And at Christmas, something remarkable happened.",
+     "start": 229.815,
+     "end": 232.641,
+     "captions": [
+      {
+       "text": "And at Christmas, something remarkable happened.",
+       "start": 229.815,
+       "end": 232.641
+      }
+     ]
+    },
+    {
+     "text": "Along parts of the front, men stopped fighting. They sang carols, swapped souvenirs and buried their dead, and in some places they kicked a ball about.",
+     "start": 232.961,
+     "end": 242.455,
+     "captions": [
+      {
+       "text": "Along parts of the front, men stopped fighting. They sang carols, swapped",
+       "start": 232.961,
+       "end": 237.581
+      },
+      {
+       "text": "souvenirs and buried their dead, and in some places they kicked a ball about.",
+       "start": 237.581,
+       "end": 242.455
+      }
+     ]
+    },
+    {
+     "text": "Rifleman William Eve wrote in his diary: \"not a shot fired all day or night.\"",
+     "start": 242.775,
+     "end": 247.885,
+     "captions": [
+      {
+       "text": "Rifleman William Eve wrote in his diary: \"not a shot fired all day or night.\"",
+       "start": 242.775,
+       "end": 247.885
+      }
+     ]
+    },
+    {
+     "text": "But the truces were unofficial and patchy, senior officers disapproved, and it never happened on that scale again.",
+     "start": 248.385,
+     "end": 255.585,
+     "captions": [
+      {
+       "text": "But the truces were unofficial and patchy, senior officers",
+       "start": 248.385,
+       "end": 252.081
+      },
+      {
+       "text": "disapproved, and it never happened on that scale again.",
+       "start": 252.081,
+       "end": 255.585
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s05",
+   "chapter": "Life in the Trenches",
+   "start": 260,
+   "end": 320,
+   "speed": 1.0,
+   "fitAt1": 1.0,
+   "pauseScale": 1.0,
+   "budget": 318.6,
+   "sentences": [
+    {
+     "text": "For the men at the front, trench life was grim.",
+     "start": 260.8,
+     "end": 263.715,
+     "captions": [
+      {
+       "text": "For the men at the front, trench life was grim.",
+       "start": 260.8,
+       "end": 263.715
+      }
+     ]
+    },
+    {
+     "text": "Units rotated in and out of the front line, usually spending a few days there at a time.",
+     "start": 264.035,
+     "end": 270.11,
+     "captions": [
+      {
+       "text": "Units rotated in and out of the front line,",
+       "start": 264.035,
+       "end": 267.038
+      },
+      {
+       "text": "usually spending a few days there at a time.",
+       "start": 267.038,
+       "end": 270.11
+      }
+     ]
+    },
+    {
+     "text": "Lice infested their clothes and spread trench fever. Rats were everywhere.",
+     "start": 270.43,
+     "end": 275.401,
+     "captions": [
+      {
+       "text": "Lice infested their clothes and spread trench fever. Rats were everywhere.",
+       "start": 270.43,
+       "end": 275.401
+      }
+     ]
+    },
+    {
+     "text": "After long hours in cold water, feet could swell and rot: trench foot.",
+     "start": 275.721,
+     "end": 280.439,
+     "captions": [
+      {
+       "text": "After long hours in cold water, feet could swell and rot: trench foot.",
+       "start": 275.721,
+       "end": 280.439
+      }
+     ]
+    },
+    {
+     "text": "Shellfire, not bullets, was the great killer.",
+     "start": 280.759,
+     "end": 283.626,
+     "captions": [
+      {
+       "text": "Shellfire, not bullets, was the great killer.",
+       "start": 280.759,
+       "end": 283.626
+      }
+     ]
+    },
+    {
+     "text": "In April 1915, near Ypres, poison gas was used on a large scale for the first time.",
+     "start": 284.026,
+     "end": 290.628,
+     "captions": [
+      {
+       "text": "In April 1915, near Ypres, poison gas was used on a large scale for the first time.",
+       "start": 284.026,
+       "end": 290.628
+      }
+     ]
+    },
+    {
+     "text": "Both sides soon issued masks. Gas caused many casualties but relatively few deaths: it was feared more than it killed.",
+     "start": 290.948,
+     "end": 298.915,
+     "captions": [
+      {
+       "text": "Both sides soon issued masks. Gas caused many casualties but",
+       "start": 290.948,
+       "end": 295.034
+      },
+      {
+       "text": "relatively few deaths: it was feared more than it killed.",
+       "start": 295.034,
+       "end": 298.915
+      }
+     ]
+    },
+    {
+     "text": "The strain broke many minds. The British Army alone recorded about 80,000 cases of shell shock, and many more went unrecorded.",
+     "start": 299.315,
+     "end": 308.125,
+     "captions": [
+      {
+       "text": "The strain broke many minds. The British Army alone recorded",
+       "start": 299.315,
+       "end": 303.544
+      },
+      {
+       "text": "about 80,000 cases of shell shock, and many more went unrecorded.",
+       "start": 303.544,
+       "end": 308.125
+      }
+     ]
+    },
+    {
+     "text": "In all, 306 British and Commonwealth soldiers were executed, mostly for desertion or cowardice. In 2006, they were pardoned.",
+     "start": 308.445,
+     "end": 318.577,
+     "captions": [
+      {
+       "text": "In all, 306 British and Commonwealth soldiers were executed,",
+       "start": 308.445,
+       "end": 313.387
+      },
+      {
+       "text": "mostly for desertion or cowardice. In 2006, they were pardoned.",
+       "start": 313.387,
+       "end": 318.577
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s06",
+   "chapter": "A World War",
+   "start": 320,
+   "end": 390,
+   "speed": 1.0,
+   "fitAt1": 0.987,
+   "pauseScale": 1.0,
+   "budget": 388.6,
+   "sentences": [
+    {
+     "text": "This was a world war.",
+     "start": 320.8,
+     "end": 322.405,
+     "captions": [
+      {
+       "text": "This was a world war.",
+       "start": 320.8,
+       "end": 322.405
+      }
+     ]
+    },
+    {
+     "text": "In the east, in August 1914, Germany destroyed a Russian army at Tannenberg.",
+     "start": 322.725,
+     "end": 328.65,
+     "captions": [
+      {
+       "text": "In the east, in August 1914, Germany destroyed a Russian army at Tannenberg.",
+       "start": 322.725,
+       "end": 328.65
+      }
+     ]
+    },
+    {
+     "text": "In April 1915, Allied troops, including the Anzacs, landed at Gallipoli, in the Ottoman Empire, Germany's new ally.",
+     "start": 328.97,
+     "end": 338.001,
+     "captions": [
+      {
+       "text": "In April 1915, Allied troops, including the Anzacs, landed",
+       "start": 328.97,
+       "end": 333.565
+      },
+      {
+       "text": "at Gallipoli, in the Ottoman Empire, Germany's new ally.",
+       "start": 333.565,
+       "end": 338.001
+      }
+     ]
+    },
+    {
+     "text": "The campaign failed, at a heavy cost in lives.",
+     "start": 338.321,
+     "end": 341.582,
+     "captions": [
+      {
+       "text": "The campaign failed, at a heavy cost in lives.",
+       "start": 338.321,
+       "end": 341.582
+      }
+     ]
+    },
+    {
+     "text": "Italy joined the Allies, and fighting spread to Africa and the Middle East.",
+     "start": 341.902,
+     "end": 346.57,
+     "captions": [
+      {
+       "text": "Italy joined the Allies, and fighting spread to Africa and the Middle East.",
+       "start": 341.902,
+       "end": 346.57
+      }
+     ]
+    },
+    {
+     "text": "About one and a half million men from South Asia served in the Indian Army, and troops came from across the empires, from Canada to the Caribbean.",
+     "start": 346.89,
+     "end": 356.491,
+     "captions": [
+      {
+       "text": "About one and a half million men from South Asia served in the Indian Army,",
+       "start": 346.89,
+       "end": 351.856
+      },
+      {
+       "text": "and troops came from across the empires, from Canada to the Caribbean.",
+       "start": 351.856,
+       "end": 356.491
+      }
+     ]
+    },
+    {
+     "text": "Inside the Ottoman Empire, a catastrophe unfolded.",
+     "start": 357.191,
+     "end": 361.195,
+     "captions": [
+      {
+       "text": "Inside the Ottoman Empire, a catastrophe unfolded.",
+       "start": 357.191,
+       "end": 361.195
+      }
+     ]
+    },
+    {
+     "text": "From 1915, the Ottoman government deported and murdered Armenians across the empire.",
+     "start": 361.595,
+     "end": 367.789,
+     "captions": [
+      {
+       "text": "From 1915, the Ottoman government deported and murdered Armenians across the empire.",
+       "start": 361.595,
+       "end": 367.789
+      }
+     ]
+    },
+    {
+     "text": "An estimated 600,000 to 1.5 million Armenians died, in massacres and on forced marches into the Syrian desert.",
+     "start": 368.109,
+     "end": 377.61,
+     "captions": [
+      {
+       "text": "An estimated 600,000 to 1.5 million Armenians died, in",
+       "start": 368.109,
+       "end": 372.816
+      },
+      {
+       "text": "massacres and on forced marches into the Syrian desert.",
+       "start": 372.816,
+       "end": 377.61
+      }
+     ]
+    },
+    {
+     "text": "This was the Armenian Genocide.",
+     "start": 378.11,
+     "end": 380.544,
+     "captions": [
+      {
+       "text": "This was the Armenian Genocide.",
+       "start": 378.11,
+       "end": 380.544
+      }
+     ]
+    },
+    {
+     "text": "Turkey's government still rejects the term. Historians and genocide scholars overwhelmingly use it.",
+     "start": 380.944,
+     "end": 387.718,
+     "captions": [
+      {
+       "text": "Turkey's government still rejects the term. Historians",
+       "start": 380.944,
+       "end": 384.677
+      },
+      {
+       "text": "and genocide scholars overwhelmingly use it.",
+       "start": 384.677,
+       "end": 387.718
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s07",
+   "chapter": "1916: Verdun and the Somme",
+   "start": 390,
+   "end": 450,
+   "speed": 1.0,
+   "fitAt1": 0.994,
+   "pauseScale": 1.0,
+   "budget": 448.6,
+   "sentences": [
+    {
+     "text": "In 1916, both sides tried to break the deadlock.",
+     "start": 390.8,
+     "end": 394.421,
+     "captions": [
+      {
+       "text": "In 1916, both sides tried to break the deadlock.",
+       "start": 390.8,
+       "end": 394.421
+      }
+     ]
+    },
+    {
+     "text": "In February, Germany attacked Verdun, a fortress city France would defend at any cost.",
+     "start": 394.741,
+     "end": 400.36,
+     "captions": [
+      {
+       "text": "In February, Germany attacked Verdun, a",
+       "start": 394.741,
+       "end": 397.319
+      },
+      {
+       "text": "fortress city France would defend at any cost.",
+       "start": 397.319,
+       "end": 400.36
+      }
+     ]
+    },
+    {
+     "text": "The battle lasted about 300 days, the longest of the war, and caused around 700,000 casualties.",
+     "start": 400.68,
+     "end": 408.48,
+     "captions": [
+      {
+       "text": "The battle lasted about 300 days, the longest of",
+       "start": 400.68,
+       "end": 404.663
+      },
+      {
+       "text": "the war, and caused around 700,000 casualties.",
+       "start": 404.663,
+       "end": 408.48
+      }
+     ]
+    },
+    {
+     "text": "Partly to relieve Verdun, British and French forces attacked on the Somme.",
+     "start": 408.88,
+     "end": 413.733,
+     "captions": [
+      {
+       "text": "Partly to relieve Verdun, British and French forces attacked on the Somme.",
+       "start": 408.88,
+       "end": 413.733
+      }
+     ]
+    },
+    {
+     "text": "A week of shelling failed to destroy the German defences. On 1 July, the British Army had the worst day in its history: more than 57,000 casualties, over 19,000 of them dead.",
+     "start": 414.053,
+     "end": 427.512,
+     "captions": [
+      {
+       "text": "A week of shelling failed to destroy the German defences. On",
+       "start": 414.053,
+       "end": 418.748
+      },
+      {
+       "text": "1 July, the British Army had the worst day in its history:",
+       "start": 418.748,
+       "end": 423.286
+      },
+      {
+       "text": "more than 57,000 casualties, over 19,000 of them dead.",
+       "start": 423.286,
+       "end": 427.512
+      }
+     ]
+    },
+    {
+     "text": "Many were \"Pals\" battalions of friends and workmates, so whole towns grieved together.",
+     "start": 428.012,
+     "end": 433.616,
+     "captions": [
+      {
+       "text": "Many were \"Pals\" battalions of friends and",
+       "start": 428.012,
+       "end": 430.781
+      },
+      {
+       "text": "workmates, so whole towns grieved together.",
+       "start": 430.781,
+       "end": 433.616
+      }
+     ]
+    },
+    {
+     "text": "By November, the Allies had advanced a few miles, at a cost of more than a million casualties on all sides.",
+     "start": 434.016,
+     "end": 441.262,
+     "captions": [
+      {
+       "text": "By November, the Allies had advanced a few miles, at",
+       "start": 434.016,
+       "end": 437.571
+      },
+      {
+       "text": "a cost of more than a million casualties on all sides.",
+       "start": 437.571,
+       "end": 441.262
+      }
+     ]
+    },
+    {
+     "text": "Historians still debate whether it was a futile slaughter, or a battle that wore down the German army.",
+     "start": 441.582,
+     "end": 448.269,
+     "captions": [
+      {
+       "text": "Historians still debate whether it was a futile",
+       "start": 441.582,
+       "end": 444.694
+      },
+      {
+       "text": "slaughter, or a battle that wore down the German army.",
+       "start": 444.694,
+       "end": 448.269
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s08",
+   "chapter": "The Home Front",
+   "start": 450,
+   "end": 500,
+   "speed": 1.0,
+   "fitAt1": 0.991,
+   "pauseScale": 1.0,
+   "budget": 498.6,
+   "sentences": [
+    {
+     "text": "At home, the war reached into almost every life.",
+     "start": 450.8,
+     "end": 453.924,
+     "captions": [
+      {
+       "text": "At home, the war reached into almost every life.",
+       "start": 450.8,
+       "end": 453.924
+      }
+     ]
+    },
+    {
+     "text": "Britain relied at first on volunteers, but in 1916 it brought in conscription.",
+     "start": 454.244,
+     "end": 460.387,
+     "captions": [
+      {
+       "text": "Britain relied at first on volunteers, but in 1916 it brought in conscription.",
+       "start": 454.244,
+       "end": 460.387
+      }
+     ]
+    },
+    {
+     "text": "Women took on work in offices, on farms and on buses. By 1918, almost a million British women worked in munitions.",
+     "start": 460.707,
+     "end": 469.569,
+     "captions": [
+      {
+       "text": "Women took on work in offices, on farms and on buses. By",
+       "start": 460.707,
+       "end": 465.099
+      },
+      {
+       "text": "1918, almost a million British women worked in munitions.",
+       "start": 465.099,
+       "end": 469.569
+      }
+     ]
+    },
+    {
+     "text": "Those filling shells were nicknamed \"canaries\", because the TNT turned their skin yellow.",
+     "start": 469.889,
+     "end": 475.589,
+     "captions": [
+      {
+       "text": "Those filling shells were nicknamed \"canaries\",",
+       "start": 469.889,
+       "end": 472.933
+      },
+      {
+       "text": "because the TNT turned their skin yellow.",
+       "start": 472.933,
+       "end": 475.589
+      }
+     ]
+    },
+    {
+     "text": "Others volunteered as nurses, in hospitals at home and abroad.",
+     "start": 475.909,
+     "end": 480.286,
+     "captions": [
+      {
+       "text": "Others volunteered as nurses, in hospitals at home and abroad.",
+       "start": 475.909,
+       "end": 480.286
+      }
+     ]
+    },
+    {
+     "text": "German air raids killed about 1,400 people in Britain, including 18 children at a school in Poplar.",
+     "start": 480.606,
+     "end": 487.863,
+     "captions": [
+      {
+       "text": "German air raids killed about 1,400 people in",
+       "start": 480.606,
+       "end": 483.938
+      },
+      {
+       "text": "Britain, including 18 children at a school in Poplar.",
+       "start": 483.938,
+       "end": 487.863
+      }
+     ]
+    },
+    {
+     "text": "As U-boats sank supply ships, Britain brought in rationing in 1918.",
+     "start": 488.263,
+     "end": 493.212,
+     "captions": [
+      {
+       "text": "As U-boats sank supply ships, Britain brought in rationing in 1918.",
+       "start": 488.263,
+       "end": 493.212
+      }
+     ]
+    },
+    {
+     "text": "In Germany, the British naval blockade caused severe food shortages.",
+     "start": 493.532,
+     "end": 498.192,
+     "captions": [
+      {
+       "text": "In Germany, the British naval blockade caused severe food shortages.",
+       "start": 493.532,
+       "end": 498.192
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s09",
+   "chapter": "1917: The Turning Year",
+   "start": 500,
+   "end": 560,
+   "speed": 1.0,
+   "fitAt1": 0.978,
+   "pauseScale": 1.0,
+   "budget": 558.6,
+   "sentences": [
+    {
+     "text": "1917 was the year the war turned.",
+     "start": 500.8,
+     "end": 504.196,
+     "captions": [
+      {
+       "text": "1917 was the year the war turned.",
+       "start": 500.8,
+       "end": 504.196
+      }
+     ]
+    },
+    {
+     "text": "In February, Germany resumed unrestricted U-boat warfare against shipping.",
+     "start": 504.596,
+     "end": 509.743,
+     "captions": [
+      {
+       "text": "In February, Germany resumed unrestricted U-boat warfare against shipping.",
+       "start": 504.596,
+       "end": 509.743
+      }
+     ]
+    },
+    {
+     "text": "Earlier that winter, British intelligence had decoded a secret German telegram proposing an alliance with Mexico if America joined the war.",
+     "start": 510.063,
+     "end": 519.713,
+     "captions": [
+      {
+       "text": "Earlier that winter, British intelligence had decoded a secret German",
+       "start": 510.063,
+       "end": 514.888
+      },
+      {
+       "text": "telegram proposing an alliance with Mexico if America joined the war.",
+       "start": 514.888,
+       "end": 519.713
+      }
+     ]
+    },
+    {
+     "text": "Together, the U-boats and the telegram pushed America into the fight. On 6 April 1917, the United States declared war on Germany, though its troops arrived in strength only in 1918.",
+     "start": 520.033,
+     "end": 533.982,
+     "captions": [
+      {
+       "text": "Together, the U-boats and the telegram pushed America into",
+       "start": 520.033,
+       "end": 524.553
+      },
+      {
+       "text": "the fight. On 6 April 1917, the United States declared war on",
+       "start": 524.553,
+       "end": 529.306
+      },
+      {
+       "text": "Germany, though its troops arrived in strength only in 1918.",
+       "start": 529.306,
+       "end": 533.982
+      }
+     ]
+    },
+    {
+     "text": "British and Empire troops fought the Battle of Passchendaele, in rain and mud. Each side suffered around a quarter of a million casualties.",
+     "start": 534.482,
+     "end": 543.315,
+     "captions": [
+      {
+       "text": "British and Empire troops fought the Battle of Passchendaele, in rain",
+       "start": 534.482,
+       "end": 538.899
+      },
+      {
+       "text": "and mud. Each side suffered around a quarter of a million casualties.",
+       "start": 538.899,
+       "end": 543.315
+      }
+     ]
+    },
+    {
+     "text": "In Russia, revolution in March forced Tsar Nicholas II to abdicate.",
+     "start": 543.815,
+     "end": 548.923,
+     "captions": [
+      {
+       "text": "In Russia, revolution in March forced Tsar Nicholas II to abdicate.",
+       "start": 543.815,
+       "end": 548.923
+      }
+     ]
+    },
+    {
+     "text": "In November, Lenin's Bolsheviks seized power, and in March 1918, Russia made peace with Germany and its allies.",
+     "start": 549.243,
+     "end": 557.354,
+     "captions": [
+      {
+       "text": "In November, Lenin's Bolsheviks seized power, and in",
+       "start": 549.243,
+       "end": 553.077
+      },
+      {
+       "text": "March 1918, Russia made peace with Germany and its allies.",
+       "start": 553.077,
+       "end": 557.354
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s10",
+   "chapter": "1918: The Last Battles",
+   "start": 560,
+   "end": 620,
+   "speed": 1.036,
+   "fitAt1": 1.02,
+   "pauseScale": 1.0,
+   "budget": 618.6,
+   "sentences": [
+    {
+     "text": "With Russia out, Germany gambled on winning in the west before American strength arrived.",
+     "start": 560.8,
+     "end": 566.395,
+     "captions": [
+      {
+       "text": "With Russia out, Germany gambled on winning",
+       "start": 560.8,
+       "end": 563.534
+      },
+      {
+       "text": "in the west before American strength arrived.",
+       "start": 563.534,
+       "end": 566.395
+      }
+     ]
+    },
+    {
+     "text": "On 21 March 1918, its Spring Offensive struck, advancing up to 40 miles.",
+     "start": 566.715,
+     "end": 573.537,
+     "captions": [
+      {
+       "text": "On 21 March 1918, its Spring Offensive struck, advancing up to 40 miles.",
+       "start": 566.715,
+       "end": 573.537
+      }
+     ]
+    },
+    {
+     "text": "But the Allies held, under a single commander, the French general Foch, and in July they struck back.",
+     "start": 573.937,
+     "end": 580.267,
+     "captions": [
+      {
+       "text": "But the Allies held, under a single commander, the",
+       "start": 573.937,
+       "end": 577.102
+      },
+      {
+       "text": "French general Foch, and in July they struck back.",
+       "start": 577.102,
+       "end": 580.267
+      }
+     ]
+    },
+    {
+     "text": "On 8 August, at Amiens, they attacked with some 450 tanks, on a day Ludendorff later called \"the black day of the German Army\".",
+     "start": 580.587,
+     "end": 590.246,
+     "captions": [
+      {
+       "text": "On 8 August, at Amiens, they attacked with some 450 tanks, on a",
+       "start": 580.587,
+       "end": 585.417
+      },
+      {
+       "text": "day Ludendorff later called \"the black day of the German Army\".",
+       "start": 585.417,
+       "end": 590.246
+      }
+     ]
+    },
+    {
+     "text": "In the Hundred Days that followed, the Allies kept advancing.",
+     "start": 590.646,
+     "end": 594.418,
+     "captions": [
+      {
+       "text": "In the Hundred Days that followed, the Allies kept advancing.",
+       "start": 590.646,
+       "end": 594.418
+      }
+     ]
+    },
+    {
+     "text": "Germany's allies collapsed. Sailors mutinied, revolution spread, and the Kaiser fled to the Netherlands.",
+     "start": 594.738,
+     "end": 601.443,
+     "captions": [
+      {
+       "text": "Germany's allies collapsed. Sailors mutinied, revolution",
+       "start": 594.738,
+       "end": 598.383
+      },
+      {
+       "text": "spread, and the Kaiser fled to the Netherlands.",
+       "start": 598.383,
+       "end": 601.443
+      }
+     ]
+    },
+    {
+     "text": "At about 5 a.m. on 11 November, an armistice was signed in a railway carriage near Compiègne.",
+     "start": 601.763,
+     "end": 609.155,
+     "captions": [
+      {
+       "text": "At about 5 a.m. on 11 November, an armistice",
+       "start": 601.763,
+       "end": 605.298
+      },
+      {
+       "text": "was signed in a railway carriage near Compiègne.",
+       "start": 605.298,
+       "end": 609.155
+      }
+     ]
+    },
+    {
+     "text": "At 11 o'clock, the guns fell silent.",
+     "start": 609.475,
+     "end": 612.231,
+     "captions": [
+      {
+       "text": "At 11 o'clock, the guns fell silent.",
+       "start": 609.475,
+       "end": 612.231
+      }
+     ]
+    },
+    {
+     "text": "Even that morning, an estimated 2,700 to 3,000 men were killed.",
+     "start": 612.831,
+     "end": 618.6,
+     "captions": [
+      {
+       "text": "Even that morning, an estimated 2,700 to 3,000 men were killed.",
+       "start": 612.831,
+       "end": 618.6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s11",
+   "chapter": "The Cost and the Legacy",
+   "start": 620,
+   "end": 720,
+   "speed": 1.0,
+   "fitAt1": 0.998,
+   "pauseScale": 1.0,
+   "budget": 714.0,
+   "sentences": [
+    {
+     "text": "The cost was almost impossible to grasp.",
+     "start": 620.8,
+     "end": 623.644,
+     "captions": [
+      {
+       "text": "The cost was almost impossible to grasp.",
+       "start": 620.8,
+       "end": 623.644
+      }
+     ]
+    },
+    {
+     "text": "Around 9 to 10 million servicemen had died, and about 21 million had been wounded.",
+     "start": 624.044,
+     "end": 629.921,
+     "captions": [
+      {
+       "text": "Around 9 to 10 million servicemen had died,",
+       "start": 624.044,
+       "end": 627.164
+      },
+      {
+       "text": "and about 21 million had been wounded.",
+       "start": 627.164,
+       "end": 629.921
+      }
+     ]
+    },
+    {
+     "text": "Millions of civilians died too, from fighting, hunger, disease and genocide.",
+     "start": 630.241,
+     "end": 635.414,
+     "captions": [
+      {
+       "text": "Millions of civilians died too, from fighting, hunger, disease and genocide.",
+       "start": 630.241,
+       "end": 635.414
+      }
+     ]
+    },
+    {
+     "text": "And in 1918 and 1919, a flu pandemic swept the world, killing at least 50 million people.",
+     "start": 635.734,
+     "end": 643.082,
+     "captions": [
+      {
+       "text": "And in 1918 and 1919, a flu pandemic swept",
+       "start": 635.734,
+       "end": 639.241
+      },
+      {
+       "text": "the world, killing at least 50 million people.",
+       "start": 639.241,
+       "end": 643.082
+      }
+     ]
+    },
+    {
+     "text": "Four empires, the German, Austro-Hungarian, Russian and Ottoman, collapsed, and new states such as Poland and Czechoslovakia appeared on the map.",
+     "start": 643.582,
+     "end": 653.149,
+     "captions": [
+      {
+       "text": "Four empires, the German, Austro-Hungarian, Russian and Ottoman,",
+       "start": 643.582,
+       "end": 647.834
+      },
+      {
+       "text": "collapsed, and new states such as Poland and Czechoslovakia appeared on the map.",
+       "start": 647.834,
+       "end": 653.149
+      }
+     ]
+    },
+    {
+     "text": "Near Mons lie two British soldiers: John Parr, believed to be the first British soldier killed, in August 1914, and George Ellison, believed to be the last, on the final morning. Their graves face each other.",
+     "start": 653.469,
+     "end": 667.783,
+     "captions": [
+      {
+       "text": "Near Mons lie two British soldiers: John Parr, believed to be the first",
+       "start": 653.469,
+       "end": 658.402
+      },
+      {
+       "text": "British soldier killed, in August 1914, and George Ellison, believed",
+       "start": 658.402,
+       "end": 663.127
+      },
+      {
+       "text": "to be the last, on the final morning. Their graves face each other.",
+       "start": 663.127,
+       "end": 667.783
+      }
+     ]
+    },
+    {
+     "text": "Every year, at 11 o'clock on 11 November, people fall silent to remember.",
+     "start": 668.283,
+     "end": 674.204,
+     "captions": [
+      {
+       "text": "Every year, at 11 o'clock on 11 November, people fall silent to remember.",
+       "start": 668.283,
+       "end": 674.204
+      }
+     ]
+    },
+    {
+     "text": "In the words of the poet Laurence Binyon:",
+     "start": 674.704,
+     "end": 677.447,
+     "captions": [
+      {
+       "text": "In the words of the poet Laurence Binyon:",
+       "start": 674.704,
+       "end": 677.447
+      }
+     ]
+    },
+    {
+     "text": "\"They shall grow not old, as we that are left grow old,",
+     "start": 677.847,
+     "end": 681.242,
+     "captions": [
+      {
+       "text": "\"They shall grow not old, as we that are left grow old,",
+       "start": 677.847,
+       "end": 681.242
+      }
+     ]
+    },
+    {
+     "text": "Age shall not weary them, nor the years condemn.\"",
+     "start": 681.542,
+     "end": 684.664,
+     "captions": [
+      {
+       "text": "Age shall not weary them, nor the years condemn.\"",
+       "start": 681.542,
+       "end": 684.664
+      }
+     ]
+    },
+    {
+     "text": "On 28 June 1919, five years to the day after Sarajevo, Germany signed the Treaty of Versailles.",
+     "start": 685.664,
+     "end": 693.77,
+     "captions": [
+      {
+       "text": "On 28 June 1919, five years to the day after",
+       "start": 685.664,
+       "end": 689.458
+      },
+      {
+       "text": "Sarajevo, Germany signed the Treaty of Versailles.",
+       "start": 689.458,
+       "end": 693.77
+      }
+     ]
+    },
+    {
+     "text": "It lost land and all its colonies, had to accept a \"war guilt\" clause and pay reparations, and its army was strictly limited. Many Germans resented it.",
+     "start": 694.09,
+     "end": 704.354,
+     "captions": [
+      {
+       "text": "It lost land and all its colonies, had to accept a \"war guilt\" clause and",
+       "start": 694.09,
+       "end": 699.085
+      },
+      {
+       "text": "pay reparations, and its army was strictly limited. Many Germans resented it.",
+       "start": 699.085,
+       "end": 704.354
+      }
+     ]
+    },
+    {
+     "text": "The peace left grievances that others would exploit. Just 20 years later, Europe was at war again.",
+     "start": 704.854,
+     "end": 711.36,
+     "captions": [
+      {
+       "text": "The peace left grievances that others would exploit.",
+       "start": 704.854,
+       "end": 708.342
+      },
+      {
+       "text": "Just 20 years later, Europe was at war again.",
+       "start": 708.342,
+       "end": 711.36
+      }
+     ]
+    },
+    {
+     "text": "And that is another story.",
+     "start": 711.86,
+     "end": 713.783,
+     "captions": [
+      {
+       "text": "And that is another story.",
+       "start": 711.86,
+       "end": 713.783
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

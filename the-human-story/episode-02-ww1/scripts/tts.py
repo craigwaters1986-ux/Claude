@@ -6,10 +6,14 @@ Reads research/script.json, synthesises every sentence with the Kokoro-82M
 neural TTS model (Apache-2.0, runs locally), lays the sentences out on the
 episode timeline and writes:
 
-  assets/audio/episode-01-narration.wav   full-length narration (48 kHz)
+  assets/audio/episode-NN-narration.wav   full-length narration (48 kHz)
+  output/episode-NN-narration.wav         same file (deliverable copy)
   public/audio/narration.wav              copy used by the Remotion render
   src/timeline/narration.json             sentence + caption timings (drives animation)
-  output/episode-01-subtitles.srt         subtitles
+  output/episode-NN-subtitles.srt         subtitles
+
+NN = EPISODE_TAG (env, default "02"); episode length comes from script.json
+"duration" (fallback 600 s).
 
 Each section is fitted inside its time window: if the spoken text would
 overrun, the speaking rate is raised slightly (capped) and pauses tightened.
@@ -25,7 +29,8 @@ VOICE = os.environ.get("NARRATOR_VOICE", "bm_george")
 BASE_SPEED = 1.0
 MAX_SPEED = 1.17
 SR_OUT = 48000
-EPISODE_LEN = 600.0
+EPISODE_TAG = os.environ.get("EPISODE_TAG", "02")
+EPISODE_LEN = 600.0  # overridden by script.json "duration"
 DEFAULT_PAUSE = 0.32
 CACHE = os.path.join(ROOT, "assets/audio/tts-cache")
 
@@ -54,6 +59,17 @@ RESPELL = {
     r"\bLuftwaffe\b": "Luft-vaffa",
     r"\bSudetenland\b": "Soo-dayten-land",
     r"\bEl Alamein\b": "El Ala-mayn",
+    # ep02-ww1. Most names are already respelt in the script's `say`; these
+    # catch plain-text occurrences and correct two `say` respellings whose
+    # espeak phonemes came out wrong (checked with kokoro tokenizer.phonemize).
+    # Checked and left alone (native en-gb phonemes fine): Sarajevo, Franz
+    # Ferdinand, Schlieffen, Verdun, Somme, Brest-Litovsk, Ludendorff, Binyon.
+    r"\bGavrilo Princip\b": "Gav-reelo Prin-tsip",
+    r"\bPasschendaele\b": "Passhen-dale",
+    r"\bFoch\b": "Fosh",
+    r"\bCompi[eè]gne\b": "Komp-yen",
+    r"\bKom-pyen\b": "Komp-yen",   # say had it -> /kɒmpˈaɪən/; now /kɒmpjˈɛn/
+    r"\bEep-ruh\b": "Ypres",        # native /ˈiːpɹə/ beats /ˈiːpɹˈʌ/
 }
 
 
@@ -192,7 +208,9 @@ def srt_time(t: float) -> str:
 
 
 def main():
+    global EPISODE_LEN
     script = json.load(open(os.path.join(ROOT, "research/script.json")))
+    EPISODE_LEN = float(script.get("duration", EPISODE_LEN))
     track = np.zeros(int(EPISODE_LEN * SR_OUT), dtype=np.float32)
     timing = {"voice": VOICE, "sections": []}
     captions = []
@@ -202,6 +220,9 @@ def main():
         for attempt in range(6):
             lay = layout(sec, speed, pause_scale)
             end = lay[-1]["end"]
+            if attempt == 0:
+                t0 = lay[0]["start"]
+                fit = round((end - t0) / (budget - t0), 3)  # >1 = needs speeding up
             if end <= budget:
                 break
             speech = sum(x["end"] - x["start"] for x in lay)
@@ -211,7 +232,7 @@ def main():
             else:
                 pause_scale *= 0.7
         status = "OK" if end <= budget else "OVERRUN"
-        print(f"{sec['id']}: speed {speed:.3f} pauses x{pause_scale:.2f} narration {lay[0]['start']:.2f}-{end:.2f} (budget {budget}) {status}", flush=True)
+        print(f"{sec['id']}: fit@1.0 {fit:.3f} speed {speed:.3f} pauses x{pause_scale:.2f} narration {lay[0]['start']:.2f}-{end:.2f} (budget {budget}) {status}", flush=True)
         if end > budget + 0.05:
             print("  !! section overruns its window", file=sys.stderr)
         sents = []
@@ -222,19 +243,21 @@ def main():
             captions += chunks
             sents.append({"text": x["text"], "start": x["start"], "end": x["end"], "captions": chunks})
         timing["sections"].append({"id": sec["id"], "chapter": sec["chapter"], "start": sec["start"],
-                                   "end": sec["end"], "speed": speed, "sentences": sents})
+                                   "end": sec["end"], "speed": speed, "fitAt1": fit,
+                                   "pauseScale": round(pause_scale, 3), "budget": budget,
+                                   "sentences": sents})
 
     peak = np.max(np.abs(track))
     # 0.85 = -1.41 dBFS sample peak: leaves headroom so TRUE peak stays <= -1 dBTP
     # (0.89 measured -0.98 dBTP on ep01 v3 -- inter-sample overs)
     track *= 0.85 / peak
-    for p in ["assets/audio/episode-01-narration.wav", "public/audio/narration.wav", "output/episode-01-narration.wav"]:
+    for p in [f"assets/audio/episode-{EPISODE_TAG}-narration.wav", "public/audio/narration.wav", f"output/episode-{EPISODE_TAG}-narration.wav"]:
         full = os.path.join(ROOT, p)
         os.makedirs(os.path.dirname(full), exist_ok=True)
         sf.write(full, track, SR_OUT, subtype="PCM_16")
     with open(os.path.join(ROOT, "src/timeline/narration.json"), "w") as f:
         json.dump(timing, f, indent=1, ensure_ascii=False)
-    with open(os.path.join(ROOT, "output/episode-01-subtitles.srt"), "w") as f:
+    with open(os.path.join(ROOT, f"output/episode-{EPISODE_TAG}-subtitles.srt"), "w") as f:
         for i, c in enumerate(captions, 1):
             f.write(f"{i}\n{srt_time(c['start'])} --> {srt_time(c['end'])}\n{two_lines(c['text'])}\n\n")
     words = sum(len(s["text"].split()) for sec in script["sections"] for s in sec["sentences"])

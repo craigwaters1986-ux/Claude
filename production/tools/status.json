@@ -921,14 +921,20 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:script"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/audio/ep02-ww1/narration.json",
+            "production/audio/ep02-ww1/episode-02-subtitles.srt",
+            "production/audio/ep02-ww1/measurements.md",
+            "production/audio/ep02-ww1/licences.md",
+            "production/reports/handoffs/ep02-ww1/06-audio-engineer-narration.md"
+          ],
           "issues": [],
-          "next": "Phase B: install Kokoro (/opt/tts), generate narration + timings + SRT; confirm per-section fit <=1.12x",
-          "updated": "2026-11-16 21:41"
+          "next": "720.000 s; all sections fit (max 1.036x); no trims; QC name listen-checks at final QC",
+          "updated": "2026-11-16 22:30"
         },
         {
           "id": "storyboard",
