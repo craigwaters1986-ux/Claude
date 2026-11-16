@@ -48,6 +48,9 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
      On phones the email often opens in a different browser from the one that asked for the link,
      and then the link can't complete sign-in. The code always works. The app accepts codes of 6–10
      digits, whatever *Email OTP Length* is set to.
+   - *Emails → SMTP Settings*: connect your own email service. Supabase's built-in one only sends to
+     members of your Supabase team and only a few emails an hour, so other people signing up get nothing.
+     Then raise *Rate Limits → emails per hour* (e.g. 100).
 4. `npm run dev`
 
 ## Wording

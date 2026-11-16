@@ -10,6 +10,7 @@ import { EmptyState, ErrorState } from "@/components/states";
 import { useLiveUpdates } from "@/hooks/use-live-updates";
 import { useProjects } from "@/hooks/use-projects";
 import { ContinueCard } from "./continue-card";
+import { PasswordPrompt } from "./password-prompt";
 import type { ProjectSummary } from "@/types/models";
 import { DeleteProjectDialog } from "./delete-project-dialog";
 import { ProjectCard } from "./project-card";
@@ -64,6 +65,7 @@ export function ProjectDashboard() {
         </Button>
       </div>
 
+      <PasswordPrompt />
       {projects && projects.length > 0 && <ContinueCard projects={projects} />}
 
       {projects && projects.length > 0 && (

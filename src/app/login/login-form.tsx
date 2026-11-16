@@ -35,6 +35,23 @@ const write = (k: string, v: string) => {
   }
 };
 
+/** Supabase's reasons for not sending a sign-in email, in plain words. Returns the wait in seconds when there is one. */
+function explainSendError(message: string, email: string): { text: string; wait?: number } {
+  const after = message.match(/after (\d+) seconds?/i);
+  if (after) return { text: `Please wait ${after[1]} seconds before asking for another email.`, wait: Number(after[1]) };
+  if (/rate limit|too many/i.test(message))
+    return {
+      text: "Too many sign-in emails have been sent in the last hour, so this one couldn’t go. Try again later, or sign in with your password if you’ve set one.",
+    };
+  if (/not authori[sz]ed/i.test(message))
+    return {
+      text: `Sign-in emails can’t be sent to ${email} yet: the app’s email service only reaches its owners until it’s fully set up. Ask whoever runs the app.`,
+    };
+  return { text: message };
+}
+
+const RESEND_AFTER_S = 60;
+
 export function LoginForm() {
   const supabase = useSupabase();
   const router = useRouter();
@@ -46,11 +63,18 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [resendIn, setResendIn] = useState(0); // seconds until another email may be requested
   const [error, setError] = useState<string | null>(
     searchParams.get("error") === "link"
       ? "That sign-in link didn't work in this browser. Request a new one and enter the code from the email instead."
       : null,
   );
+
+  useEffect(() => {
+    if (resendIn <= 0) return;
+    const t = setTimeout(() => setResendIn((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [resendIn]);
 
   // Returning on this device: prefill the email and offer the method used last time.
   useEffect(() => {
@@ -78,8 +102,14 @@ export function LoginForm() {
       },
     });
     setBusy(false);
-    if (error) return setError(error.message);
+    if (error) {
+      const why = explainSendError(error.message, email.trim());
+      if (why.wait) setResendIn(why.wait);
+      return setError(why.text);
+    }
     write(EMAIL_KEY, email.trim());
+    setResendIn(RESEND_AFTER_S);
+    setCode("");
     setStage("code");
   }
 
@@ -222,6 +252,9 @@ export function LoginForm() {
               <Button type="submit" size="lg" disabled={busy || code.length < 6}>
                 {busy && <Loader2 className="animate-spin" />}
                 Sign in
+              </Button>
+              <Button type="button" variant="outline" onClick={() => sendLink()} disabled={busy || resendIn > 0}>
+                {resendIn > 0 ? `Send a new code (${resendIn}s)` : "Send a new code"}
               </Button>
               <Button type="button" variant="ghost" onClick={() => switchTo("email")}>
                 Use a different email
