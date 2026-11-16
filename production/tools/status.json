@@ -383,9 +383,14 @@
             "assembly"
           ],
           "deliverables": [],
-          "issues": [],
-          "next": "Full render running in background (~5.5-6.5 h), resumable: bash scripts/render.sh",
-          "updated": "2026-11-16 05:16"
+          "issues": [
+            {
+              "text": "First render (05:16) killed when the idle cloud container was suspended; restarted 11:49 as tracked background task (2 h slots, resumable)",
+              "opened": "2026-11-16 11:49"
+            }
+          ],
+          "next": "Rendering; relaunch scripts/render.sh after each 2 h slot until done",
+          "updated": "2026-11-16 11:49"
         },
         {
           "id": "final-qc",
