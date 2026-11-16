@@ -788,7 +788,9 @@
           "note": "User approved WW1 style sample 2026-11-16; canaries: keep heads white (house style)"
         },
         "storyboard": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-16 22:35",
+          "note": "7 decisions asked 2026-11-16"
         },
         "final-render": {
           "state": "NOT REQUESTED"
@@ -940,14 +942,18 @@
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "approval:script"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/storyboards/ep02-ww1/storyboard.md",
+            "production/storyboards/ep02-ww1/asset-requests.md",
+            "production/reports/handoffs/ep02-ww1/07-storyboard.md"
+          ],
           "issues": [],
-          "next": "Phase B: ~70 shots, each >=6 s, reuse library; MUST assets incl. trench set; keep top-left clear for channel logo",
-          "updated": "2026-11-16 21:41"
+          "next": "70 shots, min 6.0 s, snapped to narration.json; Approval 3 pending (7 decisions)",
+          "updated": "2026-11-16 22:35"
         },
         {
           "id": "characters",
