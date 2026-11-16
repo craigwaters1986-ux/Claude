@@ -477,6 +477,17 @@
           ],
           "next": "",
           "updated": "2026-11-15 19:34"
+        },
+        {
+          "id": "thumbnail",
+          "agent": "animator",
+          "task": "Build and render the YouTube thumbnail (concept B, 1939 → 1945)",
+          "status": "IN PROGRESS",
+          "depends": [],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-16 19:37"
         }
       ]
     },

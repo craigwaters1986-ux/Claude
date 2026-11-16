@@ -6,7 +6,8 @@ _youtube-specialist, 2026-11-16. Built from the approved final render (`the-huma
 
 | Role | Title | Chars |
 |---|---|---|
-| **Recommended** | World War II Explained: How It Started, How It Ended | 52 |
+| **CHOSEN by the user (2026-11-16)** | WW2 - From Start to Finish | 26 |
+| Previous recommendation | World War II Explained: How It Started, How It Ended | 52 |
 | Alternate 1 | How Did World War 2 Start, and How Did It End? | 46 |
 | Alternate 2 | The Second World War Explained: 1939 to 1945 | 44 |
 
