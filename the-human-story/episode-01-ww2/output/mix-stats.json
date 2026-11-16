@@ -1,0 +1,51 @@
+{
+ "narration_speech_lufs": -22.00399824582816,
+ "music_ducked_speech_lufs": -34.01787473348365,
+ "sfx_speech_lufs": -46.01839565976887,
+ "music_unducked_lufs": -24.39529606439422,
+ "music_in_gaps_lufs": -20.806627621744603,
+ "speech_minus_music_median_db": 13.03676220498879,
+ "speech_minus_music_p05_db": 5.265489952848228,
+ "speech_minus_music_min_db": -7.011094964805817,
+ "speech_minus_music_plus_sfx_median_db": 12.763308030109943,
+ "speech_minus_music_plus_sfx_p05_db": 5.115242327006974,
+ "worst_blocks": [
+  [
+   194.7,
+   -7.0
+  ],
+  [
+   285.4,
+   -7.0
+  ],
+  [
+   175.8,
+   -6.9
+  ],
+  [
+   278.8,
+   -6.9
+  ],
+  [
+   197.5,
+   -6.5
+  ],
+  [
+   590.5,
+   -6.4
+  ],
+  [
+   66.6,
+   -6.2
+  ],
+  [
+   173.3,
+   -5.7
+  ]
+ ],
+ "master_gain_db": 7.739300943769855,
+ "mix_lufs_py": -14.044258592315396,
+ "mix_true_peak_py": -1.499999999999995,
+ "max_gain_reduction_db": 3.250025656281641,
+ "percent_time_limiting_over_1db": 0.41624655647382924
+}

@@ -1,0 +1,454 @@
+{
+ "episode": "The Human Story — Episode 1: World War II: How It Started, How It Ended",
+ "voice": "Kokoro-82M bm_george (British English, male)",
+ "sections": [
+  {
+   "id": "s01",
+   "chapter": "The Hook",
+   "start": 0,
+   "end": 30,
+   "lead": 1.6,
+   "mustEndBy": 22.8,
+   "sentences": [
+    {
+     "text": "Summer, 1939.",
+     "pauseAfter": 0.7
+    },
+    {
+     "text": "Across much of Europe, life seems normal."
+    },
+    {
+     "text": "Within weeks, Europe will be at war, in what will become the deadliest war in human history.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "Countries will fall.",
+     "pauseAfter": 0.25
+    },
+    {
+     "text": "Cities will burn.",
+     "pauseAfter": 0.25
+    },
+    {
+     "text": "Tens of millions will die.",
+     "pauseAfter": 0.7
+    },
+    {
+     "text": "So how did it start?",
+     "pauseAfter": 0.3
+    },
+    {
+     "text": "And how did it end?"
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "chapter": "The World After World War I",
+   "start": 30,
+   "end": 90,
+   "lead": 1.2,
+   "sentences": [
+    {
+     "text": "To understand the Second World War, we have to start with the First."
+    },
+    {
+     "text": "In November 1918, Germany's army was beaten, and its emperor had abdicated."
+    },
+    {
+     "text": "The following year, the Treaty of Versailles made Germany accept responsibility for the war's damage.",
+     "say": "The following year, the Treaty of Vair-sigh made Germany accept responsibility for the war's damage."
+    },
+    {
+     "text": "It lost around 13 per cent of its European territory and all of its colonies, its army was capped at 100,000 men, and it was ordered to pay huge reparations.",
+     "say": "It lost around thirteen per cent of its European territory and all of its colonies, its army was capped at one hundred thousand men, and it was ordered to pay huge reparations."
+    },
+    {
+     "text": "Many Germans felt humiliated.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "Germany's new democracy, the Weimar Republic, struggled from the start."
+    },
+    {
+     "text": "Then, in 1929, the Wall Street Crash triggered the Great Depression."
+    },
+    {
+     "text": "By 1932, around six million Germans were out of work.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "But Versailles alone did not cause another war.",
+     "say": "But Vair-sigh alone did not cause another war."
+    },
+    {
+     "text": "Economic despair, fragile politics, nationalism and antisemitism created an opening, and extremists were ready to exploit it."
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "chapter": "Hitler's Rise to Power",
+   "start": 90,
+   "end": 150,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "One of those extremists was Adolf Hitler, leader of the Nazi Party."
+    },
+    {
+     "text": "Nazi propaganda offered simple answers to complicated problems, blaming Germany's troubles on Jewish people, communists and the peace treaty."
+    },
+    {
+     "text": "In January 1933, Hitler was appointed Chancellor."
+    },
+    {
+     "text": "Within months, he had banned rival parties, crushed the free press and turned Germany into a dictatorship."
+    },
+    {
+     "text": "Nazi ideology was racist, antisemitic and expansionist."
+    },
+    {
+     "text": "Jewish Germans were stripped of their rights, while Hitler rebuilt the armed forces.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "In 1936, German troops reoccupied the demilitarised Rhineland."
+    },
+    {
+     "text": "In March 1938, Germany annexed Austria."
+    },
+    {
+     "text": "That September, at Munich, Britain and France let Hitler take the Sudetenland from Czechoslovakia, hoping to keep the peace."
+    },
+    {
+     "text": "It didn't work.",
+     "pauseAfter": 0.3
+    },
+    {
+     "text": "In March 1939, Germany occupied the rest of the Czech lands. Appeasement had failed."
+    }
+   ]
+  },
+  {
+   "id": "s04",
+   "chapter": "World War II Begins",
+   "start": 150,
+   "end": 210,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "Hitler's next target was Poland. But first, he made a shocking deal."
+    },
+    {
+     "text": "In August 1939, Nazi Germany and the Soviet Union, bitter enemies, signed a non-aggression pact."
+    },
+    {
+     "text": "A secret protocol divided much of Eastern Europe into German and Soviet spheres of influence.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "On 1 September 1939, German forces invaded Poland.",
+     "say": "On the first of September, 1939, German forces invaded Poland."
+    },
+    {
+     "text": "Tanks and aircraft struck with terrifying speed, though the Polish army fought back hard."
+    },
+    {
+     "text": "Two days later, Britain and France declared war on Germany."
+    },
+    {
+     "text": "The Second World War in Europe had begun.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Then, on 17 September, the Soviet Union invaded Poland from the east.",
+     "say": "Then, on the seventeenth of September, the Soviet Union invaded Poland from the east."
+    },
+    {
+     "text": "Within weeks, Poland had been carved up.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "But war had already come to Asia. Japan had invaded Manchuria in 1931, and launched a full-scale war against China in 1937."
+    }
+   ]
+  },
+  {
+   "id": "s05",
+   "chapter": "Europe Falls",
+   "start": 210,
+   "end": 270,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "For months, the Western Front was eerily quiet."
+    },
+    {
+     "text": "Then, in April 1940, Germany invaded Denmark and Norway."
+    },
+    {
+     "text": "In May, it struck the Netherlands, Belgium, Luxembourg and France."
+    },
+    {
+     "text": "German tanks pushed through the Ardennes forest and raced for the coast, trapping Allied armies."
+    },
+    {
+     "text": "From Dunkirk, more than 330,000 troops were evacuated across the Channel, helped by a flotilla of little ships.",
+     "say": "From Dunkirk, more than three hundred and thirty thousand troops were evacuated across the Channel, helped by a flotilla of little ships."
+    },
+    {
+     "text": "But in June, France fell.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Britain's new Prime Minister, Winston Churchill, refused to make peace."
+    },
+    {
+     "text": "That summer, in the Battle of Britain, the Royal Air Force fought off the Luftwaffe.",
+     "say": "That summer, in the Battle of Britain, the Royal Air Force fought off the Luft-vaffa."
+    },
+    {
+     "text": "From September, Germany turned to bombing British cities. More than 40,000 civilians were killed in the Blitz.",
+     "say": "From September, Germany turned to bombing British cities. More than forty thousand civilians were killed in the Blitz."
+    },
+    {
+     "text": "But Britain kept fighting."
+    }
+   ]
+  },
+  {
+   "id": "s06",
+   "chapter": "The War Becomes Global",
+   "start": 270,
+   "end": 330,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "On 22 June 1941, Hitler launched Operation Barbarossa, the invasion of the Soviet Union.",
+     "say": "On the twenty-second of June, 1941, Hitler launched Operation Barbarossa, the invasion of the Soviet Union."
+    },
+    {
+     "text": "More than three million Axis soldiers poured across a front nearly 3,000 kilometres long.",
+     "say": "More than three million Axis soldiers poured across a front nearly three thousand kilometres long."
+    },
+    {
+     "text": "The Eastern Front would become the largest and deadliest theatre of the entire war."
+    },
+    {
+     "text": "German forces reached the outskirts of Moscow, but as winter set in, the Red Army struck back.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Meanwhile, Japan was expanding across East and South-East Asia.",
+     "say": "Meanwhile, Japan was expanding across East and South East Asia."
+    },
+    {
+     "text": "On 7 December 1941, Japanese aircraft attacked the American naval base at Pearl Harbor, in Hawaii.",
+     "say": "On the seventh of December, 1941, Japanese aircraft attacked the American naval base at Pearl Harbor, in Hawaii."
+    },
+    {
+     "text": "More than 2,400 Americans were killed.",
+     "say": "More than two thousand four hundred Americans were killed."
+    },
+    {
+     "text": "The United States declared war on Japan. Days later, Germany declared war on the United States."
+    },
+    {
+     "text": "Now the war was truly global, fought across Europe, Africa, Asia and the Pacific."
+    }
+   ]
+  },
+  {
+   "id": "s07",
+   "chapter": "The Turning Points",
+   "start": 330,
+   "end": 390,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "In 1942, the tide began to turn."
+    },
+    {
+     "text": "In June, at the Battle of Midway, American forces sank four Japanese aircraft carriers, a blow from which Japan's navy never fully recovered."
+    },
+    {
+     "text": "In North Africa, British and Commonwealth forces under General Montgomery defeated the Axis at El Alamein.",
+     "say": "In North Africa, British and Commonwealth forces under General Montgomery defeated the Axis at El Ala-mayn."
+    },
+    {
+     "text": "And at Stalingrad, on the River Volga, the Red Army encircled more than a quarter of a million Axis soldiers."
+    },
+    {
+     "text": "In February 1943, the survivors surrendered. It was a catastrophic defeat for Germany.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "No single battle won the war."
+    },
+    {
+     "text": "But the Allies were also winning a battle of production."
+    },
+    {
+     "text": "American, Soviet and British factories turned out tanks, aircraft and ships faster than the Axis could ever match."
+    }
+   ]
+  },
+  {
+   "id": "s08",
+   "chapter": "D-Day and the Liberation of Europe",
+   "start": 390,
+   "end": 450,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "By 1944, the Allies were ready to open a new front in the west."
+    },
+    {
+     "text": "On 6 June, Operation Overlord began.",
+     "say": "On the sixth of June, Operation Overlord began."
+    },
+    {
+     "text": "In the largest seaborne invasion in history, around 156,000 American, British, Canadian and other Allied troops landed in Normandy, from the sea on five beaches and from the air.",
+     "say": "In the largest seaborne invasion in history, around one hundred and fifty-six thousand American, British, Canadian and other Allied troops landed in Normandy, from the sea on five beaches, and from the air."
+    },
+    {
+     "text": "Thousands were killed or wounded on the first day alone, but by nightfall, the Allies had a foothold in France."
+    },
+    {
+     "text": "As they fought their way inland, resistance fighters sabotaged railways and supply lines."
+    },
+    {
+     "text": "In August 1944, Paris was liberated.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Meanwhile, in the east, a huge Soviet offensive smashed through German lines."
+    },
+    {
+     "text": "Germany was now fighting on several fronts, and running out of men, fuel and time."
+    }
+   ]
+  },
+  {
+   "id": "s09",
+   "chapter": "The Fall of Nazi Germany",
+   "start": 450,
+   "end": 510,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "In 1945, Allied armies closed in on Germany from both sides."
+    },
+    {
+     "text": "As they advanced, they uncovered the full horror of Nazi rule.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "In the concentration and death camps, soldiers found starving survivors and the evidence of mass murder.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "In the Holocaust, Nazi Germany and its collaborators systematically murdered around six million Jewish men, women and children.",
+     "pauseAfter": 0.6
+    },
+    {
+     "text": "Millions of others were also persecuted and killed, including Roma, disabled people, Polish civilians and Soviet prisoners of war.",
+     "say": "Millions of others were also persecuted and killed, including Roma, disabled people, Polish civilians, and Soviet prisoners of war.",
+     "pauseAfter": 0.7
+    },
+    {
+     "text": "In April, Soviet troops fought their way into Berlin."
+    },
+    {
+     "text": "On 30 April 1945, Hitler took his own life in his bunker.",
+     "say": "On the thirtieth of April, 1945, Hitler took his own life in his bunker."
+    },
+    {
+     "text": "Days later, Germany surrendered unconditionally, and on 8 May, crowds celebrated Victory in Europe Day.",
+     "say": "Days later, Germany surrendered unconditionally, and on the eighth of May, crowds celebrated Victory in Europe Day.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "But in the Pacific, the war went on."
+    }
+   ]
+  },
+  {
+   "id": "s10",
+   "chapter": "How World War II Finally Ended",
+   "start": 510,
+   "end": 570,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "By 1945, American forces were closing in on Japan, island by island."
+    },
+    {
+     "text": "The Battle of Okinawa, from April to June, killed well over 100,000 soldiers and civilians.",
+     "say": "The Battle of Okinawa, from April to June, killed well over a hundred thousand soldiers and civilians."
+    },
+    {
+     "text": "Japan's leaders still refused to surrender.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "On 6 August, the United States dropped an atomic bomb on Hiroshima.",
+     "say": "On the sixth of August, the United States dropped an atomic bomb on Hiroshima."
+    },
+    {
+     "text": "Tens of thousands of people died instantly, and many more in the months that followed.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "On 8 August, the Soviet Union declared war on Japan, and within hours its armies poured into Manchuria.",
+     "say": "On the eighth of August, the Soviet Union declared war on Japan, and within hours its armies poured into Manchuria."
+    },
+    {
+     "text": "The next day, a second atomic bomb devastated Nagasaki.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "On 15 August, Emperor Hirohito announced Japan's surrender, which was formally signed on 2 September 1945.",
+     "say": "On the fifteenth of August, Emperor Hirohito announced Japan's surrender, which was formally signed on the second of September, 1945."
+    },
+    {
+     "text": "Historians still debate how much the bombs and the Soviet invasion each shaped Japan's decision."
+    }
+   ]
+  },
+  {
+   "id": "s11",
+   "chapter": "The Human Cost and the Legacy",
+   "start": 570,
+   "end": 600,
+   "lead": 0.4,
+   "mustEndBy": 598.3,
+   "sentences": [
+    {
+     "text": "The war killed an estimated 60 million people or more, most of them civilians.",
+     "say": "The war killed an estimated sixty million people or more, most of them civilians."
+    },
+    {
+     "text": "From the ruins came the United Nations, and a new rivalry: the Cold War.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "The war showed how quickly hatred and unchecked aggression can lead to catastrophe."
+    },
+    {
+     "text": "But it also showed the courage of ordinary people.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Because history isn't just about battles or leaders.",
+     "pauseAfter": 0.2
+    },
+    {
+     "text": "It's about people. And every person has a story."
+    }
+   ]
+  }
+ ],
+ "version": "v3"
+}
