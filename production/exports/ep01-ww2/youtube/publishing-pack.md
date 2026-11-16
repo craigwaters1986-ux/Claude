@@ -2,16 +2,9 @@
 
 _youtube-specialist, 2026-11-16. Built from the approved final render (`the-human-story/episode-01-ww2/output/episode-01-ww2.mp4`, 605.000 s) and script v3. Supersedes `hook-review.md`; `title-options.md` and `keywords.md` remain the background research. Nothing has been uploaded, scheduled or published; the user does that. No performance figures are claimed._
 
-## Title (all ≤ 70 characters)
+## Title
 
-| Role | Title | Chars |
-|---|---|---|
-| **CHOSEN by the user (2026-11-16)** | WW2 - From Start to Finish | 26 |
-| Previous recommendation | World War II Explained: How It Started, How It Ended | 52 |
-| Alternate 1 | How Did World War 2 Start, and How Did It End? | 46 |
-| Alternate 2 | The Second World War Explained: 1939 to 1945 | 44 |
-
-Why: it keeps the agreed working title, adds the primary keyword "Explained", and states exactly what the episode delivers. No clickbait; the sombre topics are not used as bait.
+**WW2 - From Start to Finish** (chosen by the user, 2026-11-16; 26 characters)
 
 ## Description (paste from the line below to the end of the fenced block)
 
