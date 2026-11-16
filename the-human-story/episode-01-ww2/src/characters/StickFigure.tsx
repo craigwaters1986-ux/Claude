@@ -8,7 +8,9 @@ import {boil} from '../animations/core';
 import {solveSkeleton, Skeleton} from './skeleton';
 
 export type Outfit = {
-  kind: 'none' | 'coat' | 'longcoat' | 'tunic' | 'suit' | 'dress' | 'shirt' | 'stripes' | 'overalls' | 'sailor' | 'morningcoat';
+  kind: 'none' | 'coat' | 'longcoat' | 'tunic' | 'suit' | 'dress' | 'shirt' | 'stripes' | 'overalls' | 'sailor' | 'morningcoat'
+    // all-period additions: toga (draped sash in `accent`), robe (rope belt in `accent`), gown (fitted waist, long skirt), hoodie
+    | 'toga' | 'robe' | 'gown' | 'hoodie';
   color?: string;
   accent?: string; // tie / belt / collar colour
   bowtie?: boolean;
@@ -129,9 +131,15 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
     if (o.kind === 'tunic') bottom = 22;
     if (o.kind === 'shirt') bottom = 6;
     if (o.kind === 'stripes') { bottom = 30; botW = hipW + 3; }
+    if (o.kind === 'toga') { bottom = 70; botW = hipW + 12; }
+    if (o.kind === 'robe') { bottom = 76; botW = hipW + 10; }
+    if (o.kind === 'gown') { bottom = 96; botW = hipW + 30; }
+    if (o.kind === 'hoodie') bottom = 12;
     // seated / kneeling: the skirt of the garment folds onto the thighs instead of hanging through them
     if ((P.hipL + P.hipR) / 2 > 55 && bottom > 10) { lapLen = Math.min(bottom + 20, 60); bottom = 8; botW = hipW; }
-    const path = `M${-shW + w(1)},${top} Q0,${top - 6} ${shW + w(2)},${top} L${botW + w(3)},${bottom} L${-botW + w(4)},${bottom}Z`;
+    const path = o.kind === 'gown' && lapLen === 0
+      ? `M${-shW + 4 + w(1)},${top} Q0,${top - 6} ${shW - 4 + w(2)},${top} L${hipW - 6},${-14} Q${botW * 0.7},${bottom * 0.4} ${botW + w(3)},${bottom} Q0,${bottom + 8} ${-botW + w(4)},${bottom} Q${-botW * 0.7},${bottom * 0.4} ${-hipW + 6},${-14}Z`
+      : `M${-shW + w(1)},${top} Q0,${top - 6} ${shW + w(2)},${top} L${botW + w(3)},${bottom} L${-botW + w(4)},${bottom}Z`;
     garment = (
       <g transform={`translate(${hip.x},${hip.y}) rotate(${P.lean})`}>
         {o.kind === 'morningcoat' && (
@@ -140,6 +148,19 @@ export const StickFigure: React.FC<FigureProps> = (p) => {
         <path d={path} fill={c} stroke={C.ink} strokeWidth={4.5} strokeLinejoin="round" />
         {o.apron && lapLen === 0 && (
           <path d={front ? `M-12,${top + 10} L12,${top + 10} L13,${-2} L${hipW + 6},${bottom - 6} L${-hipW - 6},${bottom - 6} L-13,${-2}Z` : `M${-hipW - 2},-4 L${hipW + 2},-4`} fill={o.apron} stroke={C.ink} strokeWidth={front ? 3 : 4} strokeLinejoin="round" />
+        )}
+        {o.kind === 'toga' && (
+          <path d={`M${shW - 2},${top + 2} L${shW + 3},${top + 12} L${-hipW + 2},${lapLen ? bottom - 2 : 26} L${-hipW - 4},${lapLen ? bottom - 12 : 12}Z`} fill={o.accent ?? C.red} stroke={C.ink} strokeWidth={3} strokeLinejoin="round" />
+        )}
+        {o.kind === 'robe' && <path d={`M${-hipW + 1},-8 Q0,-3 ${hipW - 1},-8`} fill="none" stroke={o.accent ?? C.sand} strokeWidth={5} strokeLinecap="round" />}
+        {o.kind === 'robe' && detail && front && lapLen === 0 && <line x1={-hipW + 6} y1={-6} x2={-hipW + 3} y2={22} stroke={o.accent ?? C.sand} strokeWidth={4} strokeLinecap="round" />}
+        {o.kind === 'gown' && <path d={`M${-hipW + 5},-14 Q0,-10 ${hipW - 5},-14`} fill="none" stroke={o.accent ?? C.ink} strokeWidth={4} strokeLinecap="round" />}
+        {o.kind === 'hoodie' && (
+          <g>
+            <path d={`M${-shW - 2},${top + 2} Q${-shW - 10},${top - 16} ${-shW + 8},${top - 14} L${-4},${top + 2}Z`} fill={o.color ?? C.khaki} stroke={C.ink} strokeWidth={3.5} strokeLinejoin="round" />
+            {front && detail && <path d={`M${-10},${top + 44} L${12},${top + 44} L${15},${top + 62} L${-13},${top + 62}Z`} fill="none" stroke={C.ink} strokeWidth={2.5} strokeLinejoin="round" />}
+            {front && detail && <path d={`M2,${top + 2} l-2,14 M7,${top + 2} l1,14`} stroke={o.accent ?? C.paper} strokeWidth={2.5} strokeLinecap="round" />}
+          </g>
         )}
         {o.kind === 'stripes' && detail && [0, 1, 2, 3].map((i) => <line key={i} x1={-shW + 6 + i * 11} y1={top + 4} x2={-botW + 6 + i * 11.5} y2={bottom - 3} stroke="#4E5A6E" strokeWidth={4} />)}
         {(o.kind === 'tunic' || o.kind === 'longcoat') && <rect x={-hipW - 1} y={-6} width={hipW * 2 + 2} height={7} fill={o.accent ?? C.darkBrown} stroke={C.ink} strokeWidth={2.5} />}

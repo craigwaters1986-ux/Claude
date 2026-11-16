@@ -8,7 +8,9 @@ export type Expression =
   | 'neutral' | 'happy' | 'joy' | 'angry' | 'furious' | 'sad' | 'grief' | 'scared'
   | 'surprised' | 'determined' | 'sleepy' | 'smug' | 'worried' | 'cold' | 'shout'
   // sombre set (no cartoon marks): tired = heavy half-closed lids; solemn = still, closed mouth
-  | 'tired' | 'solemn';
+  | 'tired' | 'solemn'
+  // branding / all-period additions: curious = raised brows, small smile
+  | 'curious';
 
 export type Hair =
   | 'none' | 'spiky' | 'mop' | 'short' | 'side' | 'slick' | 'swept' | 'bald' | 'baldFringe'
@@ -24,7 +26,13 @@ export type Hat =
   | 'kepi' // plain brown party cap (no emblem)
   | 'slouch' // Australian slouch hat, brim pinned up on one side
   | 'm1Camo' // US M1 helmet with a camouflage cover (Marines)
-  | 'nurseCap';
+  | 'nurseCap'
+  // all-period additions (channel branding, Rome and later episodes)
+  | 'laurel' // Roman laurel wreath (hair shows)
+  | 'hood' // medieval hood with a short cape and a hanging tail (liripipe)
+  | 'tricorn' // 18th-century three-cornered hat
+  | 'bonnet' // Victorian bonnet with a ribbon under the chin
+  | 'baseballCap'; // modern cap with a forward peak
 
 export type FacialHair = 'none' | 'toothbrush' | 'walrus' | 'kaiser' | 'handlebar' | 'thin' | 'bushy' | 'stubble';
 
@@ -61,7 +69,7 @@ type Props = HeadSpec & {
 
 const ink = C.ink;
 // hats that leave the hairstyle visible
-const HAIR_SHOWS: Hat[] = ['beret', 'flatCap', 'sidecap', 'fedora', 'nurseCap'];
+const HAIR_SHOWS: Hat[] = ['beret', 'flatCap', 'sidecap', 'fedora', 'nurseCap', 'laurel', 'baseballCap', 'tricorn'];
 
 function hairShape(h: Hair, R: number, color: string, f: number, seed: number) {
   const sw = R * 0.1;
@@ -331,6 +339,64 @@ function hatShape(h: Hat, R: number, color: string, accent?: string) {
           <path d={`M${-R * 0.8},${-R * 0.72} L${-R * 0.6},${-R * 1.22} L${R * 0.6},${-R * 1.22} L${R * 0.8},${-R * 0.72} Q0,${-R * 0.85} ${-R * 0.8},${-R * 0.72}Z`} fill={C.paper} {...o} strokeWidth={s * 0.8} />
         </g>
       );
+    case 'laurel': {
+      // front half of a wreath ring round the crown, leaves in pairs along it
+      const leaves: React.ReactNode[] = [];
+      const n = 9;
+      for (let i = 0; i < n; i++) {
+        const t = Math.PI * (1.0 - i / (n - 1)); // left (back) to right (front) along the lower half of the ring
+        const x = Math.cos(t) * R * 0.98;
+        const y = -R * 0.6 + Math.sin(t) * R * 0.16;
+        const ang = (Math.atan2(R * 0.16 * Math.cos(t), -R * 0.98 * Math.sin(t)) * 180) / Math.PI;
+        for (const side of [-1, 1]) {
+          leaves.push(
+            <ellipse key={`${i}${side}`} cx={0} cy={side * R * 0.09} rx={R * 0.16} ry={R * 0.075} fill={color} stroke={ink} strokeWidth={s * 0.45}
+              transform={`translate(${x},${y}) rotate(${ang + side * 28})`} />,
+          );
+        }
+      }
+      return (
+        <g>
+          <path d={`M${-R * 0.98},${-R * 0.6} Q0,${-R * 0.36} ${R * 0.98},${-R * 0.6}`} fill="none" stroke={ink} strokeWidth={s * 0.6} />
+          {leaves}
+        </g>
+      );
+    }
+    case 'hood':
+      return (
+        <g>
+          <path d={`M${-R * 0.75},${-R * 0.82} C${-R * 1.3},${-R * 0.9} ${-R * 1.75},${-R * 0.3} ${-R * 1.7},${R * 0.55} Q${-R * 1.5},${R * 0.1} ${-R * 1.05},${-R * 0.2}Z`} fill={color} {...o} />
+          <path
+            fillRule="evenodd"
+            d={`M${-R * 1.35},${R * 1.32} C${-R * 1.25},${R * 0.7} ${-R * 1.3},${-R * 1.3} ${-R * 0.05},${-R * 1.25} C${R * 1.25},${-R * 1.25} ${R * 1.3},${R * 0.5} ${R * 1.3},${R * 1.32} Q0,${R * 1.5} ${-R * 1.35},${R * 1.32}Z M${R * 0.92},${R * 0.1} C${R * 0.92},${-R * 0.95} ${-R * 0.72},${-R * 0.95} ${-R * 0.72},${R * 0.1} C${-R * 0.72},${R * 1.02} ${R * 0.92},${R * 1.02} ${R * 0.92},${R * 0.1}Z`}
+            fill={color}
+            {...o}
+          />
+        </g>
+      );
+    case 'tricorn':
+      return (
+        <g>
+          <path d={`M${-R * 1.35},${-R * 0.5} L${-R * 0.95},${-R * 1.3} Q0,${-R * 1.0} ${R * 0.95},${-R * 1.3} L${R * 1.45},${-R * 0.42} Q0,${-R * 0.72} ${-R * 1.35},${-R * 0.5}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.95},${-R * 1.22} Q0,${-R * 0.92} ${R * 0.95},${-R * 1.22}`} fill="none" stroke={accent ?? C.dustyYellow} strokeWidth={s * 0.8} strokeLinecap="round" />
+        </g>
+      );
+    case 'bonnet':
+      return (
+        <g>
+          <path d={`M${-R * 0.98},${R * 0.35} C${-R * 1.25},${-R * 1.3} ${R * 0.95},${-R * 1.6} ${R * 1.3},${-R * 0.5} L${R * 1.02},${-R * 0.3} C${R * 0.75},${-R * 0.98} ${-R * 0.45},${-R * 1.0} ${-R * 0.62},${R * 0.3}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.72},${R * 0.55} Q${-R * 0.55},${R * 1.0} ${R * 0.05},${R * 1.04}`} fill="none" stroke={accent ?? C.red} strokeWidth={s * 0.9} strokeLinecap="round" />
+          <path d={`M${R * 0.05},${R * 1.02} l${R * 0.2},${R * 0.22} M${R * 0.05},${R * 1.02} l${-R * 0.08},${R * 0.28}`} stroke={accent ?? C.red} strokeWidth={s * 0.7} strokeLinecap="round" />
+        </g>
+      );
+    case 'baseballCap':
+      return (
+        <g>
+          <path d={`M${R * 0.55},${-R * 0.5} Q${R * 1.35},${-R * 0.58} ${R * 1.62},${-R * 0.36} L${R * 0.75},${-R * 0.38}Z`} fill={accent ?? color} {...o} />
+          <path d={`M${-R * 0.98},${-R * 0.42} C${-R * 1.02},${-R * 1.32} ${R * 0.98},${-R * 1.32} ${R * 0.98},${-R * 0.42} Q0,${-R * 0.55} ${-R * 0.98},${-R * 0.42}Z`} fill={color} {...o} />
+          <circle cx={0} cy={-R * 1.1} r={R * 0.07} fill={ink} />
+        </g>
+      );
     default:
       return null;
   }
@@ -460,7 +526,7 @@ export const Head: React.FC<Props> = (p) => {
   const browTable: Record<string, [number, number]> = {
     neutral: [0, 0], happy: [-4, -0.04], joy: [-6, -0.08], angry: [24, 0.05], furious: [32, 0.07], sad: [-20, -0.02],
     grief: [-24, -0.02], scared: [-18, -0.12], surprised: [-6, -0.16], determined: [14, 0.03], sleepy: [0, 0.02], smug: [10, -0.02],
-    worried: [-16, -0.05], cold: [-14, -0.04], shout: [26, 0.04], tired: [-10, 0.04], solemn: [-8, 0.0],
+    worried: [-16, -0.05], cold: [-14, -0.04], shout: [26, 0.04], tired: [-10, 0.04], solemn: [-8, 0.0], curious: [-10, -0.1],
   };
   const [bAng, bOff] = browTable[ex] ?? [0, 0];
   const browSegs = [-1, 1].map((s) => {
@@ -491,6 +557,7 @@ export const Head: React.FC<Props> = (p) => {
     switch (ex) {
       case 'happy':
       case 'smug':
+      case 'curious':
         mouth = <path d={`M${mx - mw},${my - R * 0.04} Q${mx},${my + R * 0.12} ${mx + mw},${my - R * 0.04}`} stroke={ink} strokeWidth={sw * 0.5} fill="none" strokeLinecap="round" />;
         break;
       case 'joy':
