@@ -331,7 +331,7 @@
           "id": "assembly",
           "agent": "video-editor",
           "task": "Assemble timeline and preview renders",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "narration",
             "characters",
@@ -339,7 +339,10 @@
             "music-sfx"
           ],
           "deliverables": [
-            "production/video/ep01-ww2/ep01-hook-preview-wip.mp4"
+            "production/video/ep01-ww2/ep01-hook-preview-wip.mp4",
+            "production/reports/handoffs/ep01-ww2/11-video-editor-assembly.md",
+            "the-human-story/episode-01-ww2/src/scenes/Episode.tsx",
+            "the-human-story/episode-01-ww2/scripts/render.sh"
           ],
           "issues": [
             {
@@ -349,23 +352,27 @@
             },
             {
               "text": "Render speed: map frames 3.3x faster after border fix (12.7s->3.8s/frame/tab); still profile street/particles before full render",
-              "opened": "2026-11-15 15:27"
+              "opened": "2026-11-15 15:27",
+              "resolved": "2026-11-16 05:16"
             },
             {
               "text": "Use public/audio/mix.wav as the single audio track; Hiroshima flash frame 15992, Nagasaki glow ~16485 (estimate)",
-              "opened": "2026-11-15 19:39"
+              "opened": "2026-11-15 19:39",
+              "resolved": "2026-11-16 05:16"
             },
             {
               "text": "Weimar flag (black-red-gold, V-13) needed for S02-06 - not built; don't use the imperial flag",
-              "opened": "2026-11-15 19:45"
+              "opened": "2026-11-15 19:45",
+              "resolved": "2026-11-16 05:16"
             },
             {
               "text": "FX-02 atomic flash pending - use existing ScreenFlash with long fade",
-              "opened": "2026-11-15 19:45"
+              "opened": "2026-11-15 19:45",
+              "resolved": "2026-11-16 05:16"
             }
           ],
-          "next": "video-editor assembling all 99 shots (this session)",
-          "updated": "2026-11-15 19:48"
+          "next": "",
+          "updated": "2026-11-16 05:16"
         },
         {
           "id": "final-render",
