@@ -39,10 +39,15 @@ Add shadcn components as needed, e.g. `npx shadcn@latest add button input textar
 3. **Auth settings** (Supabase Dashboard → Authentication):
    - *URL Configuration*: set **Site URL** to your app URL and add `http://localhost:3000/auth/callback`
      (plus your production `/auth/callback`) to **Redirect URLs**.
-   - *Email Templates → Magic Link*: add the code so people can type it in:
+   - *Email Templates*: add the code to **both** emails, so people can type it in:
+     - **Confirm signup** (sent the first time someone signs in, i.e. new users)
+     - **Magic Link** (sent to existing users)
+
      `<p>Or enter this code: <strong>{{ .Token }}</strong></p>`
+
      On phones the email often opens in a different browser from the one that asked for the link,
-     and then the link can't complete sign-in. The 6-digit code always works.
+     and then the link can't complete sign-in. The code always works. The app accepts codes of 6–10
+     digits, whatever *Email OTP Length* is set to.
 4. `npm run dev`
 
 ## Wording

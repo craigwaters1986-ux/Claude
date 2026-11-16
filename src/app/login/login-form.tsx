@@ -11,8 +11,8 @@ import { useSupabase } from "@/hooks/use-supabase";
 import { safeNextPath } from "@/lib/safe-next-path";
 
 /**
- * email:    send a sign-in link / 6-digit code (first sign-in, or forgotten password)
- * code:     enter the 6-digit code from the email
+ * email:    send a sign-in link / code (first sign-in, or forgotten password)
+ * code:     enter the code from the email (6–10 digits, depending on the Supabase setting)
  * password: sign in instantly with email + password (once one has been set)
  */
 type Stage = "email" | "code" | "password";
@@ -48,7 +48,7 @@ export function LoginForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(
     searchParams.get("error") === "link"
-      ? "That sign-in link didn't work in this browser. Request a new one and enter the 6-digit code instead."
+      ? "That sign-in link didn't work in this browser. Request a new one and enter the code from the email instead."
       : null,
   );
 
@@ -155,7 +155,7 @@ export function LoginForm() {
           <CardDescription>
             {stage === "email" && "Enter your email and we’ll send you a sign-in link."}
             {stage === "password" && "Sign in with the password you set in the app."}
-            {stage === "code" && `We’ve emailed ${email}. Tap the link in the email, or enter the 6-digit code.`}
+            {stage === "code" && `We’ve emailed ${email}. Tap the link in the email, or enter the code from it.`}
           </CardDescription>
         </CardHeader>
 
@@ -203,13 +203,13 @@ export function LoginForm() {
           {stage === "code" && (
             <form onSubmit={verifyCode} className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="code">6-digit code</Label>
+                <Label htmlFor="code">Code from the email</Label>
                 <Input
                   id="code"
                   inputMode="numeric"
                   autoComplete="one-time-code"
-                  pattern="[0-9]{6}"
-                  maxLength={6}
+                  pattern="[0-9]{6,10}"
+                  maxLength={10}
                   placeholder="123456"
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
@@ -219,7 +219,7 @@ export function LoginForm() {
                 />
               </div>
               {errorText}
-              <Button type="submit" size="lg" disabled={busy || code.length !== 6}>
+              <Button type="submit" size="lg" disabled={busy || code.length < 6}>
                 {busy && <Loader2 className="animate-spin" />}
                 Sign in
               </Button>
