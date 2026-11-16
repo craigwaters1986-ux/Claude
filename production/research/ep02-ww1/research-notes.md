@@ -307,7 +307,7 @@ Source keys (S#) → `sources.md`. "Fetched" = page read directly; "snippet" = r
 ## 6. Quotations (only these; exact and attributed)
 - Ludendorff on 8 August 1918: **"the black day of the German Army"** — his own phrase (in his memoirs, translated), quoted by NAM (S7). Use as "what Ludendorff later called 'the black day of the German Army'".
 - Rifleman William Eve, diary, 25 December 1914: **"not a shot fired all day or night."** (S8, fetched). Optional on-screen diary card, attributed.
-- Laurence Binyon, "For the Fallen", The Times, 21 Sept 1914, fourth stanza: **"They shall grow not old, as we that are left grow old: / Age shall not weary them, nor the years condemn."** (S39; "condemn" is the 1914 printing). MEDIUM — scriptwriter must copy the text from the S39 Wikisource transcription exactly if used.
+- Laurence Binyon, "For the Fallen", The Times, 21 Sept 1914, fourth stanza: **"They shall grow not old, as we that are left grow old, / Age shall not weary them, nor the years condemn."** (S39; comma after "grow old" and "condemn" as in the 1914 Times printing; the colon after "grow old" is a modern variant). MEDIUM — scriptwriter must copy the text from the S39 Wikisource transcription exactly if used.
 - **Do NOT use** (unverified or misattributed): Grey's "The lamps are going out…" (a later recollection; wording varies), "lions led by donkeys" as a German quote, "the war to end all wars" attributed to a single person, Bethmann Hollweg's "scrap of paper" verbatim, any "Princip said…", any Kaiser quotes.
 
 ## 7. Engaging, verified human details (pick a few)

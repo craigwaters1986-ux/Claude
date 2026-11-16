@@ -838,7 +838,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "AWAITING REVIEW",
+          "status": "IN PROGRESS",
           "depends": [
             "research"
           ],
@@ -853,8 +853,8 @@
               "opened": "2026-11-16 21:22"
             }
           ],
-          "next": "Combined QC review (Lean mode)",
-          "updated": "2026-11-16 21:22"
+          "next": "Scriptwriter applying QC fixes (v2)",
+          "updated": "2026-11-16 21:25"
         },
         {
           "id": "script-factcheck",
@@ -873,14 +873,17 @@
           "id": "script-qc",
           "agent": "quality-control",
           "task": "QC review of the script",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "script-factcheck"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/reports/qc/ep02-ww1/qc-script-20261116.md",
+            "production/reports/handoffs/ep02-ww1/04-quality-control-script-qc.md"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:22"
+          "next": "PASS WITH FIXES (0 blocking, 2 major, 6 minor)",
+          "updated": "2026-11-16 21:25"
         },
         {
           "id": "style-sample",
