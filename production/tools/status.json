@@ -428,14 +428,20 @@
           "id": "publishing-pack",
           "agent": "youtube-specialist",
           "task": "Title, description, chapters, tags, thumbnail brief, checklist",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "final-qc"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/exports/ep01-ww2/youtube/publishing-pack.md",
+            "production/exports/ep01-ww2/youtube/chapters.txt",
+            "production/exports/ep01-ww2/youtube/thumbnail-brief.md",
+            "production/exports/ep01-ww2/youtube/publishing-checklist.md",
+            "production/exports/ep01-ww2/episode-01-subtitles.srt"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 19:31"
+          "next": "User: pick title, make thumbnail, upload manually",
+          "updated": "2026-11-16 19:33"
         },
         {
           "id": "wrap",

@@ -1,3 +1,5 @@
+_Superseded by script v3 and the final edit — see publishing-pack.md_
+
 # Hook review (00:00–00:30) — ep01-ww2
 
 _youtube-specialist, 2026-11-15. Reviewed: draft v1 of `production/scripts/ep01-ww2/script.md`, section "The Hook" (50 words). For the scriptwriter via the Director; the script has not been edited. Cross-checked with the researcher's `production/research/ep01-ww2/fact-check-script-part1.md` (claims 1–4). I make no claims about retention figures; points below are craft judgements._
