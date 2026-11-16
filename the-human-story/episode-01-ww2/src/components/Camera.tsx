@@ -35,12 +35,13 @@ export type Shot = {from: number; to: number; el: React.ReactNode; trans?: 'fade
  * Plays shots; each shot is visible [from, to) with an 12-frame transition overlapping
  * its start.  Shot elements are built by the section with the section-local frame.
  */
-export const ShotTrack: React.FC<{shots: Shot[]; overlap?: number}> = ({shots, overlap = 12}) => {
-  const f = useCurrentFrame();
+export const ShotTrack: React.FC<{shots: Shot[]; overlap?: number; f?: number}> = ({shots, overlap = 12, f: fOverride}) => {
+  const fr = useCurrentFrame();
+  const f = fOverride ?? fr;
   return (
     <>
       {shots.map((s, i) => {
-        const start = Math.max(0, s.from - (i === 0 || s.trans === 'cut' ? 0 : overlap));
+        const start = i === 0 ? -1e9 : s.from - (s.trans === 'cut' ? 0 : overlap);
         const end = s.to;
         if (f < start - 1 || f >= end + 1) return null;
         const trans = i === 0 ? 'cut' : s.trans ?? 'fade';
@@ -83,5 +84,40 @@ export const InkWipe: React.FC<{at: number; dur?: number; color?: string}> = ({a
         <circle cx={W / 2} cy={H / 2} r={r} fill={color} />
       </svg>
     </AbsoluteFill>
+  );
+};
+
+/**
+ * T-05 split screen: 2 or 3 vertical panels inside one Stage, each clipped, with an ink divider.
+ * `reveal` 0..1 opens the panels from the centre (split wipe); each panel node draws in full-frame
+ * coordinates and can carry its own <Camera f=...>.
+ */
+export const SplitPanels: React.FC<{id: string; panels: {x0: number; x1: number; node: React.ReactNode}[]; reveal?: number; divider?: number}> = ({id, panels, reveal = 1, divider = 12}) => {
+  const r = clamp(reveal);
+  return (
+    <g>
+      <defs>
+        {panels.map((p, i) => {
+          const cx = (p.x0 + p.x1) / 2;
+          const hw = ((p.x1 - p.x0) / 2) * r;
+          return (
+            <clipPath key={i} id={`${id}-p${i}`}>
+              <rect x={cx - hw} y={-10} width={hw * 2} height={H + 20} />
+            </clipPath>
+          );
+        })}
+      </defs>
+      {panels.map((p, i) => (
+        <g key={i} clipPath={`url(#${id}-p${i})`}>
+          {p.node}
+        </g>
+      ))}
+      {panels.slice(1).map((p, i) => (
+        <g key={'d' + i}>
+          <rect x={p.x0 - divider / 2} y={-10} width={divider} height={H + 20} fill={C.ink} />
+          <path d={`M${p.x0 - divider / 2 - 3},0 q6,${H / 4} 0,${H / 2} t0,${H / 2}`} stroke={C.ink} strokeWidth={5} fill="none" />
+        </g>
+      ))}
+    </g>
   );
 };
