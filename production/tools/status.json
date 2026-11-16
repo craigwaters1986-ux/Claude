@@ -371,14 +371,14 @@
           "id": "final-render",
           "agent": "video-editor",
           "task": "Render and verify final MP4",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "assembly"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-15 14:33"
+          "next": "Full render running in background (~5.5-6.5 h), resumable: bash scripts/render.sh",
+          "updated": "2026-11-16 05:16"
         },
         {
           "id": "final-qc",

@@ -155,7 +155,7 @@ const PolishFront: React.FC<{f: number}> = ({f}) => {
 const Radios: React.FC<{f: number}> = ({f}) => {
   const t = f - T[5];
   const left = (
-    <Camera f={f} keys={ck([T[5], 1.0, 480, 560], [T[6], 1.06, 480, 600])}>
+    <Camera f={f} keys={ck([T[5], 1.0, 960, 540], [T[6], 1.05, 960, 560])}>
       <Interior wall="#B9A88A" floor="#7A5A3A" floorY={820} />
       <rect x={120} y={260} width={240} height={180} fill="#9FC0CC" stroke={C.ink} strokeWidth={5} />
       <Flag x={600} y={480} f={f} kind="uk" w={110} h={70} pole={180} seed={2} />
@@ -166,7 +166,7 @@ const Radios: React.FC<{f: number}> = ({f}) => {
     </Camera>
   );
   const right = (
-    <Camera f={f} keys={ck([T[5], 1.0, 1440, 560], [T[6], 1.06, 1440, 600])}>
+    <Camera f={f} keys={ck([T[5], 1.0, 960, 540], [T[6], 1.05, 960, 560])}>
       <rect x={760} y={-200} width={1400} height={1500} fill="#C9B48A" />
       <rect x={760} y={820} width={1400} height={400} fill="#8A6A4A" />
       <line x1={760} y1={820} x2={2160} y2={820} stroke={C.ink} strokeWidth={5} />

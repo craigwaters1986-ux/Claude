@@ -163,7 +163,7 @@ const Split: React.FC<{f: number}> = ({f}) => {
   const shut = prog(t, 20, 45);
   const go = Math.max(0, t - 55);
   const left = (
-    <Camera f={f} keys={ck([T[5], 1.0, 480, 560], [T[6], 1.05, 520, 560])} drift={1}>
+    <Camera f={f} keys={ck([T[5], 1.0, 960, 540], [T[6], 1.05, 960, 560])} drift={1}>
       <Sky top="#8D969A" bottom="#CFCBC0" />
       <Street base={800} seed={21} f={f} x0={-200} x1={1000} />
       <rect x={180} y={520} width={360} height={280} fill="#3A3634" />
@@ -218,7 +218,7 @@ const Expansion: React.FC<{f: number}> = ({f}) => {
 // ------------------------------------------------------------ S03-08 Munich conference
 const Munich: React.FC<{f: number}> = ({f}) => {
   const t = f - T[7];
-  const leaders: [string, number][] = [['chamberlain', 420], ['daladier', 700], ['hitler', 1000], ['mussolini', 1280]];
+  const leaders: [string, number][] = [['chamberlain', 330], ['daladier', 680], ['hitler', 1030], ['mussolini', 1360]];
   const tagAt = (i: number) => 10 + i * 22;
   return (
     <Shot f={f} bg="#7A6248" keys={ck([T[7], 1.12, 700, 600], [T[8], 1.12, 1180, 600])}>
@@ -307,7 +307,7 @@ export const S03Overlay: React.FC = () => (
     <DateCard at={T[6] + 12} until={b.at(7) - 6} date="1936" title="RHINELAND REOCCUPIED" />
     <DateCard at={b.at(7)} until={T[7] - 4} date="1938" title="AUSTRIA ANNEXED" sub="March 1938" />
     <DateCard at={T[7] + 6} until={T[8] - 4} date="1938" title="MUNICH AGREEMENT" sub="Germany, Britain, France and Italy sign" />
-    <FactPill at={1340} until={T[8] - 4} text="CZECHOSLOVAKIA NOT INVITED" x={1880} y={560} anchor="end" />
+    <FactPill at={1340} until={T[8] - 4} text="CZECHOSLOVAKIA NOT INVITED" x={1880} y={720} anchor="end" />
     <DateCard at={T[9] + 10} until={1735} date="MARCH 1939" title="GERMANY OCCUPIES THE CZECH LANDS" />
     <TermCard at={1660} until={1792} term="APPEASEMENT" meaning="Giving in to an aggressor's demands to avoid war" />
     <Stamp at={1705} until={1792} text="FAILED" x={1560} y={250} rot={-10} size={70} />
