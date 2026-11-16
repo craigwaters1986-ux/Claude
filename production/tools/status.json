@@ -482,12 +482,14 @@
           "id": "thumbnail",
           "agent": "animator",
           "task": "Build and render the YouTube thumbnail (concept B, 1939 → 1945)",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [],
-          "deliverables": [],
+          "deliverables": [
+            "production/thumbnails/ep01-ww2/thumbnail-ep01.jpg"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 19:37"
+          "next": "User picks/approves thumbnail",
+          "updated": "2026-11-16 19:57"
         }
       ]
     },
