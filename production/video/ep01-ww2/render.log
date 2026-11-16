@@ -1939,3 +1939,44 @@
 [Tab 2, node_modules/react-dom/cjs/react-dom.production.min.js:23] 
 [2026-11-16 17:58:00] done s09b in 486 s
 [2026-11-16 17:58:00] render s10a frames 15300-16199
+[2026-11-16 18:28:51] done s10a in 1851 s
+[2026-11-16 18:28:51] render s10b frames 16200-17099
+[2026-11-16 18:41:00] done s10b in 729 s
+[2026-11-16 18:41:00] render s11 frames 17100-18149
+[2026-11-16 18:49:34] done s11 in 514 s
+[2026-11-16 18:49:34] concatenate chunks + convert to yuv420p (tv range)
+[2026-11-16 18:55:25] mux public/audio/mix.wav as AAC 192k
+[2026-11-16 18:55:46] ffprobe report
+file: /home/user/Claude/the-human-story/episode-01-ww2/output/episode-01-ww2.mp4
+duration=605.000000
+size=289139287
+bit_rate=3823329
+codec_name=h264
+profile=High
+width=1920
+height=1080
+pix_fmt=yuv420p
+r_frame_rate=30/1
+avg_frame_rate=30/1
+nb_frames=18150
+codec_name=aac
+sample_rate=48000
+channels=2
+bit_rate=197887
+PASS duration 605.000s == 605.000s (±0.05)
+PASS resolution 1920x1080
+PASS frame rate 30/1
+PASS video h264 yuv420p
+PASS audio aac present
+RESULT: ALL PASS
+[2026-11-16 18:55:46] blackdetect / freezedetect
+[2026-11-16 18:56:31] black segments: 1; frozen segments: 2 (details: /home/user/Claude/production/video/ep01-ww2/qc-detect.log)
+[freezedetect @ 0x562ec96805c0] lavfi.freezedetect.freeze_start: 25.9
+[freezedetect @ 0x562ec96805c0] lavfi.freezedetect.freeze_duration: 3.8
+[freezedetect @ 0x562ec96805c0] lavfi.freezedetect.freeze_end: 29.7
+[blackdetect @ 0x7f587c0074c0] black_start:468.167 black_end:470.467 black_duration:2.3
+[freezedetect @ 0x562ec96805c0] lavfi.freezedetect.freeze_start: 536.167
+[freezedetect @ 0x562ec96805c0] lavfi.freezedetect.freeze_duration: 2.2
+[freezedetect @ 0x562ec96805c0] lavfi.freezedetect.freeze_end: 538.367
+[2026-11-16 18:56:31] preview frames every 30 s -> /home/user/Claude/production/video/ep01-ww2/previews
+[2026-11-16 18:56:38] === render finished: /home/user/Claude/the-human-story/episode-01-ww2/output/episode-01-ww2.mp4 ===

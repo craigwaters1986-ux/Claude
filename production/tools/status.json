@@ -378,25 +378,30 @@
           "id": "final-render",
           "agent": "video-editor",
           "task": "Render and verify final MP4",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "assembly"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/output/episode-01-ww2.mp4",
+            "production/video/ep01-ww2/ffprobe-report.txt",
+            "production/video/ep01-ww2/detect-review.md"
+          ],
           "issues": [
             {
               "text": "First render (05:16) killed when the idle cloud container was suspended; restarted 11:49 as tracked background task (2 h slots, resumable)",
-              "opened": "2026-11-16 11:49"
+              "opened": "2026-11-16 11:49",
+              "resolved": "2026-11-16 18:57"
             }
           ],
-          "next": "Rendering; relaunch scripts/render.sh after each 2 h slot until done",
-          "updated": "2026-11-16 11:49"
+          "next": "final-qc (sonnet)",
+          "updated": "2026-11-16 18:57"
         },
         {
           "id": "final-qc",
           "agent": "quality-control",
           "task": "QC review of final render",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "final-render"
           ],
@@ -412,7 +417,7 @@
             }
           ],
           "next": "",
-          "updated": "2026-11-15 19:39"
+          "updated": "2026-11-16 18:57"
         },
         {
           "id": "publishing-pack",
