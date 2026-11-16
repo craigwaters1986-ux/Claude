@@ -838,14 +838,23 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "research"
           ],
-          "deliverables": [],
-          "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:12"
+          "deliverables": [
+            "production/scripts/ep02-ww1/script.md",
+            "production/scripts/ep02-ww1/script.json",
+            "production/reports/handoffs/ep02-ww1/02-scriptwriter-script.md"
+          ],
+          "issues": [
+            {
+              "text": "TTS fit estimated (Kokoro not installed): all sections <=1.08x; recheck at narration",
+              "opened": "2026-11-16 21:22"
+            }
+          ],
+          "next": "Combined QC review (Lean mode)",
+          "updated": "2026-11-16 21:22"
         },
         {
           "id": "script-factcheck",
@@ -864,14 +873,14 @@
           "id": "script-qc",
           "agent": "quality-control",
           "task": "QC review of the script",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "script-factcheck"
           ],
           "deliverables": [],
           "issues": [],
           "next": "",
-          "updated": "2026-11-16 21:02"
+          "updated": "2026-11-16 21:22"
         },
         {
           "id": "style-sample",
