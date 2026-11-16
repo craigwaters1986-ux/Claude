@@ -60,7 +60,7 @@ Approvals: Final episode script: **PENDING** · Initial character & animation st
 
 ## ep02-ww1 — World War I: From Start to Finish
 
-Progress: NOT STARTED: 12 · IN PROGRESS: 1 · AWAITING REVIEW: 2 · COMPLETED: 2
+Progress: NOT STARTED: 11 · IN PROGRESS: 1 · AWAITING REVIEW: 2 · COMPLETED: 3
 
 | Task | Agent | Assigned task | Status | Dependencies | Completed deliverables | Outstanding issues | Next action |
 |---|---|---|---|---|---|---|---|
@@ -68,8 +68,8 @@ Progress: NOT STARTED: 12 · IN PROGRESS: 1 · AWAITING REVIEW: 2 · COMPLETED: 
 | `research` | researcher | Research subject; research notes + sources | **COMPLETED** | brief (COMPLETED) | `production/research/ep02-ww1/research-notes.md`<br>`production/research/ep02-ww1/sources.md`<br>`production/reports/handoffs/ep02-ww1/01-researcher-research.md` | — | Done: 132 facts; hook 'Two shots, one wrong turn' |
 | `keywords` | youtube-specialist | Keyword and title research | **NOT STARTED** | brief (COMPLETED) | — | — | Lean mode: done in publishing pack at the end |
 | `script` | scriptwriter | Write narration script fitted to duration | **AWAITING REVIEW** | research (COMPLETED) | `production/scripts/ep02-ww1/script.md`<br>`production/scripts/ep02-ww1/script.json`<br>`production/reports/handoffs/ep02-ww1/02-scriptwriter-script.md` | #1 TTS fit estimated (Kokoro not installed): all sections <=1.08x; recheck at narration | Combined QC review (Lean mode) |
-| `script-factcheck` | researcher | Fact-check the script | **NOT STARTED** | script (AWAITING REVIEW) | — | — | — |
-| `script-qc` | quality-control | QC review of the script | **IN PROGRESS** | script-factcheck (NOT STARTED) | — | — | — |
+| `script-factcheck` | researcher | Fact-check the script | **COMPLETED** | script (AWAITING REVIEW) | — | — | Covered by combined QC review (Lean mode) |
+| `script-qc` | quality-control | QC review of the script | **IN PROGRESS** | script-factcheck (COMPLETED) | — | — | — |
 | `style-sample` | animator | Character/animation style sample for approval | **AWAITING REVIEW** | brief (COMPLETED) | `production/characters/ep02-ww1/style-sample.png`<br>`production/reports/handoffs/ep02-ww1/03-animator-style-sample.md` | #1 Trench set needed from environment-designer (sample uses a stand-in)<br>#2 Decision: 'canary' munitionette yellow tint vs house rule of white heads | Batched with script for approvals 1+2 |
 | `narration` | audio-engineer | Generate narration, timings and SRT | **NOT STARTED** | approval:script (NOT REQUESTED) | — | — | — |
 | `storyboard` | storyboard | Timestamped storyboard + asset requests | **NOT STARTED** | approval:script (NOT REQUESTED) | — | — | — |

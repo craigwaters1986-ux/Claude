@@ -860,14 +860,14 @@
           "id": "script-factcheck",
           "agent": "researcher",
           "task": "Fact-check the script",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "script"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Covered by combined QC review (Lean mode)",
+          "updated": "2026-11-16 21:22"
         },
         {
           "id": "script-qc",
