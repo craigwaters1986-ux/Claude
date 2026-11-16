@@ -23,7 +23,9 @@
           "note": "Approved by user; no mushroom cloud; keep Balkenkreuz; runtime ~605 s for end card"
         },
         "final-render": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-16 19:03",
+          "note": "QC PASS WITH MINOR NOTES (0 blocking, 10 polish). Awaiting user's listen and decision: approve as is, or fix label overlaps (partial re-render)."
         }
       },
       "tasks": [
@@ -401,11 +403,14 @@
           "id": "final-qc",
           "agent": "quality-control",
           "task": "QC review of final render",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "final-render"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/reports/qc/ep01-ww2/qc-final-render-20261116.md",
+            "production/reports/handoffs/ep01-ww2/12-quality-control-final-render.md"
+          ],
           "issues": [
             {
               "text": "Listen-test the respelled words: Versailles, Sudetenland, Luftwaffe, El Alamein",
@@ -416,8 +421,8 @@
               "opened": "2026-11-15 19:39"
             }
           ],
-          "next": "",
-          "updated": "2026-11-16 18:57"
+          "next": "User listen + approval 4",
+          "updated": "2026-11-16 19:03"
         },
         {
           "id": "publishing-pack",
