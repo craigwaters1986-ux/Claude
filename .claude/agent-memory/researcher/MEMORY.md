@@ -10,3 +10,7 @@
   Hong Kong, Thailand, Guam and Wake were not yet taken.
 - Britannica, IWM and EUCOM often return 403 to WebFetch; USHMM, GHDI, history.state.gov, Avalon and junobeach.org fetch fine.
   Read fetched summaries for orientation errors (left/right versus west/east).
+- 1914-1918-online.net now blocks WebFetch with an "Anubis" bot wall (as of 2026-11-16) — use snippets + NAM (nam.ac.uk, ww1.nam.ac.uk fetch fine), AWM, history.state.gov, USHMM.
+- WebSearch summaries sometimes add "from my own knowledge" facts — never record those as verified; re-search or mark UNVERIFIED.
+- Lean mode (no post-script fact-check): give each fact a "safe wording" column so the scriptwriter can lift it directly, and list quotations allowed vs banned.
+- WW1 recurring traps: Russian mobilisation 30 vs 31 July; Britain at war 11 p.m. London = midnight Berlin; Russian revolution dates need old/new style; "over by Christmas", Princip's sandwich, Angels of Mons, "lions led by donkeys" as a German quote are myths/unsafe.

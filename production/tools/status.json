@@ -808,14 +808,18 @@
           "id": "research",
           "agent": "researcher",
           "task": "Research subject; research notes + sources",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/research/ep02-ww1/research-notes.md",
+            "production/research/ep02-ww1/sources.md",
+            "production/reports/handoffs/ep02-ww1/01-researcher-research.md"
+          ],
           "issues": [],
-          "next": "Researcher building research notes + sources",
-          "updated": "2026-11-16 21:02"
+          "next": "Done: 132 facts; hook 'Two shots, one wrong turn'",
+          "updated": "2026-11-16 21:12"
         },
         {
           "id": "keywords",
@@ -834,14 +838,14 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "research"
           ],
           "deliverables": [],
           "issues": [],
           "next": "",
-          "updated": "2026-11-16 21:02"
+          "updated": "2026-11-16 21:12"
         },
         {
           "id": "script-factcheck",
@@ -873,14 +877,14 @@
           "id": "style-sample",
           "agent": "animator",
           "task": "Character/animation style sample for approval",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "brief"
           ],
           "deliverables": [],
           "issues": [],
           "next": "",
-          "updated": "2026-11-16 21:02"
+          "updated": "2026-11-16 21:12"
         },
         {
           "id": "narration",
