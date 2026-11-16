@@ -842,7 +842,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "research"
           ],
@@ -854,11 +854,12 @@
           "issues": [
             {
               "text": "TTS fit estimated (Kokoro not installed): all sections <=1.08x; recheck at narration",
-              "opened": "2026-11-16 21:22"
+              "opened": "2026-11-16 21:22",
+              "resolved": "2026-11-16 21:29"
             }
           ],
-          "next": "v2: all QC fixes applied and re-checked by Director; awaiting Approval 1 (batched with style)",
-          "updated": "2026-11-16 21:27"
+          "next": "Approved by user (checkpoint 1); fit recheck moved to narration",
+          "updated": "2026-11-16 21:29"
         },
         {
           "id": "script-factcheck",
@@ -893,7 +894,7 @@
           "id": "style-sample",
           "agent": "animator",
           "task": "Character/animation style sample for approval",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
@@ -904,15 +905,17 @@
           "issues": [
             {
               "text": "Trench set needed from environment-designer (sample uses a stand-in)",
-              "opened": "2026-11-16 21:20"
+              "opened": "2026-11-16 21:20",
+              "resolved": "2026-11-16 21:29"
             },
             {
               "text": "Decision: 'canary' munitionette yellow tint vs house rule of white heads",
-              "opened": "2026-11-16 21:20"
+              "opened": "2026-11-16 21:20",
+              "resolved": "2026-11-16 21:29"
             }
           ],
-          "next": "Batched with script for approvals 1+2",
-          "updated": "2026-11-16 21:20"
+          "next": "Approved by user (checkpoint 2); canaries: keep heads white; trench set moved to storyboard MUST list",
+          "updated": "2026-11-16 21:29"
         },
         {
           "id": "narration",
