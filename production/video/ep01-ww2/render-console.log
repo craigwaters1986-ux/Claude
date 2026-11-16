@@ -13,3 +13,12 @@
 [2026-11-16 13:49:23] skip s02 (900-2699): already rendered
 [2026-11-16 13:49:23] skip s03 (2700-4499): already rendered
 [2026-11-16 13:49:23] render s04 frames 4500-6299
+[2026-11-16 14:49:55] done s04 in 3632 s
+[2026-11-16 14:49:55] render s05 frames 6300-8099
+[2026-11-16 15:23:43] done s05 in 2028 s
+[2026-11-16 15:23:43] render s06 frames 8100-9899
+[2026-11-16 15:49:50] === render start (ep01-ww2) frames=18150 dur=605.000s concurrency=4 ===
+[2026-11-16 15:49:50] skip s01 (0-899): already rendered
+[2026-11-16 15:49:50] skip s02 (900-2699): already rendered
+[2026-11-16 15:49:50] skip s03 (2700-4499): already rendered
+[2026-11-16 15:49:50] skip s04 (4500-6299): already rendered
