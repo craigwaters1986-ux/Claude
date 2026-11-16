@@ -2,3 +2,14 @@
 [2026-11-16 05:16:19] render s01 frames 0-899
 [2026-11-16 11:49:13] === render start (ep01-ww2) frames=18150 dur=605.000s concurrency=4 ===
 [2026-11-16 11:49:13] render s01 frames 0-899
+[2026-11-16 12:03:43] done s01 in 870 s
+[2026-11-16 12:03:43] render s02 frames 900-2699
+[2026-11-16 12:29:49] done s02 in 1566 s
+[2026-11-16 12:29:49] render s03 frames 2700-4499
+[2026-11-16 13:24:39] done s03 in 3290 s
+[2026-11-16 13:24:39] render s04 frames 4500-6299
+[2026-11-16 13:49:23] === render start (ep01-ww2) frames=18150 dur=605.000s concurrency=4 ===
+[2026-11-16 13:49:23] skip s01 (0-899): already rendered
+[2026-11-16 13:49:23] skip s02 (900-2699): already rendered
+[2026-11-16 13:49:23] skip s03 (2700-4499): already rendered
+[2026-11-16 13:49:23] render s04 frames 4500-6299

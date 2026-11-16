@@ -1,0 +1,3 @@
+file '/home/user/Claude/the-human-story/episode-01-ww2/output/chunks/s01.mp4'
+file '/home/user/Claude/the-human-story/episode-01-ww2/output/chunks/s02.mp4'
+file '/home/user/Claude/the-human-story/episode-01-ww2/output/chunks/s03.mp4'
