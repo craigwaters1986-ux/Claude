@@ -9,6 +9,8 @@ import countries110 from 'world-atlas/countries-110m.json';
 import type {Feature, FeatureCollection, Geometry, Polygon} from 'geojson';
 // Natural Earth 1:10m land clipped to a small Normandy box (generated once; ~600 points).
 import normandyLand from './data/normandy-land-10m.json';
+// Natural Earth 1:10m land clipped to the Dardanelles box 25.2–27.8°E, 39.5–41.0°N (ep02 M-04).
+import gallipoliLand from './data/gallipoli-land-10m.json';
 
 type Countries = FeatureCollection<Geometry, {name: string}>;
 
@@ -67,7 +69,7 @@ export const LOST_TO_POLAND = poly([
   [18.85, 53.9], [18.87, 53.6], [19.2, 53.55], [19.45, 53.55], [19.65, 53.55], [19.95, 53.45], [20.35, 53.33], [20.4, 53.15],
   [19.3, 53.05], [18.75, 52.9], [18.35, 52.6], [17.8, 52.3], [17.95, 51.75], [17.75, 51.4], [17.0, 51.55], [16.3, 51.7],
 ]);
-const POLAND_WEST_CHAIN: [number, number][] = [
+export const POLAND_WEST_CHAIN: [number, number][] = [
   [18.85, 49.5], [18.55, 49.9], [18.4, 50.05], [18.75, 50.22], [19.0, 50.36], [18.8, 50.48], [18.55, 50.75], [18.4, 50.9],
   [17.75, 51.4], [17.0, 51.55], [16.3, 51.7], [15.9, 52.3], [16.0, 52.9], [16.6, 53.05], [17.1, 53.05], [17.4, 53.3], [17.4, 53.9],
   [17.6, 54.2], [17.9, 54.5], [18.0, 54.83], [18.85, 54.75], [18.56, 54.47], [18.4, 54.4], [18.42, 54.25], [18.6, 54.15], [18.8, 54.13],
@@ -112,6 +114,8 @@ export const PROJ = {
   eastAsia: () => geoMercator().center([125, 38]).scale(1300).translate([W / 2, H / 2]),
   africa: () => geoMercator().center([22, 32]).scale(2600).translate([W / 2, H / 2]),
   /** Eastern Front: Baltic to Black Sea, Berlin to Stalingrad (zoom 1 spans ~10°E–56°E). */
+  /** Gallipoli / Dardanelles (ep02 M-04): zoom 1 spans ~25.45–27.35°E.  Uses the 1:10m coast extract. */
+  gallipoli: () => geoMercator().center([26.4, 40.2]).scale(58000).translate([W / 2, H / 2]),
   eastFront: () => geoConicConformal().parallels([45, 60]).rotate([-33, 0]).center([0, 52]).scale(3800).translate([W / 2, H / 2]),
 };
 export type MapKind = keyof typeof PROJ;
@@ -134,7 +138,7 @@ export function baseMap(kind: MapKind) {
     // 1.4 px weight the difference is invisible, and they were ~80% of map paint time.
     const borders = COUNTRIES110.features.map((f) => gp(f) ?? '').join(' ');
     // Normandy is shown at ~30x the Europe scale: use the 1:10m coast extract there.
-    const landGeo = kind === 'normandy' ? (normandyLand as unknown as Feature) : LAND50;
+    const landGeo = kind === 'normandy' ? (normandyLand as unknown as Feature) : kind === 'gallipoli' ? (gallipoliLand as unknown as Feature) : LAND50;
     c = {proj, paths, land: gp(landGeo) ?? '', borders};
     cache.set(kind, c);
   }

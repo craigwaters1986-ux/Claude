@@ -32,9 +32,11 @@ type Props = {
   idSuffix?: string;
   /** Sea texture strokes (0 = none; default 18). */
   seaLines?: number;
+  /** Extra fills drawn in projection space (under the coastline ink), e.g. masked historical states (ep02). */
+  layers?: (ctx: {z: number; kind: MapKind; clipId: string; focus: [number, number]}) => React.ReactNode;
 };
 
-export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children, sea = '#9DBCC4', land = C.land, dim = 0, borders = true, idSuffix = '', seaLines = 18}) => {
+export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children, sea = '#9DBCC4', land = C.land, dim = 0, borders = true, idSuffix = '', seaLines = 18, layers}) => {
   const bm = baseMap(kind);
   const focus = bm.proj([cam.lon, cam.lat]) ?? [W / 2, H / 2];
   const z = cam.zoom;
@@ -73,6 +75,7 @@ export const GeoMap: React.FC<Props> = ({kind, cam, f, highlights = [], children
           .map((h, i) => (
             <path key={'c' + i} d={bm.paths.get(h.name!) ?? ''} fill={h.fill} opacity={(h.opacity ?? 1) * (h.pulse ? 0.75 + 0.25 * Math.sin(f / 6) : 1)} />
           ))}
+        {layers?.({z, kind, clipId, focus: focus as [number, number]})}
         {borders && <path d={bm.borders} fill="none" stroke="#6B5E48" strokeWidth={1.4 / z} opacity={0.55} />}
         <g clipPath={`url(#${clipId})`}>
           {highlights

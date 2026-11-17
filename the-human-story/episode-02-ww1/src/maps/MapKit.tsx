@@ -185,15 +185,15 @@ export const Gauge: React.FC<{x: number; y: number; value: number; label: string
  * A framed map on a wall (briefing room, Munich).  Renders a GeoMap into a nested SVG
  * viewport so it is clipped to the frame.  Keep `w` ≥ 480 so labels stay legible.
  */
-export const WallMap: React.FC<{x: number; y: number; w: number; kind: MapKind; cam: Cam; f: number; highlights?: Highlight[]; children?: React.ComponentProps<typeof GeoMap>['children']; id: string; frame?: string; pins?: boolean}> = ({
-  x, y, w, kind, cam, f, highlights, children, id, frame = '#6B4A2E', pins = true,
+export const WallMap: React.FC<{x: number; y: number; w: number; kind: MapKind; cam: Cam; f: number; highlights?: Highlight[]; children?: React.ComponentProps<typeof GeoMap>['children']; id: string; frame?: string; pins?: boolean; layers?: React.ComponentProps<typeof GeoMap>['layers']; borders?: boolean}> = ({
+  x, y, w, kind, cam, f, highlights, children, id, frame = '#6B4A2E', pins = true, layers, borders = true,
 }) => {
   const h = (w * H) / W;
   return (
     <g>
       <rect x={x - 22} y={y - 22} width={w + 44} height={h + 44} rx={6} fill={frame} stroke={ink} strokeWidth={5} />
       <svg x={x} y={y} width={w} height={h} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" overflow="hidden">
-        <GeoMap kind={kind} cam={cam} f={f} highlights={highlights} idSuffix={`-wall-${id}`} seaLines={0}>{children}</GeoMap>
+        <GeoMap kind={kind} cam={cam} f={f} highlights={highlights} idSuffix={`-wall-${id}`} seaLines={0} layers={layers} borders={borders}>{children}</GeoMap>
         <rect x={0} y={0} width={W} height={H} fill="#F4E9C8" opacity={0.18} />
       </svg>
       <rect x={x} y={y} width={w} height={h} fill="none" stroke={ink} strokeWidth={4} />
