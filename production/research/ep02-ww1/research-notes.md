@@ -362,3 +362,12 @@ silhouettes against IWM photo collections. Confidence MEDIUM unless a source is 
 ## 10. Word-budget hints for the scriptwriter
 §3 dates are many — on screen show a fast "domino" calendar (23 Jul → 28 Jul → 30 Jul → 1 Aug → 3 Aug → 4 Aug) while narration names only 3–4.
 Numbers to say aloud (keep few): 19 (Princip), 57,470 / 19,240 (Somme day 1), ~700 km front, ~1 million munition women, 6 April 1917, 11 a.m. 11 Nov, ~9–10 million soldiers dead (est.), at least 50 million flu (est.), 600,000–1.5 million Armenians (est.), 28 June 1919.
+
+## 11. Name-tag checks for storyboard (added 2026-11-17, task 09)
+
+| ID | Claim | Value | Sources | Confidence |
+|---|---|---|---|---|
+| NC-01 | Foch's title at S10-02 (narration ends "...and in July they struck back", 573.9-580.3 s) | He is still a **General** (not yet Marshal). Doullens 26 Mar 1918: tasked to coordinate the Allied armies; Beauvais 3 Apr: strategic direction of operations; 14 Apr: title "commander-in-chief of the Allied armies in France" (Belgian, US, Italian governments followed 15/17 Apr and 1 May); **Marshal of France 6 Aug 1918** (one French source says 7 Aug; treat as outlier). The shot ends before Amiens (8 Aug), so "Marshal" would be premature. | S62, S63, S64 | HIGH (General in July; 6 Aug HIGH, 7 Aug outlier) |
+| NC-02 | Ellison headstone wording | CWGC: Private GEORGE EDWIN ELLISON, L/12643, 5th (Royal Irish) Lancers, d. 11 Nov 1918, age 40, St Symphorien Military Cemetery I. B. 23. Find a Grave transcribes the headstone as "L/12643 PRIVATE G.E. ELLISON, 5TH LANCERS, 11TH NOVEMBER 1918". CWGC page itself returned 403 to our fetch, and the transcription is secondary, so the initials on the stone are not independently confirmed by an official image. | S65, S66, S67 | MEDIUM-HIGH (full name HIGH; "G. E." on stone MEDIUM) |
+
+**Recommendations.** (1) Tag **GENERAL FERDINAND FOCH**, sublabel **Allied commander, 1918** (accurate; "Supreme Allied Commander" is also fair but "Allied commander" matches the narration's "single commander"). Do not use "Marshal" here; the scriptwriter's early draft "Marshal Foch" was already changed. If the tag ever persists past 6 Aug, switch to MARSHAL FERDINAND FOCH. (2) Use **G. E. ELLISON** (fallback G. ELLISON). Note: the in-episode time of death varies by source (c. 09:30 / 10:56 / "four minutes before"); keep "the final morning" wording. Birthplace disputed (Leeds vs York); not used on screen.

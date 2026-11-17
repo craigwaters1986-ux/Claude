@@ -1067,14 +1067,18 @@
           "id": "name-checks",
           "agent": "researcher",
           "task": "Confirm Foch 1918 tag wording and Ellison headstone initials",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/research/ep02-ww1/research-notes.md",
+            "production/research/ep02-ww1/sources.md",
+            "production/reports/handoffs/ep02-ww1/09-researcher-name-checks.md"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-17 18:11"
+          "next": "Foch: GENERAL FERDINAND FOCH / Allied commander, 1918 (S10-02 is pre-6 Aug). Headstone: G. E. ELLISON",
+          "updated": "2026-11-17 18:13"
         }
       ]
     }
