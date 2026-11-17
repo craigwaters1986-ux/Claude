@@ -959,41 +959,41 @@
           "id": "characters",
           "agent": "animator",
           "task": "Build characters and character animation",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:style",
             "approval:storyboard"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Phase C: A-01..A-06 + A-S1 tremble",
+          "updated": "2026-11-17 18:11"
         },
         {
           "id": "environments",
           "agent": "environment-designer",
           "task": "Build environments, maps, vehicles, effects",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:storyboard"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Phase C: E-01, E-08, M-01..M-05, V-01..V-03 + E-S1 poppies",
+          "updated": "2026-11-17 18:11"
         },
         {
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "storyboard"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Phase C: AU-01 SFX, AU-02 music/cues + AU-S1 bugle",
+          "updated": "2026-11-17 18:11"
         },
         {
           "id": "assembly",
@@ -1062,6 +1062,19 @@
           "issues": [],
           "next": "",
           "updated": "2026-11-16 21:02"
+        },
+        {
+          "id": "name-checks",
+          "agent": "researcher",
+          "task": "Confirm Foch 1918 tag wording and Ellison headstone initials",
+          "status": "IN PROGRESS",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-17 18:11"
         }
       ]
     }
