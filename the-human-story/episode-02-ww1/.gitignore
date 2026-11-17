@@ -8,3 +8,5 @@ assets/audio/*.wav
 output/episode-01-ww2.mp4
 output/video-only.mp4
 output/
+# ep02 audio: per-cue SFX files are regenerable by scripts/sfx.py (about 180 MB)
+public/sfx/

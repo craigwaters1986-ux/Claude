@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reference mix + master for ep01-ww2: narration (padded to 605 s) + ducked music + SFX.
+"""Reference mix + master for ep02-ww1: narration (720 s) + music (ducked -12 dB under speech) + SFX.
 
 Chain: narration -> gentle compressor (2:1 above -26 dBFS, glues the level so the limiter
 works less) ; music already ducked by music.py ; SFX stem from sfx.py ; sum ; master gain
@@ -7,7 +7,8 @@ solved iteratively so the programme lands at -14.0 LUFS integrated ; true-peak l
 limiter at -1.5 dBTP (4x oversampled detector).
 
 Outputs
-  production/audio/ep01-ww2/episode-01-mix-reference.wav   (48 kHz, stereo, 24-bit)
+  production/audio/ep02-ww1/episode-02-mix-reference.wav   (48 kHz, stereo, 24-bit; git-ignored)
+  production/audio/ep02-ww1/episode-02-mix-reference-listen.mp3 (small listen copy, 96 kb/s)
   public/audio/mix.wav                                     (48 kHz, stereo, 16-bit; what the render should use)
   output/mix-stats.json                                    (python-side measurements)
 Run after music.py and sfx.py:  python3 scripts/mix.py
@@ -21,7 +22,9 @@ import soundfile as sf
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from audio_lib import *  # noqa
-from music import N, ENG, PROD, speech_regions, DUR  # noqa
+import subprocess
+
+from music import N, ENG, PROD, TAG, speech_regions, DUR, ELEVEN_SIL  # noqa
 
 TARGET = -14.0
 CEIL = -1.5
@@ -90,8 +93,14 @@ def main():
     stats.update({"master_gain_db": g, "mix_lufs_py": L, "mix_true_peak_py": true_peak_db(y),
                   "max_gain_reduction_db": float(-db(gr.min())),
                   "percent_time_limiting_over_1db": float(np.mean(gr < undb(-1.0)) * 100)})
-    y[ns(604.9):] *= np.linspace(1, 0, N - ns(604.9))[:, None]
-    sf.write(os.path.join(PROD, "episode-01-mix-reference.wav"), y.astype(np.float32), SR, subtype="PCM_24")
+    y[ns(719.9):] *= np.linspace(1, 0, N - ns(719.9))[:, None]
+    # music + SFX are silent 609.5-610.5; report what is left there (narration b7 only)
+    a, b = ns(ELEVEN_SIL[0]), ns(ELEVEN_SIL[1])
+    stats["eleven_oclock_music_plus_sfx_peak_dbfs"] = float(db(np.abs(musd[a:b] + sfx[a:b]).max() + 1e-12))
+    ref = os.path.join(PROD, f"episode-{TAG}-mix-reference.wav")
+    sf.write(ref, y.astype(np.float32), SR, subtype="PCM_24")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", ref, "-c:a", "libmp3lame", "-b:a", "96k",
+                    os.path.join(PROD, f"episode-{TAG}-mix-reference-listen.mp3")], check=True)
     sf.write(os.path.join(ENG, "public", "audio", "mix.wav"), y.astype(np.float32), SR, subtype="PCM_16")
     json.dump(stats, open(os.path.join(ENG, "output", "mix-stats.json"), "w"), indent=1)
     for k, v in stats.items():

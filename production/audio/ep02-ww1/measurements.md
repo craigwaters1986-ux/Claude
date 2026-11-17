@@ -75,3 +75,62 @@ Captions use the script's display `text` (numerals, e.g. "28 June 1914"); audio 
 - Checked and left alone (native phonemes fine): Sarajevo /sˌaɹɐjˈeɪvəʊ/, Franz Ferdinand, Verdun /vˈɜːdʌn/, Somme, Ludendorff, Tannenberg, Anzacs, Binyon, Bolsheviks, Czechoslovakia. Schlieffen and Brest-Litovsk do not occur in the script; they were checked anyway and need no respelling.
 - Script `say` respellings used as written: Gav-reelo Prin-tsip, Passhen-dale, Fosh, Vair-sigh, Galli-poli (/ɡˈalipˈəʊli/, an acceptable anglicisation; the native form gave /ˈɡalɪpɒli/).
 - Years spoken as words ("nineteen fourteen", "nineteen eighteen and nineteen nineteen"); "two thousand and six" and other numbers written out in `say`.
+
+---
+
+# Music, SFX and reference mix: ep02-ww1 (2026-11-17)
+
+Built with `scripts/music.py`, `scripts/sfx.py` and `scripts/mix.py` (engine `the-human-story/episode-02-ww1/`). Runtime **720.000 s** (21,600 frames). Lean mode: **one measurement pass** (ffmpeg), after one level fix: the hummed carol was lowered 6 dB to keep it "distant and soft", and three short music hits on sentence tails were trimmed.
+
+The narration WAV was not in this fresh container because it is git-ignored. It was rebuilt with `tts.py` (Kokoro set up as in the voice bible). The result is **bit-identical** to the approved build: md5 `61fdc97e24be1270ebdcd14c3faf05bc`, and `narration.json` and the SRT are byte-identical (git clean).
+
+## Files (ffprobe)
+| File | Format | Duration | Size |
+|---|---|---|---|
+| `episode-02-mix-reference.wav` | 48 kHz stereo, 24-bit | 720.000 s | 198 MB (git-ignored) |
+| `episode-02-mix-reference-listen.mp3` | MP3 96 kb/s stereo, 48 kHz | 720.02 s | 8.3 MB |
+| `episode-02-music.wav` (un-ducked stem) | 48 kHz stereo, 24-bit | 720.000 s | 198 MB (git-ignored) |
+| `episode-02-sfx.wav` (SFX stem, 222 cues placed) | 48 kHz stereo, 24-bit | 720.000 s | 198 MB (git-ignored) |
+| engine `public/audio/mix.wav`, `music.wav` (ducked), `sfx.wav` | 48 kHz stereo, 16-bit | 720.000 s each | 132 MB each (git-ignored) |
+| engine `public/sfx/NNN-<shot>-<name>.wav` | 222 files, 48 kHz stereo 16-bit | — | 177 MB (now git-ignored) |
+
+`public/audio/mix.wav` decodes to the same 16-bit samples as the 24-bit reference (cmp: identical).
+
+## Reference mix (`public/audio/mix.wav`; ffmpeg ebur128 peak=true, loudnorm, volumedetect)
+| Measure | Value |
+|---|---|
+| Integrated loudness | **−14.0 LUFS** (loudnorm −14.09; target about −14: PASS) |
+| Loudness range | 1.6 LU |
+| True peak | **−1.5 dBTP** (≤ −1 dBTP: PASS) |
+| Sample peak / mean | −1.5 dB / −16.7 dB |
+| silencedetect noise=−50 dB d=1.0 | one window only: **388.75–390.01 (1.27 s)**. This is the storyboard's deliberate 1.2 s near-silence before the s07 ink (S06-07). Nothing else ≥ 1 s. |
+| Listen MP3 | −14.5 LUFS, −1.6 dBTP (encoder only; not the master) |
+
+## Special cues (checked on the stems)
+| Cue | Check | Result |
+|---|---|---|
+| **11 o'clock silence, S10-06** | `music.wav` and `sfx.wav`, 609.50–610.50: max_volume | **−91 dB (digital zero) on both: PASS**. SFX resume at 610.50 (watch tick, birdsong). Music stays out until s10.b8 (612.83), then one sustained cello note. Narration b7 ("At 11 o'clock, the guns fell silent", from 609.475) runs over the window, as the narration timings are fixed. |
+| Distant guns stop at 11:00 | last gun cue 606.4, hard-cut at 609.50 | PASS |
+| Single instrument, no percussion: S06-06–S06-07 (357.19–388.80) | per-stem peaks in `output/music-stems` | solo cello only. Every other stem (perc included) is at −240 dB: PASS |
+| S07-04 (418.30–428.00) | same | music out at the whistles (418.6–421.0), then one sustained cello note. All other stems −240 dB: PASS |
+| S11-05 (668.20–685.80) | same | solo cello, plus the bugle phrase in 684.72–685.72. All other stems −240 dB: PASS |
+| S07-05 / S08-04 / S11-04 | same | piano only: PASS |
+| Hummed "Silent Night" | 231.2–249.3 | A major, 3 male hummers, low-passed and reverberant (distant). Un-ducked −28 LUFS over the window, below the surrounding score. It grows over the first 20 eighths, breaks off at the officer's whistle (248.4), then the solo violin finishes the tune 249.6–259.7. |
+| s02→s03 tail | 100.4–110.0 | pizzicato on each of 8 domino clacks (100.45 + 0.5 k) and 7 chalk dominoes (104.5 + 0.5 k), strings build, resolve with timpani and bell on the Sarajevo glow at **108.0**, then the s03 bed at 110 |
+| Title sting | 27.95 (≥ 27.8: PASS) | timpani roll, then the hit at 28.9; horn channel motif; settles into the s02 bed by 34.5 |
+| Pistol reports | 13.50 / 13.90 and 126.95 / 127.35 | dry, short, distant: no reverb, low-passed 3.2 kHz. Music out 13.45–14.85 and 126.9–127.9 |
+| Restraint | cue list | no close explosion, impact or bullet-hit cue anywhere. Artillery is only `g_guns_distant` / `g_boom_distant` with far ≥ 0.92 |
+
+## Balance (computed in `mix.py`, BS.1770 K-weighted; `output/mix-stats.json`)
+| Measure | Value |
+|---|---|
+| Ducking | **−12 dB under every sentence** (ep01 used −9). Raised-cosine attack 0.30 s before the word, release 0.9 s |
+| Narration, speech blocks only (after the 2:1 glue compressor, before master gain) | −21.9 LUFS |
+| Music (ducked), same speech blocks | −38.5 LUFS → **16.7 dB under the narration** (ep01: 12.0) |
+| SFX, same speech blocks | −47.3 LUFS (25 dB under) |
+| Narration minus music, 400 ms blocks during speech | **median 18.0 dB, 5th percentile 9.8 dB** (ep01: 13.0 / 5.3) |
+| Narration minus (music + SFX) | median 17.5 dB, 5th percentile 9.4 dB |
+| Music in narration gaps and tails (un-ducked) | −21.7 LUFS |
+| Master gain / limiter | +7.82 dB. Peak gain reduction 4.0 dB. > 1 dB of reduction only 0.45 % of the time |
+
+The worst single 400 ms blocks are at 17.9 (−4.6 dB), 532.0 (−4.3), 12.9 (−3.4), 18.0 (−3.4), 159.5 (−3.2) and 113.3 s (−2.8). Each one sits on a sentence tail or a breath, where the swelling music meets the last syllable (for example 17.9–18.3 is "…at war." ending at 18.04, and 532.0 is the swell into Passchendaele). They are not masked words, but QC should listen there. Fix if needed: a local −3 dB on that cue in `music.py`.

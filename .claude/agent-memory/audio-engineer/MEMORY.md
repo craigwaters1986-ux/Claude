@@ -21,3 +21,11 @@
 - Gotchas: python hash() of a str is randomised per run (don't use it for seeds). Keep sample counts
   consistent with int(round(dur*SR)) everywhere, or the arrays mismatch by 1.
 - The Director asked to save tokens: one measurement pass, no re-tuning loops, unless asked.
+- ep02 (2026-11-17): WAVs are git-ignored, so a fresh container has no narration. Re-run tts.py (Kokoro setup per
+  voice bible; about 5 min for 720 s). It is bit-identical (md5 matched) and leaves narration.json and the SRT unchanged.
+- ep02 pipeline: music.py about 4 min, sfx.py about 50 s, mix.py about 1.5 min. Duck -12 dB gave music 16.7 dB under speech
+  (median momentary 18 dB, p05 9.8). Master +7.8 dB -> -14.0 LUFS / -1.5 dBTP.
+- music.py now has EXCLUSIVE windows (per-stem masks after reverb) for "single instrument, no percussion" shots.
+  Verify them by checking per-stem peaks in output/music-stems.
+- Check each special element's loudness against its surroundings (the hum was first 3.5 LU louder than the score; -6 dB fixed it).
+- Wait for long background builds with `timeout N bash -c 'until grep -q X log; do sleep 5; done'` (a plain sleep is blocked).

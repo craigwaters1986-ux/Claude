@@ -990,14 +990,28 @@
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "storyboard"
           ],
-          "deliverables": [],
-          "issues": [],
-          "next": "Phase C: AU-01 SFX, AU-02 music/cues + AU-S1 bugle",
-          "updated": "2026-11-17 18:11"
+          "deliverables": [
+            "production/audio/ep02-ww1/episode-02-mix-reference-listen.mp3",
+            "production/audio/ep02-ww1/measurements.md",
+            "production/audio/ep02-ww1/licences.md",
+            "production/reports/handoffs/ep02-ww1/09-audio-engineer-music-sfx.md"
+          ],
+          "issues": [
+            {
+              "text": "User listen: hummed Silent Night 231-259 s (fallback: solo violin) and bugle 684.7 s",
+              "opened": "2026-11-17 18:40"
+            },
+            {
+              "text": "QC listen: music within 3-5 dB of narration at 12.9, 17.9, 18.0, 113.3, 159.5, 532.0 s (fix -3 dB)",
+              "opened": "2026-11-17 18:40"
+            }
+          ],
+          "next": "-14.0 LUFS, -1.5 dBTP, 720.000 s; editor: EPISODE_FRAMES 21600, render.sh ep02, single mix.wav",
+          "updated": "2026-11-17 18:40"
         },
         {
           "id": "assembly",
@@ -1012,8 +1026,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "Channel logo overlay already wired (ChannelLogo in Episode.tsx) — keep it; top-left safe zone x<170,y<150",
-          "updated": "2026-11-16 21:31"
+          "next": "Audio: one <Audio> mix.wav only; EPISODE_FRAMES 18150->21600; render.sh still ep01 (EP, frames, chunks); syncPoints in sfx-cues.json. Keep ChannelLogo; safe zone x<170,y<150",
+          "updated": "2026-11-17 18:40"
         },
         {
           "id": "final-render",
