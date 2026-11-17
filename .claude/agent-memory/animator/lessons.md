@@ -1,0 +1,13 @@
+# Animator — durable lessons
+- The big head (R 44) hides any arm raised within ~45° of vertical. For raised-arm poses keep the shoulder angle around 100–125 (forward) or 235–260 (back), or use `nearArmFront`. `cheerV` and `waveSide` exist for this reason.
+- Use `reach()` / `armIK` from `skeleton.ts` for hands that must hit a point (handshake, table, partner's shoulder). `elbowDown=true` picks the lower elbow. For "hands together at the waist", explicit angles look better than IK.
+- For two-figure overlaps (an arm around someone), render with `part="body"`, then the other figure, then `part="head"`.
+- Seated/kneeling garments fold onto the thigh automatically (average hip angle > 55).
+- `seated()` puts the feet on the ground line (bob 54); the legacy `sit()` does not.
+- Preview without touching Root.tsx: `src/characters/__preview__/index.ts` plus `npx remotion still <entry> <Id> out.png`. JSX must be in a .tsx file, not index.ts.
+- Render cost: ~0.3 s/frame for 15 figures and ~1.5 s/frame for 210 (4 cores). Crowds dominate, so keep counts modest.
+- The user is token-conscious: one contact sheet and one tsc pass at the end; avoid repeated re-renders.
+- New-episode engine copy: `rsync` is not installed; use `tar --exclude=./node_modules --exclude=./output ...`. A fresh `npm install` takes ~12 s. Add `output/` to the new engine's .gitignore, because ep01 committed its output chunks.
+- Props passed via `back` sit in torso space and hide behind the garment unless they extend well above the shoulder. `RifleSlung` (angle 125, centre (-20,-70)) shows the muzzle behind the back shoulder.
+- WW1 wardrobe (ep02): serviceCap/kepi1914/feldkappe/kabalak/papakha/mobCap/vadVeil/plumedHat hats, `gasMask` head option, and outfit `trousers`/`apronCross`/`blanketRoll`/`satchel`. Keep "canary" munitionettes white-headed (no skin tints).
+- ep02 storyboard cast: `pagri`/`wideBrim` hats (wideBrim moves a bun to the nape), `shortBeard`/`goatee` facial hair, `stare` expression, poses `seatedWave`/`orate`/`hugKnees` + `tremble(base, f, amt)` modifier. Beard colour equal to hair colour + `side` hair reads as a mask: use `slick` hair and a lighter beard. Foch's tag lives in `FOCH_TAG` (cast.ts).

@@ -1,0 +1,9 @@
+node_modules/
+assets/audio/tts-cache/
+out/
+renders/
+*.log
+public/audio/
+assets/audio/*.wav
+output/episode-01-ww2.mp4
+output/video-only.mp4
