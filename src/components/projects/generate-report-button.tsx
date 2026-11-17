@@ -26,7 +26,9 @@ import { buildIssuesCsv } from "@/lib/pdf/csv";
 import {
   DESIGNS,
   GROUP_BY_OPTIONS,
+  PHOTO_SIZES,
   REPORT_TITLE_SUGGESTIONS,
+  TEXT_SIZES,
   STATUS_FILTERS,
   filterSnags,
   listAssignees,
@@ -217,6 +219,28 @@ function ReportOptionsForm({ projectId, onReady }: { projectId: string; onReady:
         </div>
       </fieldset>
 
+      {/* Sizes */}
+      <div className={cn("grid gap-4", options.design !== "checklist" && "sm:grid-cols-2")}>
+        {options.design !== "checklist" && (
+          <SizeChoice
+            legend="Photo size"
+            name="photo-size"
+            options={PHOTO_SIZES}
+            value={options.photoSize}
+            onChange={(v) => set("photoSize", v)}
+            disabled={busy}
+          />
+        )}
+        <SizeChoice
+          legend="Text size"
+          name="text-size"
+          options={TEXT_SIZES}
+          value={options.textSize}
+          onChange={(v) => set("textSize", v)}
+          disabled={busy}
+        />
+      </div>
+
       {/* Assigned to */}
       {assignees.length > 1 && (
         <fieldset className="grid gap-2" disabled={busy}>
@@ -398,6 +422,51 @@ function ReportOptionsForm({ projectId, onReady }: { projectId: string; onReady:
         </div>
       </DialogFooter>
     </form>
+  );
+}
+
+function SizeChoice<T extends string>({
+  legend,
+  name,
+  options,
+  value,
+  onChange,
+  disabled,
+}: {
+  legend: string;
+  name: string;
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: (value: T) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <fieldset className="grid gap-2" disabled={disabled}>
+      <legend className="mb-2 text-sm font-medium">{legend}</legend>
+      <div className="grid grid-cols-3 gap-2">
+        {options.map((o) => (
+          <label
+            key={o.value}
+            className={cn(
+              "flex h-10 cursor-pointer items-center justify-center rounded-md border text-sm font-medium transition-colors",
+              "has-[:focus-visible]:ring-ring/50 has-[:focus-visible]:ring-[3px]",
+              value === o.value ? "bg-primary text-primary-foreground border-primary" : "hover:bg-accent",
+            )}
+          >
+            <input
+              type="radio"
+              name={name}
+              value={o.value}
+              checked={value === o.value}
+              onChange={() => onChange(o.value)}
+              className="sr-only"
+              aria-label={`${legend}: ${o.label}`}
+            />
+            {o.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }
 

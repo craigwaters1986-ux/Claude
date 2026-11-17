@@ -54,7 +54,7 @@ export async function generateSnagReport(
     getSettings(supabase).catch(() => null),
   ]);
   const included = filterSnags(snags, options);
-  const photoSize = photoSizeFor(options.design);
+  const photoSize = photoSizeFor(options.design, options.photoSize);
 
   // Which photos the design shows, and at what size: the table shows each
   // snag's cover; the photo report shows the cover large and the rest smaller.

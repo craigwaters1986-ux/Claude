@@ -225,6 +225,7 @@ upload anything waiting.
 | Which snags | All · Outstanding (open + in progress) · Resolved |
 | Assigned to | Any combination of the project's assignees (including Unassigned); none selected = everyone |
 | Group by | None · By trade · By status (a heading per group, never left alone at the foot of a page) |
+| Photo size / Text size | Small · Medium · Large photos (not for the checklist) and Small · Standard · Large text (88% / 100% / 115%), for every design. Larger photos are also fetched sharper so they print well. Remembered on the device |
 | Prepared for / by | Optional names shown in the header ("by" defaults to the one in Settings) |
 | Show where each snag is | Shown when the project has drawings: a small cut-out of the drawing around each pinned snag, with the pin and level name, in every design |
 

@@ -10,6 +10,8 @@ import { SNAG_STATUS_LABEL, type Snag, type SnagStatus } from "@/types/models";
 export type ReportDesign = "modern" | "table" | "photos" | "checklist";
 export type StatusFilter = "all" | "outstanding" | "resolved";
 export type GroupBy = "none" | "assigned_to" | "status" | "level";
+export type PhotoSize = "small" | "medium" | "large";
+export type TextSize = "small" | "standard" | "large";
 
 export type ReportOptions = {
   design: ReportDesign;
@@ -27,7 +29,20 @@ export type ReportOptions = {
   reportTitle: string;
   /** Print the signature from Settings on the cover (when there is one). */
   includeSignature: boolean;
+  photoSize: PhotoSize;
+  textSize: TextSize;
 };
+
+export const PHOTO_SIZES: { value: PhotoSize; label: string }[] = [
+  { value: "small", label: "Small" },
+  { value: "medium", label: "Medium" },
+  { value: "large", label: "Large" },
+];
+export const TEXT_SIZES: { value: TextSize; label: string }[] = [
+  { value: "small", label: "Small" },
+  { value: "standard", label: "Standard" },
+  { value: "large", label: "Large" },
+];
 
 export const DEFAULT_REPORT_TITLE = "Site inspection";
 export const REPORT_TITLE_SUGGESTIONS = ["Site inspection", "Snag list", "Handover inspection", "Defects report", "Health & safety inspection"];
@@ -43,6 +58,8 @@ export const DEFAULT_REPORT_OPTIONS: ReportOptions = {
   preparedFor: "",
   reportTitle: DEFAULT_REPORT_TITLE,
   includeSignature: true,
+  photoSize: "medium",
+  textSize: "standard",
 };
 
 export const DESIGNS: { value: ReportDesign; label: string; description: string }[] = [
@@ -142,9 +159,11 @@ export function describeFilters(options: ReportOptions): string | null {
 }
 
 /** Whether a design shows photos, and how big (longest edge, px) to fetch them. */
-export function photoSizeFor(design: ReportDesign): number | null {
+export function photoSizeFor(design: ReportDesign, size: PhotoSize = "medium"): number | null {
   if (design === "checklist") return null;
-  return design === "photos" ? 1000 : design === "modern" ? 640 : 320;
+  const base = design === "photos" ? 1000 : design === "modern" ? 640 : 320;
+  // Large photos are fetched sharper so they don't look soft when printed.
+  return size === "large" ? Math.round(base * 1.35) : size === "small" ? Math.round(base * 0.8) : base;
 }
 
 // ---------------------------------------------------------------------------
@@ -154,7 +173,15 @@ export function photoSizeFor(design: ReportDesign): number | null {
 const STORAGE_KEY = "snaglist.report-options.v1";
 type Remembered = Pick<
   ReportOptions,
-  "design" | "groupBy" | "preparedBy" | "includePlans" | "includeSnippets" | "reportTitle" | "includeSignature"
+  | "design"
+  | "groupBy"
+  | "preparedBy"
+  | "includePlans"
+  | "includeSnippets"
+  | "reportTitle"
+  | "includeSignature"
+  | "photoSize"
+  | "textSize"
 >;
 
 export function loadRememberedOptions(): ReportOptions {
@@ -169,6 +196,8 @@ export function loadRememberedOptions(): ReportOptions {
       includeSnippets: saved.includeSnippets !== false,
       reportTitle: typeof saved.reportTitle === "string" && saved.reportTitle.trim() ? saved.reportTitle.slice(0, 60) : DEFAULT_REPORT_TITLE,
       includeSignature: saved.includeSignature !== false,
+      photoSize: PHOTO_SIZES.some((x) => x.value === saved.photoSize) ? saved.photoSize! : "medium",
+      textSize: TEXT_SIZES.some((x) => x.value === saved.textSize) ? saved.textSize! : "standard",
     };
   } catch {
     return DEFAULT_REPORT_OPTIONS;
@@ -177,10 +206,20 @@ export function loadRememberedOptions(): ReportOptions {
 
 export function rememberOptions(options: ReportOptions) {
   try {
-    const { design, groupBy, preparedBy, includePlans, includeSnippets, reportTitle, includeSignature } = options;
+    const { design, groupBy, preparedBy, includePlans, includeSnippets, reportTitle, includeSignature, photoSize, textSize } = options;
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ design, groupBy, preparedBy, includePlans, includeSnippets, reportTitle, includeSignature } satisfies Remembered),
+      JSON.stringify({
+        design,
+        groupBy,
+        preparedBy,
+        includePlans,
+        includeSnippets,
+        reportTitle,
+        includeSignature,
+        photoSize,
+        textSize,
+      } satisfies Remembered),
     );
   } catch {
     // Private browsing / storage blocked: just don't remember.

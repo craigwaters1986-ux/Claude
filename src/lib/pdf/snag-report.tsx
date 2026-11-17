@@ -16,7 +16,18 @@
 import { Document, Font, Image, Page, StyleSheet, Text, View, pdf } from "@react-pdf/renderer";
 import { formatDate } from "@/lib/format";
 import { SNAG_STATUS_LABEL, type Level, type ProjectSummary, type Snag, type SnagStatus } from "@/types/models";
-import { DESIGNS, UNASSIGNED, describeFilters, filterSnags, groupSnags, listAssignees, type ReportOptions, type SnagGroup } from "./report-options";
+import {
+  DESIGNS,
+  UNASSIGNED,
+  describeFilters,
+  filterSnags,
+  groupSnags,
+  listAssignees,
+  type PhotoSize,
+  type ReportOptions,
+  type SnagGroup,
+  type TextSize,
+} from "./report-options";
 
 export type ReportData = {
   project: ProjectSummary;
@@ -55,58 +66,59 @@ const PIN_SIZE = 15;
 
 // Note: no custom lineHeight anywhere. In this version of react-pdf it roughly
 // doubles the gap between wrapped lines; the default spacing reads well.
-const styles = StyleSheet.create({
-  page: { paddingTop: 32, paddingBottom: 48, paddingHorizontal: 32, fontFamily: "Helvetica", fontSize: 9, color: INK },
+function makeStyles(t: number, ph: Photo) {
+  return StyleSheet.create({
+  page: { paddingTop: 32, paddingBottom: 48, paddingHorizontal: 32, fontFamily: "Helvetica", fontSize: 9 * t, color: INK },
 
   // Header
-  eyebrow: { fontSize: 8, letterSpacing: 1.2, color: MUTED, textTransform: "uppercase" },
-  projectName: { fontSize: 20, fontFamily: "Helvetica-Bold", marginTop: 4 },
+  eyebrow: { fontSize: 8 * t, letterSpacing: 1.2, color: MUTED, textTransform: "uppercase" },
+  projectName: { fontSize: 20 * t, fontFamily: "Helvetica-Bold", marginTop: 4 },
   meta: { marginTop: 3, color: MUTED },
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   headerRight: { alignItems: "flex-end", maxWidth: 180 },
-  dateValue: { fontSize: 11, fontFamily: "Helvetica-Bold", marginTop: 4 },
+  dateValue: { fontSize: 11 * t, fontFamily: "Helvetica-Bold", marginTop: 4 },
   people: { flexDirection: "row", gap: 24, marginTop: 10 },
-  personValue: { fontSize: 10, fontFamily: "Helvetica-Bold", marginTop: 3 },
-  filterNote: { marginTop: 10, paddingVertical: 5, paddingHorizontal: 8, backgroundColor: SOFT, borderRadius: 3, color: MUTED, fontSize: 8 },
+  personValue: { fontSize: 10 * t, fontFamily: "Helvetica-Bold", marginTop: 3 },
+  filterNote: { marginTop: 10, paddingVertical: 5, paddingHorizontal: 8, backgroundColor: SOFT, borderRadius: 3, color: MUTED, fontSize: 8 * t },
 
   stats: { flexDirection: "row", gap: 8, marginTop: 14, marginBottom: 16 },
   stat: { flex: 1, borderWidth: 1, borderColor: LINE, borderRadius: 4, paddingVertical: 8, paddingHorizontal: 10 },
-  statValue: { fontSize: 16, fontFamily: "Helvetica-Bold" },
-  statLabel: { fontSize: 8, color: MUTED, marginTop: 2 },
+  statValue: { fontSize: 16 * t, fontFamily: "Helvetica-Bold" },
+  statLabel: { fontSize: 8 * t, color: MUTED, marginTop: 2 },
 
   groupHeading: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", marginTop: 14, marginBottom: 6, paddingBottom: 4, borderBottomWidth: 1.5, borderBottomColor: INK },
-  groupTitle: { fontSize: 12, fontFamily: "Helvetica-Bold" },
-  groupCount: { fontSize: 8, color: MUTED },
+  groupTitle: { fontSize: 12 * t, fontFamily: "Helvetica-Bold" },
+  groupCount: { fontSize: 8 * t, color: MUTED },
 
   // Shared table bits
-  tableHeader: { flexDirection: "row", backgroundColor: INK, color: "#ffffff", fontFamily: "Helvetica-Bold", fontSize: 8, borderRadius: 3 },
+  tableHeader: { flexDirection: "row", backgroundColor: INK, color: "#ffffff", fontFamily: "Helvetica-Bold", fontSize: 8 * t, borderRadius: 3 },
   headCell: { paddingVertical: 6, paddingHorizontal: 6 },
   cell: { paddingVertical: 7, paddingHorizontal: 6 },
   idText: { fontFamily: "Helvetica-Bold" },
   titleText: { fontFamily: "Helvetica-Bold" },
-  subtle: { color: MUTED, fontSize: 8, marginTop: 3 },
-  pill: { alignSelf: "flex-start", borderRadius: 8, paddingVertical: 2.5, paddingHorizontal: 6, fontSize: 7.5, fontFamily: "Helvetica-Bold" },
+  subtle: { color: MUTED, fontSize: 8 * t, marginTop: 3 },
+  pill: { alignSelf: "flex-start", borderRadius: 8, paddingVertical: 2.5, paddingHorizontal: 6, fontSize: 7.5 * t, fontFamily: "Helvetica-Bold" },
   empty: { paddingVertical: 24, textAlign: "center", color: MUTED },
 
   // Standard table
-  row: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: LINE, minHeight: 78 },
-  thumb: { width: 80, height: 62, objectFit: "cover", borderRadius: 3 },
-  noThumb: { width: 80, height: 62, borderRadius: 3, borderWidth: 1, borderColor: LINE, alignItems: "center", justifyContent: "center" },
-  noThumbText: { fontSize: 7, color: MUTED },
+  row: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: LINE, minHeight: ph.thumbH + 16 },
+  thumb: { width: ph.thumbW, height: ph.thumbH, objectFit: "cover", borderRadius: 3 },
+  noThumb: { width: ph.thumbW, height: ph.thumbH, borderRadius: 3, borderWidth: 1, borderColor: LINE, alignItems: "center", justifyContent: "center" },
+  noThumbText: { fontSize: 7 * t, color: MUTED },
 
   // Photo report
   cardWrap: { paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: LINE },
   card: { flexDirection: "row", gap: 14 },
   // Up to 5 extra photos under the card: 5 × 98pt + 4 × 6pt gaps ≈ the 531pt content width.
   extras: { flexDirection: "row", gap: 6, marginTop: 8 },
-  extraPhoto: { width: 98, height: 74, objectFit: "cover", borderRadius: 3 },
-  cardPhoto: { width: 250, height: 188, objectFit: "cover", borderRadius: 4 },
-  cardNoPhoto: { width: 250, height: 188, borderRadius: 4, backgroundColor: SOFT, alignItems: "center", justifyContent: "center" },
+  extraPhoto: { width: ph.extraW, height: ph.extraW * 0.75, objectFit: "cover", borderRadius: 3 },
+  cardPhoto: { width: ph.cardW, height: ph.cardW * 0.75, objectFit: "cover", borderRadius: 4 },
+  cardNoPhoto: { width: ph.cardW, height: ph.cardW * 0.75, borderRadius: 4, backgroundColor: SOFT, alignItems: "center", justifyContent: "center" },
   cardBody: { flex: 1 },
-  cardNumber: { fontSize: 8, color: MUTED, fontFamily: "Helvetica-Bold", letterSpacing: 1 },
-  cardTitle: { fontSize: 13, fontFamily: "Helvetica-Bold", marginTop: 3, marginBottom: 6 },
-  fieldLabel: { fontSize: 7.5, color: MUTED, textTransform: "uppercase", letterSpacing: 0.8, marginTop: 8 },
-  fieldValue: { fontSize: 9.5, marginTop: 2 },
+  cardNumber: { fontSize: 8 * t, color: MUTED, fontFamily: "Helvetica-Bold", letterSpacing: 1 },
+  cardTitle: { fontSize: 13 * t, fontFamily: "Helvetica-Bold", marginTop: 3, marginBottom: 6 },
+  fieldLabel: { fontSize: 7.5 * t, color: MUTED, textTransform: "uppercase", letterSpacing: 0.8, marginTop: 8 },
+  fieldValue: { fontSize: 9.5 * t, marginTop: 2 },
 
   // Checklist
   checkRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: LINE, minHeight: 30, alignItems: "flex-start" },
@@ -119,21 +131,51 @@ const styles = StyleSheet.create({
 
   // Branding and location snippets
   logo: { maxWidth: 140, maxHeight: 48, objectFit: "contain", marginBottom: 8 },
-  snippetSmall: { width: 80, height: 60, borderRadius: 3, marginTop: 4, borderWidth: 1, borderColor: LINE },
-  snippetLarge: { width: 160, height: 120, borderRadius: 3, marginTop: 3, borderWidth: 1, borderColor: LINE },
+  snippetSmall: { width: ph.thumbW, height: ph.thumbW * 0.75, borderRadius: 3, marginTop: 4, borderWidth: 1, borderColor: LINE },
+  snippetLarge: { width: ph.snippetW, height: ph.snippetW * 0.75, borderRadius: 3, marginTop: 3, borderWidth: 1, borderColor: LINE },
 
   // Plan pages
   planHeading: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10, height: 36 },
-  planTitle: { fontSize: 16, fontFamily: "Helvetica-Bold", marginTop: 3 },
-  legend: { flexDirection: "row", gap: 12, fontSize: 8, color: MUTED },
+  planTitle: { fontSize: 16 * t, fontFamily: "Helvetica-Bold", marginTop: 3 },
+  legend: { flexDirection: "row", gap: 12, fontSize: 8 * t, color: MUTED },
   legendItem: { flexDirection: "row", alignItems: "center", gap: 4 },
   legendDot: { width: 8, height: 8, borderRadius: 4 },
   planPin: { position: "absolute", width: PIN_SIZE, height: PIN_SIZE, borderRadius: PIN_SIZE / 2, borderWidth: 1, borderColor: "#ffffff", alignItems: "center", justifyContent: "center" },
-  planPinText: { fontSize: 6.5, fontFamily: "Helvetica-Bold", color: "#ffffff" },
+  planPinText: { fontSize: 6.5 * t, fontFamily: "Helvetica-Bold", color: "#ffffff" },
 
   // Footer
-  footer: { position: "absolute", bottom: 20, left: 32, right: 32, flexDirection: "row", justifyContent: "space-between", fontSize: 8, color: MUTED, borderTopWidth: 1, borderTopColor: LINE, paddingTop: 6 },
+  footer: { position: "absolute", bottom: 20, left: 32, right: 32, flexDirection: "row", justifyContent: "space-between", fontSize: 8 * t, color: MUTED, borderTopWidth: 1, borderTopColor: LINE, paddingTop: 6 },
 });
+}
+
+
+// ---------------------------------------------------------------------------
+// Sizes chosen at the point of generating (photo size, text size)
+// ---------------------------------------------------------------------------
+type Photo = { thumbW: number; thumbH: number; cardW: number; extraW: number; modernW: number; snippetW: number };
+const PHOTO: Record<PhotoSize, Photo> = {
+  small: { thumbW: 60, thumbH: 46, cardW: 190, extraW: 74, modernW: 132, snippetW: 130 },
+  medium: { thumbW: 80, thumbH: 62, cardW: 250, extraW: 98, modernW: 176, snippetW: 160 },
+  large: { thumbW: 112, thumbH: 86, cardW: 310, extraW: 98, modernW: 240, snippetW: 190 },
+};
+const TEXT: Record<TextSize, number> = { small: 0.88, standard: 1, large: 1.15 };
+
+// The layouts read these; renderSnagReport sets them for each report before laying it out.
+let styles = makeStyles(1, PHOTO.medium);
+let modern = makeModern(1, PHOTO.medium);
+let TABLE_COL = tableColumns(PHOTO.medium);
+
+function tableColumns(ph: Photo) {
+  return { id: 30, photo: ph.thumbW + 12, title: 118, assigned: 86, status: 68 }; // comments takes the rest
+}
+
+function applySizes(photo: PhotoSize, text: TextSize) {
+  const ph = PHOTO[photo] ?? PHOTO.medium;
+  const t = TEXT[text] ?? 1;
+  styles = makeStyles(t, ph);
+  modern = makeModern(t, ph);
+  TABLE_COL = tableColumns(ph);
+}
 
 // ---------------------------------------------------------------------------
 // Shared pieces
@@ -285,44 +327,46 @@ function Groups({
 // ---------------------------------------------------------------------------
 const longDate = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
-const modern = StyleSheet.create({
-  coverPage: { paddingTop: 40, paddingBottom: 48, paddingHorizontal: 48, fontFamily: "Helvetica", fontSize: 10, color: INK },
+function makeModern(t: number, ph: Photo) {
+  return StyleSheet.create({
+  coverPage: { paddingTop: 40, paddingBottom: 48, paddingHorizontal: 48, fontFamily: "Helvetica", fontSize: 10 * t, color: INK },
   coverTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", minHeight: 90 },
   coverLogo: { maxWidth: 170, maxHeight: 70, objectFit: "contain" },
   signer: { alignItems: "flex-end", maxWidth: 220 },
   signature: { maxWidth: 150, maxHeight: 54, objectFit: "contain", marginBottom: 4 },
-  signerName: { fontSize: 9, fontFamily: "Helvetica-Bold", textAlign: "right" },
-  signerCompany: { fontSize: 8.5, color: MUTED, marginTop: 2, textAlign: "right" },
-  coverTitle: { fontSize: 32, fontFamily: "Helvetica-Bold", letterSpacing: 0.6, marginTop: 190, textTransform: "uppercase" },
+  signerName: { fontSize: 9 * t, fontFamily: "Helvetica-Bold", textAlign: "right" },
+  signerCompany: { fontSize: 8.5 * t, color: MUTED, marginTop: 2, textAlign: "right" },
+  coverTitle: { fontSize: 32 * t, fontFamily: "Helvetica-Bold", letterSpacing: 0.6, marginTop: 190, textTransform: "uppercase" },
   coverRule: { height: 3.5, marginTop: 12, marginBottom: 22 },
-  coverLine: { fontSize: 11, marginBottom: 9 },
+  coverLine: { fontSize: 11 * t, marginBottom: 9 },
   coverStrong: { fontFamily: "Helvetica-Bold" },
   coverMuted: { color: MUTED },
   summary: { marginTop: 30 },
-  summaryHead: { flexDirection: "row", borderBottomWidth: 1.2, paddingBottom: 4, marginBottom: 2, fontSize: 7.5, fontFamily: "Helvetica-Bold", color: MUTED, letterSpacing: 0.8, textTransform: "uppercase" },
-  summaryRow: { flexDirection: "row", borderBottomWidth: 0.6, borderBottomColor: LINE, paddingVertical: 4.5, fontSize: 9.5 },
+  summaryHead: { flexDirection: "row", borderBottomWidth: 1.2, paddingBottom: 4, marginBottom: 2, fontSize: 7.5 * t, fontFamily: "Helvetica-Bold", color: MUTED, letterSpacing: 0.8, textTransform: "uppercase" },
+  summaryRow: { flexDirection: "row", borderBottomWidth: 0.6, borderBottomColor: LINE, paddingVertical: 4.5, fontSize: 9.5 * t },
   summaryName: { flex: 1 },
   summaryNum: { width: 70, textAlign: "right" },
-  sectionTitle: { fontSize: 9, fontFamily: "Helvetica-Bold", letterSpacing: 1.4, textTransform: "uppercase", marginBottom: 10 },
+  sectionTitle: { fontSize: 9 * t, fontFamily: "Helvetica-Bold", letterSpacing: 1.4, textTransform: "uppercase", marginBottom: 10 },
 
   item: { borderTopWidth: 2, paddingTop: 9, paddingBottom: 14 },
   itemRow: { flexDirection: "row", gap: 14 },
-  photoCol: { width: 176 },
-  photo: { width: 176, height: 132, objectFit: "cover", borderRadius: 2 },
-  noPhoto: { width: 176, height: 132, borderRadius: 2, backgroundColor: SOFT, alignItems: "center", justifyContent: "center" },
+  photoCol: { width: ph.modernW },
+  photo: { width: ph.modernW, height: ph.modernW * 0.75, objectFit: "cover", borderRadius: 2 },
+  noPhoto: { width: ph.modernW, height: ph.modernW * 0.75, borderRadius: 2, backgroundColor: SOFT, alignItems: "center", justifyContent: "center" },
   extras: { flexDirection: "row", gap: 4, marginTop: 4 },
-  extra: { width: 56, height: 42, objectFit: "cover", borderRadius: 2 },
+  extra: { width: (ph.modernW - 8) / 3, height: ((ph.modernW - 8) / 3) * 0.75, objectFit: "cover", borderRadius: 2 },
   body: { flex: 1 },
   titleRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", gap: 8 },
-  title: { flex: 1, fontSize: 11, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 0.3 },
-  number: { fontSize: 8, fontFamily: "Helvetica-Bold", color: MUTED, letterSpacing: 0.8 },
-  assigned: { fontSize: 8.5, color: MUTED, marginTop: 3 },
-  detail: { fontSize: 9, marginTop: 6 },
+  title: { flex: 1, fontSize: 11 * t, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 0.3 },
+  number: { fontSize: 8 * t, fontFamily: "Helvetica-Bold", color: MUTED, letterSpacing: 0.8 },
+  assigned: { fontSize: 8.5 * t, color: MUTED, marginTop: 3 },
+  detail: { fontSize: 9 * t, marginTop: 6 },
   label: { fontFamily: "Helvetica-Bold" },
   metaRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 7 },
-  metaText: { fontSize: 8, color: MUTED },
-  snippet: { width: 132, height: 99, borderRadius: 2, marginTop: 8, borderWidth: 1, borderColor: LINE },
+  metaText: { fontSize: 8 * t, color: MUTED },
+  snippet: { width: ph.snippetW * 0.82, height: ph.snippetW * 0.82 * 0.75, borderRadius: 2, marginTop: 8, borderWidth: 1, borderColor: LINE },
 });
+}
 
 function CoverPage({
   project,
@@ -464,7 +508,6 @@ function ModernItem({ snag, thumbnails, levelName, snippet, accent }: RowProps &
 // Design 1: Standard table
 // ---------------------------------------------------------------------------
 // A4 is 595pt wide; minus 2 × 32pt margins = 531pt.
-const TABLE_COL = { id: 30, photo: 92, title: 118, assigned: 86, status: 68 }; // comments takes the rest
 
 function StandardTableHeader() {
   return (
@@ -802,5 +845,6 @@ export function SnagReport({ project, snags: allSnags, levels, plans, thumbnails
 
 /** Render the report to a PDF Blob, in the browser. */
 export function renderSnagReport(data: ReportData): Promise<Blob> {
+  applySizes(data.options.photoSize, data.options.textSize);
   return pdf(<SnagReport {...data} />).toBlob();
 }
