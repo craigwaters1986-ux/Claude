@@ -1,4 +1,5 @@
-// Scene-assembly kit for Episode 1 (video-editor): small helpers shared by S01-S11.
+// Scene-assembly kit (video-editor): small helpers shared by S01-S11 (carried over from Episode 1; signatures unchanged).
+// `sec(id)` reads the beats of section `id` from src/timeline/narration.json (ep02 v3: s01-s11).
 // Only composition helpers and simple scene props live here; characters, places, vehicles and
 // maps come from the animator's and environment designer's libraries.
 import React from 'react';

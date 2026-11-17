@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Episode 1 final render (video-editor).
-#   bash scripts/render.sh                 full render: 11 per-section chunks (resumable) -> concat -> mux -> checks
+# Episode 2 (ep02-ww1) final render (video-editor). Lean mode v2 (#15-16): <= 900-frame chunks, resumable.
+#   bash scripts/render.sh                 full render: 24 chunks of 900 frames (resumable) -> concat -> mux -> checks
 #   TEST=2700-2729 bash scripts/render.sh  smoke test on one small frame range (writes to output/test/)
+# Run the full render as a tracked background task (run_in_background, 2 h); when a slot ends, relaunch the
+# same command: finished chunks are skipped (a chunk is only moved into place once complete).
 # Video: muted JPEG-frame chunks, concurrency 4, H.264 yuv420p; audio: public/audio/mix.wav -> AAC 192k.
-# Re-running skips chunks that already finished (a chunk is only moved into place once complete).
 set -euo pipefail
 
 ENGINE="$(cd "$(dirname "$0")/.." && pwd)"
 STUDIO="$(cd "$ENGINE/../.." && pwd)"
-EP=ep01-ww2
+EP=ep02-ww1
 VID="$STUDIO/production/video/$EP"
 LOG="$VID/render.log"
 PREV="$VID/previews"
@@ -18,13 +19,14 @@ cd "$ENGINE"
 
 log() { echo "[$(date '+%F %T')] $*" | tee -a "$LOG"; }
 
-# section chunks: name first-frame last-frame (30 fps; s11 runs to 605 s = frame 18149)
-SECTIONS=(
-  "s01 0 899" "s02 900 2699" "s03 2700 4499" "s04 4500 6299" "s05 6300 8099" "s06a 8100 8999" "s06b 9000 9899"
-  "s07a 9900 10799" "s07b 10800 11699" "s08a 11700 12599" "s08b 12600 13499"
-  "s09a 13500 14399" "s09b 14400 15299" "s10a 15300 16199" "s10b 16200 17099" "s11 17100 18149"
-)
-TOTAL_FRAMES=18150
+# 900-frame chunks: c00 0-899 ... c23 20700-21599 (30 fps; 720 s = 21,600 frames)
+TOTAL_FRAMES=21600
+CHUNK=900
+SECTIONS=()
+for ((i=0; i*CHUNK<TOTAL_FRAMES; i++)); do
+  a=$((i*CHUNK)); b=$((a+CHUNK-1)); ((b>=TOTAL_FRAMES)) && b=$((TOTAL_FRAMES-1))
+  SECTIONS+=("$(printf 'c%02d' "$i") $a $b")
+done
 
 if [[ -n "${TEST:-}" ]]; then
   A="${TEST%-*}"; B="${TEST#*-}"
@@ -36,7 +38,7 @@ if [[ -n "${TEST:-}" ]]; then
   PREV="$OUTDIR/previews"; mkdir -p "$PREV"
 else
   OUTDIR="$ENGINE/output"
-  FINAL="$OUTDIR/episode-01-ww2.mp4"
+  FINAL="$OUTDIR/episode-02-ww1.mp4"
   AUDIO_SS=0
 fi
 CHUNKS="$OUTDIR/chunks"
@@ -68,6 +70,10 @@ log "concatenate chunks + convert to yuv420p (tv range)"
 ffmpeg -y -v error -f concat -safe 0 -i "$LIST" -vf "scale=in_range=full:out_range=tv,format=yuv420p" \
   -c:v libx264 -preset medium -crf 18 -profile:v high -color_range tv -r 30 "$OUTDIR/video-only.mp4" >>"$LOG" 2>&1
 
+if [[ ! -s public/audio/mix.wav ]]; then
+  log "STOP: public/audio/mix.wav is missing (audio engineer). Video chunks are kept; re-run once the mix exists."
+  exit 1
+fi
 log "mux public/audio/mix.wav as AAC 192k"
 ffmpeg -y -v error -i "$OUTDIR/video-only.mp4" -ss "$AUDIO_SS" -t "$DUR" -i public/audio/mix.wav \
   -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 192k -ar 48000 -t "$DUR" -movflags +faststart "$FINAL" >>"$LOG" 2>&1

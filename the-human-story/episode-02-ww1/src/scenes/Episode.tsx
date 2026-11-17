@@ -1,4 +1,4 @@
-// Episode 1 — full timeline (605 s = 18,150 frames at 30 fps).
+// Episode 2 (ep02-ww1, "World War I: From Start to Finish") — full timeline (720 s = 21,600 frames at 30 fps).
 // Layers (bottom → top): section pictures (shots) · section overlays (cards, banners) ·
 // chapter transitions (ink wipe / dip) · captions band · channel logo (top-left, always on).  Audio: the measured master mix only.
 import React from 'react';
@@ -19,25 +19,27 @@ import {S09Picture, S09Overlay} from './S09';
 import {S10Picture, S10Overlay} from './S10';
 import {S11Picture, S11Overlay} from './S11';
 
-export const EPISODE_FRAMES = 18150;
+export const EPISODE_FRAMES = 21600;
 
 type Sec = {id: string; start: number; end: number; Picture: React.FC<{f: number}>; Overlay: React.FC; chapter?: [number, string]; pre?: number; into?: 'ink' | 'fade' | 'dip' | 'none'};
 
-// Section windows (s). s11 runs to 605 s (end card held ≥ 5 s; Director decision 08).
+// Section windows (s), fixed by the storyboard (§1.1) and equal to narration.json's section windows.
+// Chapter titles = script.json / narration.json chapter names (storyboard §1.4). s01 is the cold open (no banner).
+// Transitions (storyboard §1.3): INK into every chapter, except s05 → s06 (slow fade out of the executions card,
+// s06 pre-rolls 30 frames under s05's last frames) and s10 → s11 (slow dip through black).
 export const SECTIONS_EP: Sec[] = [
-  {id: 's01', start: 0, end: 30, Picture: S01Picture, Overlay: S01Overlay, into: 'none'},
-  {id: 's02', start: 30, end: 90, Picture: S02Picture, Overlay: S02Overlay, chapter: [1, 'The World After World War I'], into: 'ink'},
-  {id: 's03', start: 90, end: 150, Picture: S03Picture, Overlay: S03Overlay, chapter: [2, "Hitler's Rise to Power"], into: 'ink'},
-  {id: 's04', start: 150, end: 210, Picture: S04Picture, Overlay: S04Overlay, chapter: [3, 'World War II Begins'], into: 'ink'},
-  {id: 's05', start: 210, end: 270, Picture: S05Picture, Overlay: S05Overlay, chapter: [4, 'Europe Falls'], into: 'ink'},
-  {id: 's06', start: 270, end: 330, Picture: S06Picture, Overlay: S06Overlay, chapter: [5, 'The War Becomes Global'], into: 'ink'},
-  {id: 's07', start: 330, end: 390, Picture: S07Picture, Overlay: S07Overlay, chapter: [6, 'The Turning Points'], into: 'ink'},
-  {id: 's08', start: 390, end: 450, Picture: S08Picture, Overlay: S08Overlay, chapter: [7, 'D-Day and the Liberation of Europe'], into: 'ink'},
-  {id: 's09', start: 450, end: 510, Picture: S09Picture, Overlay: S09Overlay, chapter: [8, 'The Fall of Nazi Germany'], into: 'ink'},
-  // s09 → s10: slow fade (evening sea → Pacific map): s10's picture pre-rolls 30 frames under s09's last frames.
-  {id: 's10', start: 510, end: 570, Picture: S10Picture, Overlay: S10Overlay, chapter: [9, 'How World War II Finally Ended'], into: 'fade', pre: 30},
-  // s10 → s11: slow dip through black.
-  {id: 's11', start: 570, end: 605, Picture: S11Picture, Overlay: S11Overlay, chapter: [10, 'The Human Cost and the Legacy'], into: 'dip'},
+  {id: 's01', start: 0, end: 35, Picture: S01Picture, Overlay: S01Overlay, into: 'none'},
+  {id: 's02', start: 35, end: 110, Picture: S02Picture, Overlay: S02Overlay, chapter: [1, 'Europe Before 1914'], into: 'ink'},
+  // the s02 → s03 ink is centred on the glowing Sarajevo dot, which S02-07's last push brings to the frame centre
+  {id: 's03', start: 110, end: 190, Picture: S03Picture, Overlay: S03Overlay, chapter: [2, 'Sarajevo and the July Crisis'], into: 'ink'},
+  {id: 's04', start: 190, end: 260, Picture: S04Picture, Overlay: S04Overlay, chapter: [3, '1914: The War of Movement Stops'], into: 'ink'},
+  {id: 's05', start: 260, end: 320, Picture: S05Picture, Overlay: S05Overlay, chapter: [4, 'Life in the Trenches'], into: 'ink'},
+  {id: 's06', start: 320, end: 390, Picture: S06Picture, Overlay: S06Overlay, chapter: [5, 'A World War'], into: 'fade', pre: 30},
+  {id: 's07', start: 390, end: 450, Picture: S07Picture, Overlay: S07Overlay, chapter: [6, '1916: Verdun and the Somme'], into: 'ink'},
+  {id: 's08', start: 450, end: 500, Picture: S08Picture, Overlay: S08Overlay, chapter: [7, 'The Home Front'], into: 'ink'},
+  {id: 's09', start: 500, end: 560, Picture: S09Picture, Overlay: S09Overlay, chapter: [8, '1917: The Turning Year'], into: 'ink'},
+  {id: 's10', start: 560, end: 620, Picture: S10Picture, Overlay: S10Overlay, chapter: [9, '1918: The Last Battles'], into: 'ink'},
+  {id: 's11', start: 620, end: 720, Picture: S11Picture, Overlay: S11Overlay, chapter: [10, 'The Cost and the Legacy'], into: 'dip'},
 ];
 
 const Picture: React.FC<{s: Sec}> = ({s}) => {
