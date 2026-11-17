@@ -959,15 +959,19 @@
           "id": "characters",
           "agent": "animator",
           "task": "Build characters and character animation",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:style",
             "approval:storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "the-human-story/episode-02-ww1/src/characters/cast.ts",
+            "production/characters/ep02-ww1/sheet-ep02-cast.png",
+            "production/reports/handoffs/ep02-ww1/09-animator-characters.md"
+          ],
           "issues": [],
-          "next": "Phase C: A-01..A-06 + A-S1 tremble",
-          "updated": "2026-11-17 18:11"
+          "next": "A-01..A-06 + A-S1 tremble done; APIs in handoff 09; FOCH_TAG wording confirmed by researcher",
+          "updated": "2026-11-17 18:17"
         },
         {
           "id": "environments",
