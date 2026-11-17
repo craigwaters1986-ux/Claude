@@ -1048,8 +1048,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "Audio: one <Audio> mix.wav only; EPISODE_FRAMES 18150->21600; render.sh still ep01 (EP, frames, chunks); syncPoints in sfx-cues.json. Keep ChannelLogo; safe zone x<170,y<150",
-          "updated": "2026-11-17 20:30"
+          "next": "Running: editor A (Episode.tsx, kit, render.sh, S01-S05) + editor B (S06-S11) in parallel",
+          "updated": "2026-11-17 20:32"
         },
         {
           "id": "final-render",
@@ -1119,6 +1119,17 @@
           "issues": [],
           "next": "Foch: GENERAL FERDINAND FOCH / Allied commander, 1918 (S10-02 is pre-6 Aug). Headstone: G. E. ELLISON",
           "updated": "2026-11-17 18:13"
+        },
+        {
+          "id": "audio-rebuild",
+          "agent": "audio-engineer",
+          "task": "Rebuild git-ignored render audio (narration v3, sfx, music, mix.wav) in fresh container; verify against approved md5/measurements",
+          "status": "IN PROGRESS",
+          "depends": [],
+          "deliverables": [],
+          "issues": [],
+          "next": "Running (sonnet)",
+          "updated": "2026-11-17 20:32"
         }
       ]
     }
