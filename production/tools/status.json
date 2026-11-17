@@ -788,9 +788,9 @@
           "note": "User approved WW1 style sample 2026-11-16; canaries: keep heads white (house style)"
         },
         "storyboard": {
-          "state": "PENDING",
-          "updated": "2026-11-16 22:35",
-          "note": "7 decisions asked 2026-11-16"
+          "state": "APPROVED",
+          "updated": "2026-11-17 05:00",
+          "note": "User approved all 7 recommendations (Guide, Sarajevo, Somme, Armenian Genocide, canaries, red flags, poppies+bugle)"
         },
         "final-render": {
           "state": "NOT REQUESTED"
@@ -942,7 +942,7 @@
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "approval:script"
           ],
@@ -952,8 +952,8 @@
             "production/reports/handoffs/ep02-ww1/07-storyboard.md"
           ],
           "issues": [],
-          "next": "70 shots, min 6.0 s, snapped to narration.json; Approval 3 pending (7 decisions)",
-          "updated": "2026-11-16 22:35"
+          "next": "Approved (checkpoint 3); phase C next: characters, environments, music-sfx",
+          "updated": "2026-11-17 05:00"
         },
         {
           "id": "characters",
