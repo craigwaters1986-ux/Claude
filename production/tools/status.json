@@ -490,17 +490,6 @@
           "issues": [],
           "next": "User picks/approves thumbnail",
           "updated": "2026-11-16 19:57"
-        },
-        {
-          "id": "rebrand",
-          "agent": "video-editor",
-          "task": "Rename on-screen channel name to STICK FIGURE HISTORY: re-render only chunks s01 (title) and s11 (end card), re-concat, new upload copy; re-render thumbnail and banner",
-          "status": "NOT STARTED",
-          "depends": [],
-          "deliverables": [],
-          "issues": [],
-          "next": "Do at the end of ep02 (user, 2026-11-17)",
-          "updated": "2026-11-17 18:18"
         }
       ]
     },
@@ -1023,8 +1012,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "Channel renamed STICK FIGURE HISTORY (2026-11-17): update S01 BigTitle, EndCard (components/Text.tsx) and Thumbnail badge; check title fits 1920 px (longer than old name). Keep ChannelLogo; safe zone x<170,y<150",
-          "updated": "2026-11-17 18:18"
+          "next": "Channel logo overlay already wired (ChannelLogo in Episode.tsx) — keep it; top-left safe zone x<170,y<150",
+          "updated": "2026-11-16 21:31"
         },
         {
           "id": "final-render",

@@ -1,4 +1,4 @@
-# Stick Figure History — operating the production team
+# The Human Story — operating the production team
 
 ## The team
 Ten specialist agents live in `.claude/agents/`: director, researcher, scriptwriter,

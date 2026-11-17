@@ -1,6 +1,6 @@
 ---
 name: finish-episode
-description: Drive the active Stick Figure History episode through its remaining pipeline steps (as far as approvals allow) to a verified final render and publishing pack. Use when the user says "Director, finish the current episode" or runs /finish-episode.
+description: Drive the active The Human Story episode through its remaining pipeline steps (as far as approvals allow) to a verified final render and publishing pack. Use when the user says "Director, finish the current episode" or runs /finish-episode.
 argument-hint: [episode-id]
 ---
 

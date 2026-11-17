@@ -1,4 +1,4 @@
-# Visual style guide — Stick Figure History
+# Visual style guide — The Human Story
 
 Reference: `style-reference.jpg` (permanent). First engine implementation:
 `ep01-character-lineup-draft.png` (Episode 1 draft — awaiting approval, checkpoint 2).

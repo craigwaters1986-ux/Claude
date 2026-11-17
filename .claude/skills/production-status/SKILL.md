@@ -1,6 +1,6 @@
 ---
 name: production-status
-description: Show the Stick Figure History production dashboard — every agent's task, status, dependencies, deliverables, open issues, next action and pending approvals. Use when the user asks "Director, show me the progress", "what's the status", or runs /production-status.
+description: Show The Human Story production dashboard — every agent's task, status, dependencies, deliverables, open issues, next action and pending approvals. Use when the user asks "Director, show me the progress", "what's the status", or runs /production-status.
 argument-hint: [episode-id]
 ---
 
