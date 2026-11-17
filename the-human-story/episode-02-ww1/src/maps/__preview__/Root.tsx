@@ -6,8 +6,7 @@ import {MAPS_A, MAPS_B, MAPS_C, MAPS_D} from './MapSheets';
 import {ENV} from './EnvSheet';
 import {Sheet as SheetC, Full} from './Sheet';
 import {MapEurope1945} from '../EpisodeMaps';
-import {BigSheet, WW1_MAPS_A, WW1_MAPS_B, WW1_MAPS_C, WW1_DEBUG} from './SheetsWW1';
-import {MapWesternFront} from '../MapsWW1';
+import {BigSheet, WW1_MAPS_A, WW1_MAPS_B, WW1_MAPS_C} from './SheetsWW1';
 import {WW1_ENV, WW1_VEH} from './SheetsWW1Env';
 
 loadFonts();
@@ -33,8 +32,6 @@ export const PreviewRoot: React.FC = () => (
     <Composition id="WW1MapsA" component={() => <BigSheet panels={WW1_MAPS_A} />} durationInFrames={600} fps={30} width={3840} height={2160} />
     <Composition id="WW1MapsB" component={() => <BigSheet panels={WW1_MAPS_B} />} durationInFrames={600} fps={30} width={3840} height={2160} />
     <Composition id="WW1MapsC" component={() => <BigSheet panels={WW1_MAPS_C} />} durationInFrames={600} fps={30} width={3840} height={2160} />
-    <Composition id="WW1Debug" component={() => <BigSheet panels={WW1_DEBUG} cols={2} />} durationInFrames={600} fps={30} width={3840} height={2160} />
-    <Composition id="WW1One" component={() => <Full el={(f) => <MapWesternFront f={f} front={1} />} />} durationInFrames={90} fps={30} width={1920} height={1080} />
     <Composition id="WW1Env" component={() => <BigSheet panels={WW1_ENV} />} durationInFrames={600} fps={30} width={3840} height={2160} />
     <Composition id="WW1Vehicles" component={() => <BigSheet panels={WW1_VEH} />} durationInFrames={600} fps={30} width={3840} height={2160} />
     <Composition id="EnvAll" component={() => <SheetC panels={ENV} cols={6} />} durationInFrames={600} fps={30} width={1920} height={1080} />

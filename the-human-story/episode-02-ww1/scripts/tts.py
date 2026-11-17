@@ -27,11 +27,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TTS_DIR = os.environ.get("KOKORO_DIR", "/opt/tts")
 VOICE = os.environ.get("NARRATOR_VOICE", "bm_george")
 BASE_SPEED = 1.0
-MAX_SPEED = 1.17
+MAX_SPEED = 1.05   # v3: keep the delivery natural; tighten pauses before speeding up
 SR_OUT = 48000
 EPISODE_TAG = os.environ.get("EPISODE_TAG", "02")
 EPISODE_LEN = 600.0  # overridden by script.json "duration"
-DEFAULT_PAUSE = 0.32
 CACHE = os.path.join(ROOT, "assets/audio/tts-cache")
 
 ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
@@ -55,29 +54,71 @@ def year_words(y: int) -> str:
 
 
 RESPELL = {
-    r"\bVersailles\b": "Vair-sigh",
     r"\bLuftwaffe\b": "Luft-vaffa",
     r"\bSudetenland\b": "Soo-dayten-land",
     r"\bEl Alamein\b": "El Ala-mayn",
-    # ep02-ww1. Most names are already respelt in the script's `say`; these
-    # catch plain-text occurrences and correct two `say` respellings whose
-    # espeak phonemes came out wrong (checked with kokoro tokenizer.phonemize).
-    # Checked and left alone (native en-gb phonemes fine): Sarajevo, Franz
-    # Ferdinand, Schlieffen, Verdun, Somme, Brest-Litovsk, Ludendorff, Binyon.
-    r"\bGavrilo Princip\b": "Gav-reelo Prin-tsip",
-    r"\bPasschendaele\b": "Passhen-dale",
-    r"\bFoch\b": "Fosh",
-    r"\bCompi[eè]gne\b": "Komp-yen",
-    r"\bKom-pyen\b": "Komp-yen",   # say had it -> /kɒmpˈaɪən/; now /kɒmpjˈɛn/
     r"\bEep-ruh\b": "Ypres",        # native /ˈiːpɹə/ beats /ˈiːpɹˈʌ/
+    # Hyphenated compounds: espeak glues them into one word with two or three
+    # primary stresses ("twˈɛntiˈeɪtθ", "ˈɒstɹiəhˈʌŋɡəɹi"), which Kokoro reads
+    # stiffly. A plain space gives normal word stress (v3, 2026-11-17).
+    r"\bAustria-Hungary": "Austria Hungary",
+    r"\bAustro-Hungarian\b": "Austro Hungarian",
+    r"\bever-larger\b": "ever larger",
+    r"\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)-(one|two|three|four|five|six|seven|eight|nine|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)\b": r"\1 \2",
+    # Quotation marks are not spoken; Kokoro can stumble on them.
+    r'["“”]': "",
 }
+
+# Exact phonemes (espeak/Kokoro IPA) for words espeak gets wrong or that a
+# hyphenated respelling made stiff (two primary stresses). Applied to the
+# spoken text AFTER RESPELL; the rest of the sentence is phonemised normally.
+# Rule: never put full stops inside a spoken form ("p.m.", "a.m.", "U.S.",
+# "c.") - Kokoro reads each "." as a sentence end (falling tone + pause).
+PHONEMES = {
+    r"\bp\.\s?m\.": "pˌiːˈɛm",                    # was pˈiː.ˈɛm. (pause between P and M)
+    r"\ba\.\s?m\.": "ˌeɪˈɛm",
+    r"\b(?:Gav-reelo Prin-tsip|Gavrilo Princip)\b": "ɡavɹˈiːləʊ pɹˈɪntsɪp",
+    r"\b(?:Galli-poli|Gallipoli)\b": "ɡəlˈɪpəli",  # British /ɡəˈlɪpəli/
+    r"\b(?:Passhen-dale|Passchendaele)\b": "pˈaʃəndeɪl",  # was "pass-HEN-dale"
+    r"\b(?:Komp-yen|Kom-pyen|Compi[eè]gne)\b": "kɒmpjˈɛn",
+    r"\b(?:Vair-sigh|Versailles)\b": "veəsˈaɪ",   # ep01 "Vair-sigh", one stress
+    r"\bnineteen-year-old\b": "nˈaɪntiːn jɪəɹˌəʊld",
+    r"\bRifleman\b": "ɹˈaɪfəlmən",                 # espeak: ɹˈaɪflɛmən
+    r"\bTsar\b": "zˈɑː",                            # British /zɑː/
+    r"\bBinyon\b": "bˈɪnjən",
+    r"\bFoch\b|\bFosh\b": "fˈɒʃ",
+}
+_PH_RE = re.compile("|".join(f"(?:{k})" for k in PHONEMES))
 
 
 def speakable(text: str) -> str:
     for pat, rep in RESPELL.items():
         text = re.sub(pat, rep, text)
-    text = re.sub(r"\b(1[89]\d\d)\b", lambda m: year_words(int(m.group(1))), text)
-    return text
+    text = re.sub(r"\b(1[89]\d\d|20\d\d)\b", lambda m: year_words(int(m.group(1))), text)
+    text = text.strip()
+    return text[:1].upper() + text[1:]
+
+
+PLACEHOLDER = "Quoggle"     # nonce word: espeak gives /kwˈɒɡəl/, found and swapped for the IPA
+_PLACE_RE = re.compile(r"kw[ˈˌ]?ɒɡəl")
+
+
+def phonemes(text: str) -> str:
+    """Spoken text -> Kokoro phoneme string, with PHONEMES overrides spliced in.
+    The whole sentence is phonemised in one go (a placeholder stands in for each
+    override), so espeak keeps its sentence context ("a" stays /ɐ/, not /eɪ/)."""
+    text = speakable(text)
+    ipas = []
+
+    def sub(m):
+        ipas.append(next(v for k, v in PHONEMES.items() if re.fullmatch(k, m.group(0))))
+        return PLACEHOLDER
+    ph = kokoro().tokenizer.phonemize(_PH_RE.sub(sub, text), "en-gb")
+    found = _PLACE_RE.findall(ph)
+    assert len(found) == len(ipas), (text, ph)
+    for ipa in ipas:
+        ph = _PLACE_RE.sub(ipa, ph, count=1)
+    return ph
 
 
 _kokoro = None
@@ -91,47 +132,216 @@ def kokoro():
     return _kokoro
 
 
-def trim(sig: np.ndarray, sr: int, thresh=0.012) -> np.ndarray:
-    win = int(sr * 0.01)
-    env = np.convolve(np.abs(sig), np.ones(win) / win, mode="same")
-    idx = np.where(env > thresh)[0]
+# ----------------------------------------------------------------------------- audio helpers
+FR = int(SR_OUT * 0.01)          # 10 ms analysis frames
+QUIET_DB = -40.0                 # frame counts as pause if this far below the loudest frame
+
+
+def frame_rms(sig):
+    n = len(sig) // FR
+    return np.sqrt(np.mean(sig[:n * FR].reshape(n, FR) ** 2, axis=1) + 1e-12)
+
+
+def quiet_runs(sig, ref=None):
+    """[(start_frame, length_frames)] of quiet runs."""
+    r = frame_rms(sig)
+    ref = ref if ref is not None else r.max()
+    q = r < ref * 10 ** (QUIET_DB / 20)
+    runs, i = [], 0
+    while i < len(q):
+        if q[i]:
+            j = i
+            while j < len(q) and q[j]:
+                j += 1
+            runs.append((i, j - i))
+            i = j
+        else:
+            i += 1
+    return runs
+
+
+def speech_bounds(sig, ref):
+    r = frame_rms(sig)
+    idx = np.where(r >= ref * 10 ** (QUIET_DB / 20))[0]
     if len(idx) == 0:
-        return sig
-    a = max(0, idx[0] - int(sr * 0.03))
-    b = min(len(sig), idx[-1] + int(sr * 0.08))
-    return sig[a:b]
+        return 0, len(sig)
+    return idx[0] * FR, min(len(sig), (idx[-1] + 1) * FR)
 
 
-def synth(say: str, speed: float) -> np.ndarray:
+def fade(sig, fin=0.008, fout=0.03):
+    sig = sig.copy()
+    a, b = int(SR_OUT * fin), int(SR_OUT * fout)
+    a, b = min(a, len(sig) // 4), min(b, len(sig) // 4)
+    if a:
+        sig[:a] *= np.linspace(0, 1, a)
+    if b:
+        sig[-b:] *= np.linspace(1, 0, b) ** 2
+    return sig
+
+
+def tighten_gaps(sig, ref, n_stops, max_gap=0.34, target=0.28, stop_cap=0.50):
+    """Shorten over-long pauses INSIDE one sentence (Kokoro sometimes leaves
+    0.4-0.7 s at a colon or comma). The n_stops longest runs are internal
+    sentence ends ('. ') and may be up to stop_cap. Returns (sig, list of fixes)."""
+    runs = [(a, n) for a, n in quiet_runs(sig, ref) if a > 0 and a + n < len(sig) // FR]
+    longest = sorted(runs, key=lambda x: -x[1])[:n_stops]
+    fixes, cuts = [], []
+    for a, n in runs:
+        cap, tgt = (stop_cap, stop_cap - 0.05) if (a, n) in longest else (max_gap, target)
+        if n * 0.01 > cap:
+            remove = int((n * 0.01 - tgt) * SR_OUT)
+            mid = (a + n // 2) * FR
+            cuts.append((mid - remove // 2, mid - remove // 2 + remove))
+            fixes.append((round(a * 0.01, 2), round(n * 0.01, 2), round(tgt, 2)))
+    for c0, c1 in reversed(cuts):
+        x = int(SR_OUT * 0.005)
+        head, tail = sig[:c0], sig[c1:]
+        if len(head) > x and len(tail) > x:
+            xf = head[-x:] * np.linspace(1, 0, x) + tail[:x] * np.linspace(0, 1, x)
+            sig = np.concatenate([head[:-x], xf, tail[x:]])
+    return sig, fixes
+
+
+def synth_ph(ph: str, speed: float) -> np.ndarray:
+    """Kokoro on a phoneme string -> 48 kHz float32 (cached)."""
     os.makedirs(CACHE, exist_ok=True)
-    key = hashlib.sha1(f"{VOICE}|{speed:.3f}|{say}".encode()).hexdigest()[:16]
+    key = hashlib.sha1(f"v3|{VOICE}|{speed:.3f}|{ph}".encode()).hexdigest()[:16]
     path = os.path.join(CACHE, key + ".wav")
     if os.path.exists(path):
         sig, _ = sf.read(path, dtype="float32")
         return sig
-    samples, sr = kokoro().create(say, voice=VOICE, speed=speed, lang="en-gb")
-    sig = trim(np.asarray(samples, dtype=np.float32), sr)
-    sig = resample_poly(sig, SR_OUT, sr).astype(np.float32)
-    # gentle per-sentence loudness levelling (RMS of voiced part)
-    voiced = sig[np.abs(sig) > 0.02]
-    rms = np.sqrt(np.mean(voiced ** 2)) if len(voiced) else 0.1
-    sig *= min(3.0, 0.12 / max(rms, 1e-4))
-    # 6 ms fades to avoid clicks
-    f = int(SR_OUT * 0.006)
-    sig[:f] *= np.linspace(0, 1, f)
-    sig[-f:] *= np.linspace(1, 0, f)
+    samples, sr = kokoro().create(ph, voice=VOICE, speed=speed, lang="en-gb", is_phonemes=True)
+    sig = resample_poly(np.asarray(samples, dtype=np.float32), SR_OUT, sr).astype(np.float32)
     sf.write(path, sig, SR_OUT)
     return sig
 
 
-def layout(section, speed, pause_scale=1.0):
+# ----------------------------------------------------------------------------- grouping
+GROUP_MAX_PH = 330      # phonemes per synthesis group (Kokoro context is 510)
+GROUP_MAX_N = 3         # sentences per group
+GROUP_BREAK = 0.5       # an authored pauseAfter >= this ends a group (dramatic beat)
+DEFAULT_PAUSE = 0.36    # between groups when the script gives no pauseAfter
+MIN_GAP = 0.14          # never closer than this between two sentence entries
+
+
+def groups_for(section):
+    """Consecutive sentences synthesised in ONE Kokoro pass, so intonation
+    carries across sentence joins instead of resetting every sentence."""
+    out, cur, n = [], [], 0
+    for i, s in enumerate(section["sentences"]):
+        ph = phonemes(s.get("say", s["text"]))
+        if cur and (n + len(ph) > GROUP_MAX_PH or len(cur) >= GROUP_MAX_N):
+            out.append(cur)
+            cur, n = [], 0
+        cur.append((i, ph))
+        n += len(ph) + 1
+        if s.get("pauseAfter", 0) >= GROUP_BREAK:
+            out.append(cur)
+            cur, n = [], 0
+    if cur:
+        out.append(cur)
+    return out
+
+
+def split_group(audio, items, speed):
+    """Cut a group's audio at the sentence joins. Each join is looked for near
+    where the per-sentence durations predict it; the cut goes in the middle of
+    the longest pause there. Returns [(piece, natural_gap_after)] or None."""
+    ref = frame_rms(audio).max()
+    solo = [len(synth_ph(ph, speed)) for _, ph in items]   # duration predictor
+    scale = len(audio) / sum(solo)
+    runs = quiet_runs(audio, ref)
+    cuts, acc = [], 0
+    for k in range(len(items) - 1):
+        acc += solo[k] * scale
+        est = acc / FR
+        win = max(60, 0.25 * solo[k] * scale / FR)
+        cand = [(a, n) for a, n in runs if abs(a + n / 2 - est) <= win and a > 0]
+        if not cand:
+            return None
+        a, n = max(cand, key=lambda x: (x[1], -abs(x[0] + x[1] / 2 - est)))
+        if n < 3:          # < 30 ms: the model ran through the join
+            return None
+        cuts.append(((a + n // 2) * FR, (a, n)))
+    edges = [0] + [c for c, _ in cuts] + [len(audio)]
+    pieces = []
+    for k in range(len(items)):
+        seg = audio[edges[k]:edges[k + 1]]
+        a, b = speech_bounds(seg, ref)
+        pieces.append((edges[k] + a, edges[k] + b))
+    # sanity: each piece within 70-140 % of its solo duration
+    for (a, b), d in zip(pieces, solo):
+        if not 0.6 < (b - a) / d < 1.45:
+            return None
+    out = []
+    for k, (a, b) in enumerate(pieces):
+        a0 = max(0, a - int(0.025 * SR_OUT))
+        b1 = min(len(audio), b + int(0.10 * SR_OUT))
+        if k + 1 < len(pieces):
+            b1 = min(b1, pieces[k + 1][0] - int(0.03 * SR_OUT))
+            gap = (pieces[k + 1][0] - b) / SR_OUT
+        else:
+            gap = None
+        out.append((audio[a0:b1], gap, (b - a0) / SR_OUT, (b1 - b) / SR_OUT))
+    return out
+
+
+def level(sig):
+    voiced = sig[np.abs(sig) > 0.02]
+    rms = np.sqrt(np.mean(voiced ** 2)) if len(voiced) else 0.1
+    return sig * min(3.0, 0.12 / max(rms, 1e-4))
+
+
+REPORT = {"gapFixes": {}, "fallbacks": {}, "groups": {}}
+
+
+def build_section(section, speed):
+    """-> list of dicts: audio, natural gap after (None = group end), text."""
+    sents = section["sentences"]
+    res = [None] * len(sents)
+    sid = section["id"]
+    REPORT["gapFixes"][sid], REPORT["fallbacks"][sid] = [], []
+    REPORT["groups"][sid] = [[i for i, _ in g] for g in groups_for(section)]
+    for g in groups_for(section):
+        ph = " ".join(p for _, p in g)
+        audio = level(synth_ph(ph, speed))
+        parts = split_group(audio, g, speed) if len(g) > 1 else None
+        if parts is None:
+            if len(g) > 1:
+                REPORT["fallbacks"][sid].append(f"{sid}.{g[0][0]}-{g[-1][0]}")
+            parts = []
+            for i, p in g:
+                a = level(synth_ph(p, speed))
+                ref = frame_rms(a).max()
+                s0, s1 = speech_bounds(a, ref)
+                a0, b1 = max(0, s0 - int(0.025 * SR_OUT)), min(len(a), s1 + int(0.10 * SR_OUT))
+                parts.append((a[a0:b1], None, None, None))
+            parts = [(x[0], None if k == len(g) - 1 else -1.0, None, None) for k, x in enumerate(parts)]
+        for (i, _), (piece, gap, _, _) in zip(g, parts):
+            text = sents[i].get("say", sents[i]["text"])
+            stops = len(re.findall(r"[.!?]\s+\S", text.strip()))
+            ref = frame_rms(piece).max()
+            piece, fixes = tighten_gaps(piece, ref, stops)
+            if fixes:
+                REPORT["gapFixes"][sid].append((i, fixes))
+            res[i] = {"audio": fade(piece), "gap": gap, "text": sents[i]["text"],
+                      "pauseAfter": sents[i].get("pauseAfter")}
+    return res
+
+
+def layout(section, built, pause_scale=1.0):
     t = section["start"] + section["lead"]
     out = []
-    for s in section["sentences"]:
-        sig = synth(speakable(s.get("say", s["text"])), speed)
-        dur = len(sig) / SR_OUT
-        out.append({"text": s["text"], "start": round(t, 3), "end": round(t + dur, 3), "audio": sig})
-        t += dur + s.get("pauseAfter", DEFAULT_PAUSE) * pause_scale
+    for x in built:
+        dur = len(x["audio"]) / SR_OUT
+        out.append({"text": x["text"], "start": round(t, 3), "end": round(t + dur, 3), "audio": x["audio"]})
+        # the piece already carries ~0.10 s of its own release tail
+        # pieces carry 0.10 s of release tail and 0.025 s of lead-in
+        if x["gap"] is not None and x["gap"] >= 0:          # inside a group: keep the model's own pause
+            gap = max(x["gap"], x["pauseAfter"] or 0) - 0.125
+        else:                                                 # between groups
+            gap = (x["pauseAfter"] if x["pauseAfter"] is not None else DEFAULT_PAUSE)
+        t += dur + max(MIN_GAP - 0.125, gap * pause_scale)
     return out
 
 
@@ -217,20 +427,25 @@ def main():
     for sec in script["sections"]:
         budget = sec.get("mustEndBy", sec["end"] - 1.4)
         speed, pause_scale = BASE_SPEED, 1.0
-        for attempt in range(6):
-            lay = layout(sec, speed, pause_scale)
+        built = build_section(sec, speed)
+        for attempt in range(12):
+            lay = layout(sec, built, pause_scale)
             end = lay[-1]["end"]
             if attempt == 0:
                 t0 = lay[0]["start"]
                 fit = round((end - t0) / (budget - t0), 3)  # >1 = needs speeding up
             if end <= budget:
                 break
-            speech = sum(x["end"] - x["start"] for x in lay)
-            over = end - budget
-            if speed < MAX_SPEED:
+            # v3: tighten pauses first (down to x0.7), only then speed up (max 1.05)
+            if pause_scale > 0.71:
+                pause_scale = max(0.7, pause_scale * 0.92)
+            elif speed < MAX_SPEED:
+                speech = sum(x["end"] - x["start"] for x in lay)
+                over = end - budget
                 speed = min(MAX_SPEED, round(speed * (speech / max(1.0, speech - over)) + 0.005, 3))
+                built = build_section(sec, speed)
             else:
-                pause_scale *= 0.7
+                pause_scale *= 0.85
         status = "OK" if end <= budget else "OVERRUN"
         print(f"{sec['id']}: fit@1.0 {fit:.3f} speed {speed:.3f} pauses x{pause_scale:.2f} narration {lay[0]['start']:.2f}-{end:.2f} (budget {budget}) {status}", flush=True)
         if end > budget + 0.05:
@@ -260,6 +475,10 @@ def main():
     with open(os.path.join(ROOT, f"output/episode-{EPISODE_TAG}-subtitles.srt"), "w") as f:
         for i, c in enumerate(captions, 1):
             f.write(f"{i}\n{srt_time(c['start'])} --> {srt_time(c['end'])}\n{two_lines(c['text'])}\n\n")
+    with open(os.path.join(ROOT, "output/tts-v3-report.json"), "w") as f:
+        json.dump(REPORT, f, indent=1)
+    print("internal-gap fixes:", {k: v for k, v in REPORT["gapFixes"].items() if v})
+    print("group fallbacks (synthesised per sentence):", {k: v for k, v in REPORT["fallbacks"].items() if v})
     words = sum(len(s["text"].split()) for sec in script["sections"] for s in sec["sentences"])
     print(f"wrote narration ({words} words), {len(captions)} captions")
 

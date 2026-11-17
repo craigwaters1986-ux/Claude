@@ -982,14 +982,22 @@
           "id": "environments",
           "agent": "environment-designer",
           "task": "Build environments, maps, vehicles, effects",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/environments/ep02-ww1/map-notes.md",
+            "production/environments/ep02-ww1/sheet-Env.png",
+            "production/environments/ep02-ww1/sheet-Vehicles.png",
+            "production/environments/ep02-ww1/maps-sheet-A.png",
+            "production/environments/ep02-ww1/maps-sheet-B.png",
+            "production/environments/ep02-ww1/maps-sheet-C.png",
+            "production/reports/handoffs/ep02-ww1/09-environment-designer.md"
+          ],
           "issues": [],
-          "next": "Phase C: E-01, E-08, M-01..M-05, V-01..V-03 + E-S1 poppies",
-          "updated": "2026-11-17 18:11"
+          "next": "All MUST + E-S1 done; APIs in map-notes.md. On-screen front length: 'about 700 km'. Use distinct idSuffix for same-camera crossfades",
+          "updated": "2026-11-17 19:11"
         },
         {
           "id": "music-sfx",

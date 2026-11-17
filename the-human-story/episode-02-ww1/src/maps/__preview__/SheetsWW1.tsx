@@ -72,5 +72,3 @@ export const WW1_MAPS_C: Panel[] = [
   {title: 'M-04 Gallipoli peninsula zoom 1.6', el: (f) => <M.MapGallipoli f={f} idSuffix="-p25" cam={M.CAM_GP.peninsula} landings={0.6} ottoman={1} />},
   {title: 'M-01 S02-02 neutral grey start', el: (f) => <M.MapEurope1914 f={f} idSuffix="-p26" powers={1} capitals={1} />},
 ];
-import {Exp} from './Exp';
-export const WW1_DEBUG: Panel[] = [0, 1, 2, 3, 4].map((v) => ({title: `exp ${v}`, el: (f: number) => <Exp f={f} v={v} />}));
