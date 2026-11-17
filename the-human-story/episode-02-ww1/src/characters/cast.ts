@@ -5,6 +5,10 @@ import {C} from '../styles/theme';
 import type {HeadSpec} from './Head';
 import type {Outfit} from './StickFigure';
 
+/** A-04: Foch's name tag in one place (wording pending researcher confirmation — he became
+ *  Marshal of France in August 1918; change it here and every shot follows). */
+export const FOCH_TAG = {label: 'GENERAL FERDINAND FOCH', sublabel: 'Allied commander, 1918'};
+
 export type CastMember = {head: HeadSpec; outfit: Outfit; label?: string; sublabel?: string; child?: boolean};
 
 export const CAST: Record<string, CastMember> = {
@@ -82,6 +86,9 @@ export const CAST: Record<string, CastMember> = {
   ottomanSoldier: {head: {hair: 'short', hat: 'kabalak', hatColor: '#B09C72'}, outfit: {kind: 'tunic', color: '#A8956A', accent: '#5B4A2E', puttees: '#9A875E'}}, // khaki + kabalak
   vadNurse: {head: {hair: 'bun', hairColor: '#5A3A22', hat: 'vadVeil', hatColor: '#F4F4F0'}, outfit: {kind: 'dress', color: '#7E9CC0', apron: '#F4F4F0', apronCross: true}}, // VAD: white apron with red cross, veil
   munitionette: {head: {hair: 'bob', hairColor: '#3A2A1E', hat: 'mobCap', hatColor: '#F0EBDD', hatAccent: '#B23A2E'}, outfit: {kind: 'longcoat', color: '#B9A27A', accent: '#B9A27A'}}, // long overall coat + mob cap
+  // --- ep02 storyboard asset requests (A-05, A-06): illustrative soldiers ---
+  indianSoldier: {head: {hair: 'short', hat: 'pagri', hatColor: '#A8956A', hatAccent: '#9A875E'}, outfit: {kind: 'tunic', color: '#9C8A5C', accent: '#5B4A2E', puttees: '#8C7A4E'}}, // A-05 Indian Army 1914–18: khaki pagri + tunic + puttees (white head, no caricature); add back={<RifleSlung />}
+  usSoldier1918: {head: {hair: 'short', hat: 'brodie', hatColor: '#646238'}, outfit: {kind: 'tunic', color: '#6B6640', accent: '#4B3E26', puttees: '#6B6640', blanketRoll: '#8A8462'}}, // A-06 AEF 1918: olive drab, Brodie-pattern helmet, puttees, kit roll over the shoulder
   // --- historical figures (labelled when shown) ---
   hitler: {head: {hair: 'side', facial: 'toothbrush'}, outfit: {kind: 'tunic', color: '#8A7E5A', accent: '#3A2E1E', armband: '#B23A2E'}, label: 'ADOLF HITLER', sublabel: 'Leader of the Nazi Party'},
   churchill: {head: {hair: 'bald', hairColor: '#C9C2B4', wide: 1.08}, outfit: {kind: 'suit', color: '#2B2B2B', bowtie: true, accent: '#22324A'}, label: 'WINSTON CHURCHILL', sublabel: 'British Prime Minister, 1940–45'},
@@ -99,6 +106,11 @@ export const CAST: Record<string, CastMember> = {
   truman: {head: {hair: 'short', hairColor: '#8A8A8A', glasses: 'round'}, outfit: {kind: 'suit', color: '#3A3F4A', bowtie: true, accent: '#22324A'}, label: 'HARRY S. TRUMAN', sublabel: 'US President from April 1945'},
   princip: {head: {hair: 'side', hairColor: '#1E1E1E'}, outfit: {kind: 'suit', color: '#2B2B2B', accent: '#3A3A3A'}, label: 'GAVRILO PRINCIP', sublabel: 'Bosnian Serb, aged 19'},
   franzFerdinand: {head: {hair: 'short', hat: 'plumedHat', hatColor: '#2A2A2A', facial: 'kaiser', facialColor: '#2A2A2A'}, outfit: {kind: 'tunic', color: '#8FA9C2', accent: '#2A2A2A', medals: true}, label: 'ARCHDUKE FRANZ FERDINAND', sublabel: 'Heir to Austria-Hungary'},
+  // ep02 (A-01 … A-04)
+  sophie: {head: {hair: 'bun', hairColor: '#4A3424', hat: 'wideBrim', hatColor: '#F4F0E4', hatAccent: '#C9B98A'}, outfit: {kind: 'gown', color: '#F2EDE0', accent: '#C9B98A'}, label: 'SOPHIE', sublabel: 'his wife'}, // A-01 pale summer dress + wide hat
+  tsarNicholas: {head: {hair: 'slick', hairColor: '#4A3426', facial: 'shortBeard', facialColor: '#6E4A2E'}, outfit: {kind: 'tunic', color: '#7E7C58', accent: '#5B4A2E', medals: true}, label: 'TSAR NICHOLAS II', sublabel: 'Emperor of Russia'}, // A-02 gymnastyorka, modest medals, no crown
+  lenin: {head: {hair: 'baldFringe', hairColor: '#6A4A32', facial: 'goatee', facialColor: '#6A4A32'}, outfit: {kind: 'suit', color: '#2F2F33', accent: '#3A3A3A'}, label: 'VLADIMIR LENIN', sublabel: 'Bolshevik leader'}, // A-03 dark three-piece suit (castWith('lenin', {hat: 'flatCap', hatColor: '#2F2F33'}) for the cap)
+  foch: {head: {hair: 'short', hairColor: '#B8B8B0', hat: 'kepi1914', hatColor: '#2D3A5C', hatAccent: '#B08A3A', facial: 'walrus', facialColor: '#8E8E88'}, outfit: {kind: 'tunic', color: '#6F86A0', accent: '#3A2A1C', medals: true}, label: FOCH_TAG.label, sublabel: FOCH_TAG.sublabel}, // A-04 general's kepi (dark crown, gold band), horizon-blue tunic
   macarthur: {head: {hair: 'short', hat: 'officerCap', hatColor: '#6F6A44', glasses: 'dark'}, outfit: {kind: 'shirt', color: '#B49C68'}, label: 'GEN. DOUGLAS MACARTHUR', sublabel: 'Allied commander'},
 };
 

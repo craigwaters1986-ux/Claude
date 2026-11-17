@@ -10,7 +10,9 @@ export type Expression =
   // sombre set (no cartoon marks): tired = heavy half-closed lids; solemn = still, closed mouth
   | 'tired' | 'solemn'
   // branding / all-period additions: curious = raised brows, small smile
-  | 'curious';
+  | 'curious'
+  // ep02 (WW1): stare = wide fixed eyes, flat brows, flat mouth (shell shock; no cartoon marks)
+  | 'stare';
 
 export type Hair =
   | 'none' | 'spiky' | 'mop' | 'short' | 'side' | 'slick' | 'swept' | 'bald' | 'baldFringe'
@@ -41,9 +43,13 @@ export type Hat =
   | 'papakha' // Russian fur hat (winter)
   | 'mobCap' // munitionette's gathered mob cap
   | 'vadVeil' // VAD nurse's white headdress veil hanging at the back
-  | 'plumedHat'; // Austrian general's hat with green plumes (Franz Ferdinand)
+  | 'plumedHat' // Austrian general's hat with green plumes (Franz Ferdinand)
+  | 'pagri' // Indian Army wrapped turban: layered dome, neat front crossing, small fan (turra) and tail at the back
+  | 'wideBrim'; // Edwardian summer hat with a wide brim and a band (Sophie, 1914); hair shows below
 
-export type FacialHair = 'none' | 'toothbrush' | 'walrus' | 'kaiser' | 'handlebar' | 'thin' | 'bushy' | 'stubble';
+export type FacialHair = 'none' | 'toothbrush' | 'walrus' | 'kaiser' | 'handlebar' | 'thin' | 'bushy' | 'stubble'
+  | 'goatee' // ep02: small moustache + short pointed chin beard (Lenin)
+  | 'shortBeard'; // ep02: short full beard along the jaw + moustache (Tsar Nicholas II)
 
 export type HeadSpec = {
   hair?: Hair;
@@ -79,9 +85,9 @@ type Props = HeadSpec & {
 
 const ink = C.ink;
 // hats that leave the hairstyle visible
-const HAIR_SHOWS: Hat[] = ['beret', 'flatCap', 'sidecap', 'fedora', 'nurseCap', 'laurel', 'baseballCap', 'tricorn'];
+const HAIR_SHOWS: Hat[] = ['beret', 'flatCap', 'sidecap', 'fedora', 'nurseCap', 'laurel', 'baseballCap', 'tricorn', 'wideBrim'];
 
-function hairShape(h: Hair, R: number, color: string, f: number, seed: number) {
+function hairShape(h: Hair, R: number, color: string, f: number, seed: number, lowBun = false) {
   const sw = R * 0.1;
   switch (h) {
     case 'spiky': {
@@ -148,7 +154,8 @@ function hairShape(h: Hair, R: number, color: string, f: number, seed: number) {
     case 'bun':
       return (
         <g>
-          <circle cx={R * 0.05} cy={-R * 1.15} r={R * 0.32} fill={color} />
+          {/* lowBun: chignon at the back of the head, under a wide hat brim */}
+          <circle cx={lowBun ? -R * 0.92 : R * 0.05} cy={lowBun ? -R * 0.32 : -R * 1.15} r={R * 0.32} fill={color} />
           <path d={`M${-R * 1.02},${-R * 0.0} C${-R * 1.1},${-R * 1.15} ${R * 1.1},${-R * 1.15} ${R * 1.02},${-R * 0.0} C${R * 0.7},${-R * 0.55} ${-R * 0.7},${-R * 0.55} ${-R * 1.02},${-R * 0.0}Z`} fill={color} />
         </g>
       );
@@ -484,6 +491,37 @@ function hatShape(h: Hat, R: number, color: string, accent?: string) {
           <path d={`M${-R * 0.95},${-R * 0.66} Q0,${-R * 0.8} ${R * 0.95},${-R * 0.66}`} fill="none" stroke={C.gold} strokeWidth={s * 0.8} />
         </g>
       );
+    case 'pagri': {
+      // dignified, plain khaki turban: no jewel or badge; identity comes from the wrap only
+      // wrap layers slope up from the back (-x) towards the front, like folds of wound cloth
+      const band = (y0: number, y1: number, k: string) => (
+        <path key={k} d={`M${-R * 0.98},${-R * y0} Q${-R * 0.1},${-R * (y0 + 0.22)} ${R * 0.98},${-R * y1}`} fill="none" stroke={ink} strokeWidth={s * 0.45} opacity={0.5} strokeLinecap="round" />
+      );
+      return (
+        <g>
+          {/* tail (shamla) hanging at the back of the head */}
+          <path d={`M${-R * 0.72},${-R * 0.95} C${-R * 1.25},${-R * 0.85} ${-R * 1.3},${-R * 0.2} ${-R * 1.22},${R * 0.35} L${-R * 0.96},${R * 0.3} C${-R * 1.02},${-R * 0.2} ${-R * 0.95},${-R * 0.6} ${-R * 0.6},${-R * 0.8}Z`} fill={accent ?? color} {...o} />
+          {/* fan (turra) standing up at the back-top */}
+          <path d={`M${-R * 0.42},${-R * 1.38} L${-R * 0.82},${-R * 1.88} Q${-R * 0.55},${-R * 2.02} ${-R * 0.28},${-R * 1.92} Q${-R * 0.12},${-R * 1.8} ${-R * 0.1},${-R * 1.62}Z`} fill={accent ?? color} {...o} />
+          <path d={`M${-R * 0.38},${-R * 1.45} L${-R * 0.62},${-R * 1.9} M${-R * 0.3},${-R * 1.48} L${-R * 0.38},${-R * 1.94}`} stroke={ink} strokeWidth={s * 0.35} opacity={0.5} />
+          {/* layered dome */}
+          <path d={`M${-R * 1.04},${-R * 0.32} C${-R * 1.22},${-R * 1.3} ${-R * 0.55},${-R * 1.7} ${R * 0.1},${-R * 1.62} C${R * 0.8},${-R * 1.58} ${R * 1.22},${-R * 1.12} ${R * 1.06},${-R * 0.3} Q0,${-R * 0.56} ${-R * 1.04},${-R * 0.32}Z`} fill={color} {...o} />
+          {band(0.5, 0.82, 'b1')}
+          {band(0.8, 1.12, 'b2')}
+          {band(1.1, 1.38, 'b3')}
+        </g>
+      );
+    }
+    case 'wideBrim':
+      return (
+        <g>
+          <path d={`M${-R * 0.72},${-R * 0.72} C${-R * 0.75},${-R * 1.45} ${R * 0.75},${-R * 1.45} ${R * 0.72},${-R * 0.72}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.74},${-R * 0.86} Q0,${-R * 1.02} ${R * 0.74},${-R * 0.86} L${R * 0.72},${-R * 0.72} Q0,${-R * 0.86} ${-R * 0.72},${-R * 0.72}Z`} fill={accent ?? '#C9B98A'} stroke={ink} strokeWidth={s * 0.5} />
+          <ellipse cx={0} cy={-R * 0.7} rx={R * 1.72} ry={R * 0.24} fill={color} {...o} transform={`rotate(-4)`} />
+          {/* small feather spray at the back of the crown */}
+          <path d={`M${-R * 0.55},${-R * 0.95} C${-R * 0.95},${-R * 1.45} ${-R * 1.35},${-R * 1.3} ${-R * 1.45},${-R * 1.05} C${-R * 1.1},${-R * 1.12} ${-R * 0.85},${-R * 1.0} ${-R * 0.55},${-R * 0.95}Z`} fill={C.paper} stroke={ink} strokeWidth={s * 0.45} strokeLinejoin="round" />
+        </g>
+      );
     default:
       return null;
   }
@@ -550,6 +588,20 @@ function facialHair(fh: FacialHair, R: number, color: string, mx: number) {
       return <path d={`M${mx - R * 0.22},${R * 0.38} Q${mx},${R * 0.3} ${mx + R * 0.22},${R * 0.38}`} stroke={color} strokeWidth={R * 0.06} fill="none" strokeLinecap="round" />;
     case 'bushy':
       return <path d={`M${mx - R * 0.32},${R * 0.44} C${mx - R * 0.3},${R * 0.25} ${mx + R * 0.3},${R * 0.25} ${mx + R * 0.32},${R * 0.44} Q${mx},${R * 0.36} ${mx - R * 0.32},${R * 0.44}Z`} fill={color} />;
+    case 'goatee':
+      return (
+        <g fill={color}>
+          <path d={`M${mx - R * 0.26},${R * 0.42} C${mx - R * 0.22},${R * 0.28} ${mx + R * 0.22},${R * 0.28} ${mx + R * 0.26},${R * 0.42} Q${mx},${R * 0.35} ${mx - R * 0.26},${R * 0.42}Z`} />
+          <path d={`M${mx - R * 0.2},${R * 0.64} Q${mx},${R * 0.6} ${mx + R * 0.2},${R * 0.64} Q${mx + R * 0.16},${R * 0.86} ${mx + R * 0.02},${R * 1.06} Q${mx - R * 0.14},${R * 0.86} ${mx - R * 0.2},${R * 0.64}Z`} />
+        </g>
+      );
+    case 'shortBeard':
+      return (
+        <g fill={color}>
+          <path d={`M${R * 0.93},${R * 0.3} A${R * 0.98},${R * 1.0} 0 0,1 ${-R * 0.93},${R * 0.3} Q${-R * 0.86},${R * 0.42} ${-R * 0.74},${R * 0.3} Q${mx},${R * 1.02} ${R * 0.74},${R * 0.3} Q${R * 0.86},${R * 0.42} ${R * 0.93},${R * 0.3}Z`} transform={`scale(1.04,1.07)`} />
+          <path d={`M${mx - R * 0.34},${R * 0.44} C${mx - R * 0.3},${R * 0.27} ${mx + R * 0.3},${R * 0.27} ${mx + R * 0.34},${R * 0.44} Q${mx},${R * 0.37} ${mx - R * 0.34},${R * 0.44}Z`} />
+        </g>
+      );
     case 'stubble': {
       const dots = [];
       for (let i = 0; i < 14; i++) {
@@ -599,6 +651,13 @@ export const Head: React.FC<Props> = (p) => {
     eyes = [-1, 1].map((s) => (
       <path key={s} d={`M${mx + s * eyeSep - R * 0.13},${eyeY + R * 0.04} Q${mx + s * eyeSep},${eyeY - R * 0.14} ${mx + s * eyeSep + R * 0.13},${eyeY + R * 0.04}`} stroke={ink} strokeWidth={sw * 0.5} fill="none" strokeLinecap="round" />
     ));
+  } else if (ex === 'stare') {
+    eyes = [-1, 1].map((s) => (
+      <g key={s}>
+        <ellipse cx={mx + s * eyeSep} cy={eyeY - R * 0.01} rx={R * 0.15} ry={R * 0.18 * blinkSquash} fill={C.paper} stroke={ink} strokeWidth={sw * 0.35} />
+        <circle cx={mx + s * eyeSep + lx} cy={eyeY + ly} r={R * 0.055 * Math.min(1, blinkSquash * 2)} fill={ink} />
+      </g>
+    ));
   } else if (ex === 'surprised' || ex === 'scared') {
     eyes = [-1, 1].map((s) => (
       <g key={s}>
@@ -629,7 +688,7 @@ export const Head: React.FC<Props> = (p) => {
   const browTable: Record<string, [number, number]> = {
     neutral: [0, 0], happy: [-4, -0.04], joy: [-6, -0.08], angry: [24, 0.05], furious: [32, 0.07], sad: [-20, -0.02],
     grief: [-24, -0.02], scared: [-18, -0.12], surprised: [-6, -0.16], determined: [14, 0.03], sleepy: [0, 0.02], smug: [10, -0.02],
-    worried: [-16, -0.05], cold: [-14, -0.04], shout: [26, 0.04], tired: [-10, 0.04], solemn: [-8, 0.0], curious: [-10, -0.1],
+    worried: [-16, -0.05], cold: [-14, -0.04], shout: [26, 0.04], tired: [-10, 0.04], solemn: [-8, 0.0], curious: [-10, -0.1], stare: [0, -0.1],
   };
   const [bAng, bOff] = browTable[ex] ?? [0, 0];
   const browSegs = [-1, 1].map((s) => {
@@ -684,6 +743,7 @@ export const Head: React.FC<Props> = (p) => {
         break;
       case 'tired':
       case 'solemn':
+      case 'stare':
         mouth = <line x1={mx - mw * 0.6} y1={my + R * 0.02} x2={mx + mw * 0.6} y2={my + R * 0.02} stroke={ink} strokeWidth={sw * 0.45} strokeLinecap="round" />;
         break;
       case 'sleepy':
@@ -714,7 +774,7 @@ export const Head: React.FC<Props> = (p) => {
       <ellipse cx={0} cy={0} rx={R * wide} ry={R} fill={C.head} stroke={ink} strokeWidth={sw * 0.95} />
       {!hairBehind && p.hair && p.hair !== 'none' &&
         (!hatOn || HAIR_SHOWS.includes(p.hat!) || p.hair === 'bald' || p.hair === 'baldFringe') &&
-        hairShape(p.hair, R, hairColor, f, seed)}
+        hairShape(p.hair, R, hairColor, f, seed, p.hat === 'wideBrim')}
       {hatOn && hatShape(p.hat!, R, p.hatColor ?? C.khaki, p.hatAccent)}
       {hatOn && p.hatBadge === 'redcross' && <RedCrossBadge R={R} />}
       {hatOn && p.chinStrap && (

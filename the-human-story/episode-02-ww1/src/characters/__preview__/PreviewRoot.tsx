@@ -3,9 +3,10 @@ import {Composition} from 'remotion';
 import {loadFonts} from '../../components/Fonts';
 import {SheetAsia, SheetEurope, SheetPoses, SheetCrowd, SheetExpressions} from './CharacterSheet';
 import {StyleSampleWW1} from './SheetWW1';
+import {SheetEp02Cast} from './SheetEp02';
 
 loadFonts();
-const sheets = {SheetAsia, SheetEurope, SheetPoses, SheetCrowd, SheetExpressions, StyleSampleWW1};
+const sheets = {SheetAsia, SheetEurope, SheetPoses, SheetCrowd, SheetExpressions, StyleSampleWW1, SheetEp02Cast};
 
 export const PreviewRoot: React.FC = () => (
   <>

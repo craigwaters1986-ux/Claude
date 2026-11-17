@@ -361,3 +361,45 @@ export const handshake = (f: number, t: number, reachX = 78, seed = 0): Pose => 
   return mixPose(base, out, k);
 };
 
+
+// ===========================================================================
+// Episode 2 (WW1) additions: A-01 … A-06 and A-S1 (asset-requests.md §A)
+// ===========================================================================
+
+/** A-01 Sophie: seated (car back seat) with a gentle wave that stays clear of the big head. */
+export const seatedWave = (f: number, seed = 0): Pose =>
+  ({...seated(f, seed), lean: 0, shR: 112, elR: 45 + Math.sin(f / 4 + seed) * 22, shL: 30, elL: 60, headTilt: -2});
+
+/** A-03 orator: near fist raised up-forward (clear of the head), far arm gesturing, slight lean in.
+ *  Combine with talking on the figure. */
+export const orate = (f: number, seed = 0): Pose =>
+  pose({
+    lean: 6, hipL: -6, hipR: 8,
+    shR: 122 + Math.sin(f / 7 + seed) * 8, elR: 52 + Math.sin(f / 7 + seed) * 10,
+    shL: 38 + Math.sin(f / 10 + seed + 2) * 14, elL: 48,
+    bob: Math.sin(f / 7 + seed) * 1.5,
+    headTilt: -5 + noise1(f / 40, seed) * 2,
+  });
+
+/** A-S1: sitting on the ground, knees drawn up, arms wrapped round the shins, head level (staring).
+ *  Pair with expression 'stare' and wrap in tremble(). */
+export const hugKnees = (f = 0, seed = 0): Pose => {
+  const b = {...sitGround(f, seed), lean: 10, hipL: 128, kneeL: 112, hipR: 132, kneeR: 116, bob: 104, headTilt: 1 + noise1(f / 90, seed) * 1};
+  const sk = solveSkeleton(b);
+  let p = reachTo(b, 'R', {x: sk.legR.kx - 4, y: sk.legR.ky + 26});
+  p = reachTo(p, 'L', {x: sk.legL.kx - 10, y: sk.legL.ky + 22});
+  return p;
+};
+
+/** A-S1 `tremble` modifier: tiny high-frequency jitter on the forearms and hands (≈2–3 px at the
+ *  hand for amt = 1), with a faint knee/head shiver.  Works on top of ANY pose:
+ *  pose={tremble(hugKnees(f), f)}.  amt 0..1.5 scales it (0 = off, use for a calm-down ramp). */
+export const tremble = (base: Pose, f: number, amt = 1, seed = 0): Pose => {
+  const j = (k: number) => (Math.sin(f * 2.3 + k * 1.7 + seed) * 0.6 + noise1(f * 0.9, seed + k) * 0.8) * amt;
+  return addPose(base, {
+    elL: j(1) * 3, elR: j(2) * 3,
+    shL: j(3) * 1.4, shR: j(4) * 1.4,
+    kneeL: j(5) * 0.8, kneeR: j(6) * 0.8,
+    headTilt: j(7) * 0.5,
+  });
+};
