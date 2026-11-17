@@ -341,6 +341,22 @@ def legato_line(notes, vel=0.6, glide=0.07, vib=16, bright=1.0, timbre="cello", 
     elif timbre == "flute":
         x = osc_sine(fr, n) + 0.25 * osc_sine(2 * fr, n) + 0.08 * osc_sine(3 * fr, n)
         x = x + bp(noise_n(n, seed + 2), 1800, 7000) * 0.05 * np.clip(amp, 0, 1)
+    elif timbre == "hum":
+        # ep02: closed-mouth male humming ("mm"): glottal buzz, nasal murmur formant ~260 Hz,
+        # anti-resonance ~1 kHz, faint upper formant, a little breath. No words, no lyrics.
+        x = blsaw(fr, n) * 0.7 + blsquare(fr, n, width=0.18) * 0.3
+        x = lp(x, 1100 * bright, 2)
+        x = peak_eq(x, 260, 9, 1.6)
+        x = peak_eq(x, 1000, -9, 1.5)
+        x = peak_eq(x, 2300, 2, 2.5)
+        x = x + lp(hp(noise_n(n, seed + 4), 300), 2500) * 0.012
+    elif timbre == "bugle":
+        # ep02: valveless bugle, bright conical-brass colour with a brightness envelope
+        x = blsaw(fr, n)
+        w = np.clip(amp, 0, 1) ** 1.5
+        x = lp(x, 900, 2) * (1 - w) + lp(x, 3200 * bright, 2) * w
+        x = peak_eq(x, 1100, 4, 1.2)
+        x = x + bp(noise_n(n, seed + 3), 800, 4000) * 0.01 * w
     else:
         x = blsaw(fr, n)
     return hp(x * amp * vel, 45)
