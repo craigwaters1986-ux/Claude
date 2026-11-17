@@ -13,11 +13,11 @@ const ink = C.ink;
 // ================================================================== V-01 touring car
 export const CAR_COLORS = {archduke: '#33503A', escort: '#2B2B30'};
 /**
- * Seat anchors (car-local px at s = 1, before dir/scale): place seated StickFigures here and draw them
- * BETWEEN <TouringCar layer="back"> and <TouringCar layer="front"> so the doors hide their legs.
- * y is the seat cushion (the figure's hip line).
+ * Seat anchors (car-local px at s = 1, facing right): the StickFigure (x, y) for a `seated` pose, i.e.
+ * figure x = car.x + seat.x * s * dir, figure y = car.y + seat.y * s, figure scale = s.  Draw the
+ * figures BETWEEN <TouringCar layer="back"> and <TouringCar layer="front"> so the doors hide their legs.
  */
-export const CAR_SEATS = {driver: {x: 95, y: -112}, rearLeft: {x: -150, y: -118}, rearRight: {x: -70, y: -118}};
+export const CAR_SEATS = {driver: {x: 95, y: -58}, rearLeft: {x: -150, y: -64}, rearRight: {x: -70, y: -64}};
 
 export type TouringCarProps = {
   x: number;

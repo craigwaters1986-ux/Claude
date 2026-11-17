@@ -547,7 +547,7 @@ export const MapWesternFront: React.FC<WesternFrontProps> = (p) => {
                 <SafeLabel at={ts([3.5, 49.42])} dy={-26} text="THE AISNE" size={36} opacity={seg(marne, 0.75, 1)} />
               </g>
             )}
-            <CrackLabel at={ts([3.4, 48.45])} t={p.quickVictory ?? 0} id={`qv${idSuffix}`} />
+            <CrackLabel at={ts([3.75, 48.6])} t={p.quickVictory ?? 0} id={`qv${idSuffix}`} />
             {/* race to the sea */}
             {race > 0 &&
               X.RACE_PAIRS.map((pr, i) => {
@@ -610,7 +610,7 @@ export const MapWesternFront: React.FC<WesternFrontProps> = (p) => {
             {(p.labels ?? 1) > 0 && tz < 0.5 && (
               <g opacity={(p.labels ?? 1) * (1 - seg(tz, 0, 0.4))}>
                 <SafeLabel at={ts([5.05, 50.9])} text="BELGIUM" size={40} />
-                <SafeLabel at={ts([2.9, 48.25])} text="FRANCE" size={44} />
+                <SafeLabel at={ts([2.2, 47.9])} text="FRANCE" size={44} />
                 <SafeLabel at={ts([7.6, 50.3])} text="GERMANY" size={44} />
                 <SafeLabel at={ts([5.6, 52.3])} text="NETHERLANDS" size={36} />
                 {cities.map((n) => {

@@ -34,7 +34,7 @@ export const WW1_VEH: Panel[] = [
   {title: 'V-01 touring car + seated passengers', el: (f) => (
     <g><Sky /><Street base={760} f={f} /><Ground y={760} color="#C9B48A" />
       <TouringCar x={900} y={900} dist={f * 6} f={f} layer="back" />
-      <Fig k="franzFerdinand" x={900 + CAR_SEATS.rearLeft.x} y={900 + CAR_SEATS.rearLeft.y + 112} f={f} pose={seated(f)} />
+      <Fig k="franzFerdinand" x={900 + CAR_SEATS.rearRight.x} y={900 + CAR_SEATS.rearRight.y} f={f} pose={seated(f)} /><Fig k="sophie" x={900 + CAR_SEATS.rearLeft.x} y={900 + CAR_SEATS.rearLeft.y} f={f} pose={seated(f)} /><Fig k="britSoldier1914" x={900 + CAR_SEATS.driver.x} y={900 + CAR_SEATS.driver.y} f={f} pose={seated(f)} />
       <TouringCar x={900} y={900} dist={f * 6} f={f} layer="front" />
     </g>)},
   {title: 'V-01 escort colour + turn-in 0.7', el: (f) => (

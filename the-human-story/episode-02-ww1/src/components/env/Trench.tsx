@@ -456,7 +456,7 @@ const MudView: React.FC<TrenchProps & {f: number; tone: Tone; time: TimeOfDay; w
       ))}
       {/* receding duckboard track */}
       {(() => {
-        const pts: [number, number, number][] = [[1500, 850, 1], [1300, 760, 0.8], [1180, 680, 0.62], [1000, 610, 0.48], [820, 560, 0.38], [700, 520, 0.3], [560, 490, 0.24], [460, 468, 0.2]];
+        const pts: [number, number, number][] = [[1500, 850, 1], [1260, 772, 0.8], [1340, 702, 0.64], [1090, 632, 0.5], [1160, 578, 0.4], [920, 530, 0.32], [980, 496, 0.26], [780, 468, 0.2]];
         return (
           <g>
             {pts.slice(0, -1).map((a, i) => {
@@ -631,7 +631,7 @@ const DugoutView: React.FC<TrenchProps & {f: number; tone: Tone}> = (p) => {
   const {f} = p;
   const D = DUGOUT;
   const breathe = 0.85 + 0.15 * noise1(f / 9, 4);
-  const tone = (c: string) => mixc(c, '#1A140E', 0.35);
+  const tone = (c: string) => mixc(c, '#1A140E', 0.25);
   return (
     <g>
       <rect x={-200} y={-200} width={W + 400} height={H + 400} fill={tone('#5A4632')} />
@@ -681,7 +681,7 @@ const DugoutView: React.FC<TrenchProps & {f: number; tone: Tone}> = (p) => {
         </radialGradient>
         <radialGradient id="dugout-dark" cx="0.62" cy="0.7" r="0.75">
           <stop offset="0.35" stopColor="#000" stopOpacity={0} />
-          <stop offset="1" stopColor="#000" stopOpacity={0.55} />
+          <stop offset="1" stopColor="#000" stopOpacity={0.45} />
         </radialGradient>
       </defs>
       <ellipse cx={D.candle[0]} cy={D.candle[1] - 40} rx={760} ry={560} fill="url(#dugout-glow)" />
