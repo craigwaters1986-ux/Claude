@@ -12,7 +12,7 @@ import {lerpLine} from './history';
 import {poly, ALSACE_LORRAINE, POLAND_WEST_CHAIN} from './geo';
 import * as X from './ww1';
 import type {State14, State19, LL} from './ww1';
-import {StateLayer, StateStyle, Borders, borderPath, samplePoints, cf, mix, along, linePath, StateMask, EXTENT} from './StateMap';
+import {StateLayer, StateStyle, Borders, borderPath, samplePoints, cf, mix, along, linePath, StateClips, StateArea, viewBox} from './StateMap';
 import {TrainIcon, ShipIcon, Envelope, Stopwatch, HourDial, FlipCalendar, TickList, Marcher, RedFlagIcon, CrownIcon} from './IconsWW1';
 
 const ink = C.ink;
@@ -280,7 +280,7 @@ export const MapEurope1914: React.FC<Europe1914Props> = (p) => {
                 <g>
                   <MapArrow pts={route} progress={j.reply!} color="#F5EFDF" width={12} dashed />
                   <Envelope x={a.p[0]} y={a.p[1] - 34} s={1.2} rot={8} seal={C.militaryGreen} />
-                  {(j.ticks ?? 0) > 0 && <TickList x={a.p[0]} y={a.p[1] - 120} marks="vvvvx" shown={j.ticks!} />}
+                  {(j.ticks ?? 0) > 0 && <TickList x={a.p[0] + 230} y={a.p[1] - 40} marks="vvvvx" shown={j.ticks!} />}
                 </g>
               );
             })()}
@@ -440,6 +440,7 @@ export function westernFront(p: Pick<WesternFrontProps, 'spring' | 'hundred' | '
 const WF_STYLE = (): Record<State14, StateStyle> => {
   const st = styles1914({base: 'war1914', f: 0});
   st.GBR = {fill: P.ententeLight};
+  st.BEL = {fill: mix(P.entente, P.ententeLight, 0.5)};
   return st;
 };
 
@@ -451,8 +452,8 @@ const TrenchTopDown: React.FC<{k: number; f: number}> = ({k, f}) => {
   const d = 'M' + zz.join(' L');
   return (
     <g opacity={k}>
-      <rect x={-50} y={H / 2 - 260} width={W + 100} height={520} fill="#8C7A58" />
-      {Array.from({length: 26}).map((_, i) => <circle key={i} cx={(i * 173) % W} cy={H / 2 + ((i * 97) % 440) - 220} r={18 + (i % 4) * 8} fill="#7A6A4C" opacity={0.6} />)}
+      <rect x={-50} y={-50} width={W + 100} height={H + 100} fill="#8C7A58" />
+      {Array.from({length: 40}).map((_, i) => <circle key={i} cx={(i * 173) % W} cy={(i * 97) % H} r={18 + (i % 4) * 8} fill="#7A6A4C" opacity={0.6} />)}
       <path d={d} fill="none" stroke="#5E4A32" strokeWidth={96} strokeLinejoin="miter" />
       <path d={d} fill="none" stroke="#3E3022" strokeWidth={64} strokeLinejoin="miter" />
       <path d={d} fill="none" stroke="#B5A37A" strokeWidth={10} strokeDasharray="22 10" strokeLinejoin="miter" transform="translate(0,-40)" />
@@ -502,7 +503,7 @@ export const MapWesternFront: React.FC<WesternFrontProps> = (p) => {
   const sommeNow = lerpLine(X.SOMME_JUL1916, X.SOMME_NOV1916, easeInOut(clamp(p.sommeCreep ?? 0)), 10);
   const sliver = (p.sommeCreep ?? 0) > 0 ? poly([...X.SOMME_JUL1916, ...sommeNow.slice().reverse()]) : null;
   const cities = p.cities ?? ['Paris', 'Mons', 'Ypres', 'Arras', 'Amiens', 'Verdun', 'Compiègne', 'Nieuport'];
-  const labelOff: Record<string, [number, number]> = {Paris: [0, 44], Mons: [0, -24], Ypres: [-70, -18], Arras: [-74, 10], Amiens: [-30, 44], Verdun: [0, 46], 'Compiègne': [-10, 44], Nieuport: [-40, -24], Albert: [-70, 0]};
+  const labelOff: Record<string, [number, number]> = {Paris: [0, 44], Mons: [-30, 46], Ypres: [-70, -18], Arras: [-74, 10], Amiens: [-30, 44], Verdun: [0, 46], 'Compiègne': [-10, 44], Nieuport: [-40, -24], Albert: [-70, 0]};
   return (
     <GeoMap kind="europe" cam={cam} f={f} idSuffix={idSuffix} land={P.outside} borders={false}
       layers={(ctx) => (
@@ -546,7 +547,7 @@ export const MapWesternFront: React.FC<WesternFrontProps> = (p) => {
                 <SafeLabel at={ts([3.5, 49.42])} dy={-26} text="THE AISNE" size={36} opacity={seg(marne, 0.75, 1)} />
               </g>
             )}
-            <CrackLabel at={ts([2.9, 48.6])} t={p.quickVictory ?? 0} id={`qv${idSuffix}`} />
+            <CrackLabel at={ts([3.4, 48.45])} t={p.quickVictory ?? 0} id={`qv${idSuffix}`} />
             {/* race to the sea */}
             {race > 0 &&
               X.RACE_PAIRS.map((pr, i) => {
@@ -608,7 +609,7 @@ export const MapWesternFront: React.FC<WesternFrontProps> = (p) => {
             {/* labels */}
             {(p.labels ?? 1) > 0 && tz < 0.5 && (
               <g opacity={(p.labels ?? 1) * (1 - seg(tz, 0, 0.4))}>
-                <SafeLabel at={ts([4.7, 50.62])} text="BELGIUM" size={40} />
+                <SafeLabel at={ts([5.05, 50.9])} text="BELGIUM" size={40} />
                 <SafeLabel at={ts([2.9, 48.25])} text="FRANCE" size={44} />
                 <SafeLabel at={ts([7.6, 50.3])} text="GERMANY" size={44} />
                 <SafeLabel at={ts([5.6, 52.3])} text="NETHERLANDS" size={36} />
@@ -653,7 +654,7 @@ export const WesternFrontWallMap: React.FC<{x: number; y: number; w: number; f: 
 
 // ================================================================== M-03 Eastern Front
 export const CAM_EF = {
-  tannenberg: {lon: 21.0, lat: 53.6, zoom: 2.6} as Cam,
+  tannenberg: {lon: 20.8, lat: 53.55, zoom: 3.4} as Cam,
   poland: {lon: 22.5, lat: 52.5, zoom: 1.5} as Cam,
   brest: {lon: 28.0, lat: 54.0, zoom: 0.62} as Cam,
 };
@@ -820,8 +821,8 @@ const GallipoliInset: React.FC<{f: number; k: number; ottoman: number}> = ({f, k
             return (
               <g>
                 <LinkLine a={b} b={c} progress={seg(k, 0.3, 1)} color={P.centralDeep} width={16} bend={0.1} />
-                <CityMarker at={b} f={f} color={ink} pulse={false} name="BERLIN" size={72} labelDy={-36} />
-                <CityMarker at={c} f={f} color={C.red} name="CONSTANTINOPLE" size={72} labelDx={-150} labelDy={80} />
+                <CityMarker at={b} f={f} color={ink} pulse={false} name="BERLIN" size={112} labelDy={-50} />
+                <CityMarker at={c} f={f} color={C.red} name="CONSTANTINOPLE" size={112} labelDx={-260} labelDy={130} />
                 <rect x={g[0] - 50} y={g[1] - 40} width={100} height={80} fill="none" stroke={C.red} strokeWidth={10} />
               </g>
             );
@@ -877,7 +878,8 @@ export const MapEurope1919: React.FC<Europe1919Props> = (p) => {
   return (
     <GeoMap kind="europe" cam={cam} f={f} idSuffix={idSuffix} land={P.outside} borders={false}
       layers={(ctx) => {
-        const box = EXTENT;
+        const box = viewBox(ctx.focus, ctx.z);
+        const zk = `${Math.round(ctx.z * 100)}-${Math.round(ctx.focus[0])}-${Math.round(ctx.focus[1])}`;
         return (
           <g>
             <StateLayer {...ctx} kind="europe" f={f} tag="n19" states={[
@@ -889,16 +891,24 @@ export const MapEurope1919: React.FC<Europe1919Props> = (p) => {
             {/* 1914 empires on top, fading one by one; new borders crack across them first */}
             <StateLayer {...ctx} kind="europe" f={f} tag="e14" states={empireStates} />
             <defs>
-              {EMPIRES.map((s) => <StateMask key={s} id={`${ctx.clipId}-ck-${s}`} kind="europe" ops={X.STATES_1914[s]} box={box} />)}
+              {EMPIRES.map((s) => <StateClips key={s} id={`${ctx.clipId}-ck-${s}-${zk}`} kind="europe" ops={X.STATES_1914[s]} box={box} />)}
             </defs>
             {EMPIRES.map((s, i) => {
               const k = crackK(i);
               const o = 1 - empFade(i);
               if (k <= 0 || o <= 0.01) return null;
+              // cracks = the 1919 borders, drawn only inside this empire (its own add-runs, clipped like its fill)
               return (
-                <g key={s} mask={`url(#${ctx.clipId}-ck-${s})`} opacity={o}>
-                  <path d={d1919('europe')} fill="none" stroke="#FBF6EA" strokeWidth={9 / ctx.z} pathLength={1} strokeDasharray={`${k} 1`} strokeLinejoin="round" />
-                  <path d={d1919('europe')} fill="none" stroke={ink} strokeWidth={3.5 / ctx.z} pathLength={1} strokeDasharray={`${k} 1`} strokeLinejoin="round" />
+                <g key={s} opacity={o}>
+                  <defs>
+                    <mask id={`${ctx.clipId}-cm-${s}-${zk}`} maskUnits="userSpaceOnUse" {...box}>
+                      <StateArea id={`${ctx.clipId}-ck-${s}-${zk}`} kind="europe" ops={X.STATES_1914[s]} fill="#fff" />
+                    </mask>
+                  </defs>
+                  <g mask={`url(#${ctx.clipId}-cm-${s}-${zk})`}>
+                    <path d={d1919('europe')} fill="none" stroke="#FBF6EA" strokeWidth={9 / ctx.z} pathLength={1} strokeDasharray={`${k} 1`} strokeLinejoin="round" />
+                    <path d={d1919('europe')} fill="none" stroke={ink} strokeWidth={3.5 / ctx.z} pathLength={1} strokeDasharray={`${k} 1`} strokeLinejoin="round" />
+                  </g>
                 </g>
               );
             })}
@@ -921,14 +931,14 @@ export const MapEurope1919: React.FC<Europe1919Props> = (p) => {
               return <Label2 key={n.id} at={ts(n.at)} lines={n.lines} size={n.id === 'AUT' ? 36 : 38} opacity={clamp(k * 2)} scale={0.6 + 0.4 * pop(k)} />;
             })}
             <SafeLabel at={ts([10.3, 51.3])} text={emp >= 0.6 ? 'GERMANY' : 'GERMAN EMPIRE'} size={40} opacity={emp < 0.3 || emp >= 0.6 ? 1 : 0.3} />
-            <SafeLabel at={ts([33, 55.5])} text={emp >= 2.6 ? 'SOVIET RUSSIA' : 'RUSSIAN EMPIRE'} size={40} opacity={emp < 2.3 || emp >= 2.6 ? 1 : 0.3} />
+            <SafeLabel at={ts([35.5, 53.2])} text={emp >= 2.6 ? 'SOVIET RUSSIA' : 'RUSSIAN EMPIRE'} size={40} opacity={emp < 2.3 || emp >= 2.6 ? 1 : 0.3} />
             <SafeLabel at={ts([33.5, 39.2])} text={emp >= 3.6 ? 'TURKEY' : 'OTTOMAN EMPIRE'} size={40} opacity={emp < 3.3 || emp >= 3.6 ? 1 : 0.3} />
-            {emp < 1.6 && <SafeLabel at={ts([18.6, 47.4])} text="AUSTRIA-HUNGARY" size={40} opacity={1 - seg(emp, 1.2, 1.6)} />}
+            {emp < 1.6 && ns < 1.5 && <SafeLabel at={ts([18.6, 47.4])} text="AUSTRIA-HUNGARY" size={40} opacity={(1 - seg(emp, 1.2, 1.6)) * (1 - seg(ns, 0.8, 1.5))} />}
             {(p.details ?? 0) > 0 && (
               <g opacity={p.details}>
                 <CityMarker at={ts(X.PLACE.Danzig)} f={f} color="#F4EEDF" pulse={false} />
-                <SafeLabel at={ts([18.2, 55.25])} text="DANZIG (FREE CITY)" size={36} />
-                <SafeLabel at={ts([22.4, 56.15])} text="MEMEL (1923)" size={36} />
+                <SafeLabel at={ts([16.8, 55.2])} text="DANZIG (FREE CITY)" size={36} />
+                <SafeLabel at={ts([19.6, 56.45])} text="MEMEL (1923)" size={36} />
               </g>
             )}
             {(p.note ?? 0) > 0 && (

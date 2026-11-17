@@ -923,7 +923,7 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:script"
           ],
@@ -934,9 +934,14 @@
             "production/audio/ep02-ww1/licences.md",
             "production/reports/handoffs/ep02-ww1/06-audio-engineer-narration.md"
           ],
-          "issues": [],
-          "next": "720.000 s; all sections fit (max 1.036x); no trims; QC name listen-checks at final QC",
-          "updated": "2026-11-16 22:30"
+          "issues": [
+            {
+              "text": "User listen 2026-11-17: some narration sounds robotic, e.g. '11 p.m.' has a long pause between P and M",
+              "opened": "2026-11-17 18:56"
+            }
+          ],
+          "next": "Audio engineer: naturalness pass (respellings, numbers/dates, prosody), keep section timings",
+          "updated": "2026-11-17 18:56"
         },
         {
           "id": "storyboard",

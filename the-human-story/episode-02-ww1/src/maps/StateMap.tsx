@@ -17,7 +17,6 @@ const ink = C.ink;
 import {W, H} from '../styles/theme';
 type Box = {x: number; y: number; width: number; height: number};
 /** Visible region in projection space (+10 % margin) for a camera focus and zoom. */
-export const EXTENT: Box = {x: -1000, y: -800, width: W + 2000, height: H + 1600};
 export const viewBox = (focus: [number, number], z: number): Box => ({x: focus[0] - (W * 0.6) / z, y: focus[1] - (H * 0.6) / z, width: (W * 1.2) / z, height: (H * 1.2) / z});
 
 export type StateStyle = {
@@ -37,21 +36,46 @@ export type StateEntry = {key: string; ops: Op[]; style: StateStyle};
 const opPath = (kind: MapKind, x: string | Feature) => (typeof x === 'string' ? baseMap(kind).paths.get(x) ?? '' : featurePath(kind, x));
 const hasSub = (ops: Op[]) => ops.some((o) => 'sub' in o);
 
-/** Mask element for a state's ops (projection space). */
-export const StateMask: React.FC<{id: string; kind: MapKind; ops: Op[]; box: Box}> = ({id, kind, ops, box}) => (
-  <mask id={id} maskUnits="userSpaceOnUse" {...box}>
-    <rect {...box} fill="#000" />
-    {ops.map((o, i) => ('add' in o ? <path key={i} d={opPath(kind, o.add)} fill="#fff" /> : <path key={i} d={opPath(kind, o.sub)} fill="#000" />))}
-  </mask>
-);
+/** Runs of consecutive "add" ops, each with the "sub" ops that come after it (order matters: a later add re-adds). */
+type Run = {adds: (string | Feature)[]; subs: (string | Feature)[]};
+export function runsOf(ops: Op[]): Run[] {
+  const runs: Run[] = [];
+  let cur: Run | null = null;
+  ops.forEach((o, i) => {
+    if ('add' in o) {
+      if (!cur) runs.push((cur = {adds: [], subs: ops.slice(i + 1).filter((x) => 'sub' in x).map((x) => (x as {sub: string | Feature}).sub)}));
+      cur.adds.push(o.add);
+    } else cur = null;
+  });
+  return runs;
+}
+const rectD = (b: Box) => `M${b.x},${b.y} h${b.width} v${b.height} h${-b.width}Z`;
 
-/** Paint an area (ops) with a fill; masked only if it has subtractions. */
-const Area: React.FC<{kind: MapKind; ops: Op[]; maskId: string; fill: string; opacity?: number; box: Box}> = ({kind, ops, maskId, fill, opacity = 1, box}) =>
-  hasSub(ops) ? (
-    <rect {...box} fill={fill} opacity={opacity} mask={`url(#${maskId})`} />
-  ) : (
-    <g opacity={opacity}>{ops.map((o, i) => ('add' in o ? <path key={i} d={opPath(kind, o.add)} fill={fill} /> : null))}</g>
-  );
+/**
+ * Clip-path defs for a state: one "box minus subtractions" clip (even-odd) per run with subtractions.
+ * Clip paths are resolved as vector geometry, which stays exact at any zoom (SVG masks failed in
+ * headless Chrome once a frame held a dozen large masks: parts of the frame lost their mask).
+ */
+export const StateClips: React.FC<{id: string; kind: MapKind; ops: Op[]; box: Box}> = ({id, kind, ops, box}) => (
+  <>
+    {runsOf(ops).map((r, i) =>
+      r.subs.length ? (
+        <clipPath key={i} id={`${id}-${i}`}>
+          <path d={rectD(box) + ' ' + r.subs.map((x) => opPath(kind, x)).join(' ')} clipRule="evenodd" />
+        </clipPath>
+      ) : null,
+    )}
+  </>
+);
+/** Paint a state's area (ops) with a fill, using the clips from StateClips. */
+export const StateArea: React.FC<{id: string; kind: MapKind; ops: Op[]; fill: string; opacity?: number}> = ({id, kind, ops, fill, opacity = 1}) => (
+  <g opacity={opacity}>
+    {runsOf(ops).map((r, i) => {
+      const body = r.adds.map((x, k) => <path key={k} d={opPath(kind, x)} fill={fill} />);
+      return r.subs.length ? <g key={i} clipPath={`url(#${id}-${i})`}>{body}</g> : <g key={i}>{body}</g>;
+    })}
+  </g>
+);
 
 /**
  * Draws states (in order) clipped to the land.  Put inside GeoMap `layers`:
@@ -59,16 +83,14 @@ const Area: React.FC<{kind: MapKind; ops: Op[]; maskId: string; fill: string; op
  */
 export const StateLayer: React.FC<{kind: MapKind; z: number; clipId: string; focus: [number, number]; f: number; states: StateEntry[]; tag?: string}> = ({kind, z, clipId, focus, f, states, tag = 's'}) => {
   const pre = `${clipId}-${tag}`;
-  // Masks use one constant region (the base projection's clip extent), so two maps of the same kind
-  // on screen (crossfades, wall maps) can share mask ids safely.  Patterns and filters depend on the
-  // camera, so their ids carry the zoom / focus.
-  const box = EXTENT;
+  // Clip geometry, patterns and filters cover the visible region only, so their ids carry the camera:
+  // two maps of the same kind on screen (crossfades, wall maps) never share an id unless they share the camera.
   const zk = `${Math.round(z * 100)}-${Math.round(focus[0])}-${Math.round(focus[1])}`;
-  const fbox = viewBox(focus, z);
+  const box = viewBox(focus, z);
   return (
     <g>
       <defs>
-        {states.map((s) => (hasSub(s.ops) || s.style.edge ? <StateMask key={s.key} id={`${pre}-m-${s.key}`} kind={kind} ops={s.ops} box={box} /> : null))}
+        {states.map((s) => (hasSub(s.ops) ? <StateClips key={s.key} id={`${pre}-c-${s.key}-${zk}`} kind={kind} ops={s.ops} box={box} /> : null))}
         {states.map((s) =>
           s.style.hatch ? (
             <pattern key={s.key} id={`${pre}-h-${s.key}-${zk}`} patternUnits="userSpaceOnUse" width={16 / z} height={16 / z} patternTransform="rotate(45)">
@@ -78,7 +100,7 @@ export const StateLayer: React.FC<{kind: MapKind; z: number; clipId: string; foc
         )}
         {states.map((s) =>
           s.style.edge ? (
-            <filter key={s.key} id={`${pre}-e-${s.key}-${zk}`} filterUnits="userSpaceOnUse" {...fbox}>
+            <filter key={s.key} id={`${pre}-e-${s.key}-${zk}`} filterUnits="userSpaceOnUse" {...box}>
               <feMorphology in="SourceAlpha" operator="erode" radius={7 / z} result="er" />
               <feComposite in="SourceAlpha" in2="er" operator="out" result="band" />
               <feFlood floodColor={s.style.edge} />
@@ -92,14 +114,14 @@ export const StateLayer: React.FC<{kind: MapKind; z: number; clipId: string; foc
           const st = s.style;
           const op = (st.opacity ?? 1) * (st.pulse ? 1 - 0.35 * st.pulse * (0.5 + 0.5 * Math.sin(f / 5)) : 1);
           if (op <= 0.002) return null;
-          const mid = `${pre}-m-${s.key}`;
+          const cid = `${pre}-c-${s.key}-${zk}`;
           return (
             <g key={s.key}>
-              <Area kind={kind} ops={s.ops} maskId={mid} fill={st.fill} opacity={op} box={box} />
-              {st.hatch && (st.hatchOpacity ?? 1) > 0.002 && <Area kind={kind} ops={s.ops} maskId={mid} box={box} fill={`url(#${pre}-h-${s.key}-${zk})`} opacity={(st.hatchOpacity ?? 1) * (st.opacity ?? 1)} />}
+              <StateArea id={cid} kind={kind} ops={s.ops} fill={st.fill} opacity={op} />
+              {st.hatch && (st.hatchOpacity ?? 1) > 0.002 && <StateArea id={cid} kind={kind} ops={s.ops} fill={`url(#${pre}-h-${s.key}-${zk})`} opacity={(st.hatchOpacity ?? 1) * (st.opacity ?? 1)} />}
               {st.edge && (st.edgeAmount ?? 1) > 0.002 && (
                 <g filter={`url(#${pre}-e-${s.key}-${zk})`} opacity={clamp(st.edgeAmount ?? 1) * (st.opacity ?? 1)}>
-                  <rect {...box} fill="#000" mask={`url(#${mid})`} />
+                  <StateArea id={cid} kind={kind} ops={s.ops} fill="#000" />
                 </g>
               )}
             </g>

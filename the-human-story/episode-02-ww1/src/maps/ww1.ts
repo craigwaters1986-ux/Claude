@@ -289,8 +289,8 @@ export const COLOR_1919: Record<State19, string> = {
 export const NEW_STATES_1919: {id: State19; lines: string[]; at: LL}[] = [
   {id: 'POL', lines: ['POLAND'], at: [19.6, 52.3]},
   {id: 'CZE', lines: ['CZECHOSLOVAKIA'], at: [17.6, 49.45]},
-  {id: 'AUT', lines: ['AUSTRIA'], at: [14.2, 47.45]},
-  {id: 'HUN', lines: ['HUNGARY'], at: [19.4, 47.05]},
+  {id: 'AUT', lines: ['AUSTRIA'], at: [13.3, 47.55]},
+  {id: 'HUN', lines: ['HUNGARY'], at: [19.9, 47.0]},
   {id: 'SCS', lines: ['KINGDOM OF SERBS,', 'CROATS AND SLOVENES'], at: [19.6, 44.35]},
   {id: 'EST', lines: ['ESTONIA'], at: [25.8, 58.75]},
   {id: 'LVA', lines: ['LATVIA'], at: [25.6, 56.85]},
