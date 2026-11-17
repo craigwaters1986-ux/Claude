@@ -1,6 +1,6 @@
 ---
 name: new-episode
-description: Start a new The Human Story episode as the Director — create the episode ID, dashboard task list and brief, then launch the first independent tasks (research and keyword research) in parallel. Use when the user says "Director, start a new episode about ..." or runs /new-episode.
+description: Start a new Stick Figure History episode as the Director — create the episode ID, dashboard task list and brief, then launch the first independent tasks (research and keyword research) in parallel. Use when the user says "Director, start a new episode about ..." or runs /new-episode.
 argument-hint: <subject> [duration-seconds]
 ---
 

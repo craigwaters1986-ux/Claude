@@ -1,4 +1,4 @@
-# QC checklist — The Human Story
+# QC checklist — Stick Figure History
 
 Mark each: PASS / FAIL (with issue #) / N/A.
 

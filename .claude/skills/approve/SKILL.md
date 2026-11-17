@@ -1,6 +1,6 @@
 ---
 name: approve
-description: Record the user's approval decision at a production checkpoint (script, style, storyboard, final-render) for The Human Story.
+description: Record the user's approval decision at a production checkpoint (script, style, storyboard, final-render) for Stick Figure History.
 argument-hint: <script|style|storyboard|final-render> [approved|changes] [episode-id] [note]
 disable-model-invocation: true
 ---

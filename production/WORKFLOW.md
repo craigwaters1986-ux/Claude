@@ -1,4 +1,4 @@
-# Production workflow — The Human Story
+# Production workflow — Stick Figure History
 
 ## Standard pipeline (one episode)
 

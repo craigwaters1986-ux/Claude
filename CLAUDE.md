@@ -1,12 +1,15 @@
-# THE HUMAN STORY — Production Studio Rules
+# STICK FIGURE HISTORY — Production Studio Rules
 
-This repository is the production studio for **The Human Story**, a YouTube channel of
+This repository is the production studio for **Stick Figure History**, a YouTube channel of
 animated historical documentaries. These rules are permanent and apply to every episode,
 every agent and every session.
 
 ## Channel identity (never changes)
 
-- **Channel:** THE HUMAN STORY — "History is made by people."
+- **Channel:** STICK FIGURE HISTORY — "History is made by people."
+  (Renamed from "The Human Story" by the user on 2026-11-17 because other channels share that
+  name. The engine folder `the-human-story/` keeps its old name so paths don't break. On-screen
+  name text: opening title card, end card, thumbnail badge, banner. The logo has no text.)
 - **Format:** animated historical documentaries; default duration **10 minutes (600 s)**.
 - **Audience:** roughly 16–55, including people who know little history. Intelligent, never childish.
 - **Language:** British English everywhere (narration, captions, on-screen text, metadata).

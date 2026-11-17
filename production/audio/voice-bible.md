@@ -1,4 +1,4 @@
-# Voice bible — The Human Story narrator
+# Voice bible — Stick Figure History narrator
 
 - **Engine:** Kokoro-82M (open weights, Apache-2.0), run locally via `kokoro-onnx`.
 - **Voice:** `bm_george` (British English male) — the channel voice for every episode.
