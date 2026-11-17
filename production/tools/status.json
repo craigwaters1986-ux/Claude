@@ -923,7 +923,7 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "approval:script"
           ],
@@ -940,15 +940,16 @@
             {
               "text": "User listen 2026-11-17: some narration sounds robotic, e.g. '11 p.m.' has a long pause between P and M",
               "opened": "2026-11-17 18:56",
-              "resolved": "2026-11-17 19:41"
+              "resolved": "2026-11-17 20:30"
             },
             {
               "text": "User listen: narration-before-after.mp3 and v3 mix",
-              "opened": "2026-11-17 19:41"
+              "opened": "2026-11-17 19:41",
+              "resolved": "2026-11-17 20:30"
             }
           ],
-          "next": "v3: grouped synthesis, spoken-form fixes, 720.000 s; beats s03.b10, s10.b2/b4/b5/b6 moved 0.6-1.2 s (editor re-snap)",
-          "updated": "2026-11-17 19:41"
+          "next": "User approved v3 narration (2026-11-17)",
+          "updated": "2026-11-17 20:30"
         },
         {
           "id": "storyboard",
@@ -1010,7 +1011,7 @@
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "storyboard"
           ],
@@ -1023,21 +1024,22 @@
           "issues": [
             {
               "text": "User listen: hummed Silent Night 231-259 s (fallback: solo violin) and bugle 684.7 s",
-              "opened": "2026-11-17 18:40"
+              "opened": "2026-11-17 18:40",
+              "resolved": "2026-11-17 20:30"
             },
             {
               "text": "QC listen: music within 3-5 dB of narration at 12.9, 17.9, 18.0, 113.3, 159.5, 532.0 s (fix -3 dB)",
               "opened": "2026-11-17 18:40"
             }
           ],
-          "next": "-14.0 LUFS, -1.5 dBTP, 720.000 s; editor: EPISODE_FRAMES 21600, render.sh ep02, single mix.wav",
-          "updated": "2026-11-17 18:40"
+          "next": "User approved mix (2026-11-17); music-masking spots carried to final QC",
+          "updated": "2026-11-17 20:30"
         },
         {
           "id": "assembly",
           "agent": "video-editor",
           "task": "Assemble timeline and preview renders",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "narration",
             "characters",
@@ -1047,7 +1049,7 @@
           "deliverables": [],
           "issues": [],
           "next": "Audio: one <Audio> mix.wav only; EPISODE_FRAMES 18150->21600; render.sh still ep01 (EP, frames, chunks); syncPoints in sfx-cues.json. Keep ChannelLogo; safe zone x<170,y<150",
-          "updated": "2026-11-17 18:40"
+          "updated": "2026-11-17 20:30"
         },
         {
           "id": "final-render",
