@@ -923,7 +923,7 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "IN PROGRESS",
+          "status": "AWAITING REVIEW",
           "depends": [
             "approval:script"
           ],
@@ -932,16 +932,23 @@
             "production/audio/ep02-ww1/episode-02-subtitles.srt",
             "production/audio/ep02-ww1/measurements.md",
             "production/audio/ep02-ww1/licences.md",
-            "production/reports/handoffs/ep02-ww1/06-audio-engineer-narration.md"
+            "production/reports/handoffs/ep02-ww1/06-audio-engineer-narration.md",
+            "production/audio/ep02-ww1/narration-before-after.mp3",
+            "production/reports/handoffs/ep02-ww1/10-audio-engineer-narration-naturalness.md"
           ],
           "issues": [
             {
               "text": "User listen 2026-11-17: some narration sounds robotic, e.g. '11 p.m.' has a long pause between P and M",
-              "opened": "2026-11-17 18:56"
+              "opened": "2026-11-17 18:56",
+              "resolved": "2026-11-17 19:41"
+            },
+            {
+              "text": "User listen: narration-before-after.mp3 and v3 mix",
+              "opened": "2026-11-17 19:41"
             }
           ],
-          "next": "Audio engineer: naturalness pass (respellings, numbers/dates, prosody), keep section timings",
-          "updated": "2026-11-17 18:56"
+          "next": "v3: grouped synthesis, spoken-form fixes, 720.000 s; beats s03.b10, s10.b2/b4/b5/b6 moved 0.6-1.2 s (editor re-snap)",
+          "updated": "2026-11-17 19:41"
         },
         {
           "id": "storyboard",

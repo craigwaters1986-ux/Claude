@@ -134,3 +134,72 @@ The narration WAV was not in this fresh container because it is git-ignored. It 
 | Master gain / limiter | +7.82 dB. Peak gain reduction 4.0 dB. > 1 dB of reduction only 0.45 % of the time |
 
 The worst single 400 ms blocks are at 17.9 (−4.6 dB), 532.0 (−4.3), 12.9 (−3.4), 18.0 (−3.4), 159.5 (−3.2) and 113.3 s (−2.8). Each one sits on a sentence tail or a breath, where the swelling music meets the last syllable (for example 17.9–18.3 is "…at war." ending at 18.04, and 532.0 is the swell into Passchendaele). They are not masked words, but QC should listen there. Fix if needed: a local −3 dB on that cue in `music.py`.
+
+---
+
+# v3 narration naturalness rebuild (2026-11-17)
+
+Rebuilt after user feedback ("some of the speaking sounds robotic; '11 p.m.' had a long pause between the P and M").
+Same voice (`bm_george`, en-gb), same approved script v2 (not edited); spoken forms and synthesis changed in `scripts/tts.py` (v3).
+Before/after listen: `narration-before-after.mp3` (90.3 s; low beep = OLD, high beep = NEW; s03.b7 "11 p.m.", s01.b1–b2, s03.b1, s09.b4, s10.b6).
+
+## Files
+| File | Value |
+|---|---|
+| `episode-02-narration.wav` (= engine `public/audio/narration.wav`, `assets/…`, `output/…`) | 720.000000 s, 48 kHz mono s16, md5 `b418917fa27030f633f680f593eeba7f` |
+| `narration.json` | identical to engine `src/timeline/narration.json`; 11 sections, 107 sentences; section starts unchanged |
+| `episode-02-subtitles.srt` | 162 cues, max line 42 chars, caption TEXT byte-identical to v2 (only times moved) |
+| `public/audio/mix.wav` / `episode-02-mix-reference.wav` / `-listen.mp3` | rebuilt (music.py → mix.py; sfx stem unchanged) |
+
+## Level
+| Measure | Narration stem | Master (`mix.wav`) |
+|---|---|---|
+| Integrated (ebur128 / loudnorm) | −19.9 LUFS | **−14.1 LUFS** (loudnorm −14.09) |
+| True peak | −1.4 dBTP | **−1.50 dBTP** (≤ −1: PASS) |
+| LRA | 2.0 LU | 2.0 LU |
+| Duration | 720.000 s | 720.000 s |
+
+## Sections (budget = must end by)
+| Section | Narration start | End | Budget | Spare | Speed v3 | Pause scale | Speed v2 |
+|---|---|---|---|---|---|---|---|
+| s01 | 1.60 | 27.70 | 27.8 | 0.10 | 0.97 | 1.00 | 1.034 |
+| s02 | 36.20 | 100.30 | 100.4* | 0.10 | 0.97 | 1.00 | 1.00 |
+| s03 | 110.80 | 186.59 | 188.6 | 2.01 | 0.96 | 1.00 | 1.00 |
+| s04 | 190.80 | 255.56 | 258.6 | 3.04 | 0.96 | 1.00 | 1.00 |
+| s05 | 260.80 | 318.57 | 318.6 | 0.03 | 0.98 | 1.00 | 1.00 |
+| s06 | 320.80 | 387.83 | 388.6 | 0.77 | 0.96 | 1.00 | 1.00 |
+| s07 | 390.80 | 447.77 | 448.6 | 0.83 | 0.96 | 1.00 | 1.00 |
+| s08 | 450.80 | 498.36 | 498.6 | 0.24 | 0.96 | 1.00 | 1.00 |
+| s09 | 500.80 | 557.51 | 558.6 | 1.09 | 0.96 | 1.00 | 1.00 |
+| s10 | 560.80 | 618.51 | 618.6 | 0.09 | 1.04 | 0.85 | 1.036 |
+| s11 | 620.80 | 714.00 | 714.0 | 0.00 | 0.97 | 1.00 | 1.00 |
+
+\* s02 limited to 100.40 so the last word clears the first domino clack (100.45).
+
+## Silence and joins
+- silencedetect −50 dB d=1.5: only the section lead-ins/hand-overs (1.6, 8.6, 10.6, 4.3, 5.3, 2.3, 3.1, 3.1, 2.5, 3.4, 2.4 s) and the 6.1 s tail. No silence ≥ 1.5 s inside any section.
+- silencedetect −45 dB d=0.35, inside a sentence entry: 17 hits, **all at an internal full stop** of a two-sentence entry (0.39–0.48 s, e.g. s02.b8 "…on speed. | Germany's plan…"). **No comma/colon/abbreviation gap > 0.35 s remains** (v2 had "p.m." and "a.m." as two sentence ends). 83 over-long internal pauses (0.34–0.62 s) were shortened by `tighten_gaps()` (list in engine `output/tts-v3-report.json`).
+- Sentence edges: |sample| = 0 within ±5 ms of every sentence start/end (fades + lead-in/tail): no clicks or truncated tails.
+- Between-sentence gaps (entry end → next start, including the 0.125 s lead-in/tail): min 0.12 (comma joins), median 0.55, max 1.10 s — varied, instead of the v2 uniform 0.32 s + tail.
+
+## Beat movement vs v2 (sentence starts)
+102 of 107 starts move ≤ 0.5 s. Moved > 0.5 s:
+| Beat | v2 | v3 | Δ |
+|---|---|---|---|
+| s03.b10 "Some put the main responsibility…" | 175.045 | 174.471 | −0.57 |
+| s10.b2 "But the Allies held…" | 573.937 | 573.267 | −0.67 |
+| s10.b4 "In the Hundred Days…" | 590.646 | 589.506 | −1.14 |
+| s10.b5 "Germany's allies collapsed…" | 594.738 | 593.500 | −1.24 |
+| s10.b6 "At about 5 a.m. on 11 November…" | 601.763 | 601.089 | −0.67 |
+Held exactly: s10.b7 "At 11 o'clock" 609.475 (1.0 s silence window), s11.b10 685.682 (v2 685.664; after the bugle 684.70–685.70). s11.b9 ends 684.682.
+
+## Balance (mix.py, `output/mix-stats.json`)
+| Measure | v3 | v2 |
+|---|---|---|
+| Narration, speech blocks | −22.0 LUFS | −21.9 |
+| Music (ducked −12 dB), speech blocks | −38.6 LUFS (16.5 dB under) | −38.5 |
+| Narration − music, 400 ms blocks in speech | **median 18.0 dB, p05 10.7 dB** | 18.0 / 9.8 |
+| Narration − (music + SFX) | median 17.4, p05 10.5 dB | 17.5 / 9.4 |
+| Master gain / max limiter GR | +7.99 dB / 3.5 dB (> 1 dB only 0.45 % of time) | +7.82 / 4.0 |
+| Music + SFX at 11 o'clock (609.5–610.5) | digital zero (−240 dB) | same |
+Worst 400 ms blocks: 572.6 (−4.4 dB, tail of s10.b1 "…forty miles."), 159.3 (−3.7, tail of s03.b6), 408.2 (−2.5, tail of s07.b2), 83.9 (−1.6, tail of s02.b7). All on the ~0.1 s release tail after the last word, not inside words.

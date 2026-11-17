@@ -29,3 +29,14 @@
   Verify them by checking per-stem peaks in output/music-stems.
 - Check each special element's loudness against its surroundings (the hum was first 3.5 LU louder than the score; -6 dB fixed it).
 - Wait for long background builds with `timeout N bash -c 'until grep -q X log; do sleep 5; done'` (a plain sleep is blocked).
+- ep02 v3 narration naturalness (2026-11-17, user: "robotic", "11 p.m." read P…M): Kokoro treats every "." as a
+  sentence end, so "p.m."/"a.m." in a spoken form -> use PHONEMES overrides (/pˌiːˈɛm/). Hyphenated respellings
+  and number words ("Gav-reelo", "twenty-eighth") get 2+ primary stresses -> stiff. Always dump phonemes of every
+  sentence (kokoro.tokenizer.phonemize) and scan before building. Rules now in voice-bible.md.
+- tts.py v3 = group synthesis (<=3 sentences, <=330 phonemes, break at pauseAfter>=0.5), split at the longest quiet run
+  near the predicted join; anchors to previous narration.json starts keep beats within 0.5 s. Groups read ~5 % faster,
+  so base speed 0.96. kokoro-onnx 0.6.1 has no duration output here (has_timings False) -> no phoneme timings.
+- Splicing IPA into espeak text: phonemise the WHOLE sentence with a nonce placeholder ("Quoggle" -> kwˈɒɡəl) and swap it;
+  phonemising fragments turns a trailing "a" into /ˈeɪ/.
+- Full v3 rebuild (cold cache) about 9 min; warm about 1 min. music.py about 4 min + mix.py about 1.5 min after any narration change
+  (sfx.py does not read narration.json).

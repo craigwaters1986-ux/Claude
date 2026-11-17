@@ -26,7 +26,7 @@ from scipy.signal import resample_poly
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TTS_DIR = os.environ.get("KOKORO_DIR", "/opt/tts")
 VOICE = os.environ.get("NARRATOR_VOICE", "bm_george")
-BASE_SPEED = 1.0
+BASE_SPEED = 0.96  # v3: groups are read ~5 % faster than single sentences; 0.96 restores the v2 pace
 MAX_SPEED = 1.05   # v3: keep the delivery natural; tighten pauses before speeding up
 SR_OUT = 48000
 EPISODE_TAG = os.environ.get("EPISODE_TAG", "02")
@@ -179,11 +179,15 @@ def fade(sig, fin=0.008, fout=0.03):
     return sig
 
 
-def tighten_gaps(sig, ref, n_stops, max_gap=0.34, target=0.28, stop_cap=0.50):
+GAP_DB = -34.0   # stricter than QUIET_DB: matches ffmpeg silencedetect -45 dBFS on the final track
+
+
+def tighten_gaps(sig, ref, n_stops, max_gap=0.32, target=0.27, stop_cap=0.48):
     """Shorten over-long pauses INSIDE one sentence (Kokoro sometimes leaves
     0.4-0.7 s at a colon or comma). The n_stops longest runs are internal
     sentence ends ('. ') and may be up to stop_cap. Returns (sig, list of fixes)."""
-    runs = [(a, n) for a, n in quiet_runs(sig, ref) if a > 0 and a + n < len(sig) // FR]
+    runs = [(a, n) for a, n in quiet_runs(sig, ref * 10 ** ((GAP_DB - QUIET_DB) / 20))
+            if a > 0 and a + n < len(sig) // FR]
     longest = sorted(runs, key=lambda x: -x[1])[:n_stops]
     fixes, cuts = [], []
     for a, n in runs:
@@ -224,13 +228,25 @@ DEFAULT_PAUSE = 0.36    # between groups when the script gives no pauseAfter
 MIN_GAP = 0.14          # never closer than this between two sentence entries
 
 
+# Beats the music/SFX are cut to: start a new group here and sit exactly on the
+# v2 time (no stretch limit). s10.b7 "At 11 o'clock" (1.0 s silence at 609.5),
+# s11.b10 "On 28 June 1919" (comes in after the bugle, 684.7-685.7).
+HARD_ANCHORS = {"s10": [7], "s11": [10]}
+
+
+# Music/SFX hard limits on a section's last word (v3): s02 must be clear of the
+# domino clacks that start at 100.45 (v2 ended at 100.37).
+SECTION_END_BY = {"s02": 100.40}
+
+
 def groups_for(section):
     """Consecutive sentences synthesised in ONE Kokoro pass, so intonation
     carries across sentence joins instead of resetting every sentence."""
     out, cur, n = [], [], 0
+    hard = HARD_ANCHORS.get(section["id"], [])
     for i, s in enumerate(section["sentences"]):
         ph = phonemes(s.get("say", s["text"]))
-        if cur and (n + len(ph) > GROUP_MAX_PH or len(cur) >= GROUP_MAX_N):
+        if cur and (n + len(ph) > GROUP_MAX_PH or len(cur) >= GROUP_MAX_N or i in hard):
             out.append(cur)
             cur, n = [], 0
         cur.append((i, ph))
@@ -318,21 +334,37 @@ def build_section(section, speed):
                 parts.append((a[a0:b1], None, None, None))
             parts = [(x[0], None if k == len(g) - 1 else -1.0, None, None) for k, x in enumerate(parts)]
         for (i, _), (piece, gap, _, _) in zip(g, parts):
-            text = sents[i].get("say", sents[i]["text"])
-            stops = len(re.findall(r"[.!?]\s+\S", text.strip()))
+            # internal sentence ends, counted on the PHONEMES (so "a.m." is not one)
+            stops = len(re.findall(r"[.!?]\s+\S", phonemes(sents[i].get("say", sents[i]["text"]))))
             ref = frame_rms(piece).max()
             piece, fixes = tighten_gaps(piece, ref, stops)
             if fixes:
                 REPORT["gapFixes"][sid].append((i, fixes))
             res[i] = {"audio": fade(piece), "gap": gap, "text": sents[i]["text"],
-                      "pauseAfter": sents[i].get("pauseAfter")}
+                      "pauseAfter": sents[i].get("pauseAfter"), "groupStart": i == g[0][0]}
     return res
 
 
-def layout(section, built, pause_scale=1.0):
+ANCHORS = {}
+_anc = os.path.join(ROOT, "scripts", "narration-anchors-v2.json")
+if os.path.exists(_anc):
+    ANCHORS = json.load(open(_anc))["starts"]
+MAX_STRETCH = 0.6       # a group may wait at most this long for its v2 start time
+IN_GROUP_STRETCH = 0.25 # a sentence inside a group may wait this long (natural gap + <= 0.25 s)
+
+
+def layout(section, built, pause_scale=1.0, anchored=True):
     t = section["start"] + section["lead"]
+    anc = ANCHORS.get(section["id"]) if anchored else None
     out = []
-    for x in built:
+    for k, x in enumerate(built):
+        if anc and x["groupStart"] and k > 0 and len(anc) == len(built):
+            if k in HARD_ANCHORS.get(section["id"], []):
+                t = max(t, anc[k])
+            else:
+                t = max(t, min(anc[k], t + MAX_STRETCH))
+        elif anc and k > 0 and len(anc) == len(built):   # inside a group: a little give
+            t = max(t, min(anc[k], t + IN_GROUP_STRETCH))
         dur = len(x["audio"]) / SR_OUT
         out.append({"text": x["text"], "start": round(t, 3), "end": round(t + dur, 3), "audio": x["audio"]})
         # the piece already carries ~0.10 s of its own release tail
@@ -426,26 +458,25 @@ def main():
     captions = []
     for sec in script["sections"]:
         budget = sec.get("mustEndBy", sec["end"] - 1.4)
-        speed, pause_scale = BASE_SPEED, 1.0
-        built = build_section(sec, speed)
-        for attempt in range(12):
-            lay = layout(sec, built, pause_scale)
+        budget = min(budget, SECTION_END_BY.get(sec["id"], budget))
+        # v3 fitting plan: stay anchored to the v2 beat times; if the section is
+        # long, first read it a touch less slowly (0.96 -> 1.00), then tighten
+        # pauses, and only as a last resort drop the anchors / speed up to 1.05.
+        plan = [(sp, 1.0, True) for sp in (BASE_SPEED, 0.97, 0.98, 0.99, 1.0)] + \
+               [(1.0, 0.92, True), (1.0, 0.85, True), (1.02, 0.85, True), (1.04, 0.85, True),
+                (1.0, 0.85, False),
+                (1.02, 0.85, False), (MAX_SPEED, 0.8, False), (MAX_SPEED, 0.7, False)]
+        built, built_speed = None, None
+        for attempt, (speed, pause_scale, anch) in enumerate(plan):
+            if built_speed != speed:
+                built, built_speed = build_section(sec, speed), speed
+            lay = layout(sec, built, pause_scale, anchored=anch)
             end = lay[-1]["end"]
             if attempt == 0:
                 t0 = lay[0]["start"]
-                fit = round((end - t0) / (budget - t0), 3)  # >1 = needs speeding up
+                fit = round((end - t0) / (budget - t0), 3)  # >1 = needs a faster read
             if end <= budget:
                 break
-            # v3: tighten pauses first (down to x0.7), only then speed up (max 1.05)
-            if pause_scale > 0.71:
-                pause_scale = max(0.7, pause_scale * 0.92)
-            elif speed < MAX_SPEED:
-                speech = sum(x["end"] - x["start"] for x in lay)
-                over = end - budget
-                speed = min(MAX_SPEED, round(speed * (speech / max(1.0, speech - over)) + 0.005, 3))
-                built = build_section(sec, speed)
-            else:
-                pause_scale *= 0.85
         status = "OK" if end <= budget else "OVERRUN"
         print(f"{sec['id']}: fit@1.0 {fit:.3f} speed {speed:.3f} pauses x{pause_scale:.2f} narration {lay[0]['start']:.2f}-{end:.2f} (budget {budget}) {status}", flush=True)
         if end > budget + 0.05:
@@ -459,7 +490,7 @@ def main():
             sents.append({"text": x["text"], "start": x["start"], "end": x["end"], "captions": chunks})
         timing["sections"].append({"id": sec["id"], "chapter": sec["chapter"], "start": sec["start"],
                                    "end": sec["end"], "speed": speed, "fitAt1": fit,
-                                   "pauseScale": round(pause_scale, 3), "budget": budget,
+                                   "pauseScale": round(pause_scale, 3), "anchored": anch, "budget": budget,
                                    "sentences": sents})
 
     peak = np.max(np.abs(track))
