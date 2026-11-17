@@ -1124,12 +1124,21 @@
           "id": "audio-rebuild",
           "agent": "audio-engineer",
           "task": "Rebuild git-ignored render audio (narration v3, sfx, music, mix.wav) in fresh container; verify against approved md5/measurements",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [],
-          "deliverables": [],
-          "issues": [],
-          "next": "Running (sonnet)",
-          "updated": "2026-11-17 20:32"
+          "deliverables": [
+            "the-human-story/episode-02-ww1/public/audio/mix.wav",
+            "production/reports/handoffs/ep02-ww1/11-audio-engineer-rebuild.md",
+            "production/audio/ep02-ww1/measurements.md"
+          ],
+          "issues": [
+            {
+              "text": "Narration md5 differs from approved (b0ff08dc vs b418917f), likely onnxruntime/numpy build; duration, timings, SRT identical; mix -14.1 LUFS/-1.5 dBTP matches v3; null test vs approved listen MP3 residual -38.6 dB mean. Confirm by ear at final QC.",
+              "opened": "2026-11-17 20:47"
+            }
+          ],
+          "next": "mix.wav ready for render",
+          "updated": "2026-11-17 20:47"
         }
       ]
     }

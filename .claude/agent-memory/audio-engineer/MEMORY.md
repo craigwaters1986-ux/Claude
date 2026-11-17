@@ -40,3 +40,4 @@
   phonemising fragments turns a trailing "a" into /ˈeɪ/.
 - Full v3 rebuild (cold cache) about 9 min; warm about 1 min. music.py about 4 min + mix.py about 1.5 min after any narration change
   (sfx.py does not read narration.json).
+- Fresh-container Kokoro (2026-11-17 s2): kokoro-onnx 0.6.1 + onnxruntime 1.29.0 + numpy 2.5.3 gave narration md5 b0ff08dc... (not b418917f...) though timings/mix stats matched v3; pins of the original build unknown. Cold tts.py 8 min; run sfx.py and music.py in parallel. The narration copy in production/audio/ is made by hand (cp).

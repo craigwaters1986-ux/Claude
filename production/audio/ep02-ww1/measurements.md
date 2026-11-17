@@ -203,3 +203,23 @@ Held exactly: s10.b7 "At 11 o'clock" 609.475 (1.0 s silence window), s11.b10 685
 | Master gain / max limiter GR | +7.99 dB / 3.5 dB (> 1 dB only 0.45 % of time) | +7.82 / 4.0 |
 | Music + SFX at 11 o'clock (609.5–610.5) | digital zero (−240 dB) | same |
 Worst 400 ms blocks: 572.6 (−4.4 dB, tail of s10.b1 "…forty miles."), 159.3 (−3.7, tail of s03.b6), 408.2 (−2.5, tail of s07.b2), 83.9 (−1.6, tail of s02.b7). All on the ~0.1 s release tail after the last word, not inside words.
+
+---
+
+# Fresh-container rebuild (2026-11-17, session 2)
+
+Mechanical rebuild of the git-ignored audio; no script, text, narration.json, SRT or sfx-cues change (git clean for those).
+Kokoro set up per voice bible with `kokoro-onnx==0.6.1`, onnxruntime 1.29.0, numpy 2.5.3, scipy 1.18.1, soundfile 0.14.0. Order: tts.py (8 min cold), sfx.py + music.py, mix.py.
+
+| Check | Result |
+|---|---|
+| Narration md5 | `b0ff08dc7c6fa39d7981b467a08c5df1` vs expected `b418917fa27030f633f680f593eeba7f` (**differs**) |
+| Narration format / duration | 48 kHz mono s16, 720.000000 s (matches) |
+| `narration.json`, SRT | byte-identical to the approved v3 (git clean), so all sentence timings and sections are unchanged |
+| mix.wav | pcm_s16le, 48 kHz stereo, 720.000000 s |
+| mix.wav loudness (ebur128) | -14.1 LUFS integrated, LRA 2.0 LU, true peak -1.5 dBTP (v3: -14.1 / -1.50) |
+| mix.py stats | master gain +7.99 dB, max GR 3.49 dB, speech-minus-music median 17.98 dB / p05 10.71 dB (v3: 7.99 / 3.5 / 18.0 / 10.7) |
+| 11 o'clock window | digital zero (-240 dB), as v3 |
+
+Cause of the md5 difference: most likely a different onnxruntime/numpy build than the original container (the original pins were not recorded), which changes float inference at the sample level. Timings, duration and mix numbers are unchanged, so it is a perceptually equivalent re-synthesis, not a different read. Not re-attempted (the cache was warm, so a one-line pin change cannot be tested cheaply; cold rebuild is 8 min).
+`episode-02-mix-reference-listen.mp3` was restored from git (it is the approved v3 listen file; the rebuilt mix differs from it only at waveform level).
