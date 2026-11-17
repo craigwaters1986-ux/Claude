@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { duplicateProject, type DuplicateProgress } from "@/lib/services/duplicate-project";
 import { projectKeys, snagKeys } from "@/lib/query-keys";
 import {
   createProject,
@@ -49,6 +50,17 @@ export function useUpdateProject() {
       queryClient.invalidateQueries({ queryKey: projectKeys.list() });
       queryClient.invalidateQueries({ queryKey: projectKeys.detail(projectId) });
     },
+  });
+}
+
+/** Copy a project with its levels and drawings (not its issues). */
+export function useDuplicateProject() {
+  const supabase = useSupabase();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ sourceId, name, onProgress }: { sourceId: string; name: string; onProgress?: (p: DuplicateProgress) => void }) =>
+      duplicateProject(supabase, sourceId, { name }, onProgress),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: projectKeys.all }),
   });
 }
 

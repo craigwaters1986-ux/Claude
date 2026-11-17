@@ -16,6 +16,7 @@ import {
   MoreVertical,
   Pencil,
   Trash2,
+  Copy,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -57,6 +58,7 @@ import { SNAG_STATUS_LABEL, type ListedSnag, type ProjectMode, type SnagStatus }
 import { DeleteProjectDialog } from "./delete-project-dialog";
 import { GenerateReportButton } from "./generate-report-button";
 import { ProjectFormDialog } from "./project-form-dialog";
+import { DuplicateProjectDialog } from "./duplicate-project-dialog";
 
 type Filter = "all" | SnagStatus;
 const FILTERS: Filter[] = ["all", "open", "in_progress", "resolved"];
@@ -87,6 +89,7 @@ export function ProjectView({
   const [filter, setFilter] = useState<Filter>("all");
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [duplicateOpen, setDuplicateOpen] = useState(false);
   const [snagToDelete, setSnagToDelete] = useState<ListedSnag | null>(null);
   const [openSnagId, setOpenSnagId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -228,6 +231,9 @@ export function ProjectView({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onSelect={() => setEditOpen(true)}>
                 <Pencil /> Edit project
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setDuplicateOpen(true)}>
+                <Copy /> Duplicate project
               </DropdownMenuItem>
               <DropdownMenuItem variant="destructive" onSelect={() => setDeleteOpen(true)}>
                 <Trash2 /> Delete project
@@ -405,6 +411,7 @@ export function ProjectView({
       </div>
 
       <ProjectFormDialog open={editOpen} onOpenChange={setEditOpen} project={p} />
+      <DuplicateProjectDialog project={duplicateOpen ? p : null} onOpenChange={setDuplicateOpen} />
       <DeleteProjectDialog
         project={deleteOpen ? p : null}
         onOpenChange={setDeleteOpen}

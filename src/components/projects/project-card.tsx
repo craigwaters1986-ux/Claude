@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { MapPin, MoreVertical, Pencil, Trash2, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,9 +17,10 @@ type Props = {
   project: ProjectSummary;
   onEdit: (project: ProjectSummary) => void;
   onDelete: (project: ProjectSummary) => void;
+  onDuplicate: (project: ProjectSummary) => void;
 };
 
-export function ProjectCard({ project, onEdit, onDelete }: Props) {
+export function ProjectCard({ project, onEdit, onDelete, onDuplicate }: Props) {
   const outstanding = project.open_snags + project.in_progress_snags;
   const progress = project.total_snags ? project.resolved_snags / project.total_snags : 0;
 
@@ -77,6 +78,9 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem onSelect={() => onEdit(project)}>
             <Pencil /> Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => onDuplicate(project)}>
+            <Copy /> Duplicate
           </DropdownMenuItem>
           <DropdownMenuItem variant="destructive" onSelect={() => onDelete(project)}>
             <Trash2 /> Delete

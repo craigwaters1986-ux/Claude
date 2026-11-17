@@ -10,6 +10,7 @@ import { EmptyState, ErrorState } from "@/components/states";
 import { useLiveUpdates } from "@/hooks/use-live-updates";
 import { useProjects } from "@/hooks/use-projects";
 import { ContinueCard } from "./continue-card";
+import { DuplicateProjectDialog } from "./duplicate-project-dialog";
 import { PasswordPrompt } from "./password-prompt";
 import type { ProjectSummary } from "@/types/models";
 import { DeleteProjectDialog } from "./delete-project-dialog";
@@ -26,6 +27,7 @@ export function ProjectDashboard() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<ProjectSummary | undefined>();
   const [deleting, setDeleting] = useState<ProjectSummary | null>(null);
+  const [duplicating, setDuplicating] = useState<ProjectSummary | null>(null);
 
   const archivedCount = projects?.filter((p) => p.status === "archived").length ?? 0;
 
@@ -107,7 +109,7 @@ export function ProjectDashboard() {
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
           {visible.map((project) => (
             <li key={project.id}>
-              <ProjectCard project={project} onEdit={openEdit} onDelete={setDeleting} />
+              <ProjectCard project={project} onEdit={openEdit} onDelete={setDeleting} onDuplicate={setDuplicating} />
             </li>
           ))}
         </ul>
@@ -136,6 +138,7 @@ export function ProjectDashboard() {
         onCreated={(project) => router.push(`/projects/${project.id}`)}
       />
       <DeleteProjectDialog project={deleting} onOpenChange={(open) => !open && setDeleting(null)} />
+      <DuplicateProjectDialog project={duplicating} onOpenChange={(open) => !open && setDuplicating(null)} />
     </div>
   );
 }

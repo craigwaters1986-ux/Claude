@@ -282,6 +282,15 @@ A project can have **levels** (Ground, First, Roof …), each with one drawing. 
 - **Deleting a level** keeps its snags and clears their level and pin.
 - **Reports:** snags show their level; group by level; optional marked-up plan page per level.
 
+## Duplicating a project
+
+⋮ on a project card or project page → **Duplicate**. Makes a new project (named "… (copy)", editable)
+with the same location, description, levels and drawings, and no issues, ready for the next plot or
+visit. Drawings are real copies in the new project's own folder (copied by Storage on the server, or
+downloaded and uploaded again if that isn't possible), so deleting either project never affects the
+other. If anything fails, the half-made copy and any copied files are removed
+(`src/lib/services/duplicate-project.ts`).
+
 ## Phone ↔ laptop
 
 The same account works on any number of devices, each staying signed in until you sign out.
