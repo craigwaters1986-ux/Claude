@@ -1076,14 +1076,14 @@
           "id": "final-render",
           "agent": "video-editor",
           "task": "Render and verify final MP4",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "assembly"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "Ready: bash scripts/render.sh (see HANDOVER-ep02-ww1.md)",
-          "updated": "2026-11-18 04:33"
+          "next": "Full render running (24 x 900-frame chunks, resumable; relaunch same command if a slot ends)",
+          "updated": "2026-11-18 19:05"
         },
         {
           "id": "final-qc",
