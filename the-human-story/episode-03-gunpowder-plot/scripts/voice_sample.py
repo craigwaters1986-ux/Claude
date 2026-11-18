@@ -16,6 +16,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--assets', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
 parser.add_argument('--episode', type=Path)
+# Pin sentence grouping to an earlier audit so a phoneme fix cannot regroup later sentences (and so cached phrases stay valid).
+parser.add_argument('--groups-from', type=Path)
 args = parser.parse_args()
 torch.set_num_threads(3)
 EspeakWrapper.set_library(espeakng_loader.get_library_path())
@@ -23,7 +25,9 @@ EspeakWrapper.set_data_path(espeakng_loader.get_data_path())
 model = KModel(repo_id='hexgrad/Kokoro-82M',config=str(args.assets/'config.json'),model=str(args.assets/'kokoro-v1_0.pth')).eval()
 voice = torch.load(args.assets/'bm_george.pt',weights_only=True,map_location='cpu')
 # Context-preserving name overrides. The placeholder is replaced after phonemisation.
-overrides = {'Guy Fawkes':'ɡˈaɪ fˈɔːks','Catesby':'kˈeɪtsbi','Hoxton':'hˈɒkstən','Warwickshire':'wˈɒɹɪkʃə','Salisbury':'sˈɔːlzbəɹi'}
+# Knyvett: Wikipedia gives /nɪvɪt/ (NIV-it); the default phonemiser said NY-vet. The possessive has its own key so the
+# s stays voiceless after t. Keys that contain another key must come first in this dict.
+overrides = {'Guy Fawkes':'ɡˈaɪ fˈɔːks','Catesby':'kˈeɪtsbi','Hoxton':'hˈɒkstən','Warwickshire':'wˈɒɹɪkʃə','Salisbury':'sˈɔːlzbəɹi','Knyvett’s':'nˈɪvɪts','Knyvett':'nˈɪvɪt'}
 def phones(text):
     found=[]
     def substitute(match):
@@ -60,6 +64,10 @@ if args.episode:
             groups.append(pending)
             section_ids.append(section['id'])
 
+if args.groups_from:
+    pinned = json.loads(args.groups_from.read_text())
+    assert ' '.join(g['text'] for g in pinned).split() == ' '.join(groups).split(), 'pinned audit text differs from episode text'
+    groups, section_ids = [g['text'] for g in pinned], [g['section'] for g in pinned]
 args.output.mkdir(parents=True, exist_ok=True)
 parts, audit = [], []
 cursor = 0.0

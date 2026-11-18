@@ -1,0 +1,119 @@
+{
+ "cues": 181,
+ "script_tokens": 1564,
+ "matched_tokens": 1516,
+ "coverage": 0.9693,
+ "cues_moved": 179,
+ "median_abs_start_shift": 0.062,
+ "max_abs_start_shift": 1.451,
+ "transcript_mismatches": [
+  [
+   "four hundred",
+   "400"
+  ],
+  [
+   "",
+   "minister"
+  ],
+  [
+   "the first",
+   "i"
+  ],
+  [
+   "the sixth",
+   "vi"
+  ],
+  [
+   "the first",
+   "i"
+  ],
+  [
+   "",
+   "catholics"
+  ],
+  [
+   "guy fawkes",
+   "forks"
+  ],
+  [
+   "",
+   "itself"
+  ],
+  [
+   "",
+   "account"
+  ],
+  [
+   "twenty sixth",
+   "26th"
+  ],
+  [
+   "",
+   "received"
+  ],
+  [
+   "the third of",
+   "3rd"
+  ],
+  [
+   "knyvetts party",
+   "nivets"
+  ],
+  [
+   "fifth",
+   "5th"
+  ],
+  [
+   "king was alive and the conspiracy was public what had sounded to the plotters",
+   ""
+  ],
+  [
+   "seventh",
+   "7th"
+  ],
+  [
+   "eighth",
+   "8th"
+  ],
+  [
+   "holbeach",
+   "whole beach"
+  ],
+  [
+   "twenty seventh",
+   "27th"
+  ],
+  [
+   "thirtieth",
+   "30th"
+  ],
+  [
+   "thirty first fawkes",
+   "31st forks"
+  ],
+  [
+   "fifth",
+   "5th"
+  ],
+  [
+   "the first",
+   "i"
+  ],
+  [
+   "nineteenth",
+   "19th"
+  ],
+  [
+   "ewens",
+   "ewins"
+  ],
+  [
+   "fifth",
+   "5th"
+  ],
+  [
+   "dark",
+   ""
+  ]
+ ]
+}

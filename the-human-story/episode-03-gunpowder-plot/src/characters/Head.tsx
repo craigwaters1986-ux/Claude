@@ -45,7 +45,11 @@ export type Hat =
   | 'vadVeil' // VAD nurse's white headdress veil hanging at the back
   | 'plumedHat' // Austrian general's hat with green plumes (Franz Ferdinand)
   | 'pagri' // Indian Army wrapped turban: layered dome, neat front crossing, small fan (turra) and tail at the back
-  | 'wideBrim'; // Edwardian summer hat with a wide brim and a band (Sophie, 1914); hair shows below
+  | 'wideBrim' // Edwardian summer hat with a wide brim and a band (Sophie, 1914); hair shows below
+  // ep03 (Jacobean) additions
+  | 'capotain' // tall tapered-crown hat with a narrow brim and band (early Stuart gentlemen)
+  | 'crown' // royal crown (James I)
+  | 'coif'; // close linen cap for women; the hair and hairline show at the front
 
 export type FacialHair = 'none' | 'toothbrush' | 'walrus' | 'kaiser' | 'handlebar' | 'thin' | 'bushy' | 'stubble'
   | 'goatee' // ep02: small moustache + short pointed chin beard (Lenin)
@@ -64,7 +68,8 @@ export type HeadSpec = {
   hatAccent?: string; // band colour for officerCap / chineseCap / kepi / fedora
   chinStrap?: boolean; // helmet chin strap (paratroopers)
   hatBadge?: 'none' | 'redcross'; // medic helmet: red cross on a white disc
-  gasMask?: boolean | string; // WW1 respirator over the face (string = facepiece colour); brows stay visible
+  gasMask?: boolean | string;
+  ruff?: boolean | 'falling'; // ep03: pleated white ruff at the neck ('falling' = flat falling band collar) // WW1 respirator over the face (string = facepiece colour); brows stay visible
 };
 
 type Props = HeadSpec & {
@@ -85,7 +90,7 @@ type Props = HeadSpec & {
 
 const ink = C.ink;
 // hats that leave the hairstyle visible
-const HAIR_SHOWS: Hat[] = ['beret', 'flatCap', 'sidecap', 'fedora', 'nurseCap', 'laurel', 'baseballCap', 'tricorn', 'wideBrim'];
+const HAIR_SHOWS: Hat[] = ['beret', 'flatCap', 'sidecap', 'fedora', 'nurseCap', 'laurel', 'baseballCap', 'tricorn', 'wideBrim', 'capotain', 'crown', 'coif'];
 
 function hairShape(h: Hair, R: number, color: string, f: number, seed: number, lowBun = false) {
   const sw = R * 0.1;
@@ -391,6 +396,29 @@ function hatShape(h: Hat, R: number, color: string, accent?: string) {
           />
         </g>
       );
+    case 'capotain':
+      return (
+        <g>
+          <ellipse cx={0} cy={-R * 0.62} rx={R * 1.3} ry={R * 0.2} fill={color} {...o} />
+          <path d={`M${-R * 0.78},${-R * 0.66} L${-R * 0.55},${-R * 1.95} Q0,${-R * 2.08} ${R * 0.55},${-R * 1.95} L${R * 0.78},${-R * 0.66}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.75},${-R * 0.82} L${R * 0.75},${-R * 0.82}`} stroke={accent ?? '#2a2522'} strokeWidth={R * 0.16} />
+        </g>
+      );
+    case 'crown':
+      return (
+        <g>
+          <path d={`M${-R * 0.78},${-R * 0.62} L${-R * 0.86},${-R * 1.45} L${-R * 0.42},${-R * 1.08} L0,${-R * 1.6} L${R * 0.42},${-R * 1.08} L${R * 0.86},${-R * 1.45} L${R * 0.78},${-R * 0.62}Z`} fill={color} {...o} />
+          <rect x={-R * 0.8} y={-R * 0.82} width={R * 1.6} height={R * 0.22} fill={accent ?? '#8e2a2a'} {...o} strokeWidth={s * 0.6} />
+          {[-0.86, 0, 0.86].map((k) => <circle key={k} cx={R * k} cy={-R * (k === 0 ? 1.62 : 1.47)} r={R * 0.09} fill={C.paper} {...o} strokeWidth={s * 0.5} />)}
+        </g>
+      );
+    case 'coif':
+      return (
+        <g>
+          <path d={`M${-R * 1.04},${R * 0.1} C${-R * 1.2},${-R * 1.3} ${R * 1.2},${-R * 1.3} ${R * 1.04},${R * 0.1} L${R * 0.86},${-R * 0.12} C${R * 0.7},${-R * 0.62} ${-R * 0.7},${-R * 0.62} ${-R * 0.86},${-R * 0.12}Z`} fill={color} {...o} />
+          <path d={`M${-R * 0.7},${-R * 0.5} Q0,${-R * 0.75} ${R * 0.7},${-R * 0.5}`} fill="none" stroke={accent ?? '#c9bfa8'} strokeWidth={s * 0.6} />
+        </g>
+      );
     case 'tricorn':
       return (
         <g>
@@ -535,6 +563,24 @@ export const HatShape: React.FC<{hat: Hat; r?: number; color?: string; accent?: 
     {badge === 'redcross' && <RedCrossBadge R={r} />}
   </g>
 );
+
+/** ep03: pleated ruff (a ring of small scallops) or a flat falling band, under the chin. */
+function ruffShape(R: number, kind: true | 'falling', sw: number) {
+  if (kind === 'falling') {
+    return <path d={`M${-R * 0.75},${R * 0.82} Q0,${R * 1.0} ${R * 0.75},${R * 0.82} L${R * 0.62},${R * 1.32} Q0,${R * 1.42} ${-R * 0.62},${R * 1.32}Z`} fill="#F7F3EA" stroke={ink} strokeWidth={sw * 0.5} strokeLinejoin="round" />;
+  }
+  const n = 14;
+  const pts = Array.from({length: n}, (_, i) => {
+    const a = (i / n) * Math.PI * 2;
+    return {x: Math.cos(a) * R * 0.98, y: R * 1.0 + Math.sin(a) * R * 0.3};
+  });
+  return (
+    <g>
+      <ellipse cx={0} cy={R * 1.0} rx={R * 1.02} ry={R * 0.34} fill="#F7F3EA" stroke={ink} strokeWidth={sw * 0.55} />
+      {pts.map((q, i) => <path key={i} d={`M${q.x * 0.55},${R * 1.0 + (q.y - R) * 0.55} L${q.x},${q.y}`} stroke={ink} strokeWidth={sw * 0.22} opacity={0.6} />)}
+    </g>
+  );
+}
 
 const RedCrossBadge: React.FC<{R: number}> = ({R}) => (
   <g transform={`translate(${R * 0.05},${-R * 0.78})`}>
@@ -771,6 +817,7 @@ export const Head: React.FC<Props> = (p) => {
   return (
     <g>
       {hairBehind && (!hatOn || HAIR_SHOWS.includes(p.hat!)) && hairShape(p.hair!, R, hairColor, f, seed)}
+      {p.ruff && ruffShape(R, p.ruff, sw)}
       <ellipse cx={0} cy={0} rx={R * wide} ry={R} fill={C.head} stroke={ink} strokeWidth={sw * 0.95} />
       {!hairBehind && p.hair && p.hair !== 'none' &&
         (!hatOn || HAIR_SHOWS.includes(p.hat!) || p.hair === 'bald' || p.hair === 'baldFringe') &&
