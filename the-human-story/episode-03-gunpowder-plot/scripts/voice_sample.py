@@ -15,6 +15,7 @@ from kokoro import KModel
 parser = argparse.ArgumentParser()
 parser.add_argument('--assets', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--episode', type=Path)
 args = parser.parse_args()
 torch.set_num_threads(3)
 EspeakWrapper.set_library(espeakng_loader.get_library_path())
@@ -41,18 +42,50 @@ groups=[
 "The man at the centre of the conspiracy was Robert Catesby, a gentleman from Warwickshire.",
 "On the twenty sixth of October, sixteen oh five, Lord Monteagle received the warning at his house in Hoxton."
 ]
-args.output.mkdir(parents=True,exist_ok=True)
-parts=[];audit=[]
-for i,text in enumerate(groups):
-    p=phones(text)
-    assert len(p)<500
-    a=model(p,voice[len(p)-1],speed=0.99).numpy().reshape(-1)
-    # Preserve the model's phrase rhythm. Only shorten long edge silence.
-    active=np.flatnonzero(np.abs(a)>0.0015)
-    a=a[max(0,active[0]-480):min(len(a),active[-1]+1440)]
-    fade=min(192,len(a)//2);a[:fade]*=np.linspace(0,1,fade);a[-fade:]*=np.linspace(1,0,fade)
-    parts.extend([a,np.zeros(round(24000*0.21),dtype=np.float32)])
-    audit.append(dict(text=text,phonemes=p,duration=len(a)/24000))
-    print(i,round(len(a)/24000,2),flush=True)
-sf.write(args.output/'narration-sample.wav',np.concatenate(parts),24000,subtype='PCM_16')
-(args.output/'narration-sample-audit.json').write_text(json.dumps(audit,indent=2,ensure_ascii=False)+'\n')
+# Sentence groups carry intonation across joins without exceeding model context.
+section_ids = [None] * len(groups)
+if args.episode:
+    groups, section_ids = [], []
+    for section in json.loads(args.episode.read_text())['sections']:
+        pending = ''
+        for sentence in re.split(r'(?<=[.!?])\s+', section['narration']):
+            candidate = (pending + ' ' + sentence).strip()
+            if pending and len(phones(candidate)) > 420:
+                groups.append(pending)
+                section_ids.append(section['id'])
+                pending = sentence
+            else:
+                pending = candidate
+        if pending:
+            groups.append(pending)
+            section_ids.append(section['id'])
+
+args.output.mkdir(parents=True, exist_ok=True)
+parts, audit = [], []
+cursor = 0.0
+for i, text in enumerate(groups):
+    p = phones(text)
+    assert len(p) < 500
+    cache = args.output / f'phrase-{i:03d}.wav'
+    if cache.exists():
+        a, sample_rate = sf.read(cache, dtype='float32')
+        assert sample_rate == 24000
+    else:
+        a = model(p, voice[len(p)-1], speed=0.99).numpy().reshape(-1)
+        active = np.flatnonzero(np.abs(a) > 0.0015)
+        a = a[max(0, active[0]-480):min(len(a), active[-1]+1440)]
+        fade = min(192, len(a)//2)
+        a[:fade] *= np.linspace(0, 1, fade)
+        a[-fade:] *= np.linspace(1, 0, fade)
+        sf.write(cache, a, 24000, subtype='PCM_16')
+    duration = len(a)/24000
+    section_end = i == len(groups)-1 or section_ids[i] != section_ids[i+1]
+    gap = 0.34 if section_end else 0.21
+    parts.extend([a, np.zeros(round(24000*gap), dtype=np.float32)])
+    audit.append(dict(section=section_ids[i],text=text,phonemes=p,
+                      start=cursor,end=cursor+duration,duration=duration))
+    cursor += duration + gap
+    print(i, round(duration, 2), flush=True)
+name = 'narration-draft' if args.episode else 'narration-sample'
+sf.write(args.output / (name+'.wav'), np.concatenate(parts), 24000, subtype='PCM_16')
+(args.output / (name+'-audit.json')).write_text(json.dumps(audit, indent=2, ensure_ascii=False)+'\n')
