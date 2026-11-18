@@ -1060,15 +1060,17 @@
             },
             {
               "text": "S11-07 Versailles map labels 22-26 px (< 36 px rule; library change)",
-              "opened": "2026-11-18 04:33"
+              "opened": "2026-11-18 04:33",
+              "resolved": "2026-11-18 19:04"
             },
             {
               "text": "Minor overlaps: S06-02 ANZACS card vs GALLIPOLI label ~5 s; S11-03 BORDERS APPROXIMATE vs TURKEY; S10-01 FRANCE label into caption band",
-              "opened": "2026-11-18 04:33"
+              "opened": "2026-11-18 04:33",
+              "resolved": "2026-11-18 19:04"
             }
           ],
           "next": "Minor issues carried to final QC. Phase D next: smoke test -> full render",
-          "updated": "2026-11-18 04:34"
+          "updated": "2026-11-18 19:04"
         },
         {
           "id": "final-render",

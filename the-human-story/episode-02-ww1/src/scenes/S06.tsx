@@ -326,7 +326,7 @@ export const S06Overlay: React.FC = () => (
   <g>
     <DateCard at={abs(323.2)} until={b.endOf(1)} date="AUGUST 1914" title="TANNENBERG" />
     <DateCard at={abs(329.5)} until={abs(335.9)} date="25 APRIL 1915" title="GALLIPOLI" />
-    <TermCard at={abs(330.9)} until={b.endOf(2)} term="ANZACS" meaning="Australian and New Zealand Army Corps" />
+    <TermCard at={abs(330.9)} until={b.endOf(2)} term="ANZACS" meaning="Australian and New Zealand Army Corps" y={80} />
     <FactPill at={abs(338.5)} until={T[3] - 4} text="EVACUATED BY JANUARY 1916" sub="more than 44,000 Allied dead (est.)" x={1860} y={330} anchor="end" />
     <OLabel at={abs(344.5)} until={abs(347.6)} text="ITALY JOINS THE ALLIES · MAY 1915" x={W / 2} y={110} size={40} />
     <FactPill at={abs(347.3)} until={abs(351.0)} text="ABOUT 1.5 MILLION MEN FROM SOUTH ASIA SERVED IN THE INDIAN ARMY" x={1870} y={150} anchor="end" maxW={760} />

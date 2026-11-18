@@ -610,8 +610,8 @@ export const MapWesternFront: React.FC<WesternFrontProps> = (p) => {
             {(p.labels ?? 1) > 0 && tz < 0.5 && (
               <g opacity={(p.labels ?? 1) * (1 - seg(tz, 0, 0.4))}>
                 <SafeLabel at={ts([5.05, 50.9])} text="BELGIUM" size={40} />
-                <SafeLabel at={ts([2.2, 47.9])} text="FRANCE" size={44} />
-                <SafeLabel at={ts([7.6, 50.3])} text="GERMANY" size={44} />
+                <SafeLabel at={ts([-0.3, 48.9])} text="FRANCE" size={44} />
+                <SafeLabel at={ts([6.9, 50.3])} text="GERMANY" size={44} />
                 <SafeLabel at={ts([5.6, 52.3])} text="NETHERLANDS" size={36} />
                 {cities.map((n) => {
                   const o = labelOff[n] ?? [0, -24];
@@ -932,7 +932,7 @@ export const MapEurope1919: React.FC<Europe1919Props> = (p) => {
             })}
             <SafeLabel at={ts([10.3, 51.3])} text={emp >= 0.6 ? 'GERMANY' : 'GERMAN EMPIRE'} size={40} opacity={emp < 0.3 || emp >= 0.6 ? 1 : 0.3} />
             <SafeLabel at={ts([35.5, 53.2])} text={emp >= 2.6 ? 'SOVIET RUSSIA' : 'RUSSIAN EMPIRE'} size={40} opacity={emp < 2.3 || emp >= 2.6 ? 1 : 0.3} />
-            <SafeLabel at={ts([33.5, 39.2])} text={emp >= 3.6 ? 'TURKEY' : 'OTTOMAN EMPIRE'} size={40} opacity={emp < 3.3 || emp >= 3.6 ? 1 : 0.3} />
+            <SafeLabel at={ts([33.5, 40.0])} text={emp >= 3.6 ? 'TURKEY' : 'OTTOMAN EMPIRE'} size={40} opacity={emp < 3.3 || emp >= 3.6 ? 1 : 0.3} />
             {emp < 1.6 && ns < 1.5 && <SafeLabel at={ts([18.6, 47.4])} text="AUSTRIA-HUNGARY" size={40} opacity={(1 - seg(emp, 1.2, 1.6)) * (1 - seg(ns, 0.8, 1.5))} />}
             {(p.details ?? 0) > 0 && (
               <g opacity={p.details}>
@@ -943,8 +943,8 @@ export const MapEurope1919: React.FC<Europe1919Props> = (p) => {
             )}
             {(p.note ?? 0) > 0 && (
               <g opacity={p.note}>
-                <rect x={W - 70 - 560} y={790} width={560} height={74} rx={12} fill="#F5EFDF" stroke={ink} strokeWidth={5} />
-                <text x={W - 70 - 280} y={840} textAnchor="middle" fontFamily={FONT.sans} fontWeight={900} fontSize={38} fill={ink}>BORDERS APPROXIMATE</text>
+                <rect x={W - 70 - 560} y={40} width={560} height={74} rx={12} fill="#F5EFDF" stroke={ink} strokeWidth={5} />
+                <text x={W - 70 - 280} y={90} textAnchor="middle" fontFamily={FONT.sans} fontWeight={900} fontSize={38} fill={ink}>BORDERS APPROXIMATE</text>
               </g>
             )}
           </g>

@@ -53,8 +53,8 @@ export const MapVersailles: React.FC<{f: number; cues?: Partial<Cues>; inset?: b
             return (
               <g key={i} opacity={o}>
                 {dp && <circle cx={dp[0]} cy={dp[1]} r={11} fill={L.color} stroke={C.red} strokeWidth={4} />}
-                <MapLabel at={p} text={L.label} size={26} />
-                <MapLabel at={p} dy={28} text={`→ ${L.owner}`} size={22} weight={800} color={C.darkRed} />
+                <MapLabel at={p} text={L.label} size={36} />
+                <MapLabel at={p} dy={38} text={`→ ${L.owner}`} size={32} weight={800} color={C.darkRed} />
               </g>
             );
           })}

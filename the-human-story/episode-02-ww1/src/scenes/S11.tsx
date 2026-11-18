@@ -399,7 +399,7 @@ export const S11Overlay: React.FC = () => (
     <DateCard at={abs(686.2)} until={T[6] - 4} date="28 JUNE 1919" title="TREATY OF VERSAILLES" sub="five years to the day after Sarajevo" />
     <GTag at={abs(686.4)} until={abs(689.6)} x={600} y={590} text="ALLIED DELEGATES" />
     <GTag at={abs(689.8)} until={abs(693.0)} x={1180} y={500} text="GERMAN DELEGATION" />
-    <ListLabel at={abs(694.7)} until={T[7] - 4} lines={['LAND AND ALL COLONIES LOST', '"WAR GUILT" CLAUSE', 'REPARATIONS', 'ARMY STRICTLY LIMITED']} x={1860} y={590} stagger={45} size={36} />
+    <ListLabel at={abs(694.7)} until={T[7] - 4} lines={['LAND AND ALL COLONIES LOST', '"WAR GUILT" CLAUSE', 'REPARATIONS', 'ARMY STRICTLY LIMITED']} x={1860} y={110} stagger={45} size={36} />
     <EndCardWW1 at={T[8] + 8} />
   </g>
 );
