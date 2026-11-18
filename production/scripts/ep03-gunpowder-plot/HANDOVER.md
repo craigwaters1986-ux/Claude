@@ -1,52 +1,108 @@
-# Episode 3 production handover
+# The Human Story · Episode 3 handover
+Updated 18 November 2026 · The Gunpowder Plot: The Letter That Changed the Fifth of November
 
-## Working preference
-Remind the user to start a fresh chat with this handover at the end of each production stage, and sooner if the chat gets long. Update this file first. Use targeted file reads and avoid repeatedly reading the full conversation or studio documentation. Scheduled background checks are unnecessary for this conversational preference.
+## Start here
 
-## Project
-The Human Story, Episode 3, The Gunpowder Plot. Target 12:00, 1920×1080, 30 fps. Engine at the-human-story/episode-03-gunpowder-plot. Repository branch claude/trusting-ritchie-6pgxw7. Publish manually after approval.
+Attach this handover and the original `episode-03-handover.bundle` to a fresh chat. Say: “Continue The Human Story Episode 3 from the attached handover. Work through the next production stage and update the handover before you finish. Show me the finished episode and publishing pack for approval.”
 
-## Decisions
-Keep series stick figures, palette and top-left logo. User requested better text clearance, more natural movement, visible hair on women and richer staging close to existing style. Parish street sample demonstrates caption band, planted steps, a woman with a bun and motivated gestures.
-User approved the revised 37-second bm_george narrator sample. Use speed 0.99, connected sentence groups and 0.21-second group gaps.
+**Finish condition.** Deliver a reviewable 12:00 H.264/AAC MP4 at 1920×1080, 30 fps, with thumbnail, upload-ready subtitles, publishing copy and QC notes. Craig publishes manually after final review.
 
-## Files
-- production/scripts/ep03-gunpowder-plot/episode-03-script.md
-- production/scripts/ep03-gunpowder-plot/production-notes.md
-- production/audio/ep03-gunpowder-plot/voice-direction.md
-- production/reports/approvals/ep03-gunpowder-plot/narrator-sample.md
-- Engine research/episode-draft.json, scripts/voice_sample.py and src/scenes/ParishStreet.tsx.
+**Next action.** Check for the full narration WAV and group audit in the current checkout. If they are absent, regenerate them with the command below. Listen for names and delivery, then edit the recording and storyboard together to reach 12:00. The only implemented animation is the eight-second silent ParishStreet sample.
 
-## Start here in the next chat
+**How to use context.** Read this section first, then open the specific files for the stage in progress. Use the machine-readable script and audit for text and timings. Open only the sections or lines needed. Preserve decisions and verification in this document rather than carrying chat history into the next session.
 
-**Copy/paste:** “Continue The Human Story Episode 3 from this handover. Carry forward the approvals and work autonomously through the next production stage. Show me the finished episode for approval before I publish it.”
+## Restore the source
 
-Use the existing checkout if available. Its former absolute path was `/workspace/scratch/9f6f6ca06ba6/Claude`. In a fresh workspace, clone `https://github.com/craigwaters1986-ux/Claude.git` and import the accompanying incremental Git bundle. The remote branch predates the Episode 3 work. After cloning, run `git bundle verify /path/to/episode-03-handover.bundle`, then `git fetch /path/to/episode-03-handover.bundle HEAD:refs/heads/episode-03-handover` and `git switch episode-03-handover`. Keep generated audio, weights and video out of Git.
+The original attachment is an incremental Git bundle. A direct clone of the bundle fails because it needs the GitHub repository's base commit. The following recovery was verified in a fresh workspace.
 
-## How to make decisions without stopping
+```bash
+git clone https://github.com/craigwaters1986-ux/Claude.git Claude
+cd Claude
+git bundle verify /absolute/path/to/episode-03-handover.bundle
+git fetch /absolute/path/to/episode-03-handover.bundle HEAD:refs/heads/episode-03-handover
+git switch episode-03-handover
+```
 
-- Choose routine shot design, scene order within chapters, cast details, caption placement, music levels, technical fixes, naming and timing adjustments. Make reversible changes and keep moving. Fix issues you find and rerender the affected section.
-- The sample voice is approved. Do not ask the user to choose a voice, speed, engine or animation style again. The parish clip is the working visual reference. The next conversation can develop the remaining scenes immediately.
-- Keep the documentary historically grounded. Use the existing source trail, verify new historical claims as needed and distinguish unknowns from established facts. For disputed pronunciation use evidence when available, and record unresolved choices in QC. Preserve the historical spellings in text and captions.
-- Ask only for an actual scope change, a decision genuinely needed to proceed, or an external publishing/destructive action. Work on everything else while waiting. Give the user a reviewable MP4 and pack before requesting final approval. Publishing is manual.
-- At each major milestone update this handover, note what is verified, then remind the user that a fresh chat can resume from it. Use the handover and relevant files instead of traversing the whole conversation.
+| Identifier | Value |
+| --- | --- |
+| Original handover commit | `d857bdb4a5f47e1c7b7d83216a7f607ff596992c` |
+| Required base commit | `f9f6f636230e4a863724896ba1a865581ec25c9f` |
+| Original bundle SHA-256 | `c865c329ff98acad1033cd46c73ad7ff32d6fe03600a8bb33503fee060dd15f0` |
+| Engine | `the-human-story/episode-03-gunpowder-plot` |
+| Production script directory | `production/scripts/ep03-gunpowder-plot` |
 
-## Latest verified checkpoint
+If the updated branch `episode-03-handover` is available on origin, use it directly. If restoring only from the original bundle, apply the browser portability fix below as needed. The restored commit has the approved voice settings and visual sample. The handover references a standalone narrator approval report that is absent from the checkout. The approval is recorded explicitly in the original `HANDOVER.md`.
 
-The full raw voice render finished. `output/full-voice/narration-draft.wav` is **564.360708 seconds (9:24.36)**. The accompanying `narration-draft-audit.json` records text, phonemes and raw start/end times for 29 groups. These outputs are local and ignored by Git. The full audio has not had a continuous listening or name QC pass. The renderer and narrator sample approval are included in the bundle. The approved sample was 37 seconds. The parish proof was 8 seconds and silent.
+## Established decisions
 
-One timing implication matters: the rough chapter durations in the script are editorial targets, not recording timestamps. The raw voice is about 2:36 short of twelve minutes. Reconcile this with justified visual beats and additional verified narrative where needed. Do not slow the whole voice or pad chapter ends with dead air. Keep the approved connected delivery and lock clock timing after the narrative edit.
+- Keep the series stick figures, muted palette, ink outlines and top-left logo. Keep x < 170 and y < 150 clear around the logo. Picture and labels stay above y=916 when captions are active. Check moving labels against faces, props and the longest cues.
+- Follow the parish proof for naturally motivated gestures and planted feet. Lead reactions with gaze, then head and weight shift, then the arm. Give recurring women visible hair or a visible hairline under period headwear. The parish woman has a chestnut bun.
+- Craig approved the revised 37-second British Kokoro `bm_george` sample. Use connected sentence groups, speed 0.99, 0.21 seconds between groups and 0.34 seconds between sections. The draft JSON's `baseSpeed` is older metadata. The renderer uses the approved speed.
+- Keep historical spelling in captions. Distinguish what the surviving documents show from speculation about who wrote the letter. Use non-graphic depictions. Make routine editorial and production decisions without another approval round. Ask for final approval with the finished review deliverables.
 
-## Restart commands and dependencies
+## Narration restart and QC
 
-- Video engine: install from the engine directory with `npm ci`, then validate with `npx tsc --noEmit`. Package scripts include `npm run studio` and `npm run sample`. Set `REMOTION_BROWSER` to a valid Chrome Headless Shell path if the default browser path is absent. Set `TMPDIR` to a writable scratch directory when needed. Only the parish comp exists so far. Add a full episode composition and render in resumable chunks if resource limits require.
-- Voice: use the tested Python 3.12 environment with CPU PyTorch, Kokoro 0.9.4, soundfile, phonemizer and espeakng-loader. In the original scratch workspace the Python is `voice-pt/bin/python` and the assets directory is `voice-assets`. On a new machine the model files are `config.json`, `kokoro-v1_0.pth` and `voices/bm_george.pt` from the official hexgrad/Kokoro-82M repository. Place the voice pack at `bm_george.pt` beside the weights and config. Use the local PyTorch runtime, with HF_HUB_OFFLINE and TRANSFORMERS_OFFLINE set to 1 for rendering.
-- From the engine directory use `python scripts/voice_sample.py --assets /path/to/voice-assets --output output/full-voice --episode research/episode-draft.json`. Use a new output directory when the text, pronunciation, rate or grouping changes. The per-phrase cache is positional and otherwise can reuse old audio.
+The prior workspace measured the raw draft at 564.360708 seconds across 29 groups. The WAV and audit were ignored by Git and absent from the fresh checkout. A same-settings rebuild was started on 18 November. Confirm its actual outputs and duration before using that measurement for timing. Finishing a render does not establish pronunciation or listening QC.
 
-## Remaining production sequence
+From the engine directory, install and run with Python 3.12. Put the environment and weights beside the repository, with `../../..` pointing to that parent. The CPU backend keeps this on PyTorch and uses local model files.
 
-1. Review the pronunciation audit, resolve the remaining names where possible and check the actual rendered speech. The voice direction lists Catesby, Fawkes, Warwickshire, Hoxton and Salisbury overrides. Monteagle, Knyvett, Holbeach, Cecil, Tresham and Ralph Ewens still need attention. Cambridge gives the British place-name Holbeach as HOL-beach. Treat applicability to the Staffordshire house as a separate check.
-2. Lock edited narration, chapter markers and captions from the actual audio. Use the letter, Commons Journal and thanksgiving law as recurring visual anchors. Depict the conspiracy and arrest at a historical level. Use non-graphic visuals for sensitive events.
-3. Extend the parish sample into scene-specific animation. Reuse its logo, caption band, character rigs and anchored steps. Plan reactions through gaze, weight shift and gesture. Give women visible period hair or a visible hairline under headwear. Leave captions and the logo their own space. Check labels throughout camera moves against the longest caption.
-4. Render the episode to 12:00 at 1920×1080, 30 fps, H.264 with AAC. Verify duration, caption sync, title and label clearance, motion, audio balance and silence. Watch and listen where possible and distinguish visual samples from continuous playback.
-5. Supply the MP4, thumbnail, upload-ready subtitles, publishing copy and QC notes. Ask for final approval at that point.
+```bash
+uv venv ../../../voice-pt
+uv pip install --python ../../../voice-pt/bin/python --torch-backend cpu \
+  kokoro==0.9.4 torch==2.15.0+cpu soundfile==0.14.0 phonemizer==3.6.0 espeakng-loader==0.2.4
+mkdir -p ../../../voice-assets
+for item in config.json kokoro-v1_0.pth voices/bm_george.pt; do
+  curl -fL --retry 2 "https://huggingface.co/hexgrad/Kokoro-82M/resolve/main/$item" \
+    -o "../../../voice-assets/${item##*/}" || break
+done
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 ../../../voice-pt/bin/python scripts/voice_sample.py \
+  --assets ../../../voice-assets --output output/full-voice \
+  --episode research/episode-draft.json > ../../../full-voice.log 2>&1
+```
+
+| Model file | SHA-256 of the copy used in the rebuild |
+| --- | --- |
+| `config.json` | `5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f` |
+| `kokoro-v1_0.pth` | `496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4` |
+| `bm_george.pt` | `f1bc812213dc59774769e5c80004b13eeb79bd78130b11b2d7f934542dab811b` |
+
+Resume an interrupted render in the same output directory only with identical inputs and settings. The cache uses numbered phrase WAVs. Use a fresh output directory whenever text, grouping, pronunciation, speed, model or voice settings change. Check the log and existing files before launching another process. The complete render writes `output/full-voice/narration-draft.wav` and `narration-draft-audit.json`; the audit records the text, phonemes, time boundaries and section for each phrase group. Group timings are useful for the edit, but individual caption cues need alignment to the recorded words.
+
+Existing phoneme overrides cover Catesby, Guy Fawkes, Warwickshire, Hoxton and Salisbury. Listen to Monteagle, Knyvett, Holbeach House, Cecil, Tresham and Ralph Ewens. Cambridge gives UK Cecil as /ˈses.əl/. Its Holbeach entry is for the place name, so confirm the Staffordshire house separately if possible. Record choices and evidence where available, and label unresolved pronunciations. Inspect audio from the rendered groups before deciding to change an override.
+
+## Edit and picture
+
+Use the source trail in `production-notes.md` whenever factual copy changes. The three central records are the Monteagle letter, Commons Journal and annual thanksgiving law. The approximate 2:36 gap between the raw read and the twelve-minute target needs motivated visual sequences and, where needed, verified narrative. Preserve delivery speed and fit the edit to an actual measured timeline. Establish chapter markers after recording, then time captions and picture to the locked edit.
+
+| Chapter | Visual anchors for the next storyboard pass |
+| --- | --- |
+| A letter meant for the fire | Anonymous letter opens the film. Establish the absence of a signature and the warning to miss Parliament. |
+| A new king | Distinguish the two crowns, then take the story down to street level with the parish family and church bell. |
+| The man behind the plot | Establish Catesby and Fawkes in separate shots. Use Parliament and the Midlands to explain the stakes at a historical level. |
+| Ten days before Parliament | Show the letter moving from Monteagle to Cecil. Return to the surviving page and treat authorship as unresolved. |
+| Two names in the record | Transition from Westminster to the Commons Journal. Let the viewer read “Johnson” before connecting the name to Fawkes. |
+| After the arrest | Track the investigation and flight across a map. Use documents for the interrogation and aftermath. |
+| Who had to answer for it? | Stage the trial and its consequences through the courtroom, oath and household. |
+| How a date became a tradition | Move from the act and church reading to commemoration, then return to the surviving letter. |
+
+## Build and verify
+
+| File | Purpose |
+| --- | --- |
+| `production/scripts/ep03-gunpowder-plot/episode-03-script.md` | Editorial script and provisional chapter timings |
+| `production/scripts/ep03-gunpowder-plot/production-notes.md` | Visual direction and research trail |
+| `production/audio/ep03-gunpowder-plot/voice-direction.md` | Approved voice direction and pronunciation reference links |
+| `research/episode-draft.json` under the engine | Eight sections and renderer narration input |
+| `scripts/voice_sample.py` under the engine | Sample and full voice renderer |
+| `src/index.tsx` and `src/scenes/ParishStreet.tsx` under the engine | Composition entry and existing staging reference |
+| `src/components/CaptionBand.tsx`, `ChannelLogo.tsx` and `src/characters/` under the engine | Caption layout, branding and reusable figure rigs |
+
+`npm ci` and `npx tsc --noEmit` passed in the fresh checkout. System Chromium failed to launch because this runtime denies the socket operation it attempted. The original config hard-coded a Chrome Headless Shell path that this workspace did not have. For portability, call `Config.setBrowserExecutable(process.env.REMOTION_BROWSER)` only when that environment variable is set. Otherwise let Remotion manage its supported browser. Use a writable `TMPDIR` and set `REMOTION_BROWSER` to a known compatible binary if automatic setup is unavailable. Render a parish still at frame 140 and the full 240-frame proof before relying on a new renderer for the episode.
+
+Build the remaining compositions using the existing rigs. Render and QC in chunks if needed. Check final codec, dimensions, 30 fps and 720.000-second duration with ffprobe. Verify caption sync and clearance, character motion, labels, levels and silence, and watch and listen in full before calling the episode ready. Keep generated media, model weights and dependency folders out of Git.
+
+## Maintain this checkpoint automatically
+
+Update this document at each production milestone and before ending a session. Put the next actionable step and current verification at the top. Replace obsolete in-progress notes once a result is verified. Record the source revision, file locations, exact restart commands, outstanding decisions and any non-reproducible media that must travel with the handover. Keep the full reference detail here and the chat summary short.
+
+Commit the source handover with related changes on the dedicated episode branch and push it when authenticated Git access is available. Keep a current copy of this document available to attach to the next chat. If Git push is unavailable, provide a verified incremental bundle containing the new source changes whenever this handover alone cannot reproduce them. Mention the fresh-chat option at each milestone.
