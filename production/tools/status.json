@@ -1039,17 +1039,36 @@
           "id": "assembly",
           "agent": "video-editor",
           "task": "Assemble timeline and preview renders",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "narration",
             "characters",
             "environments",
             "music-sfx"
           ],
-          "deliverables": [],
-          "issues": [],
-          "next": "Relaunched 2026-11-18 (old container ended): editor A builds S03-S05 (stubs); editor B builds S09-S11 (still ep01 copies). Done: Episode.tsx, render.sh, S01, S02, S06-S08",
-          "updated": "2026-11-18 04:11"
+          "deliverables": [
+            "the-human-story/episode-02-ww1/src/scenes/Episode.tsx",
+            "the-human-story/episode-02-ww1/scripts/render.sh",
+            "production/reports/handoffs/ep02-ww1/12-video-editor-assembly-a.md",
+            "production/reports/handoffs/ep02-ww1/12-video-editor-assembly-b.md",
+            "production/reports/handoffs/ep02-ww1/HANDOVER-ep02-ww1.md"
+          ],
+          "issues": [
+            {
+              "text": "Motion unchecked (stills only): smoke test TEST=3300-3599 before full render",
+              "opened": "2026-11-18 04:33"
+            },
+            {
+              "text": "S11-07 Versailles map labels 22-26 px (< 36 px rule; library change)",
+              "opened": "2026-11-18 04:33"
+            },
+            {
+              "text": "Minor overlaps: S06-02 ANZACS card vs GALLIPOLI label ~5 s; S11-03 BORDERS APPROXIMATE vs TURKEY; S10-01 FRANCE label into caption band",
+              "opened": "2026-11-18 04:33"
+            }
+          ],
+          "next": "Minor issues carried to final QC. Phase D next: smoke test -> full render",
+          "updated": "2026-11-18 04:34"
         },
         {
           "id": "final-render",
@@ -1061,8 +1080,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-16 21:02"
+          "next": "Ready: bash scripts/render.sh (see HANDOVER-ep02-ww1.md)",
+          "updated": "2026-11-18 04:33"
         },
         {
           "id": "final-qc",
