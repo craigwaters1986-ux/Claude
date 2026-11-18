@@ -121,6 +121,7 @@ export const S04: React.FC = () => (
             <Frame bg="#3A2E28">
               <rect width={1920} height={1080} fill="#3A2E28" />
               <Particles f={f} kind="dust" n={30} seed={6} />
+              <Cam f={f} keys={[[0, 1.0, 960, 480], [d, 1.12, 960, 470]]}>
               <Portrait x={620} y={430} id="tresham" f={f} s={1.1} t={prog(f, 0, 16) * (1 - 0.6 * prog(f, tNo, tNo + 20))} label="FRANCIS TRESHAM" sub="suspected at the time" expression="worried" />
               <Portrait x={1300} y={430} id="monteagle" f={f} s={1.1} t={prog(f, tFam - 10, tFam + 6) * (1 - 0.6 * prog(f, tNo, tNo + 20))} label="LORD MONTEAGLE" sub="his brother-in-law" />
               <path d={`M760,330 H${760 + 400 * prog(f, tFam, tFam + 20)}`} stroke="#E3C77A" strokeWidth={6} strokeDasharray="14 10" />
@@ -129,6 +130,7 @@ export const S04: React.FC = () => (
                 <rect x={560} y={760} width={800} height={90} rx={10} fill="#F1E6CB" stroke={INK} strokeWidth={5} />
                 <text x={960} y={818} textAnchor="middle" fontFamily={FONT.sans} fontWeight={900} fontSize={36} fill={INK}>THE WRITER IS STILL UNKNOWN</text>
               </g>
+              </Cam>
             </Frame>
           );
         },

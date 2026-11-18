@@ -42,9 +42,10 @@ CH = [c['start_ms'] / 1000 for c in plan['chapters']]
 
 
 def cue(phrase, edge=0):
-    p = phrase.lower()
+    norm = lambda x: x.lower().replace('’', "'").replace('\n', ' ')
+    p = norm(phrase)
     for a, b, t in CUES:
-        if p in t.lower().replace('’', "'").replace('\n', ' '):
+        if p in norm(t):
             return a if edge == 0 else b
     raise KeyError(phrase)
 
@@ -268,7 +269,12 @@ def main():
     os.makedirs(os.path.join(ENG, 'public', 'audio'), exist_ok=True)
     os.makedirs(os.path.join(ENG, 'output'), exist_ok=True)
     nar = narration()
-    mus = compose()
+    cache = os.path.join(ENG, 'output', 'music-stem.npy')
+    if os.path.exists(cache) and os.environ.get('REUSE_MUSIC'):
+        mus = np.load(cache)
+    else:
+        mus = compose()
+        np.save(cache, mus.astype(np.float32))
     duck = duck_curve()
     musd = mus * duck[:, None]
     fx = np.zeros((N + ns(10), 2))

@@ -81,7 +81,7 @@ const OathShot: React.FC<{f: number; d: number}> = ({f, d}) => (
         <BoardTable x={820} y={790} w={360} cloth="#5A3A2A" h={80} />
         <g transform="translate(1000,760)"><rect x={-60} y={-24} width={120} height={36} fill="#EFE2C2" stroke={INK} strokeWidth={3} /></g>
         <Person id="examiner" x={1300} y={846} dir={-1} scale={1.3} f={f} seed={6} pose={seated(f, 6)} look={[-0.6, 0]} expression="cold" />
-        <Person id="father" x={640} y={846} scale={1.35} f={f} seed={2} pose={addPose(standStiff(f, 2), {shR: 150 * prog(f, 20, 40), elR: 10})} look={[0.6, -0.1]} expression="solemn" head={{hat: 'none'}} />
+        <Person id="father" x={640} y={846} scale={1.35} f={f} seed={2} pose={addPose(standStiff(f, 2), {shR: 105 * prog(f, 20, 40), elR: 60 * prog(f, 20, 40)})} nearArmFront look={[0.6, -0.1]} expression="solemn" head={{hat: 'none'}} />
       </>
     )}
   </RoomShot>

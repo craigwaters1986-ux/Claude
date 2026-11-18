@@ -126,6 +126,7 @@ const Fates: React.FC<{f: number; d: number; grey: number; empty?: number; only?
     <Frame bg="#2A2420">
       <rect width={1920} height={1080} fill="#2E2622" />
       <Particles f={f} kind="dust" n={30} seed={8} />
+      <Cam f={f} keys={[[0, 1.0, only ? (only === 'fawkes' ? 1200 : 720) : 960, 480], [d, only ? 1.15 : 1.08, only === 'fawkes' ? 1440 : only ? 480 : 960, 470]]}>
       {ids.map((id, i) => {
         const x = 240 + i * 360;
         const g = id === 'fawkes' ? 0 : prog(f, grey + i * 6, grey + i * 6 + 20);
@@ -138,6 +139,7 @@ const Fates: React.FC<{f: number; d: number; grey: number; empty?: number; only?
           </g>
         );
       })}
+      </Cam>
     </Frame>
   );
 };

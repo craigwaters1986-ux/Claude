@@ -46,10 +46,11 @@ const CrownsMap: React.FC<{f: number; d: number; at: number}> = ({f, d, at}) => 
           </g>
         )}
         {f > tCath - 4 && Array.from({length: 7}, (_, i) => {
-          const x = ld[0] - 360 + i * 70, y = ld[1] + 190;
+          const [cx0, cy0] = proj([-2.9, 52.3])!;
+          const x = cx0 - 180 + i * 62, y = cy0 + 40;
           return <Person key={i} id={i % 3 === 0 ? 'mother' : i % 3 === 1 ? 'father' : 'neighbour'} x={x} y={y} scale={0.5} f={f + i * 9} seed={i} pose={stand(f, i)} look={[0.3, -0.8]} expression="curious" opacity={prog(f, tCath + i * 3, tCath + i * 3 + 10)} />;
         })}
-        {f > tCath && <GroupTag x={ld[0] - 150} y={ld[1] + 210} text="ENGLAND’S CATHOLICS" opacity={prog(f, tCath + 20, tCath + 34)} scale={0.9} />}
+        {f > tCath && <GroupTag x={proj([-2.9, 52.3])![0] + 6} y={proj([-2.9, 52.3])![1] - 120} text="ENGLAND’S CATHOLICS" opacity={prog(f, tCath + 20, tCath + 34)} scale={0.9} />}
       </Cam>
       <Vignette strength={0.3} />
     </Frame>
@@ -120,10 +121,12 @@ export const S02: React.FC = () => (
             <Frame bg="#2E2622">
               <rect width={1920} height={1080} fill="#3A2E28" />
               <Particles f={f} kind="dust" n={30} seed={4} />
+              <Cam f={f} keys={[[0, 1.0, 960, 480], [d, 1.1, 960, 460]]}>
               <Portrait x={640} y={430} id="mary" f={f} s={1.15} t={prog(f, 0, 16)} label="MARY, QUEEN OF SCOTS" sub="Catholic" />
               <path d={`M820,430 H${820 + 280 * prog(f, 20, 40)}`} stroke="#E3C77A" strokeWidth={8} strokeLinecap="round" />
               <path d="M1080,430 l-24,-16 v32Z" fill="#E3C77A" opacity={prog(f, 36, 42)} />
               <Portrait x={1280} y={430} id="james" f={f} s={1.15} t={prog(f, 26, 42)} label="JAMES VI AND I" sub={f > t2 ? 'raised Protestant' : 'her son'} />
+              </Cam>
             </Frame>
           );
         },
