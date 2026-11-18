@@ -1048,8 +1048,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "Running: editor A (Episode.tsx, kit, render.sh, S01-S05) + editor B (S06-S11) in parallel",
-          "updated": "2026-11-17 20:32"
+          "next": "Relaunched 2026-11-18 (old container ended): editor A builds S03-S05 (stubs); editor B builds S09-S11 (still ep01 copies). Done: Episode.tsx, render.sh, S01, S02, S06-S08",
+          "updated": "2026-11-18 04:11"
         },
         {
           "id": "final-render",
