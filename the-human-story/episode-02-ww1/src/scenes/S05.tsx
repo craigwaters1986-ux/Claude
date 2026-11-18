@@ -239,7 +239,7 @@ const PostsShot: React.FC<{f: number}> = ({f}) => {
   const fog = prog(f, PARDON, PARDON + 50);
   return (
     <Shot f={f} bg="#C9CCC6" keys={ck([T4, 1.1, 760, 600], [PARDON, 1.12, 1000, 580], [PARDON + 60, 1.25, 1250, 700], [END, 1.26, 1250, 705])} sombre={0.7} vignette={0.5} drift={0.5}>
-      <rect x={-400} y={-300} width={3000} height={980} fill="#D6D6CE" />
+      <rect x={-400} y={-300} width={3000} height={980} fill="#A7ABAC" />
       <rect x={-400} y={600} width={3000} height={900} fill="#8E9282" />
       <GroundMist f={f * 0.6} y0={560} y1={680} amount={1} />
       {/* a single row of plain posts receding into the mist */}
@@ -278,7 +278,7 @@ export const S05Overlay: React.FC = () => {
       <FactPill at={sx(266.3)} until={sx(270.0)} text="A FEW DAYS AT A TIME" x={1860} y={440} anchor="end" size={42} />
       <TermCard at={sx(276.5)} until={sx(280.5)} term="TRENCH FOOT" meaning="feet swollen and rotting after long hours in cold water" />
       <DateCard at={sx(284.9)} until={sx(290.5)} date="APRIL 1915" title="YPRES" sub="first large-scale gas attack" />
-      <FactPill at={sx(294.1)} until={sx(298.8)} text="FEARED MORE THAN IT KILLED" x={1860} y={380} anchor="end" size={42} />
+      <FactPill at={sx(294.1)} until={sx(298.8)} text="FEARED MORE THAN IT KILLED" x={1860} y={560} anchor="end" size={42} />
       <FactPill at={sx(300.2)} until={sx(308.1)} text="SHELL SHOCK: ABOUT 80,000 RECORDED CASES · BRITISH ARMY" sub="many more unrecorded" x={1860} y={340} anchor="end" size={38} maxW={700} />
       {/* held to the end of the section: s06 fades in over it (slow fade out of the executions card) */}
       <MemorialCard
