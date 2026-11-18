@@ -77,11 +77,12 @@ export const Ticker: React.FC<{at: number; until: number; items: string[]; stagg
   );
 };
 
-/** Pocket watch close-up (diegetic clock face). minutes = minutes past 10 o'clock (60 = 11:00). */
+/** Pocket watch close-up (diegetic clock face). minutes = minutes past 10 o'clock (60 = 11:00).
+ *  f drives the small seconds hand at real speed (6° per second; pass f relative to the full minute). */
 export const PocketWatch: React.FC<{x: number; y: number; r: number; minutes: number; f: number}> = ({x, y, r, minutes, f}) => {
   const mAng = (minutes / 60) * 360;
   const hAng = 300 + (minutes / 60) * 30;
-  const sAng = (f * 12) % 360;
+  const sAng = (((f / 30) * 6) % 360 + 360) % 360;
   return (
     <g transform={`translate(${x},${y})`}>
       <circle cx={0} cy={-r - 26} r={22} fill="none" stroke="#B8962E" strokeWidth={9} />
@@ -333,6 +334,82 @@ export const EndCardWW1: React.FC<{at: number}> = ({at}) => {
         <rect x={-330} y={-110} width={660} height={372} rx={14} fill="none" stroke={C.dustyYellow} strokeWidth={6} />
         <rect x={-310} y={-90} width={620} height={332} rx={8} fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth={3} strokeDasharray="14 10" />
       </g>
+    </g>
+  );
+};
+
+/** Whip pan between two full-frame scenes (p 0..1): A slides out left, B slides in from the right, with motion streaks. */
+export const WhipPan: React.FC<{p: number; a: React.ReactNode; b: React.ReactNode; f: number}> = ({p, a, b, f}) => {
+  const k = easeInOut(clamp(p));
+  const streak = Math.sin(Math.PI * k);
+  return (
+    <g>
+      {k < 1 && <g transform={`translate(${-k * W * 1.15},0)`}>{a}</g>}
+      {k > 0 && <g transform={`translate(${(1 - k) * W * 1.15},0)`}>{b}</g>}
+      {streak > 0.02 && (
+        <g opacity={streak * 0.85}>
+          <rect x={-200} y={-200} width={W + 400} height={H + 400} fill="#E8E2D2" opacity={0.35} />
+          {Array.from({length: 26}).map((_, i) => (
+            <rect key={i} x={((i * 377 + f * 90) % (W + 800)) - 400} y={(i * 131) % H} width={300 + (i % 4) * 140} height={6 + (i % 3) * 5} rx={4} fill={i % 2 ? '#FFFFFF' : '#5A5448'} opacity={0.5} />
+          ))}
+        </g>
+      )}
+    </g>
+  );
+};
+
+/** Quotation card (overlay, section-local frames): lines fade in at their own times, plus a small credit line.
+ *  Light text on a soft dark band, centred; slow fades, no bounce (sombre). */
+export const QuoteCard: React.FC<{at: number; until: number; lines: {text: string; at: number}[]; credit?: string; creditAt?: number; y?: number; size?: number}> = ({at, until, lines, credit, creditAt, y = 330, size = 46}) => {
+  const f = useCurrentFrame();
+  if (f < at - 1 || f > until + 1) return null;
+  const op = prog(f, at, at + 30) * (1 - prog(f, until - 30, until));
+  const lh = size * 1.45;
+  const cs = 34;
+  const h = lines.length * lh + (credit ? cs * 1.9 : 0) + 70;
+  const tw = Math.max(...lines.map((l) => measureW(l.text, size, 800)), credit ? measureW(credit, cs, 700) : 0) + 120;
+  return (
+    <g opacity={op}>
+      <rect x={W / 2 - tw / 2} y={y - size - 28} width={tw} height={h} rx={18} fill="#14161C" opacity={0.62} />
+      {lines.map((l, i) => (
+        <text key={i} x={W / 2} y={y + i * lh} textAnchor="middle" fontFamily={FONT.serif} fontWeight={700} fontStyle="italic" fontSize={size} fill="#F4EBD6" opacity={prog(f, l.at, l.at + 30)}>
+          {l.text}
+        </text>
+      ))}
+      {credit && (
+        <text x={W / 2} y={y + (lines.length - 1) * lh + cs * 2} textAnchor="middle" fontFamily={FONT.sans} fontWeight={700} fontSize={cs} fill="#E3C77A" opacity={prog(f, creditAt ?? at, (creditAt ?? at) + 30)}>
+          {credit}
+        </text>
+      )}
+    </g>
+  );
+};
+
+/** Vertical list in one paper panel (overlay, section-local): lines appear in turn; calm fades, no bounce. */
+export const ListLabel: React.FC<{at: number; until: number; lines: string[]; x: number; y: number; stagger: number; size?: number; anchor?: 'start' | 'middle' | 'end'}> = ({at, until, lines, x, y, stagger, size = 36, anchor = 'end'}) => {
+  const f = useCurrentFrame();
+  if (f < at - 1 || f > until + 1) return null;
+  const op = prog(f, at, at + 12) * (1 - prog(f, until - 12, until));
+  const lh = size * 1.45;
+  const w = Math.max(...lines.map((l) => measureW(l, size, 800))) + 110;
+  const h = lines.length * lh + size * 0.9;
+  let x0 = anchor === 'middle' ? x - w / 2 : anchor === 'end' ? x - w : x;
+  x0 = Math.max(40, Math.min(W - 40 - w, x0));
+  return (
+    <g opacity={op} transform={`translate(${x0},${y})`}>
+      <rect x={6} y={7} width={w} height={h} rx={14} fill="rgba(0,0,0,0.3)" />
+      <rect width={w} height={h} rx={14} fill="#F4EBD6" stroke={ink} strokeWidth={4.5} />
+      {lines.map((l, i) => {
+        const o = prog(f, at + i * stagger, at + i * stagger + 12);
+        return (
+          <g key={i} opacity={o}>
+            <rect x={30} y={size * 0.62 + i * lh} width={14} height={14} rx={3} fill={C.darkRed} />
+            <text x={62} y={size * 1.18 + i * lh} fontFamily={FONT.sans} fontWeight={800} fontSize={size} fill={ink}>
+              {l}
+            </text>
+          </g>
+        );
+      })}
     </g>
   );
 };

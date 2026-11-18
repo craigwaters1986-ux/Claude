@@ -9,6 +9,9 @@ import {loadFonts} from '../../components/Fonts';
 import {S06Picture, S06Overlay} from '../S06';
 import {S07Picture, S07Overlay} from '../S07';
 import {S08Picture, S08Overlay} from '../S08';
+import {S09Picture, S09Overlay} from '../S09';
+import {S10Picture, S10Overlay} from '../S10';
+import {S11Picture, S11Overlay} from '../S11';
 
 loadFonts();
 
@@ -17,6 +20,9 @@ const SECS: Sec[] = [
   {id: 's06', start: 320, end: 390, P: S06Picture, O: S06Overlay, ch: [5, 'A World War']},
   {id: 's07', start: 390, end: 450, P: S07Picture, O: S07Overlay, ch: [6, '1916: Verdun and the Somme']},
   {id: 's08', start: 450, end: 500, P: S08Picture, O: S08Overlay, ch: [7, 'The Home Front']},
+  {id: 's09', start: 500, end: 560, P: S09Picture, O: S09Overlay, ch: [8, '1917: The Turning Year']},
+  {id: 's10', start: 560, end: 620, P: S10Picture, O: S10Overlay, ch: [9, '1918: The Last Battles']},
+  {id: 's11', start: 620, end: 720, P: S11Picture, O: S11Overlay, ch: [10, 'The Cost and the Legacy']},
 ];
 
 const Pic: React.FC<{P: React.FC<{f: number}>}> = ({P}) => {
