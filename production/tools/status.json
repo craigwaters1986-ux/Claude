@@ -1139,6 +1139,17 @@
           ],
           "next": "mix.wav ready for render",
           "updated": "2026-11-17 20:47"
+        },
+        {
+          "id": "audio-rebuild-2",
+          "agent": "audio-engineer",
+          "task": "Rebuild git-ignored render audio (mix.wav) again in the 2026-11-18 container; verify vs measurements",
+          "status": "IN PROGRESS",
+          "depends": [],
+          "deliverables": [],
+          "issues": [],
+          "next": "Running",
+          "updated": "2026-11-18 04:12"
         }
       ]
     }
