@@ -59,7 +59,7 @@ cd the-human-story/episode-02-ww1
 npm ci --no-audit --no-fund
 
 pip install kokoro-onnx==0.6.1 onnxruntime==1.29.0 numpy==2.5.3 soundfile==0.14.0 scipy==1.18.1
-mkdir -p /opt/tts && cd /opt/tts            # the scripts look for the model here; if you use another folder, change the path in scripts/tts.py
+mkdir -p /opt/tts && cd /opt/tts            # or any folder: then run  export KOKORO_DIR=/that/folder  before tts.py
 B=https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main
 curl -sSLo model.onnx $B/onnx/model.onnx && curl -sSLo bm_george.bin $B/voices/bm_george.bin
 python3 -c "import numpy as np; np.savez('voices.npz', bm_george=np.fromfile('bm_george.bin', dtype=np.float32).reshape(-1,1,256))" && mv voices.npz voices.bin
