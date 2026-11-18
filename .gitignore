@@ -10,3 +10,7 @@ the-human-story/episode-01-ww2/public/sfx/
 # live render logs (Lean mode v2 #17)
 production/video/*/render.log
 production/video/*/render-console.log
+
+# Episode 3 final render (230 MB, over the GitHub file limit; travels in the checkpoint / is sent directly)
+production/exports/ep03-gunpowder-plot/*.mp4
+production/exports/ep03-gunpowder-plot/*.zip

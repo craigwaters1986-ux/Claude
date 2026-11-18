@@ -1,48 +1,77 @@
 # The Human Story · Episode 3 handover
-Updated 18 November 2026 (milestone 2: narration review and locked edit plan) · The Gunpowder Plot: The Letter That Changed the Fifth of November
+Updated 18 November 2026 (milestone 3: full animation, mix and review package) · The Gunpowder Plot: The Letter That Changed the Fifth of November
 
 ## Start here
 
-Attach this handover and `episode-03-checkpoint.zip` to a fresh chat. Say: “Continue The Human Story Episode 3 from the attached handover. Work through the next production stage and update the handover before you finish. Show me the finished episode and publishing pack for approval.”
+Attach this handover (and, only if the final MP4 is needed again, `episode-03-checkpoint.zip`) to a fresh chat. Say: “Continue The Human Story Episode 3 from the attached handover.”
 
-**Finish condition.** Deliver a reviewable 12:00 H.264/AAC MP4 at 1920×1080, 30 fps, with thumbnail, upload-ready subtitles, publishing copy and QC notes. Craig publishes manually after final review.
+**Status: finished review package delivered (milestone 3, 18 November 2026). Waiting for Craig's listen and approval.** Nothing has been uploaded or published.
 
-**Next action.** The next stage is the full animation and mix, and it needs a workspace that can install packages. The session that wrote this milestone had no network for pip or npm, no `torch`, `kokoro` or voice weights, and no `node_modules`, so no audio or video could be rendered. In a workspace with network access, in this order:
-1. Optional but recommended: re-render group 14 for the Knyvett fix (see "Milestone 2 status" below), then re-run `tools/build_plan.py`.
-2. Listen through `media/narration-draft.wav` once at normal speed, checking the groups named in `production/audio/ep03-gunpowder-plot/pronunciation-log.md`.
-3. Build the full composition from `production/scripts/ep03-gunpowder-plot/edit-plan.json` (beats, group offsets and chapter starts) with the captions in `captions-provisional.srt`.
+**Next action (Craig).**
+1. Watch and listen to `production/exports/ep03-gunpowder-plot/episode-03-gunpowder-plot-1080p.mp4` once at normal speed. Listen especially for Monteagle, Tresham, Holbeach House and Ralph Ewens (see `production/audio/ep03-gunpowder-plot/pronunciation-log.md`).
+2. Approve, or list changes. On approval, record Approval 4 and follow `production/exports/ep03-gunpowder-plot/youtube/publishing-checklist.md`.
 
-## Milestone 2 status (18 November 2026)
+**If changes are asked for (next session):** picture changes are code changes under `the-human-story/episode-03-gunpowder-plot/src/scenes/S0n.tsx`. Re-render only the affected 60-second chunks (`output/chunks/cNN.mp4`; delete them and run `bash scripts/render.sh video`, then `bash scripts/render.sh mux`). A pronunciation change needs a re-render of the affected group with `--groups-from`, `tools/build_plan.py`, `tools/align_captions.py`, `scripts/timeline.py`, `scripts/audio.py`, a full video re-render (shot times follow the captions) and a mux. Commands are below.
+
+## Milestone 3 status (18 November 2026)
+
+**Deliverables**
+
+| File | What |
+| --- | --- |
+| `production/exports/ep03-gunpowder-plot/episode-03-gunpowder-plot-1080p.mp4` | Final review render, 12:00, H.264/AAC (not in Git: 230 MB; SHA-256 `746b5f4e…3364600`). Also in the checkpoint zip |
+| `production/exports/ep03-gunpowder-plot/episode-03-subtitles.srt` | Upload-ready subtitles, 181 cues, aligned to the words |
+| `production/exports/ep03-gunpowder-plot/youtube/` | `publishing-pack.md` (description, chapters, sources, credits, content note), `title-options.md`, `keywords.md`, `chapters.txt`, `thumbnail.jpg` + brief, `publishing-checklist.md` |
+| `production/reports/qc/ep03-gunpowder-plot/qc-final-render-2026-11-18.md` | QC notes and measurements; `ffprobe-report.txt` |
+| `production/audio/ep03-gunpowder-plot/episode-03-mix-listen.mp3` | 96 kb/s listen copy of the final mix |
 
 **Verified this session**
-- The checkpoint extracted and every file in `SHA256SUMS` passed. The saved source revision is `01c313b36a2e76b130270538fdcec51aba7ec78f`.
-- `narration-draft.wav` is mono, 24 kHz, 16-bit PCM and exactly 564.368 s, matching the audit. Mean level −24.6 dB, peak −6.8 dB. No silence longer than 0.60 s.
-- The locked picture plan totals 720.000 s: the 564.368 s narration plus 155.632 s of silent picture beats, built by `tools/build_plan.py`. The script asserts that each section ends exactly on its window boundary and the total is 720.000 s. Beats only sit before a section's first group, between groups or after its last, and every group is whole sentences, so no sentence is cut.
-- Captions: 181 cues, none over two lines of 42 characters or longer than 6 s. Cue timings follow the real pauses in the audio (157 of 166 expected pauses matched). They are provisional until someone checks them against the finished picture, because no forced aligner was available. Years are written as digits (1604, 1605, 1606) as the voice direction asks.
+- The checkpoint passed `SHA256SUMS`. The bundle restored onto `f9f6f63`, and the milestone-2 files were applied from `source/` (the patch's `source/` path prefix doesn't apply cleanly).
+- Knyvett: group 14 re-rendered (`nˈɪvɪts`), 21.021 s. A shorter phoneme string had moved a sentence between groups 14 and 15, so `voice_sample.py` gained `--groups-from AUDIT.json`, which pins the audited grouping. The other 28 groups are bit-identical. Narration is now **564.299 s**, plan re-run (silent beats 155.701 s), total still 720.000 s.
+- Captions re-timed to faster-whisper word timestamps (`tools/align_captions.py`; report `captions-alignment-report.json`, 96.9% of words matched). Checked on the final mix by spot recognition.
+- Source check “decided to go on, 3 November”: kept. A search summary of the UK Parliament timeline puts the accusation of Tresham on 1–2 November and the decision to continue on 3 November. parliament.uk refuses automated fetches (HTTP 403), so open the page in a browser once if you want the primary wording.
+- Final file: 720.000 s, 21,600 frames, 1920×1080, 30 fps, H.264 High; AAC 48 kHz stereo; −14.0 LUFS, −1.3 dBFS true peak; no black frames, no freezes ≥ 2.5 s, no silence ≥ 1.5 s. Full table in the QC report.
 
-**Changed**
-- `scripts/voice_sample.py` now overrides Knyvett and Knyvett’s (NIV-it). The draft WAV in the checkpoint still has the old NY-vet reading in group 14, so **the WAV is stale for that one group**.
-- New: `tools/seed-phrase-cache.py` (cuts the WAV into the renderer's phrase cache, bit-identical, so only changed groups need rendering), `tools/build_plan.py`, `edit-plan.json`, `edit-plan.md`, `chapters.txt`, `captions-provisional.srt`, and `production/audio/ep03-gunpowder-plot/pronunciation-log.md`.
-- Git: no authenticated checkout was reachable. The bundle is unchanged and does **not** contain these changes. They are in `source/` and in `patches/2026-11-18-milestone-2.patch`; apply the patch with `git apply` on the `episode-03-handover` branch and commit.
+**Decisions taken (routine, no approval round)**
+- Captions are burnt in (series band) *and* supplied as SRT. Leave YouTube CC off by default.
+- The Commons Journal note is shown as a summarised panel (“the prisoner: Johnson, servant to Thomas Percy”), not as a transcription, to avoid presenting unverified manuscript wording. The only readable quotation is “a terrible blow”.
+- Chapter cards number s02–s08 as Chapters 1–7; s01 is the cold open. YouTube chapters list all eight sections from 00:00.
+- Torture, the Holbeach attack and the executions are never shown (Tower in rain; figures from behind; a date card over a greyed Old Palace Yard). Effigies are faceless straw figures.
+- Music and SFX are original and synthesised by `scripts/audio.py` (D minor, the five-note “letter motif” in piano; D major for the bonfires). Music drops to a drone under the torture and execution lines.
 
-**Re-render for Knyvett (fast path)**
+**Outstanding**
+- Nobody has listened yet. Monteagle, Tresham, Holbeach (the recogniser hears HOLE-beech) and Ewens are unresolved.
+- Approval 4 and publishing are Craig's.
+
+## Milestone 3 build and restart
+
+Engine: `the-human-story/episode-03-gunpowder-plot`. Everything runs from a fresh clone of branch `claude/epic-mccarthy-8szsrf` (pushed) plus the narration WAV and audit in the checkpoint (`media/narration-draft.wav`, `media/narration-draft-audit.json`, the Knyvett re-render). The voice environment is not needed unless the narration changes.
+
 ```bash
-# from the checkpoint root; use the same absolute path in both commands
-python3 tools/seed-phrase-cache.py media/narration-draft-audit.json media/narration-draft.wav /absolute/path/full-voice-k --skip 14
-# from the engine directory, with the voice environment from "Narration restart and QC":
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 ../../../voice-pt/bin/python scripts/voice_sample.py \
-  --assets ../../../voice-assets --output /absolute/path/full-voice-k --episode research/episode-draft.json
-python3 tools/build_plan.py <new audit.json> <new narration-draft.wav> source/production/scripts/ep03-gunpowder-plot
+cd the-human-story/episode-03-gunpowder-plot
+npm ci && npx tsc --noEmit
+uv venv --python 3.12 ../../../audio-py && uv pip install --python ../../../audio-py/bin/python numpy scipy soundfile
+# timeline for the composition (captions + plan -> src/timeline/timeline.json)
+python3 scripts/timeline.py ../../production/scripts/ep03-gunpowder-plot/captions-aligned.srt
+# sound: narration on the timeline + score + SFX + master -> public/audio/mix.wav (about 20 min; REUSE_MUSIC=1 reuses output/music-stem.npy)
+../../../audio-py/bin/python scripts/audio.py /absolute/path/to/narration-dir   # holds narration-draft.wav + audit
+# picture: 12 resumable chunks (about 2 min each at concurrency 4), then mux
+bash scripts/render.sh video && bash scripts/render.sh mux     # -> output/episode-03-gunpowder-plot.mp4
+node scripts/stills.mjs /tmp/stills 300 4500 9000              # quick PNG stills (SCALE=1 for full size, COMP=Thumbnail for the thumbnail)
 ```
-Check that the new group 14 has a similar length. The plan absorbs any change in the last silent beat of that section.
 
-**Outstanding decisions and checks**
-- Nobody has listened to the recording. Craig or the next session should listen to the groups in the pronunciation log. Monteagle, Tresham, Holbeach House and Ralph Ewens are unresolved: no pronunciation source was found, so they stay on the default reading until heard.
-- Source check: the script says the plotters decided to go on on 3 November. A secondary source agrees, but the UK Parliament chronology lists a conspirators' meeting on 26 October instead. Check the Parliament pages before final copy. The 7 and 8 November Holbeche dates in the script match the Parliament chronology.
-- The 155.632 s of silent beats is about a quarter of the film. Where a beat feels thin on screen, the cheapest fix is source-checked narration of 20 to 30 words in that slot. That needs a fresh render and a new run of `build_plan.py`, since the beat then shrinks by the narration's length.
-- Approval and publishing stay with Craig after the finished review package.
+Narration change (one group N):
+```bash
+python3 ../../tools/seed-phrase-cache.py OLD_AUDIT OLD_WAV NEW_DIR --skip N
+HF_HUB_OFFLINE=1 ../../../voice-pt/bin/python scripts/voice_sample.py --assets ../../../voice-assets --output NEW_DIR \
+  --episode research/episode-draft.json --groups-from OLD_AUDIT
+python3 ../../tools/build_plan.py NEW_DIR/narration-draft-audit.json NEW_DIR/narration-draft.wav ../../production/scripts/ep03-gunpowder-plot
+# word alignment: faster-whisper small.en word timestamps on a 16 kHz copy -> words.json, then
+python3 ../../tools/align_captions.py words.json ../../production/scripts/ep03-gunpowder-plot/edit-plan.json \
+  ../../production/scripts/ep03-gunpowder-plot/captions-provisional.srt ../../production/scripts/ep03-gunpowder-plot/captions-aligned.srt report.json
+```
 
-**How to use context.** Read this section first, then open the specific files for the stage in progress. Use the machine-readable script and audit for text and timings. Open only the sections or lines needed. Preserve decisions and verification in this document rather than carrying chat history into the next session.
+Composition map: `src/Episode.tsx` (sections, caption layer, logo); `src/scenes/S01.tsx`–`S08.tsx` (shots anchored to caption text with `T('phrase')`, so a script edit that breaks an anchor fails loudly); `src/scenes/sets.tsx` (reusable shots); `src/kit/` (Paper, Maps, Places, Cast, Cards, Shots); `src/scenes/Thumbnail.tsx`.
 
 ## Restore the source
 
@@ -64,6 +93,8 @@ git switch episode-03-handover
 | Engine | `the-human-story/episode-03-gunpowder-plot` |
 | Production script directory | `production/scripts/ep03-gunpowder-plot` |
 
+Milestone 3 is pushed to GitHub on branch `claude/epic-mccarthy-8szsrf` (it contains the restored episode-03 history). Clone that branch directly; the bundle steps below are only needed offline.
+
 If GitHub is unreachable, use `source/` inside the checkpoint as the project root for Episode 3. It preserves the engine and production paths. If using the original attachment as a fallback, apply the browser portability fix below as needed. The current handover branch was committed locally. GitHub push failed at the network proxy, so the companion bundle carries the current branch. The restored commit has the approved voice settings and visual sample. The handover references a standalone narrator approval report that is absent from the checkout. The approval is recorded explicitly in the original `HANDOVER.md`.
 
 ## Established decisions
@@ -75,7 +106,7 @@ If GitHub is unreachable, use `source/` inside the checkpoint as the project roo
 
 ## Narration restart and QC
 
-The regenerated draft is **564.368 seconds (9:24.368)** across 29 groups. The WAV is mono, 24 kHz, 16-bit PCM. All eight sections are present, the individual phrase lengths match the audit, and the assembled duration matches the audit plus its final 0.34-second gap. The previous workspace reported 564.360708 seconds. Use the included audit for this recording. Level and silence checks passed (milestone 2). Continuous listening is still pending, and the Knyvett reading in group 14 is known to be wrong.
+The regenerated draft is **564.368 seconds (9:24.368)** across 29 groups. The WAV is mono, 24 kHz, 16-bit PCM. All eight sections are present, the individual phrase lengths match the audit, and the assembled duration matches the audit plus its final 0.34-second gap. The previous workspace reported 564.360708 seconds. Use the included audit for this recording. Level and silence checks passed (milestone 2). Continuous listening is still pending. (Milestone 3: group 14 re-rendered with Knyvett fixed; total now 564.299 s; the checkpoint's `media/` holds the new WAV.)
 
 | Raw section | First speech (s) | Last speech (s) |
 | --- | ---: | ---: |
