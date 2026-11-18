@@ -223,3 +223,34 @@ Kokoro set up per voice bible with `kokoro-onnx==0.6.1`, onnxruntime 1.29.0, num
 
 Cause of the md5 difference: most likely a different onnxruntime/numpy build than the original container (the original pins were not recorded), which changes float inference at the sample level. Timings, duration and mix numbers are unchanged, so it is a perceptually equivalent re-synthesis, not a different read. Not re-attempted (the cache was warm, so a one-line pin change cannot be tested cheaply; cold rebuild is 8 min).
 `episode-02-mix-reference-listen.mp3` was restored from git (it is the approved v3 listen file; the rebuilt mix differs from it only at waveform level).
+
+---
+
+# Fresh-container rebuild 2 (2026-11-18, session 3)
+
+Mechanical rebuild of the git-ignored audio. `scripts/tts.py`, `sfx.py`, `music.py`, `mix.py` run unchanged, single process (`OMP_NUM_THREADS=1`), in that order. No script, text, narration.json, SRT, sfx-cues.json or `src/` change by this task.
+
+**Exact pinned environment (record for future rebuilds; identical to rebuild 1 where that was recorded):**
+Python 3.13.18; `pip install "kokoro-onnx==0.6.1" "onnxruntime==1.29.0" soundfile scipy` gives
+| Package | Version |
+|---|---|
+| kokoro-onnx | 0.6.1 |
+| onnxruntime | 1.29.0 |
+| numpy | 2.5.3 (pre-installed, not reinstalled) |
+| soundfile | 0.14.0 |
+| scipy | 1.18.1 |
+(also pulled in: phonemizer 3.6.0, espeakng-loader 0.2.4). Model files per the voice bible (onnx-community/Kokoro-82M-v1.0-ONNX `model.onnx` 325,532,232 bytes, `bm_george.bin` to `voices.bin`) in `/opt/tts`. tts.py cold: 10 min 17 s wall (single thread env).
+
+| Check | Result |
+|---|---|
+| Narration md5 | `b0ff08dc7c6fa39d7981b467a08c5df1`. Matches rebuild 1 (`b0ff08dc...`, **reproducible with these pins**). Differs from approved `b418917fa27030f633f680f593eeba7f` |
+| Narration format / duration | 48 kHz mono s16, 720.000000 s |
+| mix.wav | pcm_s16le, 48 kHz stereo, 720.000000 s |
+| Integrated loudness (ebur128) | -14.1 LUFS (loudnorm input -14.1) |
+| True peak | -1.5 dBTP |
+| LRA | 2.0 LU |
+| mix.py stats | master gain +7.99 dB, max GR 3.49 dB, speech-minus-music median 17.98 / p05 10.71 dB, narration-minus-(music+SFX) median 17.42 / p05 10.47 dB, 11 o'clock music+SFX -240 dB |
+| Outputs | `public/sfx/` 222 files, `public/audio/{narration,sfx,music,mix}.wav` |
+| git | no tracked changes from this task. `episode-02-mix-reference-listen.mp3` is rewritten by mix.py, so it was restored with `git checkout` (as in rebuild 1) |
+
+Conclusion: the b0ff08dc... narration is the stable output of kokoro-onnx 0.6.1 + onnxruntime 1.29.0 + numpy 2.5.3 on this platform; the approved b418917f... build used unrecorded different library builds. Timings and mix numbers are identical to the approved v3.

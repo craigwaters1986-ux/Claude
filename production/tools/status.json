@@ -1144,12 +1144,16 @@
           "id": "audio-rebuild-2",
           "agent": "audio-engineer",
           "task": "Rebuild git-ignored render audio (mix.wav) again in the 2026-11-18 container; verify vs measurements",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [],
-          "deliverables": [],
+          "deliverables": [
+            "the-human-story/episode-02-ww1/public/audio/mix.wav",
+            "production/reports/handoffs/ep02-ww1/13-audio-engineer-rebuild-2.md",
+            "production/audio/ep02-ww1/measurements.md"
+          ],
           "issues": [],
-          "next": "Running",
-          "updated": "2026-11-18 04:12"
+          "next": "mix.wav ready; versions pinned (narration md5 b0ff08dc reproducible)",
+          "updated": "2026-11-18 04:30"
         }
       ]
     }
