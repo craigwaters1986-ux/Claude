@@ -34,6 +34,7 @@ Pronunciation, pacing and breaks for the channel narrator. Written 19 November 2
 **Measured in the approved Episode 3 recording** (all pauses of 0.12 s or more at −40 dB, 288 in 9 min 24 s): median **0.33 s**, middle half 0.24–0.45 s, 95% under 0.52 s, longest 0.62 s. Nothing longer than 0.62 s inside the narration.
 
 Rules of thumb:
+
 - Never fill a chapter by stretching silences; the picture covers any gap.
 - No mid-word or mid-phrase cuts. Edits happen only at group boundaries.
 - Breaths stay as the voice makes them.
