@@ -14,3 +14,4 @@ production/video/*/render-console.log
 # Episode 3 final render (230 MB, over the GitHub file limit; travels in the checkpoint / is sent directly)
 production/exports/ep03-gunpowder-plot/*.mp4
 production/exports/ep03-gunpowder-plot/*.zip
+production/exports/ep03-gunpowder-plot/iphone-parts/
