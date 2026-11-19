@@ -2,7 +2,13 @@
 
 _Brief only; nothing rendered. Output 1280x720 JPG/PNG, < 2 MB, must read at phone size (about 160 px wide). Channel style per `production/characters/style-guide.md`: round white heads, thick black outlines, thin limbs, flat muted colours, slightly hand-drawn. No swastikas or other extremist symbols, no casualties, no atrocity or atomic-bomb imagery. Final choice is the user's. Files for the finished still go in `production/thumbnails/ep01-ww2/`._
 
-## Concept A (recommended): "HOW DID IT START?" (4 words)
+## Current thumbnail (Craig's choice, 2026-11-19): "WW2" with tanks and armed forces
+- Files: `production/thumbnails/ep01-ww2/thumbnail-ep01.jpg` / `.png` (1280×720), plus `thumbnail-ep01-160px.png` for the phone-size check. Rendered from the `ThumbnailWW2` still in `the-human-story/episode-01-ww2/src/scenes/ThumbnailWW2.tsx`.
+- Big white "WW2" with a black outline and drop shadow, "1939–1945" in gold on a dark red label, and "THE HUMAN STORY" top left.
+- Smoky dusk battlefield. A Soviet-marked and a US-marked tank advance, two RAF Spitfires (roundels) fly overhead, and British, American and Soviet soldiers advance with rifles at port arms. Allied forces only, so no Axis or extremist symbols; no casualties.
+- The previous thumbnail (Concept B, "1939 → 1945") is kept as `thumbnail-ep01-alt-1939-1945.*`, for an A/B test if wanted.
+
+## Concept A (recommended in the original brief, not built): "HOW DID IT START?" (4 words)
 - Left two-thirds: one large stick figure in 1939 civilian clothes (flat cap, plain coat), big white head, wide eyes, raised worried brows, looking up and right. Behind it, a simple flat map of Europe in muted greens, with one thin red arrow crossing into Poland.
 - Right third: dark slate band with the text in two lines, "HOW DID" / "IT START?", heavy white sans-serif (the episode's Montserrat 900) with a thick black outline. Text height at least 20% of frame.
 - Contrast: dark band against pale map; the single red arrow is the only saturated colour.
