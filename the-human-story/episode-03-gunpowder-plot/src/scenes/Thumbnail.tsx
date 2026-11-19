@@ -1,4 +1,4 @@
-// YouTube thumbnail (1280 x 720): the unsigned letter, a lantern-lit Guy Fawkes, and a short question.
+// YouTube thumbnail (1280 x 720): the unsigned letter, a lantern-lit Guy Fawkes, the title and the date.
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {Person} from '../kit/Cast';
@@ -20,13 +20,17 @@ export const Thumbnail: React.FC = () => (
       </defs>
       <rect width={1920} height={1080} fill="#2A1C14" />
       <rect width={1920} height={1080} fill="url(#glow)" />
-      <g transform="translate(1600,580) rotate(7)">
+      <g transform="translate(1640,580) rotate(7)">
         <Letter x={0} y={0} s={1.2} question={1} />
       </g>
-      <Person id="fawkes" x={1150} y={1260} scale={3.0} f={12} seed={4} pose={addPose(standStiff(12, 4), {shR: 80, elR: 40})} holdR={<Lantern f={12} />} look={[0.7, 0]} expression="worried" />
-      <text x={70} y={250} fontFamily={FONT.sans} fontWeight={900} fontSize={170} fill="#F4EBD6" stroke={C.ink} strokeWidth={14} paintOrder="stroke">1605</text>
-      <text x={70} y={420} fontFamily={FONT.sans} fontWeight={900} fontSize={108} fill="#F4EBD6" stroke={C.ink} strokeWidth={12} paintOrder="stroke">WHO SENT</text>
-      <text x={70} y={550} fontFamily={FONT.sans} fontWeight={900} fontSize={108} fill={C.dustyYellow} stroke={C.ink} strokeWidth={12} paintOrder="stroke">THE LETTER?</text>
+      <Person id="fawkes" x={1230} y={1260} scale={3.0} f={12} seed={4} pose={addPose(standStiff(12, 4), {shR: 80, elR: 40})} holdR={<Lantern f={12} />} look={[0.7, 0]} expression="worried" />
+      <text x={70} y={240} fontFamily={FONT.sans} fontWeight={900} fontSize={128} fill="#F4EBD6" stroke={C.ink} strokeWidth={14} paintOrder="stroke">THE</text>
+      <text x={70} y={390} fontFamily={FONT.sans} fontWeight={900} fontSize={128} fill="#F4EBD6" stroke={C.ink} strokeWidth={14} paintOrder="stroke">GUNPOWDER</text>
+      <text x={70} y={540} fontFamily={FONT.sans} fontWeight={900} fontSize={128} fill="#F4EBD6" stroke={C.ink} strokeWidth={14} paintOrder="stroke">PLOT</text>
+      <g transform="translate(70,610)">
+        <rect x={0} y={0} width={640} height={110} rx={14} fill={C.darkRed} stroke={C.ink} strokeWidth={8} />
+        <text x={320} y={78} textAnchor="middle" fontFamily={FONT.sans} fontWeight={900} fontSize={66} fill={C.dustyYellow} letterSpacing={2}>5 NOV 1605</text>
+      </g>
     </svg>
   </AbsoluteFill>
 );

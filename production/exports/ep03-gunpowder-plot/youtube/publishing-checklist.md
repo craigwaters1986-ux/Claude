@@ -8,7 +8,7 @@ Craig uploads and publishes manually. Nothing is uploaded, scheduled or publishe
 - [ ] Title chosen from `title-options.md`
 - [ ] Description pasted from `publishing-pack.md` (chapters start at 00:00)
 - [ ] Tags from `keywords.md`
-- [ ] Thumbnail `thumbnail.jpg` (1280 × 720, < 2 MB)
+- [ ] Thumbnail `thumbnail.jpg` (1280 × 720, < 2 MB; alternative `thumbnail-alt-who-sent-the-letter.jpg`)
 - [ ] Category: Education; language: English (UK); audience setting chosen by Craig
 - [ ] Altered or synthetic content disclosure: the narration is a synthetic voice (Kokoro-82M)
 - [ ] End screen and cards set; playlist chosen
