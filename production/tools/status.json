@@ -1185,9 +1185,9 @@
       "notes": "",
       "approvals": {
         "script": {
-          "state": "PENDING",
-          "updated": "2026-11-20 18:48",
-          "note": ""
+          "state": "APPROVED",
+          "updated": "2026-11-20 18:55",
+          "note": "Craig, 20 Nov 2026: approved, QC minor notes applied (rev1, 1,295 words)"
         },
         "style": {
           "state": "NOT REQUESTED"
@@ -1246,16 +1246,18 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "research"
           ],
           "deliverables": [
-            "production/scripts/ep05-lincoln/episode-05-script.md"
+            "production/scripts/ep05-lincoln/episode-05-script.md",
+            "production/scripts/ep04-lincoln/episode-04-script.md",
+            "production/scripts/ep04-lincoln/script-sources.md"
           ],
           "issues": [],
-          "next": "Craig approved; applying QC minor notes",
-          "updated": "2026-11-20 18:50"
+          "next": "Approved by Craig 20 Nov 2026 with QC minors applied (1,295 words)",
+          "updated": "2026-11-20 18:55"
         },
         {
           "id": "script-factcheck",

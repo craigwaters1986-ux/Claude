@@ -3,7 +3,7 @@ Written 20 November 2026 (Phase 0: brief and upgrade spec; renumbered from Episo
 
 ## Start here
 
-**Where things stand.** Phase A done (20 Nov 2026): research, 10:00 script and combined QC review exist. **Waiting for Craig's Approval 1 (script).** Next after approval: **Phase B** (prompt below).
+**Where things stand.** Phase A done (20 Nov 2026): research, 10:00 script and combined QC review exist. **Approval 1 (script) given by Craig on 20 Nov 2026**, with the QC minor notes applied (rev1, 1,295 words). Next: **Phase B** (prompt below).
 
 **How this episode runs (Lean mode, to save Craig's credits).** One fresh Claude session per phase. Each session:
 - starts from this file
@@ -179,3 +179,4 @@ Engine, kit, shot sequencer with `T('phrase')` caption anchors, caption band and
 - 20 Nov 2026: **duration changed to 10:00 (600 s) by Craig**; chapter windows rescaled above. (Dashboard duration set to 600 s with the new `status.py rename-episode` command.)
 - 20 Nov 2026, Phase 0 (this file): brief and upgrade spec written; dashboard episode `ep04-lincoln` created with the standard tasks. **Next: Phase A.**
 - 20 Nov 2026, **Phase A**: research `production/research/ep04-lincoln/research-notes.md` + `sources.md` (37 sources; LoC, UMich Collected Works, Britannica, Smithsonian, fords.org blocked automated fetches, so Collected Works texts came via Abraham Lincoln Online, cross-checked with NPS/NARA). Script `production/scripts/ep04-lincoln/episode-04-script.md` (1,300 spoken words, about 8:57 + 28 s beats) with claim map `script-sources.md`. Combined QC `production/reports/qc/ep04-lincoln/qc-script-2026-11-20.md`: PASS WITH FIXES; the one BLOCKING issue (House Divided line wrongly called the speech's opening) is fixed, as is the minor "Cooper Union in New York". 8 MINOR notes remain optional (schooling "by his own count", "1863" at Gettysburg, explaining "Bliss copy", Chapter 7 order and "their pay", Charleston quote context, Douglas/Douglass homophones, explaining *Our American Cousin* and Lee/Grant roles, 1922 seating claim MEDIUM confidence) plus chapters 3, 7, 8 and 9 running 1–2 s over their windows (fix in timing). Any wording change must stay within 1,300 words. **Next: Craig's Approval 1, then Phase B.**
+- 20 Nov 2026: **renumbered to Episode 4** (`ep04-lincoln`; the Titanic episode is shelved). **Approval 1 given**; script rev1 applies all QC minor notes, 1,295 spoken words. Changes: *Our American Cousin* called "a play" (genre not in the research notes); Grant is "the Union commander" (rank not in notes); the Gettysburg casualty estimate and the date of death moved from narration to on-screen date cards. `script.json` is built in Phase C. **Next: Phase B.**
