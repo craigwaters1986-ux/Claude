@@ -3,13 +3,15 @@ Written 20 November 2026 (Phase 0: brief and upgrade spec; renumbered from Episo
 
 ## Start here
 
-**Where things stand.** Phase A done (20 Nov 2026): research, 10:00 script and combined QC review exist. **Approval 1 (script) given by Craig on 20 Nov 2026**, with the QC minor notes applied (rev1, 1,295 words). Next: **Phase B** (prompt below).
+**Where things stand.** Phase B done (20 Nov 2026): engine upgrade, a 40 s test reel, a 60 s music test, a 66-shot storyboard and a music cue sheet. **Waiting for Craig's Approvals 2 (style) and 3 (storyboard)**, and his yes or no on the ElevenLabs music option. Then **Phase C** (prompt below). Phase B summary: `production/reports/handoffs/ep04-lincoln/phase-b-engine-style-storyboard.md`.
+
+**Branch.** Phase B work is on **`claude/clever-albattani-64lx7v`** (it contains all of `claude/epic-mccarthy-8szsrf` plus Phase B). Start Phase C from that branch.
 
 **How this episode runs (Lean mode, to save Craig's credits).** One fresh Claude session per phase. Each session:
 - starts from this file
 - does only its phase
 - updates this file's "Where things stand"
-- commits and pushes to branch `claude/epic-mccarthy-8szsrf`
+- commits and pushes to the session's branch (Phase B: `claude/clever-albattani-64lx7v`), and records the branch here
 - ends by giving Craig the **ready-to-paste prompt for the next phase**, and a link to a pre-created session if the session can create one
 
 Keep chats short; put detail here, not in chat. Subagents only where they save tokens. Model policy: see `CLAUDE.md`.
@@ -35,7 +37,7 @@ Approvals go through `python3 production/tools/status.py approval <checkpoint> -
 
 ### Prompt for Phase C
 
-> Director: continue ep04-lincoln Phase C (narration, captions, all scenes, score and mix) from `production/scripts/ep04-lincoln/HANDOVER.md`. Update the handover, push, and give me the prompt for Phase D.
+> Director: continue ep04-lincoln Phase C (narration, captions, all scenes, score and mix) from `production/scripts/ep04-lincoln/HANDOVER.md` on branch `claude/clever-albattani-64lx7v`. Approvals 2 and 3: [approved / changes: …]. ElevenLabs music: [no / yes]. Update the handover, push, and give me the prompt for Phase D.
 
 ### Prompt for Phase D
 
@@ -180,3 +182,19 @@ Engine, kit, shot sequencer with `T('phrase')` caption anchors, caption band and
 - 20 Nov 2026, Phase 0 (this file): brief and upgrade spec written; dashboard episode `ep04-lincoln` created with the standard tasks. **Next: Phase A.**
 - 20 Nov 2026, **Phase A**: research `production/research/ep04-lincoln/research-notes.md` + `sources.md` (37 sources; LoC, UMich Collected Works, Britannica, Smithsonian, fords.org blocked automated fetches, so Collected Works texts came via Abraham Lincoln Online, cross-checked with NPS/NARA). Script `production/scripts/ep04-lincoln/episode-04-script.md` (1,300 spoken words, about 8:57 + 28 s beats) with claim map `script-sources.md`. Combined QC `production/reports/qc/ep04-lincoln/qc-script-2026-11-20.md`: PASS WITH FIXES; the one BLOCKING issue (House Divided line wrongly called the speech's opening) is fixed, as is the minor "Cooper Union in New York". 8 MINOR notes remain optional (schooling "by his own count", "1863" at Gettysburg, explaining "Bliss copy", Chapter 7 order and "their pay", Charleston quote context, Douglas/Douglass homophones, explaining *Our American Cousin* and Lee/Grant roles, 1922 seating claim MEDIUM confidence) plus chapters 3, 7, 8 and 9 running 1–2 s over their windows (fix in timing). Any wording change must stay within 1,300 words. **Next: Craig's Approval 1, then Phase B.**
 - 20 Nov 2026: **renumbered to Episode 4** (`ep04-lincoln`; the Titanic episode is shelved). **Approval 1 given**; script rev1 applies all QC minor notes, 1,295 spoken words. Changes: *Our American Cousin* called "a play" (genre not in the research notes); Grant is "the Union commander" (rank not in notes); the Gettysburg casualty estimate and the date of death moved from narration to on-screen date cards. `script.json` is built in Phase C. **Next: Phase B.**
+- 20 Nov 2026, **Phase B** (branch `claude/clever-albattani-64lx7v`):
+  - **Engine** `the-human-story/episode-04-lincoln/`, copied from Episode 3 (no Titanic engine existed on any branch). New: `kit/Cinema.tsx` (parallax camera, depth of field, grades, rim light, light pools, god-rays, grain, title plates), `kit/Props.tsx` + `kit/Actions.ts` (grip points, two-hand IK, chopRail, grabCarry, writeAt, shakeHands, doffHat, page turns, expression timeline, irregular blinks), `kit/Seats.tsx` (hip on seat, feet on floor, sitDown/standUp), `kit/Bubbles.tsx`, `kit/Documents.tsx` + `timeline/documents.json` (11 exact sourced texts), Lincoln cast at six ages, new expressions/hats/beard/age lines in `Head.tsx`, `TALL` build, whip/iris/page transitions. Fonts Caveat, Libre Baskerville (OFL) and Special Elite (Apache 2.0) bundled; see `credits-fonts.md`.
+  - **Test reel** `production/exports/ep04-lincoln/phase-b/ep04-upgrade-test.mp4` (40.0 s, 1080p30, music under it) + contact sheet + `contact-report.json`. Contacts PASS (worst 1.22 px, limit 3 px, every frame measured by `scripts/check-contacts.mjs`); freezedetect n=0.003 d=1.5: nothing.
+  - **Music test** `…/phase-b/ep04-music-test.mp4` / `.m4a` (60.0 s, −14.0 LUFS, −1.2 dBTP): Lincoln theme (fiddle + piano → strings + horns), war build (ostinato, side drum, brass theme in minor, timpani, choir) to an impact at 45.3 s, quiet piano reprise. Script `scripts/music_test.py`.
+  - **Storyboard** `production/storyboards/ep04-lincoln/storyboard.md` (66 shots ≥ 6 s, each anchored to a script phrase for `T()`), **cue sheet** `music-cue-sheet.md`.
+  - Known gaps for Phase C: `rideHorse`, `polePushFlatboat`, `raiseFlag`, `pointAtMap` still to build; telegraph bubble untested (no sourced telegram text); coat-tail and hat-lag overlap motion not yet in; US state maps need us-atlas (ISC). Music checked by measurement only, not by ear.
+  - **Next: Craig's Approvals 2 + 3, then Phase C.**
+
+## Phase C notes (from Phase B)
+
+- Browser for Remotion here: `export REMOTION_BROWSER=$(ls -d /opt/pw-browsers/chromium_headless_shell-*/*/)chrome-headless-shell` (no `remotion browser ensure` needed). The 40 s reel rendered in about 2 minutes at concurrency 4.
+- Audio Python: `uv venv --python 3.12 ../audio-py && uv pip install --python ../audio-py/bin/python numpy scipy soundfile` (about 1 minute). Kokoro and faster-whisper still need the Episode 3 setup.
+- Build scenes the reel's way: a pure solver per shot (pose, props, camera, `checks`, `seats`) plus a drawing component. Add each new shot's solver to `check-contacts.mjs` so contact errors fail loudly.
+- Placement scales already include the cast scale: `Person scale = pl.scale / CAST[id].scale` (see `FigEl` in `UpgradeTest.tsx`).
+- Reach limits are real: adult arm 93 px × scale, Lincoln (TALL) 101 px × scale. Stage props within reach (the checker found three out-of-reach moments in the first pass).
+- `src/Episode.tsx` is a stub and `src/timeline/timeline.json` is still Episode 3's; Phase C replaces both from the narration, plan and captions.

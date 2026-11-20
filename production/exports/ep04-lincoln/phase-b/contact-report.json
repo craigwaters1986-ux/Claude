@@ -1,0 +1,70 @@
+{
+ "limitPx": 3,
+ "worstPx": 1.22,
+ "pass": true,
+ "shots": {
+  "woods": {
+   "frames": 150,
+   "contactFrames": 300,
+   "maxHandPx": 0,
+   "maxHandAt": "R axe @ f125",
+   "seatFrames": 0,
+   "maxHipPx": 0,
+   "maxFeetPx": 0
+  },
+  "cabin": {
+   "frames": 165,
+   "contactFrames": 238,
+   "maxHandPx": 0,
+   "maxHandAt": null,
+   "seatFrames": 165,
+   "maxHipPx": 0,
+   "maxFeetPx": 0
+  },
+  "write": {
+   "frames": 165,
+   "contactFrames": 330,
+   "maxHandPx": 0,
+   "maxHandAt": "R quill @ f63",
+   "seatFrames": 165,
+   "maxHipPx": 0,
+   "maxFeetPx": 0
+  },
+  "door": {
+   "frames": 180,
+   "contactFrames": 37,
+   "maxHandPx": 0,
+   "maxHandAt": null,
+   "seatFrames": 0,
+   "maxHipPx": 0,
+   "maxFeetPx": 0
+  },
+  "office": {
+   "frames": 165,
+   "contactFrames": 103,
+   "maxHandPx": 1.22,
+   "maxHandAt": "R hat @ f34",
+   "seatFrames": 83,
+   "maxHipPx": 0,
+   "maxFeetPx": 0
+  },
+  "reception": {
+   "frames": 240,
+   "contactFrames": 110,
+   "maxHandPx": 0,
+   "maxHandAt": "Lincoln hand @ f150",
+   "seatFrames": 0,
+   "maxHipPx": 0,
+   "maxFeetPx": 0
+  },
+  "street": {
+   "frames": 135,
+   "contactFrames": 0,
+   "maxHandPx": 0,
+   "maxHandAt": null,
+   "seatFrames": 0,
+   "maxHipPx": 0,
+   "maxFeetPx": 0
+  }
+ }
+}

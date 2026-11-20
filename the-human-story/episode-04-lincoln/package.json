@@ -1,0 +1,31 @@
+{
+  "name": "the-human-story-episode-03-gunpowder-plot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Human Story — The Gunpowder Plot",
+  "scripts": {
+    "studio": "remotion studio src/index.tsx",
+    "sample": "remotion render src/index.tsx ParishStreet output/parish-street.mp4"
+  },
+  "dependencies": {
+    "@fontsource/caveat": "^5.1.0",
+    "@fontsource/libre-baskerville": "^5.1.0",
+    "@fontsource/montserrat": "^5.1.0",
+    "@fontsource/playfair-display": "^5.1.0",
+    "@fontsource/special-elite": "^5.1.0",
+    "@remotion/cli": "4.0.543",
+    "@remotion/google-fonts": "4.0.543",
+    "d3-geo": "3.1.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.543",
+    "topojson-client": "3.1.0",
+    "world-atlas": "2.0.2"
+  },
+  "devDependencies": {
+    "@types/d3-geo": "3.1.0",
+    "@types/react": "18.3.12",
+    "@types/topojson-client": "3.1.5",
+    "typescript": "5.6.3"
+  }
+}

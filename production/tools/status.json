@@ -1190,10 +1190,14 @@
           "note": "Craig, 20 Nov 2026: approved, QC minor notes applied (rev1, 1,295 words)"
         },
         "style": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-20 19:46",
+          "note": "Test reel (40 s, contacts PASS) + 60 s music test, Phase B 20 Nov 2026"
         },
         "storyboard": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-20 19:43",
+          "note": "66-shot storyboard + music cue sheet, Phase B 20 Nov 2026"
         },
         "final-render": {
           "state": "NOT REQUESTED"
@@ -1291,14 +1295,18 @@
           "id": "style-sample",
           "agent": "animator",
           "task": "Character/animation style sample for approval",
-          "status": "NOT STARTED",
+          "status": "AWAITING REVIEW",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/exports/ep04-lincoln/phase-b/ep04-upgrade-test.mp4",
+            "production/exports/ep04-lincoln/phase-b/ep04-music-test.mp4",
+            "production/reports/handoffs/ep04-lincoln/phase-b-engine-style-storyboard.md"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Approval 2 (style) from Craig",
+          "updated": "2026-11-20 19:46"
         },
         {
           "id": "narration",
@@ -1317,14 +1325,17 @@
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "NOT STARTED",
+          "status": "AWAITING REVIEW",
           "depends": [
             "approval:script"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/storyboards/ep04-lincoln/storyboard.md",
+            "production/storyboards/ep04-lincoln/music-cue-sheet.md"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Approval 3 (storyboard) from Craig",
+          "updated": "2026-11-20 19:43"
         },
         {
           "id": "characters",

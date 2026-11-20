@@ -1,0 +1,92 @@
+[
+ {
+  "id": "bliss",
+  "title": "Gettysburg Address (Bliss copy, 1864)",
+  "hand": "lincoln",
+  "text": "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.\n\nNow we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.\n\nBut, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth.",
+  "sign": "Abraham Lincoln\nNovember 19, 1863",
+  "source": "S16 (Collected Works via Abraham Lincoln Online); research-notes Q1",
+  "transcribed": true
+ },
+ {
+  "id": "emancipation",
+  "title": "Emancipation Proclamation, 1 January 1863 (excerpt)",
+  "hand": "print",
+  "text": "I do order and declare that all persons held as slaves within said designated States, and parts of States, are, and henceforward shall be free;",
+  "source": "S12 (National Archives transcript); research-notes Q2",
+  "transcribed": true
+ },
+ {
+  "id": "houseDivided",
+  "title": "House Divided speech, 16 June 1858",
+  "hand": "print",
+  "text": "“A house divided against itself cannot stand.”\nI believe this government cannot endure, permanently half slave and half free.",
+  "source": "S9 (NPS Lincoln Home transcript); research-notes Q3",
+  "transcribed": true
+ },
+ {
+  "id": "secondInaugural",
+  "title": "Second Inaugural Address, 4 March 1865 (excerpt)",
+  "hand": "print",
+  "text": "With malice toward none; with charity for all; with firmness in the right, as God gives us to see the right, let us strive on to finish the work we are in; to bind up the nation’s wounds;",
+  "source": "S17 (Lincoln Memorial text, Collected Works punctuation); research-notes Q4",
+  "transcribed": true
+ },
+ {
+  "id": "hodges",
+  "title": "Letter to Albert G. Hodges, 4 April 1864 (excerpt)",
+  "hand": "lincoln",
+  "text": "I am naturally anti-slavery. If slavery is not wrong, nothing is wrong. I can not remember when I did not so think, and feel.",
+  "source": "S20 (Collected Works); research-notes Q5",
+  "transcribed": true
+ },
+ {
+  "id": "charleston",
+  "title": "Fourth debate, Charleston, Illinois, 18 September 1858 (excerpt)",
+  "hand": "print",
+  "text": "I am not, nor ever have been, in favor of bringing about in any way the social and political equality of the white and black races",
+  "source": "S10; research-notes Q6 (shortest safe excerpt)",
+  "transcribed": true
+ },
+ {
+  "id": "greeley",
+  "title": "Letter to Horace Greeley, 22 August 1862 (excerpt)",
+  "hand": "print",
+  "text": "My paramount object in this struggle is to save the Union, and is not either to save or to destroy slavery.",
+  "source": "S21 (Collected Works); research-notes Q7",
+  "transcribed": true
+ },
+ {
+  "id": "cooperUnion",
+  "title": "Cooper Union address, 27 February 1860 (excerpt)",
+  "hand": "print",
+  "text": "LET US HAVE FAITH THAT RIGHT MAKES MIGHT, AND IN THAT FAITH, LET US, TO THE END, DARE TO DO OUR DUTY AS WE UNDERSTAND IT.",
+  "source": "S11 (Collected Works capitals); research-notes Q8",
+  "transcribed": true
+ },
+ {
+  "id": "thirteenth",
+  "title": "Thirteenth Amendment, Section 1",
+  "hand": "print",
+  "text": "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction.",
+  "source": "S14; research-notes Q9",
+  "transcribed": true
+ },
+ {
+  "id": "epitaph",
+  "title": "Lincoln Memorial inscription",
+  "hand": "carved",
+  "text": "IN THIS TEMPLE\nAS IN THE HEARTS OF THE PEOPLE\nFOR WHOM HE SAVED THE UNION\nTHE MEMORY OF ABRAHAM LINCOLN\nIS ENSHRINED FOREVER",
+  "source": "S17; research-notes Q12",
+  "transcribed": true
+ },
+ {
+  "id": "schooling",
+  "title": "Autobiography, 1860 (excerpt)",
+  "hand": "lincoln",
+  "text": "A. now thinks that the agregate of all his schooling did not amount to one year.",
+  "source": "S2 (NPS transcription, Lincoln's spelling); research-notes Q10",
+  "transcribed": true,
+  "sic": "agregate"
+ }
+]
