@@ -20,6 +20,7 @@
     "react-dom": "18.3.1",
     "remotion": "4.0.543",
     "topojson-client": "3.1.0",
+    "us-atlas": "^3.0.1",
     "world-atlas": "2.0.2"
   },
   "devDependencies": {

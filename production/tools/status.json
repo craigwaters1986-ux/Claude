@@ -1295,7 +1295,7 @@
           "id": "style-sample",
           "agent": "animator",
           "task": "Character/animation style sample for approval",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
@@ -1305,27 +1305,31 @@
             "production/reports/handoffs/ep04-lincoln/phase-b-engine-style-storyboard.md"
           ],
           "issues": [],
-          "next": "Approval 2 (style) from Craig",
-          "updated": "2026-11-20 19:46"
+          "next": "Approved by Craig 20 Nov 2026",
+          "updated": "2026-11-20 20:18"
         },
         {
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "approval:script"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/audio/ep04-lincoln/narration-draft.flac",
+            "production/scripts/ep04-lincoln/captions-aligned.srt",
+            "production/scripts/ep04-lincoln/edit-plan.md"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "486.55 s, 27 groups; captions aligned (96.8%)",
+          "updated": "2026-11-20 20:18"
         },
         {
           "id": "storyboard",
           "agent": "storyboard",
           "task": "Timestamped storyboard + asset requests",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "approval:script"
           ],
@@ -1334,48 +1338,48 @@
             "production/storyboards/ep04-lincoln/music-cue-sheet.md"
           ],
           "issues": [],
-          "next": "Approval 3 (storyboard) from Craig",
-          "updated": "2026-11-20 19:43"
+          "next": "Approved by Craig 20 Nov 2026",
+          "updated": "2026-11-20 20:18"
         },
         {
           "id": "characters",
           "agent": "animator",
           "task": "Build characters and character animation",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:style",
             "approval:storyboard"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Phase C agents building",
+          "updated": "2026-11-20 20:18"
         },
         {
           "id": "environments",
           "agent": "environment-designer",
           "task": "Build environments, maps, vehicles, effects",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:storyboard"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Phase C agents building",
+          "updated": "2026-11-20 20:18"
         },
         {
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "storyboard"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Phase C agents building",
+          "updated": "2026-11-20 20:18"
         },
         {
           "id": "assembly",
