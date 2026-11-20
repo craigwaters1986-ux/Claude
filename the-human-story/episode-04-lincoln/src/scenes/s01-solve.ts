@@ -59,8 +59,8 @@ export function solve11(f: number): Solved {
   for (let g = 0; g <= S11_LEN; g += 6) {
     const ug = prog(g, 12, 182, (t) => t) * uEnd;
     const n = nibAt(L, Math.max(0, ug - 0.04));
-    const z = 2.7 + 0.9 * prog(g, 0, 60);
-    cam.push([g, z, n.x + 8, n.y - 8 + (1 - prog(g, 0, 50)) * -40]);
+    const z = 4.2 + 1.0 * prog(g, 0, 70);
+    cam.push([g, z, n.x + 40, n.y + 18]);
   }
   const ex = exprAt(f, [[0, 'thinking'], [30, 'determined']]);
   return {
@@ -101,7 +101,7 @@ export function solve14(f: number): Solved {
     figs: [{id: ID, pl, P, build, ex, look: f < 70 ? [0.8, 0.9] : [0.5, 0.4], noHat: true}],
     checks, seats: [seatChk(pl, P, build, S01_FLOOR - h)],
     quill: q, layout: L, done, seatH: h,
-    cam: [[0, 1.9, 830, 650], [60, 2.0, 840, 650], [130, 2.3, 830, 630]],
+    cam: [[0, 2.9, 830, 690], [60, 3.0, 830, 680], [130, 3.3, 815, 665]],
   };
 }
 

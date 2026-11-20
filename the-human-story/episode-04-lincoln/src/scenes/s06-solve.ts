@@ -64,8 +64,8 @@ export function solveGrace(f: number, d = 108): Solved {
   const u = prog(f, 8, d - 18, (t) => t);
   const writing = f >= 8 && f < d - 18;
   const nib = linesNib(SL.x + 8, SL.y + 14, SL.w - 16, 12, 3, u, f);
-  const lean = 14 + 18 * clamp((nib.x - SL.x) / SL.w);
-  const base = seatPose(pl, h, build, f, 21, {lean, hipR: 86, headTilt: 8});
+  const lean = 4 + 12 * clamp((nib.x - SL.x) / SL.w);
+  const base = seatPose(pl, h, build, f, 21, {lean, hipR: 86, headTilt: -4});
   const w = writeAt(f, pl, base, writing ? nib : {x: nib.x, y: nib.y - 8}, build, writing);
   const steady = {x: SL.x + 6, y: SL.y + SL.h - 10};
   const P = handsOn(pl, w.P, {L: steady}, build);
@@ -81,7 +81,7 @@ export function solveGrace(f: number, d = 108): Solved {
 
 // ---------------------------------------------------------------- 6.2b the letter on Lincoln's desk; the beard
 export const LETTER_FLOOR = 900;
-export const LETTER_DESK = {x: 1130, w: 300, h: 104};
+export const LETTER_DESK = {x: 1010, w: 300, h: 104};
 export function letterTimes() {
   const at = T('wrote to him about a beard');
   const swap = sf(T('he became the first President') - at) - 6;
@@ -96,11 +96,11 @@ export function solveLetter(f: number): Solved {
   const pl: Placement = {x: 860, y: LETTER_FLOOR, scale: s, dir: 1};
   const h = seatHeight(build, s);
   const deskTop = LETTER_FLOOR - LETTER_DESK.h;
-  const base = seatPose(pl, h, build, f, 23, {lean: 6, hipR: 86, headTilt: 4});
+  const grab = 40;
+  const base = seatPose(pl, h, build, f, 23, {lean: kf(f, [[0, 6], [grab - 16, 6], [grab, 24], [grab + 28, 6]]), hipR: 86, headTilt: 4});
   const sk = solveSkeleton(base, build);
   const read = localXf(pl, {x: sk.sh.x + 58, y: sk.sh.y + 22 + Math.sin(f / 28) * 1.2}, -4);
-  const rest: PropXf = {x: 1050, y: deskTop - 3, rot: 0, s};
-  const grab = 40;
+  const rest: PropXf = {x: 935, y: deskTop - 3, rot: 0, s};
   const xf = track(f, [[grab, rest], [grab + 8, {...rest, y: rest.y - 12}], [grab + 30, read], [d, read]]);
   const flat = 1 - prog(f, grab + 2, grab + 22);
   const spans: HoldSpan[] = [
@@ -116,7 +116,7 @@ export function solveLetter(f: number): Solved {
     checks: out.checks, seats: [seatChk(pl, out.P, build, LETTER_FLOOR - h)], letter: xf, flat, deskTop, seatH: h, read,
     cam: [
       [0, 3.4, rest.x, rest.y - 10], [34, 1.3, 960, 640], [grab + 40, 1.42, 950, 640],
-      [swap - 16, 6.2, read.x, read.y], [swap + 6, 6.2, read.x, read.y], [swap + 44, 1.55, 950, 620], [d, 1.68, 940, 600],
+      [swap - 16, 6.2, read.x, read.y], [swap + 6, 6.2, read.x, read.y], [swap + 44, 2.0, 920, 640], [d, 2.2, 910, 630],
     ] as CamKey[],
   };
 }

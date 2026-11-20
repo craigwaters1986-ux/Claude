@@ -265,8 +265,7 @@ export const Billet: React.FC<{x: number; y: number; f: number; at: number; s?: 
 export const Grave: React.FC<{x: number; floor: number; s?: number}> = ({x, floor, s = 1}) => (
   <g transform={`translate(${x},${floor}) scale(${s})`}>
     <path d="M-120,0 Q-100,-40 0,-44 Q100,-40 120,0Z" fill="#6A5A44" {...o(4)} />
-    <rect x={-10} y={-150} width={20} height={120} fill="#8A6A48" {...o(3.5)} />
-    <rect x={-40} y={-128} width={80} height={18} fill="#8A6A48" {...o(3.5)} />
+    <path d="M-26,-30 L-24,-112 Q0,-128 24,-112 L26,-30Z" fill="#8A8478" {...o(3.5)} />
     {[-70, -30, 40, 80].map((gx, i) => <path key={i} d={`M${gx},-10 l6,-14 l5,12`} stroke="#4E5A32" strokeWidth={3} fill="none" />)}
   </g>
 );

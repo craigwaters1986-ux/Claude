@@ -99,10 +99,10 @@ export function solveReception85(f: number): Solved {
   const bB = castBuild(bId);
   const plA: Placement = {x: 760, y: REC85_FLOOR, scale: castScale(aId), dir: 1};
   const w = walk04(f, 0, 52, 2.4, bB, 0.6);
-  const plB: Placement = {x: 1080 - w.d, y: REC85_FLOOR, scale: castScale(bId), dir: -1};
+  const plB: Placement = {x: 1130 - w.d, y: REC85_FLOOR, scale: castScale(bId), dir: -1};
   const baseA = mixPose(stand(f, 7), pose({lean: 14, hipL: -8, hipR: 8, kneeL: 4}), prog(f, 46, 66));
   const baseB = f < 52 ? w.P : mixPose(w.P, pose({lean: 10, hipL: -6, hipR: 6}), prog(f, 52, 68));
-  const meet = {x: plA.x + 0.6 * (plB.x - plA.x), y: 712};
+  const meet = {x: plA.x + 0.55 * (plB.x - plA.x), y: 712};
   const start = 80;
   const end = 150;
   let PA = baseA;
@@ -126,7 +126,7 @@ export function solveReception85(f: number): Solved {
       {id: bId, pl: plB, P: PB, build: bB, ex: exprAt(f, [[0, 'neutral'], [40, 'hopeful'], [80, 'happy'], [140, 'solemn']]), look: [-0.5, -0.3]},
     ],
     checks, seats: [],
-    cam: [[0, 1.05, 940, 560], [60, 1.25, 950, 600], [110, 1.6, 990, 570], [200, 1.7, 985, 565]],
+    cam: [[0, 1.05, 960, 560], [60, 1.2, 900, 600], [110, 1.45, 870, 590], [200, 1.55, 870, 585]],
   };
 }
 
@@ -161,7 +161,7 @@ export function solveAppomattox(f: number): Solved {
       {id: 'lee', pl: plB, P: PB, ex: exprAt(f, [[0, 'solemn'], [120, 'tired'], [210, 'solemn']]), tag: f > 40 && f < 172, look: [-0.6, 0.2]},
     ],
     checks, seats: [],
-    cam: [[0, 1.0, 960, 560], [120, 1.12, 960, 580], [290, 1.3, 960, 590]],
+    cam: [[0, 1.3, 960, 600], [120, 1.45, 960, 610], [290, 1.62, 960, 620]],
   };
 }
 

@@ -23,13 +23,13 @@ export function solveCorridor(f: number): Solved {
   return {
     figs: [{id, pl, P: {...P, bob: Math.sin(f / 26) * 1}, build}],
     checks: [], seats: [],
-    cam: [[0, 1.0, 960, 560], [240, 1.12, 900, 560]],
+    cam: [[0, 1.3, 860, 600], [240, 1.45, 830, 600]],
   };
 }
 
 // ---------------------------------------------------------------- 9.4b front parlour: Mary seated, Robert beside her
 export const PARLOUR_FLOOR = 880;
-export const SOFA_X = 800;
+export const SOFA_X = 860;
 export function solveParlour(f: number): Solved {
   const mId = 'maryMourning';
   const rId = 'robert';
@@ -41,7 +41,7 @@ export function solveParlour(f: number): Solved {
   // Mary: seated, hands in her lap, head slowly bowing; breathing only
   const PM = seatPose(plM, h, bM, f, 31, {lean: 10 + Math.sin(f / 40) * 1.2, hipR: 86, shL: 30, elL: 70, shR: 34, elR: 76, headTilt: kf(f, [[0, 6], [160, 14]])});
   // Robert: standing beside the sofa, head lowered, very still
-  const plR: Placement = {x: 1080, y: PARLOUR_FLOOR, scale: castScale(rId), dir: -1};
+  const plR: Placement = {x: 1150, y: PARLOUR_FLOOR, scale: castScale(rId), dir: -1};
   const PR = mixPose(stand(f, 33), pose({hipL: -4, hipR: 4, shL: -4, elL: 30, shR: 6, elR: 34, headTilt: 10 + noise1(f / 70, 4) * 2}), 0.8);
   const exM = exprAt(f, [[0, 'grief']]);
   const exR = exprAt(f, [[0, 'solemn'], [120, 'sad']]);
@@ -51,7 +51,7 @@ export function solveParlour(f: number): Solved {
       {id: rId, pl: plR, P: PR, build: bR, ex: exR, look: [0.6, 0.6], tag: true},
     ],
     checks: [], seats: [seatChk(plM, PM, bM, PARLOUR_FLOOR - h)], seatH: h,
-    cam: [[0, 1.0, 960, 560], [270, 1.35, 900, 600]],
+    cam: [[0, 1.45, 760, 680], [270, 1.62, 820, 690]],
   };
 }
 

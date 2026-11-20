@@ -15,7 +15,7 @@ const o = (w = 4) => ({stroke: ink, strokeWidth: w, strokeLinejoin: 'round' as c
 // ---------------------------------------------------------------- helpers
 const castS = (id: string) => CAST[id].scale ?? 1;
 /** A solver figure (placement already includes the cast scale). */
-export const FigEl: React.FC<{g: Fig; f: number; seed?: number; lod?: 'full' | 'low'; opacity?: number}> = ({g, f, seed = 1, lod, opacity}) => (
+export const FigEl: React.FC<{g: Fig; f: number; seed?: number; lod?: 'full' | 'low'; opacity?: number; labelSide?: 'top' | 'right' | 'left'}> = ({g, f, seed = 1, lod, opacity, labelSide}) => (
   <Person
     id={g.id}
     x={g.pl.x}
@@ -32,6 +32,7 @@ export const FigEl: React.FC<{g: Fig; f: number; seed?: number; lod?: 'full' | '
     eyesClosed={g.eyesClosed}
     lod={lod}
     opacity={opacity}
+    labelSide={labelSide}
     head={{...(g.ex ? {expression: g.ex.expression as never, exprFrom: g.ex.exprFrom as never, exprT: g.ex.exprT} : {}), ...(g.noHat ? {hat: 'none'} : {})}}
   />
 );
@@ -163,10 +164,6 @@ export const HouseChamber: React.FC<{f: number; lookUp?: number}> = ({f, lookUp 
     <rect x={760} y={500} width={400} height={70} fill="#EAE2D0" {...o(4)} />
     <rect x={680} y={540} width={560} height={28} fill="#CFC2A6" {...o(3)} />
     {Array.from({length: 5}, (_, i) => <rect key={i} x={730 + i * 96} y={600} width={70} height={180} rx={6} fill="none" stroke="#B8AC92" strokeWidth={3} />)}
-    {/* clerks at the rostrum */}
-    {[860, 1060].map((x, i) => (
-      <Person key={i} id="visitor" x={x} y={600} scale={0.62} f={f} seed={140 + i} lod="low" dir={i ? -1 : 1} head={{hat: 'none'}} look={[0, -0.8]} />
-    ))}
     <rect x={-700} y={820} width={3320} height={700} fill="#7A4A34" />
     <line x1={-700} y1={820} x2={2620} y2={820} stroke={ink} strokeWidth={5} />
   </g>

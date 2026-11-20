@@ -122,7 +122,7 @@ const Shot12: React.FC<{f: number; d: number}> = ({f, d}) => {
   // left clock: two hours pass (two turns of the minute hand); then the right clock: two minutes
   const spin = prog(f, 14, 96, easeInOut);
   const tick = prog(f, 104, 134, (t) => t);
-  const cam: [number, number, number, number][] = [[0, 1.0, 960, 470], [40, 1.02, 960, 480], [d, 1.55, RX - 40, 600]];
+  const cam: [number, number, number, number][] = [[0, 1.0, 960, 470], [40, 1.02, 960, 480], [d, 1.4, RX - 80, 520]];
   const grass = (seed: number) => Array.from({length: 26}, (_, i) => {
     const x = -700 + i * 130 + hash(i + seed) * 60;
     const sw = Math.sin(f / 22 + i * 0.7) * 6;
@@ -229,11 +229,19 @@ const Shot13: React.FC<{f: number; d: number}> = ({f, d}) => {
   // the framed page on a wall in a quiet room (pull back)
   const framed = (
     <g>
-      <rect x={-1200} y={-800} width={4320} height={2800} fill="#5E625A" />
-      {Array.from({length: 40}, (_, i) => <line key={i} x1={-1200 + i * 110} y1={-800} x2={-1200 + i * 110} y2={1300} stroke="#565A52" strokeWidth={3} />)}
-      <rect x={-1200} y={1300} width={4320} height={260} fill="#3E3A32" stroke={ink} strokeWidth={5} />
-      <rect x={-1200} y={1560} width={4320} height={900} fill="#4A3A2C" />
-      <g transform="translate(960,560)">
+      <rect x={-1200} y={-800} width={4320} height={1700} fill="#6E6A52" />
+      {Array.from({length: 40}, (_, i) => <line key={i} x1={-1200 + i * 110} y1={-800} x2={-1200 + i * 110} y2={900} stroke="#646048" strokeWidth={3} />)}
+      <rect x={-1200} y={900} width={4320} height={20} fill="#4A3A2A" stroke={ink} strokeWidth={4} />
+      <rect x={-1200} y={920} width={4320} height={500} fill="#4E3E2E" />
+      {Array.from({length: 22}, (_, i) => <rect key={i} x={-1160 + i * 200} y={950} width={160} height={200} rx={4} fill="#58463A" stroke="#2A1C14" strokeWidth={3} />)}
+      {[600, 1320].map((x) => (
+        <g key={x} transform={`translate(${x},420)`}>
+          <rect x={-8} y={0} width={16} height={60} fill="#9A7A3A" stroke={ink} strokeWidth={3} />
+          <path d="M-18,0 L-12,-44 L12,-44 L18,0Z" fill="#F4E8C0" opacity={0.85} stroke={ink} strokeWidth={3} />
+          <path d={`M0,-10 q-5,-10 0,${-20 - noise1(f / 3, x) * 3} q5,10 0,${20 + noise1(f / 3, x) * 3}Z`} fill="#FFB43A" />
+        </g>
+      ))}
+      <g transform="translate(960,500) scale(1.25)">
         <rect x={-PW / 2 - 70} y={-PH / 2 - 70} width={PW + 140} height={PH + 140} fill="#9A7A3A" stroke={ink} strokeWidth={6} />
         <rect x={-PW / 2 - 46} y={-PH / 2 - 46} width={PW + 92} height={PH + 92} fill="#E6DCC4" stroke={ink} strokeWidth={3} />
         <rect x={-PW / 2} y={-PH / 2} width={PW} height={PH} fill="#F4EAD0" stroke={ink} strokeWidth={2.5} />
@@ -244,7 +252,7 @@ const Shot13: React.FC<{f: number; d: number}> = ({f, d}) => {
     </g>
   );
   const zDesk = kf(f, [[0, 1.12], [60, 1.25], [150, 1.7]]);
-  const zRoom = kf(f, [[150, 2.4], [d, 0.62]], easeInOut);
+  const zRoom = kf(f, [[150, 2.2], [d, 1.0]], easeInOut);
   return (
     <Frame bg="#3A2A1E">
       <CineDefs />
@@ -256,14 +264,15 @@ const Shot13: React.FC<{f: number; d: number}> = ({f, d}) => {
       </g>
       {room > 0 && (
         <g opacity={room}>
-          <CineCam f={f} keys={[[0, zRoom, 960, 560], [d, zRoom, 960, 600]]} seed={14}>
+          <CineCam f={f} keys={[[0, zRoom, 960, 500], [d, zRoom, 960, 540]]} seed={14}>
             {(layer) => [layer(1, framed)]}
           </CineCam>
-          <GodRays x={1700} y={-40} w={300} f={f} angle={-24} len={1200} op={0.12} />
-        </g>
+          <LightPool x={600} y={360} r={420} f={f} color="#FFB060" seed={15} strength={0.22} />
+          <LightPool x={1320} y={360} r={420} f={f} color="#FFB060" seed={16} strength={0.22} />
+                  </g>
       )}
-      <Look f={f} grade={room > 0.5 ? 'day' : 'lamp'} vig={0.55} />
-      <Plate text="Signed and dated: 1864" t={prog(f, 70, 86) * (1 - prog(f, 140, 156))} />
+      <Look f={f} grade="lamp" vig={0.55} />
+      <Plate text="Signed and dated: 1864" t={prog(f, 66, 82) * (1 - prog(f, 196, 212))} />
     </Frame>
   );
 };
@@ -334,4 +343,3 @@ export const S01: React.FC = () => (
     ]}
   />
 );
-void noise1;

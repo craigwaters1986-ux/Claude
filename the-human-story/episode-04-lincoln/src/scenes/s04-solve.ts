@@ -6,11 +6,12 @@ import {Build, Placement, Pt, handWorld, headWorld, solveSkeleton, toWorld} from
 import {parishWalk} from '../characters/parishWalk';
 import {clamp, kf, noise1, prog} from '../animations/core';
 import {BOOK, QUILL, STOVEPIPE, gripWorld, handsOn, approach, PropXf, doorHandle, DOOR_W, DOOR_H} from '../kit/Props';
-import {grabCarry, pageTurn, writeAt, doffHat, exprAt, localXf, track} from '../kit/Actions';
+import {grabCarry, pageTurn, writeAt, exprAt, localXf, track} from '../kit/Actions';
 import {seatHeight, seatPose, sitDown, standUp, hipWorldY, feetWorld} from '../kit/Seats';
 import {castBuild, castScale} from '../kit/Cast';
 import {T, beat, sectionWindow} from '../timeline';
 import type {CamKey} from '../kit/Cinema';
+import {rideHorse, walkDist} from '../kit/Horse';
 import type {Check, SeatCheck, Fig, Solved} from './reelSolve';
 
 export type {Fig, Solved};
@@ -237,9 +238,9 @@ export function solveBall1(f: number): Solved {
 export function solveBall2(f: number): Solved {
   const bM = castBuild('mary');
   const bL = castBuild(LAW);
-  const plM: Placement = {x: 850, y: BALL_FLOOR, scale: castScale('mary'), dir: 1};
-  const plL: Placement = {x: 1050, y: BALL_FLOOR, scale: castScale(LAW), dir: -1};
-  const meet = {x: 950, y: 752 + Math.sin(f / 20) * 1.5};
+  const plM: Placement = {x: 870, y: BALL_FLOOR, scale: castScale('mary'), dir: 1};
+  const plL: Placement = {x: 1040, y: BALL_FLOOR, scale: castScale(LAW), dir: -1};
+  const meet = {x: 945, y: 745 + Math.sin(f / 20) * 1.5};
   const baseL = addPose(stand(f, 7), {lean: kf(f, [[0, 2], [26, 2], [44, 16], [80, 10]]), headTilt: kf(f, [[0, 0], [30, 0], [44, 8], [80, 4]])});
   const baseM = addPose(stand(f, 9), {lean: 2});
   const gL = handsOn(plL, baseL, {R: meet}, bL);
@@ -262,18 +263,23 @@ export const WED_FLOOR = 900;
 export function solveWed(f: number): Solved {
   const bM = castBuild('mary');
   const bL = castBuild(LAW);
-  const plL: Placement = {x: 862, y: WED_FLOOR, scale: castScale(LAW), dir: 1};
-  const plM: Placement = {x: 1008, y: WED_FLOOR, scale: castScale('mary'), dir: -1};
-  const meet = {x: 936, y: 742 + Math.sin(f / 18) * 1.2};
-  const PL = handsOn(plL, addPose(stand(f, 2), {lean: 4}), {R: meet}, bL);
-  const PM = handsOn(plM, addPose(stand(f, 4), {lean: 2}), {R: meet}, bM);
+  const bV = castBuild('visitor');
+  // side by side, both facing the minister (right); his near hand holds her far hand
+  const plL: Placement = {x: 840, y: WED_FLOOR, scale: castScale(LAW), dir: 1};
+  const plM: Placement = {x: 950, y: WED_FLOOR, scale: castScale('mary'), dir: 1};
+  const plV: Placement = {x: 1160, y: WED_FLOOR, scale: castScale('visitor'), dir: -1};
+  const meet = {x: 906, y: 750 + Math.sin(f / 18) * 1.2};
+  const PL = handsOn(plL, addPose(stand(f, 2), {lean: 2}), {R: meet}, bL);
+  const PM = handsOn(plM, addPose(stand(f, 4), {lean: 2}), {L: meet}, bM);
+  const PV = addPose(stand(f, 59), {shL: 50, elL: 60, shR: 54, elR: 62, headTilt: 4});
   return {
     figs: [
       {id: LAW, pl: plL, P: PL, build: bL, ex: {expression: 'happy'}, look: [0.7, -0.1]},
-      {id: 'mary', pl: plM, P: PM, build: bM, ex: {expression: 'happy'}, look: [-0.7, -0.3]},
+      {id: 'mary', pl: plM, P: PM, build: bM, ex: {expression: 'happy'}, look: [0.7, -0.3]},
+      {id: 'visitor', pl: plV, P: PV, build: bV, ex: {expression: 'solemn'}, look: [-0.7, 0], talking: f > 10, noHat: true},
     ],
-    checks: [chk('Lincoln hand', plL, PL, 'R', meet, bL), chk('Mary hand', plM, PM, 'R', meet, bM)], seats: [], meet,
-    cam: [[0, 1.5, 935, 640], [90, 1.18, 935, 590]],
+    checks: [chk('Lincoln hand', plL, PL, 'R', meet, bL), chk('Mary hand', plM, PM, 'L', meet, bM)], seats: [], meet,
+    cam: [[0, 1.5, 990, 640], [90, 1.2, 990, 600]],
   };
 }
 
@@ -347,6 +353,23 @@ export function solveSpeak(f: number): Solved {
   };
 }
 
+/** Hat off for the TALL build: a short lift (the kit's doffHat lifts beyond a tall arm's reach), then to the chest. */
+export function doff04(f: number, pl: Placement, base: Pose, grab: number, build?: Build) {
+  const s = pl.scale ?? 1;
+  const hw = headWorld(pl, base, build);
+  const hs = (44 * s * 1.12) / 48;
+  const onHead: PropXf = {x: hw.x, y: hw.y - hw.r * 0.66, rot: 0, s: hs};
+  const sk = solveSkeleton(base, build);
+  const c = toWorld(pl, {x: sk.sh.x + 34, y: sk.sh.y + 40});
+  const chest: PropXf = {x: c.x, y: c.y, rot: -64, s: hs};
+  const lift: PropXf = {...onHead, x: onHead.x + 4, y: onHead.y - 8, rot: -8};
+  const hat = f < grab ? onHead : track(f, [[grab, onHead], [grab + 9, lift], [grab + 28, chest]]);
+  const g = gripWorld(hat, STOVEPIPE.grips.handle!);
+  const gripP = handsOn(pl, base, {R: g}, build);
+  const P = approach(base, gripP, f < grab ? clamp(1 - (grab - f) / 10) : 1);
+  return {P, hat};
+}
+
 // ---------------------------------------------------------------- 5.2 the Republican meeting: hat in hand
 export const MEET_FLOOR = 900;
 export function solveMeet(f: number): Solved {
@@ -354,9 +377,9 @@ export function solveMeet(f: number): Solved {
   const pl: Placement = {x: 900, y: MEET_FLOOR, scale: castScale(A58), dir: 1};
   const grab = 34;
   const base = mixPose(stand(f, 5), addPose(stand(f, 5), {lean: 6, headTilt: 6}), prog(f, grab + 10, grab + 30));
-  const out = doffHat(f, pl, base, grab, build);
-  const hat = out.props.hat;
-  const checks = f >= grab ? [chk('R hat', pl, out.P, 'R', gripWorld(hat, {x: 34, y: 0}), build)] : [];
+  const out = doff04(f, pl, base, grab, build);
+  const hat = out.hat;
+  const checks = f >= grab ? [chk('R hat', pl, out.P, 'R', gripWorld(hat, STOVEPIPE.grips.handle!), build)] : [];
   const others: Fig[] = [
     {id: 'townsman', x: 1240, dir: -1 as const, sd: 31},
     {id: 'farmer', x: 1440, dir: -1 as const, sd: 32},
@@ -391,14 +414,14 @@ export function solveDebate(f: number): Solved {
 
 // ---------------------------------------------------------------- 5.6 he reads the result (newspaper in both hands)
 export const NEWS_FLOOR = 900;
-export const NEWS_GRIPS = {handle: {x: 56, y: -4} as Pt, grip2: {x: -56, y: -4} as Pt};
+export const NEWS_GRIPS = {handle: {x: 40, y: -4} as Pt, grip2: {x: -40, y: -4} as Pt};
 export function solveResult(f: number): Solved {
   const build = castBuild(A58);
   const pl: Placement = {x: 900, y: NEWS_FLOOR, scale: castScale(A58), dir: 1};
   const lower = prog(f, 130, 160);
   const base = addPose(stand(f, 12), {lean: 6 - 3 * lower, headTilt: 12 - 12 * lower});
   const sk = solveSkeleton(base, build);
-  const xf = localXf(pl, {x: sk.sh.x + 52, y: sk.sh.y + 52 + 18 * lower + Math.sin(f / 26) * 1.2}, -6 + 10 * lower, 1);
+  const xf = localXf(pl, {x: sk.sh.x + 34, y: sk.sh.y + 46 + 12 * lower + Math.sin(f / 26) * 1.2}, -6 + 10 * lower, 1);
   const P = handsOn(pl, base, {R: gripWorld(xf, NEWS_GRIPS.handle), L: gripWorld(xf, NEWS_GRIPS.grip2)}, build);
   const hw = headWorld(pl, P, build);
   return {
@@ -409,16 +432,44 @@ export function solveResult(f: number): Solved {
   };
 }
 
+
+// ---------------------------------------------------------------- 4.3 riding into Springfield / 4.7a the circuit in the rain
+export const RIDE_FLOOR = 880;
+export function solveRide(f: number): Solved {
+  const d = walkDist(f, 0, 400, 2.3);
+  const r = rideHorse(d, {horse: {x0: 520, y: RIDE_FLOOR, s: 1.1, dir: 1}, riderId: LAW, f, lean: 4});
+  const hx = r.horsePl.x;
+  return {
+    figs: [{id: LAW, pl: r.rider.pl, P: r.rider.P, build: r.rider.build, ex: exprAt(f, [[0, 'curious'], [70, 'hopeful']]), look: [0.8, -0.1]}],
+    checks: [...r.checks, ...r.plants], seats: [], ride: r,
+    cam: [[0, 1.05, hx + 140, 600], [400, 1.12, hx + 140, 600]].map((k) => k as CamKey),
+  };
+}
+export function solveCircuit(f: number, dur = DUR4.circuit): Solved {
+  const d = walkDist(f, 0, dur - 30, 2.5);
+  const r = rideHorse(d, {horse: {x0: 300, y: RIDE_FLOOR, s: 1.1, dir: 1}, riderId: LAW, f, lean: 10});
+  const hx = r.horsePl.x;
+  return {
+    figs: [{id: LAW, pl: r.rider.pl, P: r.rider.P, build: r.rider.build, ex: exprAt(f, [[0, 'tired'], [dur - 30, 'determined']]), look: [0.8, 0.1]}],
+    checks: [...r.checks, ...r.plants], seats: [], ride: r, hx,
+    cam: [[0, 1.1, hx + 160, 600], [dur, 1.0, hx + 240, 560]].map((k) => k as CamKey),
+  };
+}
+
 // ---------------------------------------------------------------- registry for the contact checker
 export const SHOTS0405: {id: string; dur: number}[] = [
-  {id: 'leg', dur: DUR4.leg}, {id: 'hand', dur: DUR4.hand}, {id: 'read', dur: DUR4.read}, {id: 'protest', dur: DUR4.protest},
+  {id: 'leg', dur: DUR4.leg}, {id: 'hand', dur: DUR4.hand}, {id: 'read', dur: DUR4.read}, {id: 'ride', dur: DUR4.ride}, {id: 'protest', dur: DUR4.protest},
   {id: 'ball1', dur: fr(AT4.ball2 - AT4.ball)}, {id: 'ball2', dur: fr(AT4.window - AT4.ball2)}, {id: 'window', dur: DUR4.window},
-  {id: 'wed', dur: DUR4.wed}, {id: 'house', dur: DUR4.door}, {id: 'speak', dur: DUR4.speak}, {id: 'bill', dur: DUR4.bill},
+  {id: 'wed', dur: DUR4.wed}, {id: 'house', dur: DUR4.door}, {id: 'circuit', dur: DUR4.circuit}, {id: 'speak', dur: DUR4.speak}, {id: 'bill', dur: DUR4.bill},
   {id: 'meet', dur: DUR5.meet}, {id: 'debate', dur: fr(AT5.charleston - AT5.debate)}, {id: 'result', dur: DUR5.result},
 ];
 export const SOLVERS0405: Record<string, (f: number) => Solved> = {
-  leg: solveLeg, hand: solveHand, read: solveRead, protest: solveProtest, ball1: solveBall1, ball2: solveBall2, window: solveWindow,
+  leg: solveLeg, hand: solveHand, read: solveRead, ride: solveRide, circuit: (f: number) => solveCircuit(f), protest: solveProtest, ball1: solveBall1, ball2: solveBall2, window: solveWindow,
   wed: solveWed, house: solveHouse, speak: solveSpeak, bill: solveBill, meet: solveMeet, debate: solveDebate, result: solveResult,
 };
 export const camZoom0405 = (cam: CamKey[], f: number) => kf(f, cam.map((k) => [k[0], k[1]] as [number, number]));
+// names the shared checker (scripts/check-contacts.mjs) loops over
+export const S04_SHOTS = SHOTS0405.map((s) => ({...s, id: 's04/05 ' + s.id}));
+export const S04_SOLVERS: Record<string, (f: number) => Solved> = Object.fromEntries(SHOTS0405.map((s) => ['s04/05 ' + s.id, SOLVERS0405[s.id]]));
+export const camZoom = camZoom0405;
 export {noise1, sitDown, STOVEPIPE, BOOK, QUILL};

@@ -4,10 +4,12 @@ import {Composition, registerRoot} from 'remotion';
 import {UpgradeTest} from './scenes/UpgradeTest';
 import {REEL_FRAMES} from './scenes/reelSolve';
 import {Episode} from './Episode';
+import {KitTest, KIT_FRAMES} from './scenes/KitTest';
 import {TOTAL} from './timeline';
 const Root = () => (
   <>
     <Composition id="UpgradeTest" component={UpgradeTest} width={1920} height={1080} fps={30} durationInFrames={REEL_FRAMES} defaultProps={{debug: false}} />
+    <Composition id="KitTest" component={KitTest} width={1920} height={1080} fps={30} durationInFrames={KIT_FRAMES} defaultProps={{debug: false}} />
     <Composition id="Episode" component={Episode} width={1920} height={1080} fps={30} durationInFrames={TOTAL} />
   </>
 );
