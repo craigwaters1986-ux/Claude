@@ -1,0 +1,507 @@
+{
+ "episode": "The Human Story — Episode 2: World War I: From Start to Finish",
+ "voice": "Kokoro-82M bm_george (British English, male)",
+ "version": "v2",
+ "duration": 720,
+ "sections": [
+  {
+   "id": "s01",
+   "chapter": "Two Shots, One Wrong Turn",
+   "start": 0,
+   "end": 35,
+   "lead": 1.6,
+   "mustEndBy": 27.8,
+   "sentences": [
+    {
+     "text": "28 June 1914.",
+     "say": "The twenty-eighth of June, 1914.",
+     "pauseAfter": 0.6
+    },
+    {
+     "text": "In Sarajevo, a car carrying the heir to an empire takes a wrong turn,",
+     "pauseAfter": 0.15
+    },
+    {
+     "text": "and stops near a 19-year-old with a pistol.",
+     "say": "and stops near a nineteen-year-old with a pistol.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Two shots.",
+     "pauseAfter": 0.6
+    },
+    {
+     "text": "Within six weeks, Europe's great powers are at war.",
+     "pauseAfter": 0.3
+    },
+    {
+     "text": "Four years later, around 9 to 10 million soldiers are dead, and four empires are falling.",
+     "say": "Four years later, around nine to ten million soldiers are dead, and four empires are falling.",
+     "pauseAfter": 0.6
+    },
+    {
+     "text": "How did it happen?",
+     "pauseAfter": 0.25
+    },
+    {
+     "text": "And how did it end?"
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "chapter": "Europe Before 1914",
+   "start": 35,
+   "end": 110,
+   "lead": 1.2,
+   "sentences": [
+    {
+     "text": "To understand how, we have to look at Europe before the shooting started."
+    },
+    {
+     "text": "It was a continent of great powers and rival empires, competing for land, trade and colonies around the world."
+    },
+    {
+     "text": "Over the years, they had drifted into two camps."
+    },
+    {
+     "text": "On one side stood France and Russia, with Britain more loosely tied to them: the Triple Entente."
+    },
+    {
+     "text": "On the other, Germany and Austria-Hungary, partners with Italy in the Triple Alliance, although Italy would stay out of the war in 1914."
+    },
+    {
+     "text": "The powers built ever-larger armies, and Britain and Germany were locked in a naval arms race."
+    },
+    {
+     "text": "In the Balkans, nationalism was on the rise."
+    },
+    {
+     "text": "Austria-Hungary, an empire of many peoples, saw Serb nationalism as a serious threat."
+    },
+    {
+     "text": "And the war plans depended on speed. Germany's plan was to knock France out fast, through Belgium, then turn east against Russia.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "None of this made war inevitable.",
+     "pauseAfter": 0.3
+    },
+    {
+     "text": "But it meant that a local crisis could spread very quickly."
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "chapter": "Sarajevo and the July Crisis",
+   "start": 110,
+   "end": 190,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "On 28 June 1914, Archduke Franz Ferdinand, heir to Austria-Hungary's throne, and his wife Sophie were visiting Sarajevo, in Bosnia.",
+     "say": "On the twenty-eighth of June, 1914, Archduke Franz Ferdinand, heir to Austria-Hungary's throne, and his wife Sophie were visiting Sarajevo, in Bosnia."
+    },
+    {
+     "text": "After a wrong turn, the car stopped near Gavrilo Princip, a 19-year-old Bosnian Serb. He shot them both dead.",
+     "say": "After a wrong turn, the car stopped near Gav-reelo Prin-tsip, a nineteen-year-old Bosnian Serb. He shot them both dead.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "In early July, Germany promised Austria-Hungary its full backing: the so-called \"blank cheque\"."
+    },
+    {
+     "text": "On 23 July, Vienna sent Serbia an ultimatum, with 48 hours to reply.",
+     "say": "On the twenty-third of July, Vienna sent Serbia an ultimatum, with forty-eight hours to reply."
+    },
+    {
+     "text": "Serbia accepted most of the demands, but not all.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "On 28 July, Austria-Hungary declared war.",
+     "say": "On the twenty-eighth of July, Austria-Hungary declared war."
+    },
+    {
+     "text": "Russia began to mobilise. Germany declared war on Russia and France, and on 4 August invaded neutral Belgium.",
+     "say": "Russia began to mobilise. Germany declared war on Russia and France, and on the fourth of August invaded neutral Belgium."
+    },
+    {
+     "text": "Britain had guaranteed Belgium's neutrality, and at 11 p.m. London time, Britain was at war.",
+     "say": "Britain had guaranteed Belgium's neutrality, and at eleven p.m. London time, Britain was at war.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "Sarajevo was the trigger, not the whole cause."
+    },
+    {
+     "text": "Historians still argue about who was most to blame."
+    },
+    {
+     "text": "Some put the main responsibility on Germany and Austria-Hungary. Others stress that many governments, in a tangled system, made choices that led to a world war none of them intended."
+    }
+   ]
+  },
+  {
+   "id": "s04",
+   "chapter": "1914: The War of Movement Stops",
+   "start": 190,
+   "end": 260,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "Many on all sides believed the war would be short.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "In August, German armies swept through Belgium and into France."
+    },
+    {
+     "text": "The British fought their first major battle at Mons, then retreated."
+    },
+    {
+     "text": "Then, in early September, French and British troops stopped the German advance east of Paris, at the Battle of the Marne."
+    },
+    {
+     "text": "Germany's hopes of a quick victory in the west were over.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Both sides then raced north, trying to outflank each other, until they reached the sea."
+    },
+    {
+     "text": "By the end of 1914, a line of trenches ran for about 700 kilometres, from the Belgian coast to Switzerland.",
+     "say": "By the end of 1914, a line of trenches ran for about seven hundred kilometres, from the Belgian coast to Switzerland.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "And at Christmas, something remarkable happened."
+    },
+    {
+     "text": "Along parts of the front, men stopped fighting. They sang carols, swapped souvenirs and buried their dead, and in some places they kicked a ball about."
+    },
+    {
+     "text": "Rifleman William Eve wrote in his diary: \"not a shot fired all day or night.\"",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "But the truces were unofficial and patchy, senior officers disapproved, and it never happened on that scale again."
+    }
+   ]
+  },
+  {
+   "id": "s05",
+   "chapter": "Life in the Trenches",
+   "start": 260,
+   "end": 320,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "For the men at the front, trench life was grim."
+    },
+    {
+     "text": "Units rotated in and out of the front line, usually spending a few days there at a time."
+    },
+    {
+     "text": "Lice infested their clothes and spread trench fever. Rats were everywhere."
+    },
+    {
+     "text": "After long hours in cold water, feet could swell and rot: trench foot."
+    },
+    {
+     "text": "Shellfire, not bullets, was the great killer.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "In April 1915, near Ypres, poison gas was used on a large scale for the first time.",
+     "say": "In April 1915, near Eep-ruh, poison gas was used on a large scale for the first time."
+    },
+    {
+     "text": "Both sides soon issued masks. Gas caused many casualties but relatively few deaths: it was feared more than it killed.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "The strain broke many minds. The British Army alone recorded about 80,000 cases of shell shock, and many more went unrecorded.",
+     "say": "The strain broke many minds. The British Army alone recorded about eighty thousand cases of shell shock, and many more went unrecorded."
+    },
+    {
+     "text": "In all, 306 British and Commonwealth soldiers were executed, mostly for desertion or cowardice. In 2006, they were pardoned.",
+     "say": "In all, three hundred and six British and Commonwealth soldiers were executed, mostly for desertion or cowardice. In two thousand and six, they were pardoned."
+    }
+   ]
+  },
+  {
+   "id": "s06",
+   "chapter": "A World War",
+   "start": 320,
+   "end": 390,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "This was a world war."
+    },
+    {
+     "text": "In the east, in August 1914, Germany destroyed a Russian army at Tannenberg."
+    },
+    {
+     "text": "In April 1915, Allied troops, including the Anzacs, landed at Gallipoli, in the Ottoman Empire, Germany's new ally.",
+     "say": "In April 1915, Allied troops, including the Anzacs, landed at Galli-poli, in the Ottoman Empire, Germany's new ally."
+    },
+    {
+     "text": "The campaign failed, at a heavy cost in lives."
+    },
+    {
+     "text": "Italy joined the Allies, and fighting spread to Africa and the Middle East."
+    },
+    {
+     "text": "About one and a half million men from South Asia served in the Indian Army, and troops came from across the empires, from Canada to the Caribbean.",
+     "pauseAfter": 0.7
+    },
+    {
+     "text": "Inside the Ottoman Empire, a catastrophe unfolded.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "From 1915, the Ottoman government deported and murdered Armenians across the empire."
+    },
+    {
+     "text": "An estimated 600,000 to 1.5 million Armenians died, in massacres and on forced marches into the Syrian desert.",
+     "say": "An estimated six hundred thousand to one and a half million Armenians died, in massacres and on forced marches into the Syrian desert.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "This was the Armenian Genocide.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Turkey's government still rejects the term. Historians and genocide scholars overwhelmingly use it.",
+     "pauseAfter": 0.6
+    }
+   ]
+  },
+  {
+   "id": "s07",
+   "chapter": "1916: Verdun and the Somme",
+   "start": 390,
+   "end": 450,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "In 1916, both sides tried to break the deadlock."
+    },
+    {
+     "text": "In February, Germany attacked Verdun, a fortress city France would defend at any cost."
+    },
+    {
+     "text": "The battle lasted about 300 days, the longest of the war, and caused around 700,000 casualties.",
+     "say": "The battle lasted about three hundred days, the longest of the war, and caused around seven hundred thousand casualties.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Partly to relieve Verdun, British and French forces attacked on the Somme."
+    },
+    {
+     "text": "A week of shelling failed to destroy the German defences. On 1 July, the British Army had the worst day in its history: more than 57,000 casualties, over 19,000 of them dead.",
+     "say": "A week of shelling failed to destroy the German defences. On the first of July, the British Army had the worst day in its history: more than fifty-seven thousand casualties, over nineteen thousand of them dead.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "Many were \"Pals\" battalions of friends and workmates, so whole towns grieved together.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "By November, the Allies had advanced a few miles, at a cost of more than a million casualties on all sides."
+    },
+    {
+     "text": "Historians still debate whether it was a futile slaughter, or a battle that wore down the German army."
+    }
+   ]
+  },
+  {
+   "id": "s08",
+   "chapter": "The Home Front",
+   "start": 450,
+   "end": 500,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "At home, the war reached into almost every life."
+    },
+    {
+     "text": "Britain relied at first on volunteers, but in 1916 it brought in conscription."
+    },
+    {
+     "text": "Women took on work in offices, on farms and on buses. By 1918, almost a million British women worked in munitions.",
+     "say": "Women took on work in offices, on farms and on buses. By 1918, almost a million British women worked in munitions."
+    },
+    {
+     "text": "Those filling shells were nicknamed \"canaries\", because the TNT turned their skin yellow."
+    },
+    {
+     "text": "Others volunteered as nurses, in hospitals at home and abroad."
+    },
+    {
+     "text": "German air raids killed about 1,400 people in Britain, including 18 children at a school in Poplar.",
+     "say": "German air raids killed about fourteen hundred people in Britain, including eighteen children at a school in Poplar.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "As U-boats sank supply ships, Britain brought in rationing in 1918."
+    },
+    {
+     "text": "In Germany, the British naval blockade caused severe food shortages."
+    }
+   ]
+  },
+  {
+   "id": "s09",
+   "chapter": "1917: The Turning Year",
+   "start": 500,
+   "end": 560,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "1917 was the year the war turned.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "In February, Germany resumed unrestricted U-boat warfare against shipping."
+    },
+    {
+     "text": "Earlier that winter, British intelligence had decoded a secret German telegram proposing an alliance with Mexico if America joined the war."
+    },
+    {
+     "text": "Together, the U-boats and the telegram pushed America into the fight. On 6 April 1917, the United States declared war on Germany, though its troops arrived in strength only in 1918.",
+     "say": "Together, the U-boats and the telegram pushed America into the fight. On the sixth of April, 1917, the United States declared war on Germany, though its troops arrived in strength only in 1918.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "British and Empire troops fought the Battle of Passchendaele, in rain and mud. Each side suffered around a quarter of a million casualties.",
+     "say": "British and Empire troops fought the Battle of Passhen-dale, in rain and mud. Each side suffered around a quarter of a million casualties.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "In Russia, revolution in March forced Tsar Nicholas II to abdicate.",
+     "say": "In Russia, revolution in March forced Tsar Nicholas the Second to abdicate."
+    },
+    {
+     "text": "In November, Lenin's Bolsheviks seized power, and in March 1918, Russia made peace with Germany and its allies."
+    }
+   ]
+  },
+  {
+   "id": "s10",
+   "chapter": "1918: The Last Battles",
+   "start": 560,
+   "end": 620,
+   "lead": 0.8,
+   "sentences": [
+    {
+     "text": "With Russia out, Germany gambled on winning in the west before American strength arrived."
+    },
+    {
+     "text": "On 21 March 1918, its Spring Offensive struck, advancing up to 40 miles.",
+     "say": "On the twenty-first of March, 1918, its Spring Offensive struck, advancing up to forty miles.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "But the Allies held, under a single commander, the French general Foch, and in July they struck back.",
+     "say": "But the Allies held, under a single commander, the French general Fosh, and in July they struck back."
+    },
+    {
+     "text": "On 8 August, at Amiens, they attacked with some 450 tanks, on a day Ludendorff later called \"the black day of the German Army\".",
+     "say": "On the eighth of August, at Amiens, they attacked with some four hundred and fifty tanks, on a day Ludendorff later called, the black day of the German Army.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "In the Hundred Days that followed, the Allies kept advancing."
+    },
+    {
+     "text": "Germany's allies collapsed. Sailors mutinied, revolution spread, and the Kaiser fled to the Netherlands."
+    },
+    {
+     "text": "At about 5 a.m. on 11 November, an armistice was signed in a railway carriage near Compiègne.",
+     "say": "At about five a.m. on the eleventh of November, an armistice was signed in a railway carriage near Kom-pyen."
+    },
+    {
+     "text": "At 11 o'clock, the guns fell silent.",
+     "say": "At eleven o'clock, the guns fell silent.",
+     "pauseAfter": 0.6
+    },
+    {
+     "text": "Even that morning, an estimated 2,700 to 3,000 men were killed.",
+     "say": "Even that morning, an estimated two thousand seven hundred to three thousand men were killed."
+    }
+   ]
+  },
+  {
+   "id": "s11",
+   "chapter": "The Cost and the Legacy",
+   "start": 620,
+   "end": 720,
+   "lead": 0.8,
+   "mustEndBy": 714.0,
+   "sentences": [
+    {
+     "text": "The cost was almost impossible to grasp.",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "Around 9 to 10 million servicemen had died, and about 21 million had been wounded.",
+     "say": "Around nine to ten million servicemen had died, and about twenty-one million had been wounded."
+    },
+    {
+     "text": "Millions of civilians died too, from fighting, hunger, disease and genocide."
+    },
+    {
+     "text": "And in 1918 and 1919, a flu pandemic swept the world, killing at least 50 million people.",
+     "say": "And in 1918 and 1919, a flu pandemic swept the world, killing at least fifty million people.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "Four empires, the German, Austro-Hungarian, Russian and Ottoman, collapsed, and new states such as Poland and Czechoslovakia appeared on the map."
+    },
+    {
+     "text": "Near Mons lie two British soldiers: John Parr, believed to be the first British soldier killed, in August 1914, and George Ellison, believed to be the last, on the final morning. Their graves face each other.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "Every year, at 11 o'clock on 11 November, people fall silent to remember.",
+     "say": "Every year, at eleven o'clock on the eleventh of November, people fall silent to remember.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "In the words of the poet Laurence Binyon:",
+     "pauseAfter": 0.4
+    },
+    {
+     "text": "\"They shall grow not old, as we that are left grow old,",
+     "say": "They shall grow not old, as we that are left grow old,",
+     "pauseAfter": 0.3
+    },
+    {
+     "text": "Age shall not weary them, nor the years condemn.\"",
+     "say": "Age shall not weary them, nor the years condemn.",
+     "pauseAfter": 1.0
+    },
+    {
+     "text": "On 28 June 1919, five years to the day after Sarajevo, Germany signed the Treaty of Versailles.",
+     "say": "On the twenty-eighth of June, 1919, five years to the day after Sarajevo, Germany signed the Treaty of Vair-sigh."
+    },
+    {
+     "text": "It lost land and all its colonies, had to accept a \"war guilt\" clause and pay reparations, and its army was strictly limited. Many Germans resented it.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "The peace left grievances that others would exploit. Just 20 years later, Europe was at war again.",
+     "say": "The peace left grievances that others would exploit. Just twenty years later, Europe was at war again.",
+     "pauseAfter": 0.5
+    },
+    {
+     "text": "And that is another story."
+    }
+   ]
+  }
+ ]
+}

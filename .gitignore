@@ -1,0 +1,12 @@
+production/tools/status.json.lock
+production/audio/*/*.wav
+__pycache__/
+
+# large intermediate audio (regenerable by scripts/music.py)
+the-human-story/episode-01-ww2/output/music-stems/
+*.npy
+the-human-story/episode-01-ww2/public/sfx/
+
+# live render logs (Lean mode v2 #17)
+production/video/*/render.log
+production/video/*/render-console.log
