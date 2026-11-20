@@ -14,11 +14,11 @@ Written 20 November 2026 (Phase 0: brief and upgrade spec) · **Abraham Lincoln:
 
 Keep chats short; put detail here, not in chat. Subagents only where they save tokens. Model policy: see `CLAUDE.md`.
 
-**Finish condition.** A reviewable **12:00** (720.000 s) H.264/AAC MP4 at 1920×1080, 30 fps, plus thumbnail, SRT, publishing pack, QC report, iPhone copy (720p small + 3-minute parts) and an updated handover. Nothing is uploaded or published automatically. 12:00 rather than the 10:00 default because of the scope (birth → death → legacy); Craig can change it at the script stop.
+**Finish condition.** A reviewable **10:00** (600.000 s) H.264/AAC MP4 at 1920×1080, 30 fps, plus thumbnail, SRT, publishing pack, QC report, iPhone copy (720p small + 3-minute parts) and an updated handover. Nothing is uploaded or published automatically. Craig set 10:00 on 20 November 2026, the channel default, so the script must be tight: aim for 8:45–9:00 of narration at speed 0.99 (about 145 spoken words a minute, so about 1,270–1,300 words); silent beats close the gap.
 
 | Phase | Work | Ends with |
 | --- | --- | --- |
-| **A** | Research (from scratch, sourced), script fitted to 12:00, one combined fact and quality review | **STOP: Approval 1 (script).** Show the script plus the sources list |
+| **A** | Research (from scratch, sourced), script fitted to 10:00, one combined fact and quality review | **STOP: Approval 1 (script).** Show the script plus the sources list |
 | **B** | Engine upgrade (cinematic camera, object interaction, motion, faces, bubbles, readable documents). 30 s test reel. Score sketch (60 s cinematic music test). Storyboard and music cue sheet | **STOP: Approvals 2 + 3 (style + storyboard), batched.** Show the test reel, the music test and the storyboard |
 | **C** | Narration, plan, captions, all scenes, score, SFX, mix | Commit; prompt for D |
 | **D** | Render, QC, publishing pack, thumbnail, iPhone copy | **STOP: Approval 4 (final render)** |
@@ -49,16 +49,16 @@ Approvals go through `python3 production/tools/status.py approval <checkpoint> -
 
 | # | Chapter (draft) | Window | Must cover, each claim sourced |
 | --- | --- | --- | --- |
-| 1 | Cold open | 0:00–0:40 | One real document or moment (for example the Gettysburg Address manuscript, or the final page of the Second Inaugural); title |
-| 2 | A cabin in Kentucky | 0:40–1:50 | Birth, 1809, Kentucky; family; moves to Indiana; his mother's death; little schooling; borrowed books |
-| 3 | The rail-splitter | 1:50–2:50 | Illinois; flatboat trip to New Orleans (what he saw, as sourced); New Salem; store, postmaster, surveyor; Black Hawk War |
-| 4 | Lawyer and politician | 2:50–4:10 | Self-taught law; Springfield; Mary Todd; the Illinois legislature; one term in Congress; the circuit |
-| 5 | A house divided | 4:10–5:30 | The Kansas–Nebraska Act; the Republican Party; the “House Divided” speech (quote exactly); the Lincoln–Douglas debates; Cooper Union |
-| 6 | President of a breaking country | 5:30–6:40 | The 1860 election; secession; Fort Sumter; the war begins |
-| 7 | War and emancipation | 6:40–8:20 | Losses and generals; the Emancipation Proclamation (1 January 1863; text exact; what it did and did not do); Black soldiers; Gettysburg and the Address (text exact) |
-| 8 | Malice toward none | 8:20–9:40 | 1864 re-election; the Thirteenth Amendment passes Congress; Second Inaugural (quote exactly); Appomattox |
-| 9 | Ford's Theatre | 9:40–10:40 | 14 April 1865; John Wilkes Booth; death on 15 April at the Petersen House. Non-graphic: no wound, no blood. Show the theatre, the empty chair, the clock |
-| 10 | Legacy | 10:40–12:00 | The funeral train; the Thirteenth Amendment ratified (December 1865); how he has been remembered and argued over (the Memorial, the debates about his views on race, labelled as historians' debates); end on a real page; end card |
+| 1 | Cold open | 0:00–0:35 | One real document or moment (for example the Gettysburg Address manuscript, or the final page of the Second Inaugural); title |
+| 2 | A cabin in Kentucky | 0:35–1:30 | Birth, 1809, Kentucky; family; moves to Indiana; his mother's death; little schooling; borrowed books |
+| 3 | The rail-splitter | 1:30–2:20 | Illinois; flatboat trip to New Orleans (what he saw, as sourced); New Salem; store, postmaster, surveyor; Black Hawk War |
+| 4 | Lawyer and politician | 2:20–3:25 | Self-taught law; Springfield; Mary Todd; the Illinois legislature; one term in Congress; the circuit |
+| 5 | A house divided | 3:25–4:30 | The Kansas–Nebraska Act; the Republican Party; the “House Divided” speech (quote exactly); the Lincoln–Douglas debates; Cooper Union |
+| 6 | President of a breaking country | 4:30–5:25 | The 1860 election; secession; Fort Sumter; the war begins |
+| 7 | War and emancipation | 5:25–6:55 | Losses and generals; the Emancipation Proclamation (1 January 1863; text exact; what it did and did not do); Black soldiers; Gettysburg and the Address (text exact) |
+| 8 | Malice toward none | 6:55–8:00 | 1864 re-election; the Thirteenth Amendment passes Congress; Second Inaugural (quote exactly); Appomattox |
+| 9 | Ford's Theatre | 8:00–8:50 | 14 April 1865; John Wilkes Booth; death on 15 April at the Petersen House. Non-graphic: no wound, no blood. Show the theatre, the empty chair, the clock |
+| 10 | Legacy | 8:50–10:00 | The funeral train; the Thirteenth Amendment ratified (December 1865); how he has been remembered and argued over (the Memorial, the debates about his views on race, labelled as historians' debates); end on a real page; end card |
 
 **Accuracy and sensitivity (non-negotiable).**
 - **Slavery and race:**
@@ -176,4 +176,5 @@ Engine, kit, shot sequencer with `T('phrase')` caption anchors, caption band and
 
 ## Where things stand (update at the end of every phase)
 
+- 20 Nov 2026: **duration changed to 10:00 (600 s) by Craig**; chapter windows rescaled above. (The dashboard entry still says 720 s because `status.py` has no setter for duration and `status.json` must not be hand-edited; this handover is authoritative.)
 - 20 Nov 2026, Phase 0 (this file): brief and upgrade spec written; dashboard episode `ep05-lincoln` created with the standard tasks. **Next: Phase A.**
