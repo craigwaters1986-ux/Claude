@@ -3,7 +3,7 @@ Written 20 November 2026 (Phase 0: brief and upgrade spec; renumbered from Episo
 
 ## Start here
 
-**Where things stand.** **Phase C done (20 Nov 2026)**: narration, plan, aligned captions, all 10 chapters (about 75 shots), shared kit, original synthesised score, SFX and mix. Approvals 2 and 3 given. ElevenLabs music was approved but **could not be used** (the account had no credits: every generation failed with "Insufficient funds"; nothing was charged), so the score is the synthesised one. **Next: Phase D** (render, QC, publishing pack, thumbnail, iPhone copy; prompt below).
+**Where things stand.** **Phase D done (20 Nov 2026): waiting for Craig's Approval 4 (final render).** Final MP4, iPhone copy, SRT, thumbnail, publishing pack and QC report are in place (see the Phase D entry below). Previously: **Phase C done (20 Nov 2026)**: narration, plan, aligned captions, all 10 chapters (about 75 shots), shared kit, original synthesised score, SFX and mix. Approvals 2 and 3 given. ElevenLabs music was approved but **could not be used** (the account had no credits: every generation failed with "Insufficient funds"; nothing was charged), so the score is the synthesised one. Phase D followed.
 
 **Branch.** Phase C is on **`claude/clever-albattani-64lx7v`** and mirrored to **`claude/tender-allen-8crxk1`** (the Phase C session's own branch; identical commits). Start Phase D from `claude/clever-albattani-64lx7v`.
 
@@ -199,6 +199,13 @@ Engine, kit, shot sequencer with `T('phrase')` caption anchors, caption band and
   - **Sound:** `scripts/audio.py` (Episode 4): original score cues 1M1–1M11 per the cue sheet (Phase B theme, fiddle/piano → strings/horns → war ostinato → piano reprise → full finale), 112 SFX cues, no public-domain tunes used. `public/audio/mix.wav` 600.000 s, **−14.1 LUFS, −1.5 dBTP**, no silence ≥ 1.5 s, narration 20 dB over music in speech, every group at its plan time (0.0 ms). Stems in `output/stems/`. Listen copy `production/audio/ep04-lincoln/episode-04-mix-listen.mp3`; `sound-notes.md`.
   - **Not done in C (Phase D):** full render, full QC, listening pass, thumbnail, publishing pack, iPhone copy.
   - **Next: Phase D.**
+- 20 Nov 2026, **Phase D** (branch `claude/clever-albattani-64lx7v`):
+  - **Render:** 10 chunks (about 6 min each at concurrency 4), muxed with the Phase C mix, then the video re-encoded from Remotion's full-range JPEG pipe (`yuvj420p`) to standard limited-range `yuv420p` BT.709 (crf 17). Final `production/exports/ep04-lincoln/episode-04-lincoln-1080p.mp4` (not in Git; `.gitignore` updated).
+  - **Fixes made in D:** (1) the title plate now emerges on the score's impact at 28.72 s (`S01.tsx` TITLE = beat start + 3.6 s; it had appeared 3 s early); (2) two caption cues held text through silent beats (14.6 s and 12.1 s on screen) and were split at the sentence break (`captions-aligned.srt` now 153 cues, longest 5.3 s; `timeline.json` regenerated, no `T()` anchor moved); (3) near-freezes found by freezedetect: 3.4 waterfront, 8.7 dusk fields and 9.3 empty chair now keep the camera moving through their edges (the limited-range conversion shrinks frame differences by about 14%, which pushed slow eased moves under the threshold).
+  - **Lesson:** a shot can straddle a chunk boundary; when a scene changes, re-render every chunk the shot touches (`Shots` start/end → frames ÷ 1800).
+  - **QC:** `production/reports/qc/ep04-lincoln/qc-final-render-2026-11-20.md`. **iPhone copy:** `episode-04-lincoln-720p-small.mp4` + `iphone-parts/` (4 × 3 min). **Publishing pack:** `production/exports/ep04-lincoln/youtube/` (pack, titles, tags, chapters, thumbnail + alt, checklist). New `Thumbnail` composition (`src/scenes/Thumbnail.tsx`, `variant: main | memorial`).
+  - **Open for Craig:** listen once at normal speed (nobody has heard the mix; the recogniser heard Bedell, Appomattox and Petersen correctly); Approval 4.
+  - **Next: Craig's Approval 4.** Record it with `python3 production/tools/status.py approval final-render --episode ep04-lincoln --state APPROVED|CHANGES_REQUESTED --note "…"`. Nothing is uploaded or published automatically.
 
 ## Phase D notes (from Phase C)
 
