@@ -1,0 +1,107 @@
+{
+ "cues": 151,
+ "script_tokens": 1321,
+ "matched_tokens": 1279,
+ "coverage": 0.9682,
+ "cues_moved": 150,
+ "median_abs_start_shift": 0.071,
+ "max_abs_start_shift": 1.333,
+ "transcript_mismatches": [
+  [
+   "twelfth",
+   "12th"
+  ],
+  [
+   "nineteen",
+   "19"
+  ],
+  [
+   "flatboat",
+   "flat boat"
+  ],
+  [
+   "twelve hundred",
+   "1 200"
+  ],
+  [
+   "ten",
+   "10"
+  ],
+  [
+   "stuart",
+   "stewart"
+  ],
+  [
+   "right",
+   "wright"
+  ],
+  [
+   "eleven",
+   "11"
+  ],
+  [
+   "twelfth",
+   "12th"
+  ],
+  [
+   "harbour",
+   "harbor"
+  ],
+  [
+   "seventy five thousand",
+   "75 000"
+  ],
+  [
+   "eleven",
+   "11"
+  ],
+  [
+   "first",
+   "1st"
+  ],
+  [
+   "two hundred thousand",
+   "200 000"
+  ],
+  [
+   "anti slavery if slavery is not wrong nothing is wrong that summer he",
+   ""
+  ],
+  [
+   "re elected",
+   "reelected"
+  ],
+  [
+   "thirteenth",
+   "13th"
+  ],
+  [
+   "ninth",
+   "9th"
+  ],
+  [
+   "fourteenth",
+   "14th"
+  ],
+  [
+   "theatre",
+   "theater"
+  ],
+  [
+   "sympathiser",
+   "sympathizer"
+  ],
+  [
+   "petersen",
+   "peterson"
+  ],
+  [
+   "parlour",
+   "parlor"
+  ],
+  [
+   "travelled",
+   "traveled"
+  ]
+ ]
+}

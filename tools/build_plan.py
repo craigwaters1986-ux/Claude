@@ -11,6 +11,8 @@ from pathlib import Path
 
 audit = json.loads(Path(sys.argv[1]).read_text()); wav = sys.argv[2]; out = Path(sys.argv[3]); out.mkdir(parents=True, exist_ok=True)
 TARGET_MS = 720000
+import os
+CONFIG = os.environ.get('PLAN_CONFIG')  # optional per-episode config defining TARGET_MS, SECTIONS, YEARS, TITLE
 MS = lambda s: round(s * 1000)
 
 SECTIONS = {  # id: (title, window ms, pre beats, {group: hold beats}, post beats). A duration of None takes the remainder.
@@ -57,6 +59,22 @@ SECTIONS = {  # id: (title, window ms, pre beats, {group: hold beats}, post beat
     26: [('scene', 'Children gather wood and chant. No faces of historical figures on the bonfire figure.', 2000)]},
    [('doc', 'Quiet page turn back to the surviving letter.', 1500), ('end', 'Channel end card.', None)]),
 }
+
+YEARS = [(r'\bsixteen oh four\b', '1604'), (r'\bsixteen oh five\b', '1605'), (r'\bsixteen oh six\b', '1606')]
+TITLE = 'Episode 3'
+if CONFIG:
+    exec(Path(CONFIG).read_text())
+# hold keys may be a phrase: the group (in that section) whose text ends with it, after punctuation is stripped
+def _norm(t): return re.sub(r'[^a-z0-9 ]+', '', t.lower().replace('’', "'")).strip()
+for _sid, (_t, _w, _pre, _holds, _post) in list(SECTIONS.items()):
+    new = {}
+    for key, v in _holds.items():
+        if isinstance(key, str):
+            hits = [i for i, g in enumerate(audit) if g['section'] == _sid and _norm(g['text']).endswith(_norm(key))]
+            assert len(hits) == 1, (_sid, key, 'phrase must end exactly one group')
+            key = hits[0]
+        new[key] = v
+    SECTIONS[_sid] = (_t, _w, _pre, new, _post)
 
 # ---- timeline
 secs = []
@@ -115,18 +133,19 @@ for line in sp.splitlines():
     if m: cur = float(m.group(1))
     m = re.search(r'silence_end: ([\d.]+)', line)
     if m and cur is not None: sil.append((cur, float(m.group(1)))); cur = None
-YEARS = [(r'\bsixteen oh four\b', '1604'), (r'\bsixteen oh five\b', '1605'), (r'\bsixteen oh six\b', '1606')]
 def syl(w):
     w2 = re.sub(r'[^a-z]', '', w.lower()); n = len(re.findall(r'[aeiouy]+', w2)) or 1
     return n + 0.35 * len(w2) / 6 + 0.15
 def tokens(text):
     toks, spoken = [], re.findall(r'\S+', text); i = 0
     while i < len(spoken):
-        three = ' '.join(spoken[i:i + 3]); done = False
+        done = False
         for pat, rep in YEARS:
-            m = re.match(pat, re.sub(r'[,.]$', '', three), re.I)
-            if m and len(m.group(0).split()) == 3:
-                trail = re.search(r'[,.;:?!]$', three); toks.append((rep + (trail.group(0) if trail else ''), 3.2)); i += 3; done = True; break
+            for n in (4, 3, 2):
+                span = ' '.join(spoken[i:i + n]); m = re.fullmatch(pat, re.sub(r'[,.;:?!]$', '', span), re.I)
+                if m:
+                    trail = re.search(r'[,.;:?!]$', span); toks.append((rep + (trail.group(0) if trail else ''), 0.8 * n + 0.8)); i += n; done = True; break
+            if done: break
         if not done: toks.append((spoken[i], syl(spoken[i]))); i += 1
     return toks
 cues_raw, report = [], []
@@ -220,7 +239,7 @@ plan = dict(target_ms=TARGET_MS, narration_ms=MS(total_raw), gap_ms=TARGET_MS - 
             captions=dict(cues=len(cues), pauses_matched=matched, pauses_predicted=predicted,
                           per_group=[dict(group=i, matched=m, predicted=p) for i, m, p in report]))
 (out / 'edit-plan.json').write_text(json.dumps(plan, indent=1, ensure_ascii=False) + '\n')
-md = ['# Episode 3 locked edit plan', '', f'Built from the current narration audit. Narration {total_raw:.3f} s, picture {TARGET_MS/1000:.3f} s, gap closed {(TARGET_MS - MS(total_raw))/1000:.3f} s. Regenerate with `tools/build_plan.py` after any re-render.', '',
+md = [f'# {TITLE} locked edit plan', '', f'Built from the current narration audit. Narration {total_raw:.3f} s, picture {TARGET_MS/1000:.3f} s, gap closed {(TARGET_MS - MS(total_raw))/1000:.3f} s. Regenerate with `tools/build_plan.py` after any re-render.', '',
       '| Chapter | Start | Window |', '| --- | --- | --- |']
 for k, (ms, title, sid) in enumerate(chapters): md.append(f'| {title} | {mmss(ms)} | {SECTIONS[sid][1]/1000:.0f} s |')
 md += ['', '| Start | End | Dur | Section | Slot | Beat |', '| --- | --- | ---: | --- | --- | --- |']

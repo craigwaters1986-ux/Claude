@@ -11,6 +11,14 @@ words, plan, srt_in, srt_out, rep = sys.argv[1:6]
 W = json.load(open(words)); P = json.load(open(plan))
 def norm(s): return re.sub(r"[^a-z0-9]", "", s.lower().replace("’", "'"))
 NUM = {'1604': ['sixteen', 'oh', 'four'], '1605': ['sixteen', 'oh', 'five'], '1606': ['sixteen', 'oh', 'six']}
+_U = 'zero one two three four five six seven eight nine'.split(); _T = {2: 'twenty', 3: 'thirty', 4: 'forty', 5: 'fifty', 6: 'sixty', 7: 'seventy', 8: 'eighty', 9: 'ninety'}
+for _y in list(range(1800, 1900)) + [1922]:  # years spoken as "eighteen sixty-three", "eighteen oh nine", "nineteen twenty-two"
+    _a, _b = divmod(_y, 100); _h = {18: 'eighteen', 19: 'nineteen'}[_a]
+    if _b == 0: _w = [_h, 'hundred']
+    elif _b < 10: _w = [_h, 'oh', _U[_b]]
+    elif _b < 20: _w = [_h, 'ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split()[_b - 10]]
+    else: _w = [_h, _T[_b // 10]] + ([_U[_b % 10]] if _b % 10 else [])
+    NUM.setdefault(str(_y), _w)
 def toks(text):
     out = []
     for w in re.split(r"[\s\-–—]+", text):

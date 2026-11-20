@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Write src/timeline/timeline.json for the composition from the locked edit plan and the caption SRT.
 
-usage: python3 scripts/timeline.py [SRT]   (default: production/scripts/ep03-gunpowder-plot/captions-provisional.srt)
+usage: python3 scripts/timeline.py [SRT]   (default: production/scripts/ep04-lincoln/captions-provisional.srt)
 Captions carry their own line breaks; shots anchor to caption text via T('phrase') in src/timeline/index.ts.
 """
 import json, re, sys
 from pathlib import Path
 ENG = Path(__file__).resolve().parents[1]
-PROD = ENG.parents[1] / 'production' / 'scripts' / 'ep03-gunpowder-plot'
+PROD = ENG.parents[1] / 'production' / 'scripts' / 'ep04-lincoln'
 srt = Path(sys.argv[1]) if len(sys.argv) > 1 else PROD / 'captions-provisional.srt'
 plan = json.loads((PROD / 'edit-plan.json').read_text())
 def sec(t):

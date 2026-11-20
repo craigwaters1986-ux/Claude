@@ -27,7 +27,8 @@ voice = torch.load(args.assets/'bm_george.pt',weights_only=True,map_location='cp
 # Context-preserving name overrides. The placeholder is replaced after phonemisation.
 # Knyvett: Wikipedia gives /nɪvɪt/ (NIV-it); the default phonemiser said NY-vet. The possessive has its own key so the
 # s stays voiceless after t. Keys that contain another key must come first in this dict.
-overrides = {'Guy Fawkes':'ɡˈaɪ fˈɔːks','Catesby':'kˈeɪtsbi','Hoxton':'hˈɒkstən','Warwickshire':'wˈɒɹɪkʃə','Salisbury':'sˈɔːlzbəɹi','Knyvett’s':'nˈɪvɪts','Knyvett':'nˈɪvɪt'}
+# Initials: the phonemiser keeps the full stop after an initial ("tˈiː."), and the model then swallows it. No stop here.
+overrides = {'Appomattox':'ˌapəmˈatəks','John T. Stuart':'dʒˈɒn tˈiː stjˈuːət','Robert E. Lee':'ɹˈɒbət ˈiː lˈiː','Ulysses S. Grant':'juːlˈɪsiːz ˈɛs ɡɹˈɑːnt'}
 def phones(text):
     found=[]
     def substitute(match):
@@ -52,7 +53,7 @@ if args.episode:
     groups, section_ids = [], []
     for section in json.loads(args.episode.read_text())['sections']:
         pending = ''
-        for sentence in re.split(r'(?<=[.!?])\s+', section['narration']):
+        for sentence in re.split(r'(?<=[.!?])(?<!\s[A-Z]\.)\s+', section['narration']):
             candidate = (pending + ' ' + sentence).strip()
             if pending and len(phones(candidate)) > 420:
                 groups.append(pending)

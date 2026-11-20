@@ -2,1865 +2,1547 @@
  "chapters": [
   {
    "start": 0.0,
-   "title": "A letter meant for the fire",
+   "title": "Two minutes",
    "section": "s01"
   },
   {
-   "start": 45.0,
-   "title": "A new king",
+   "start": 35.0,
+   "title": "A cabin in Kentucky",
    "section": "s02"
   },
   {
-   "start": 125.0,
-   "title": "The man behind the plot",
+   "start": 90.0,
+   "title": "The rail-splitter",
    "section": "s03"
   },
   {
-   "start": 220.0,
-   "title": "Ten days before Parliament",
+   "start": 140.0,
+   "title": "Lawyer and politician",
    "section": "s04"
   },
   {
-   "start": 315.0,
-   "title": "Two names in the record",
+   "start": 205.0,
+   "title": "A house divided",
    "section": "s05"
   },
   {
-   "start": 415.0,
-   "title": "After the arrest",
+   "start": 270.0,
+   "title": "President of a breaking country",
    "section": "s06"
   },
   {
-   "start": 505.0,
-   "title": "Who had to answer for it?",
+   "start": 325.0,
+   "title": "War and emancipation",
    "section": "s07"
   },
   {
-   "start": 605.0,
-   "title": "How a date became a tradition",
+   "start": 415.0,
+   "title": "Malice toward none",
    "section": "s08"
+  },
+  {
+   "start": 480.0,
+   "title": "Ford's Theatre",
+   "section": "s09"
+  },
+  {
+   "start": 530.0,
+   "title": "Legacy",
+   "section": "s10"
   }
  ],
  "beats": [
   {
    "section": "s01",
-   "kind": "rustle",
+   "kind": "open",
    "start": 0.0,
-   "end": 6.0
+   "end": 3.0
   },
   {
    "section": "s01",
    "kind": "title",
-   "start": 40.371,
-   "end": 44.66
+   "start": 24.718,
+   "end": 34.66
   },
   {
    "section": "s02",
    "kind": "card",
-   "start": 45.0,
-   "end": 48.0
-  },
-  {
-   "section": "s02",
-   "kind": "map",
-   "start": 48.0,
-   "end": 51.5
-  },
-  {
-   "section": "s02",
-   "kind": "doc",
-   "start": 72.9,
-   "end": 75.4
+   "start": 35.0,
+   "end": 38.0
   },
   {
    "section": "s02",
    "kind": "scene",
-   "start": 118.484,
-   "end": 124.66
+   "start": 38.0,
+   "end": 41.5
+  },
+  {
+   "section": "s02",
+   "kind": "scene",
+   "start": 63.687,
+   "end": 68.187
+  },
+  {
+   "section": "s02",
+   "kind": "scene",
+   "start": 82.629,
+   "end": 89.66
   },
   {
    "section": "s03",
    "kind": "card",
-   "start": 125.0,
-   "end": 128.0
+   "start": 90.0,
+   "end": 93.0
   },
   {
    "section": "s03",
    "kind": "scene",
-   "start": 128.0,
-   "end": 130.5
+   "start": 93.0,
+   "end": 95.0
   },
   {
    "section": "s03",
    "kind": "scene",
-   "start": 152.234,
-   "end": 155.734
-  },
-  {
-   "section": "s03",
-   "kind": "scene",
-   "start": 178.257,
-   "end": 182.757
-  },
-  {
-   "section": "s03",
-   "kind": "scene",
-   "start": 204.273,
-   "end": 207.273
-  },
-  {
-   "section": "s03",
-   "kind": "scene",
-   "start": 214.687,
-   "end": 219.66
+   "start": 135.933,
+   "end": 139.66
   },
   {
    "section": "s04",
    "kind": "card",
-   "start": 220.0,
-   "end": 223.0
+   "start": 140.0,
+   "end": 143.0
   },
   {
    "section": "s04",
    "kind": "scene",
-   "start": 223.0,
-   "end": 225.0
+   "start": 166.799,
+   "end": 168.799
   },
   {
    "section": "s04",
    "kind": "scene",
-   "start": 247.794,
-   "end": 250.794
-  },
-  {
-   "section": "s04",
-   "kind": "doc",
-   "start": 271.096,
-   "end": 273.096
-  },
-  {
-   "section": "s04",
-   "kind": "doc",
-   "start": 294.603,
-   "end": 299.603
+   "start": 186.081,
+   "end": 188.081
   },
   {
    "section": "s04",
    "kind": "scene",
-   "start": 309.03,
-   "end": 314.66
+   "start": 200.376,
+   "end": 204.66
   },
   {
    "section": "s05",
    "kind": "card",
-   "start": 315.0,
-   "end": 318.0
+   "start": 205.0,
+   "end": 208.0
   },
   {
    "section": "s05",
    "kind": "scene",
-   "start": 318.0,
-   "end": 322.0
-  },
-  {
-   "section": "s05",
-   "kind": "scene",
-   "start": 344.299,
-   "end": 348.299
-  },
-  {
-   "section": "s05",
-   "kind": "doc",
-   "start": 369.53,
-   "end": 377.53
-  },
-  {
-   "section": "s05",
-   "kind": "doc",
-   "start": 401.43,
-   "end": 405.43
-  },
-  {
-   "section": "s05",
-   "kind": "scene",
-   "start": 409.325,
-   "end": 414.66
+   "start": 266.562,
+   "end": 269.66
   },
   {
    "section": "s06",
+   "kind": "card",
+   "start": 270.0,
+   "end": 273.0
+  },
+  {
+   "section": "s06",
+   "kind": "scene",
+   "start": 320.698,
+   "end": 324.66
+  },
+  {
+   "section": "s07",
+   "kind": "card",
+   "start": 325.0,
+   "end": 328.0
+  },
+  {
+   "section": "s07",
+   "kind": "scene",
+   "start": 392.31,
+   "end": 395.81
+  },
+  {
+   "section": "s07",
+   "kind": "doc",
+   "start": 409.447,
+   "end": 414.66
+  },
+  {
+   "section": "s08",
    "kind": "card",
    "start": 415.0,
    "end": 418.0
   },
   {
-   "section": "s06",
-   "kind": "map",
-   "start": 418.0,
-   "end": 420.5
-  },
-  {
-   "section": "s06",
-   "kind": "map",
-   "start": 443.351,
-   "end": 449.351
-  },
-  {
-   "section": "s06",
-   "kind": "doc",
-   "start": 472.201,
-   "end": 477.201
-  },
-  {
-   "section": "s06",
+   "section": "s08",
    "kind": "scene",
-   "start": 498.241,
-   "end": 504.66
+   "start": 438.301,
+   "end": 440.301
   },
   {
-   "section": "s07",
+   "section": "s08",
+   "kind": "scene",
+   "start": 474.543,
+   "end": 479.66
+  },
+  {
+   "section": "s09",
    "kind": "card",
-   "start": 505.0,
-   "end": 508.0
+   "start": 480.0,
+   "end": 483.0
   },
   {
-   "section": "s07",
+   "section": "s09",
    "kind": "scene",
-   "start": 508.0,
-   "end": 510.5
+   "start": 503.779,
+   "end": 505.779
   },
   {
-   "section": "s07",
+   "section": "s09",
    "kind": "scene",
-   "start": 530.925,
-   "end": 535.425
+   "start": 524.307,
+   "end": 529.66
   },
   {
-   "section": "s07",
-   "kind": "doc",
-   "start": 559.258,
-   "end": 562.258
-  },
-  {
-   "section": "s07",
-   "kind": "scene",
-   "start": 585.018,
-   "end": 587.518
-  },
-  {
-   "section": "s07",
-   "kind": "scene",
-   "start": 602.392,
-   "end": 604.66
-  },
-  {
-   "section": "s08",
+   "section": "s10",
    "kind": "card",
-   "start": 605.0,
-   "end": 608.0
+   "start": 530.0,
+   "end": 533.0
   },
   {
-   "section": "s08",
-   "kind": "scene",
-   "start": 608.0,
-   "end": 610.0
-  },
-  {
-   "section": "s08",
+   "section": "s10",
    "kind": "doc",
-   "start": 633.291,
-   "end": 637.291
+   "start": 551.964,
+   "end": 554.964
   },
   {
-   "section": "s08",
-   "kind": "scene",
-   "start": 660.722,
-   "end": 664.722
-  },
-  {
-   "section": "s08",
-   "kind": "scene",
-   "start": 683.243,
-   "end": 685.243
-  },
-  {
-   "section": "s08",
-   "kind": "doc",
-   "start": 715.549,
-   "end": 717.049
-  },
-  {
-   "section": "s08",
+   "section": "s10",
    "kind": "end",
-   "start": 717.049,
-   "end": 719.66
+   "start": 588.724,
+   "end": 599.66
   }
  ],
  "groups": [
   {
    "group": 0,
    "section": "s01",
-   "start": 6.0,
-   "end": 28.244
+   "start": 3.0,
+   "end": 24.718
   },
   {
    "group": 1,
-   "section": "s01",
-   "start": 28.454,
-   "end": 40.371
+   "section": "s02",
+   "start": 41.5,
+   "end": 63.687
   },
   {
    "group": 2,
    "section": "s02",
-   "start": 51.5,
-   "end": 72.9
+   "start": 68.397,
+   "end": 82.629
   },
   {
    "group": 3,
-   "section": "s02",
-   "start": 75.61,
-   "end": 97.67
+   "section": "s03",
+   "start": 95.0,
+   "end": 117.443
   },
   {
    "group": 4,
-   "section": "s02",
-   "start": 97.88,
-   "end": 118.484
+   "section": "s03",
+   "start": 117.653,
+   "end": 135.933
   },
   {
    "group": 5,
-   "section": "s03",
-   "start": 130.5,
-   "end": 152.234
+   "section": "s04",
+   "start": 143.0,
+   "end": 166.799
   },
   {
    "group": 6,
-   "section": "s03",
-   "start": 155.944,
-   "end": 178.257
+   "section": "s04",
+   "start": 169.009,
+   "end": 186.081
   },
   {
    "group": 7,
-   "section": "s03",
-   "start": 182.967,
-   "end": 204.273
+   "section": "s04",
+   "start": 188.291,
+   "end": 200.376
   },
   {
    "group": 8,
-   "section": "s03",
-   "start": 207.483,
-   "end": 214.687
+   "section": "s05",
+   "start": 208.0,
+   "end": 224.939
   },
   {
    "group": 9,
-   "section": "s04",
-   "start": 225.0,
-   "end": 247.794
+   "section": "s05",
+   "start": 225.149,
+   "end": 238.07
   },
   {
    "group": 10,
-   "section": "s04",
-   "start": 251.004,
-   "end": 271.096
+   "section": "s05",
+   "start": 238.28,
+   "end": 257.635
   },
   {
    "group": 11,
-   "section": "s04",
-   "start": 273.306,
-   "end": 294.603
+   "section": "s05",
+   "start": 257.845,
+   "end": 266.562
   },
   {
    "group": 12,
-   "section": "s04",
-   "start": 299.813,
-   "end": 309.03
+   "section": "s06",
+   "start": 273.0,
+   "end": 293.338
   },
   {
    "group": 13,
-   "section": "s05",
-   "start": 322.0,
-   "end": 344.299
+   "section": "s06",
+   "start": 293.548,
+   "end": 314.377
   },
   {
    "group": 14,
-   "section": "s05",
-   "start": 348.509,
-   "end": 369.53
+   "section": "s06",
+   "start": 314.587,
+   "end": 320.698
   },
   {
    "group": 15,
-   "section": "s05",
-   "start": 377.74,
-   "end": 401.43
+   "section": "s07",
+   "start": 328.0,
+   "end": 348.072
   },
   {
    "group": 16,
-   "section": "s05",
-   "start": 405.64,
-   "end": 409.325
+   "section": "s07",
+   "start": 348.282,
+   "end": 370.03
   },
   {
    "group": 17,
-   "section": "s06",
-   "start": 420.5,
-   "end": 443.351
+   "section": "s07",
+   "start": 370.24,
+   "end": 392.31
   },
   {
    "group": 18,
-   "section": "s06",
-   "start": 449.561,
-   "end": 472.201
+   "section": "s07",
+   "start": 396.02,
+   "end": 409.447
   },
   {
    "group": 19,
-   "section": "s06",
-   "start": 477.411,
-   "end": 498.241
+   "section": "s08",
+   "start": 418.0,
+   "end": 438.301
   },
   {
    "group": 20,
-   "section": "s07",
-   "start": 510.5,
-   "end": 530.925
+   "section": "s08",
+   "start": 440.511,
+   "end": 458.401
   },
   {
    "group": 21,
-   "section": "s07",
-   "start": 535.636,
-   "end": 559.258
+   "section": "s08",
+   "start": 458.611,
+   "end": 474.543
   },
   {
    "group": 22,
-   "section": "s07",
-   "start": 562.468,
-   "end": 585.018
+   "section": "s09",
+   "start": 483.0,
+   "end": 503.779
   },
   {
    "group": 23,
-   "section": "s07",
-   "start": 587.728,
-   "end": 602.392
+   "section": "s09",
+   "start": 505.989,
+   "end": 524.307
   },
   {
    "group": 24,
-   "section": "s08",
-   "start": 610.0,
-   "end": 633.291
+   "section": "s10",
+   "start": 533.0,
+   "end": 551.964
   },
   {
    "group": 25,
-   "section": "s08",
-   "start": 637.501,
-   "end": 660.722
+   "section": "s10",
+   "start": 555.174,
+   "end": 576.168
   },
   {
    "group": 26,
-   "section": "s08",
-   "start": 664.932,
-   "end": 683.243
-  },
-  {
-   "group": 27,
-   "section": "s08",
-   "start": 685.453,
-   "end": 705.208
-  },
-  {
-   "group": 28,
-   "section": "s08",
-   "start": 705.418,
-   "end": 715.549
+   "section": "s10",
+   "start": 576.378,
+   "end": 588.724
   }
  ],
  "captions": [
   {
-   "start": 6.0,
-   "end": 8.01,
+   "start": 3.0,
+   "end": 3.8,
    "lines": [
-    "Whoever wrote this letter wanted it burnt,"
+    "Two minutes."
    ]
   },
   {
-   "start": 8.26,
-   "end": 10.99,
+   "start": 3.88,
+   "end": 7.987,
    "lines": [
-    "yet four hundred years",
-    "later you can still read it."
+    "That is roughly how long Abraham",
+    "Lincoln spoke at Gettysburg in 1863,"
    ]
   },
   {
-   "start": 11.22,
-   "end": 13.61,
+   "start": 8.02,
+   "end": 11.51,
    "lines": [
-    "There’s no name at the",
-    "bottom or date at the top,"
+    "after the main speaker had",
+    "talked for about two hours."
    ]
   },
   {
-   "start": 13.82,
-   "end": 15.707,
+   "start": 11.96,
+   "end": 14.07,
    "lines": [
-    "but the man who opened it knew exactly"
+    "Five copies survive in his own hand."
    ]
   },
   {
-   "start": 15.74,
-   "end": 18.15,
+   "start": 14.4,
+   "end": 18.11,
    "lines": [
-    "which appointment he was",
-    "being warned to miss."
+    "Only one, known as the Bliss",
+    "copy, is signed and dated."
    ]
   },
   {
-   "start": 18.58,
-   "end": 19.89,
+   "start": 18.46,
+   "end": 20.17,
    "lines": [
-    "He was due in Parliament."
+    "It is kept in the White House."
    ]
   },
   {
-   "start": 20.5,
-   "end": 23.95,
+   "start": 20.52,
+   "end": 22.97,
    "lines": [
-    "Lord Monteagle could have made",
-    "his excuses and stayed at home."
+    "The man who wrote it",
+    "had, by his own count,"
    ]
   },
   {
-   "start": 24.32,
-   "end": 28.11,
+   "start": 23.24,
+   "end": 24.59,
    "lines": [
-    "The stranger who sent the warning",
-    "would have had no reason to complain."
+    "less than a year of schooling."
    ]
   },
   {
-   "start": 28.46,
-   "end": 31.57,
+   "start": 41.502,
+   "end": 45.012,
    "lines": [
-    "Instead, Monteagle took the",
-    "letter to a government minister."
+    "Abraham Lincoln was born on",
+    "the twelfth of February, 1809,"
    ]
   },
   {
-   "start": 32.08,
-   "end": 32.93,
+   "start": 45.262,
+   "end": 48.492,
    "lines": [
-    "Within days,"
+    "in a one-room log cabin on",
+    "his father's farm in Kentucky."
    ]
   },
   {
-   "start": 33.24,
-   "end": 37.87,
+   "start": 49.062,
+   "end": 51.972,
    "lines": [
-    "officials at Westminster had arrested",
-    "a man who called himself John Johnson."
+    "His parents were Thomas",
+    "Lincoln, a carpenter and farmer,"
    ]
   },
   {
-   "start": 38.34,
-   "end": 40.39,
+   "start": 52.122,
+   "end": 52.972,
    "lines": [
-    "We know him as Guy Fawkes."
+    "and Nancy Hanks."
    ]
   },
   {
-   "start": 51.529,
-   "end": 54.359,
+   "start": 53.382,
+   "end": 57.612,
    "lines": [
-    "Two years earlier, England",
-    "had been waiting for a king."
+    "When he was seven, the family moved",
+    "to Indiana, partly, he later said,"
    ]
   },
   {
-   "start": 54.969,
-   "end": 56.339,
+   "start": 57.782,
+   "end": 60.992,
    "lines": [
-    "Elizabeth the First had died,"
+    "on account of slavery, but",
+    "chiefly over land titles."
    ]
   },
   {
-   "start": 56.589,
-   "end": 60.419,
+   "start": 61.402,
+   "end": 63.632,
    "lines": [
-    "and the man who inherited her throne",
-    "was already a king in Scotland."
+    "An axe was put into his hands at once."
    ]
   },
   {
-   "start": 60.929,
-   "end": 63.356,
+   "start": 68.397,
+   "end": 71.932,
    "lines": [
-    "The Scots knew him as James the Sixth,"
+    "When he was nine, his mother died",
+    "of what people called milk sickness."
    ]
   },
   {
-   "start": 63.389,
-   "end": 66.893,
+   "start": 72.442,
+   "end": 76.232,
    "lines": [
-    "and now the English would",
-    "know him as James the First."
+    "His stepmother, Sarah Bush",
+    "Johnston, proved, in his words,"
    ]
   },
   {
-   "start": 66.929,
-   "end": 69.256,
+   "start": 76.482,
+   "end": 77.972,
    "lines": [
-    "One man now wore both crowns."
+    "\"a good and kind mother\"."
    ]
   },
   {
-   "start": 69.289,
-   "end": 73.119,
+   "start": 78.402,
+   "end": 81.229,
    "lines": [
-    "Among the people watching to see what",
-    "he would do were England’s Catholics."
+    "He wrote of himself, \"What he",
+    "has in the way of education,"
    ]
   },
   {
-   "start": 75.61,
-   "end": 79.339,
+   "start": 81.262,
+   "end": 95.84,
    "lines": [
-    "English law required attendance at",
-    "services of the established Church."
+    "he has picked up.\" At nineteen,"
    ]
   },
   {
-   "start": 79.929,
-   "end": 82.139,
+   "start": 95.933,
+   "end": 99.943,
    "lines": [
-    "Catholics who stayed",
-    "away could face fines."
+    "Lincoln helped take a flatboat down the",
+    "Ohio and Mississippi to New Orleans,"
    ]
   },
   {
-   "start": 82.609,
-   "end": 84.396,
+   "start": 100.273,
+   "end": 101.623,
    "lines": [
-    "What happened on a Sunday morning could"
+    "over twelve hundred miles."
    ]
   },
   {
-   "start": 84.429,
-   "end": 86.839,
+   "start": 102.213,
+   "end": 104.823,
    "lines": [
-    "reach into a family’s finances for years."
+    "In 1830 the family moved on to Illinois,"
    ]
   },
   {
-   "start": 87.369,
-   "end": 90.579,
+   "start": 105.113,
+   "end": 107.463,
    "lines": [
-    "Some Catholics hoped a change",
-    "of monarch might bring relief."
+    "where he split rails to fence ten acres."
    ]
   },
   {
-   "start": 91.149,
-   "end": 94.359,
+   "start": 108.153,
+   "end": 111.363,
    "lines": [
-    "James had a Catholic mother,",
-    "Mary, Queen of Scots,"
+    "Rails like these later became",
+    "part of his campaign image."
    ]
   },
   {
-   "start": 94.729,
-   "end": 97.439,
+   "start": 111.773,
+   "end": 113.483,
    "lines": [
-    "although his own upbringing",
-    "and faith were Protestant."
+    "On a second trip to New Orleans,"
    ]
   },
   {
-   "start": 97.889,
-   "end": 101.559,
+   "start": 113.793,
+   "end": 117.18,
    "lines": [
-    "Then came peace between England",
-    "and Spain, a Catholic power."
+    "he would have seen slavery on",
+    "a scale unknown in Illinois."
    ]
   },
   {
-   "start": 101.829,
-   "end": 105.719,
+   "start": 117.213,
+   "end": 120.823,
    "lines": [
-    "For people hoping that peace abroad",
-    "might improve their position at home,"
+    "Stories of its effect on him",
+    "came only after his death;"
    ]
   },
   {
-   "start": 105.989,
-   "end": 107.799,
+   "start": 121.133,
+   "end": 123.063,
    "lines": [
-    "the settlement brought disappointment."
+    "historians treat them with caution."
    ]
   },
   {
-   "start": 108.689,
-   "end": 111.299,
+   "start": 123.493,
+   "end": 127.563,
    "lines": [
-    "Catholics had to decide how",
-    "to live under this king."
+    "At New Salem he was a store",
+    "clerk, postmaster and surveyor."
    ]
   },
   {
-   "start": 111.649,
-   "end": 114.559,
+   "start": 127.853,
+   "end": 131.703,
    "lines": [
-    "One small circle of men",
-    "decided he should die."
+    "In the Black Hawk War, his fellow",
+    "volunteers elected him captain."
    ]
   },
   {
-   "start": 114.969,
-   "end": 118.419,
+   "start": 132.173,
+   "end": 135.963,
    "lines": [
-    "Another Catholic would carry the",
-    "warning that helped save his life."
+    "He saw no battle, but said",
+    "nothing later satisfied him more."
    ]
   },
   {
-   "start": 130.5,
-   "end": 133.555,
+   "start": 143.0,
+   "end": 147.41,
    "lines": [
-    "The man at the centre of the",
-    "conspiracy was Robert Catesby,"
+    "In 1834, Lincoln was elected to",
+    "the Illinois legislature as a Whig."
    ]
   },
   {
-   "start": 133.765,
-   "end": 135.235,
+   "start": 147.74,
+   "end": 149.57,
    "lines": [
-    "a gentleman from Warwickshire."
+    "He borrowed law books from John T."
    ]
   },
   {
-   "start": 135.585,
-   "end": 139.855,
+   "start": 150.23,
+   "end": 152.59,
    "lines": [
-    "In May 1604, Catesby met four",
-    "men in London: Thomas Winter,"
+    "Stuart, later his law",
+    "partner, and taught himself."
    ]
   },
   {
-   "start": 140.165,
-   "end": 143.272,
+   "start": 152.9,
+   "end": 154.93,
    "lines": [
-    "Thomas Percy, John Wright and Guy Fawkes."
+    "\"He studied with nobody,\" he wrote."
    ]
   },
   {
-   "start": 143.305,
-   "end": 144.675,
+   "start": 155.28,
+   "end": 160.39,
    "lines": [
-    "Of those five names,"
+    "In 1837 he moved to Springfield with",
+    "all his belongings in two saddlebags."
    ]
   },
   {
-   "start": 145.005,
-   "end": 146.872,
+   "start": 160.64,
+   "end": 164.33,
    "lines": [
-    "the one familiar to most people today"
+    "That year he joined a protest",
+    "against slavery in the legislature."
    ]
   },
   {
-   "start": 146.905,
-   "end": 149.335,
+   "start": 164.82,
+   "end": 166.77,
    "lines": [
-    "belongs to the man",
-    "arrested at Westminster."
+    "He met Mary Todd at a ball."
    ]
   },
   {
-   "start": 149.985,
-   "end": 152.195,
+   "start": 169.009,
+   "end": 173.33,
    "lines": [
-    "It was Catesby who proposed the attack."
+    "Their engagement broke off, and",
+    "in January 1841 Lincoln wrote,"
    ]
   },
   {
-   "start": 156.005,
-   "end": 158.272,
+   "start": 173.76,
+   "end": 175.99,
    "lines": [
-    "His intended victims were the king and the"
+    "\"I am now the most miserable man living.\""
    ]
   },
   {
-   "start": 158.305,
-   "end": 160.855,
+   "start": 176.6,
+   "end": 178.807,
    "lines": [
-    "people assembled for the",
-    "State Opening of Parliament."
+    "Friends spoke of his",
+    "bouts of deep melancholy."
    ]
   },
   {
-   "start": 161.425,
-   "end": 163.195,
+   "start": 178.84,
+   "end": 183.55,
    "lines": [
-    "Consider what that occasion meant."
+    "But in November 1842 they married,",
+    "and they would have four sons."
    ]
   },
   {
-   "start": 163.665,
-   "end": 166.795,
+   "start": 184.04,
+   "end": 185.99,
    "lines": [
-    "James would address the political",
-    "nation gathered around him."
+    "He rode the legal circuit for years."
    ]
   },
   {
-   "start": 167.405,
-   "end": 169.555,
+   "start": 188.291,
+   "end": 192.847,
    "lines": [
-    "Members of the Commons",
-    "would come to hear him."
+    "In 1846 he was elected to",
+    "Congress for a single term,"
    ]
   },
   {
-   "start": 169.925,
-   "end": 172.895,
+   "start": 192.88,
+   "end": 196.387,
    "lines": [
-    "Men who disagreed about",
-    "religion, about government,"
+    "where he opposed the war",
+    "with Mexico and proposed a"
    ]
   },
   {
-   "start": 173.225,
-   "end": 174.652,
+   "start": 196.42,
+   "end": 200.25,
    "lines": [
-    "even about the king himself,"
+    "bill to begin ending slavery",
+    "in the District of Columbia."
    ]
   },
   {
-   "start": 174.685,
-   "end": 178.115,
+   "start": 207.984,
+   "end": 209.314,
    "lines": [
-    "would be there in the ordinary",
-    "course of their duties."
+    "In 1854,"
    ]
   },
   {
-   "start": 183.125,
-   "end": 185.575,
+   "start": 209.564,
+   "end": 212.151,
    "lines": [
-    "Catesby’s ambitions",
-    "reached beyond Westminster."
+    "the Kansas–Nebraska Act",
+    "reopened the question"
    ]
   },
   {
-   "start": 186.225,
-   "end": 188.392,
+   "start": 212.184,
+   "end": 214.311,
    "lines": [
-    "The conspirators hoped",
-    "that Catholic gentlemen"
+    "of slavery in the western territories,"
    ]
   },
   {
-   "start": 188.425,
-   "end": 190.715,
+   "start": 214.344,
+   "end": 219.074,
    "lines": [
-    "in the Midlands would rally to them."
+    "and drew Lincoln back into politics,",
+    "in the new Republican Party."
    ]
   },
   {
-   "start": 190.925,
-   "end": 194.455,
+   "start": 219.684,
+   "end": 224.954,
    "lines": [
-    "They meant to take possession of",
-    "James’s young daughter Elizabeth."
+    "In June 1858, running for the Senate,",
+    "he quoted the Bible in a speech."
    ]
   },
   {
-   "start": 194.885,
-   "end": 195.685,
+   "start": 225.164,
+   "end": 227.131,
    "lines": [
-    "On paper,"
+    "\"A house divided against itself cannot"
    ]
   },
   {
-   "start": 195.985,
-   "end": 200.035,
+   "start": 227.164,
+   "end": 230.451,
    "lines": [
-    "a royal child gave their imagined",
-    "new government a claim to the throne."
+    "stand.\" \"I believe this",
+    "government cannot endure,"
    ]
   },
   {
-   "start": 200.445,
-   "end": 204.235,
+   "start": 230.484,
+   "end": 233.931,
    "lines": [
-    "In life, she was a child whose",
-    "father they intended to murder."
+    "permanently half slave",
+    "and half free.\" He met"
    ]
   },
   {
-   "start": 207.483,
-   "end": 209.852,
+   "start": 233.964,
+   "end": 237.974,
    "lines": [
-    "And the support on which",
-    "the whole enterprise"
+    "the Democrat Stephen Douglas in",
+    "seven debates across Illinois."
    ]
   },
   {
-   "start": 209.885,
-   "end": 214.315,
+   "start": 238.304,
+   "end": 241.741,
    "lines": [
-    "depended existed largely in",
-    "the conspirators’ expectations."
+    "At Charleston he said something",
+    "hard to hear today: \"I am not,"
    ]
   },
   {
-   "start": 224.998,
-   "end": 227.668,
+   "start": 241.774,
+   "end": 242.681,
    "lines": [
-    "On the twenty-sixth of October, 1605,"
+    "nor ever have been,"
    ]
   },
   {
-   "start": 228.118,
-   "end": 231.148,
+   "start": 242.714,
+   "end": 247.041,
    "lines": [
-    "Lord Monteagle received the",
-    "warning at his house in Hoxton,"
+    "in favor of bringing about in any way",
+    "the social and political equality of"
    ]
   },
   {
-   "start": 231.598,
-   "end": 232.888,
+   "start": 247.074,
+   "end": 252.181,
    "lines": [
-    "north of the City of London."
+    "the white and black races…\" He also",
+    "opposed Black voting and jury service."
    ]
   },
   {
-   "start": 233.298,
-   "end": 237.608,
+   "start": 252.214,
+   "end": 257.484,
    "lines": [
-    "A contemporary account says an unknown",
-    "person delivered it to his footman."
+    "The legislature, which chose senators",
+    "then, returned Douglas. Lincoln lost."
    ]
   },
   {
-   "start": 237.898,
-   "end": 241.108,
+   "start": 257.774,
+   "end": 259.361,
    "lines": [
-    "Here was a message important",
-    "enough to pass to a lord,"
+    "But the debates made his name,"
    ]
   },
   {
-   "start": 241.438,
-   "end": 243.848,
+   "start": 259.394,
+   "end": 263.724,
    "lines": [
-    "written by someone unwilling to sign it."
+    "and in February 1860 he spoke",
+    "at Cooper Union in New York:"
    ]
   },
   {
-   "start": 243.998,
-   "end": 247.728,
+   "start": 264.194,
+   "end": 266.464,
    "lines": [
-    "The writer appeals to Monteagle’s",
-    "concern for his own life."
+    "\"let us have faith that",
+    "right makes might\"."
    ]
   },
   {
-   "start": 251.004,
-   "end": 254.848,
+   "start": 272.992,
+   "end": 277.022,
    "lines": [
-    "He’s urged to find an excuse to miss",
-    "Parliament and wait in the country."
+    "In May 1860, the Republicans",
+    "chose him to run for President."
    ]
   },
   {
-   "start": 255.258,
-   "end": 258.048,
+   "start": 277.532,
+   "end": 280.962,
    "lines": [
-    "Then comes the phrase that",
-    "still catches the eye."
+    "That October, an eleven-year-old",
+    "girl, Grace Bedell,"
    ]
   },
   {
-   "start": 258.778,
-   "end": 262.208,
+   "start": 281.132,
+   "end": 282.702,
    "lines": [
-    "Parliament, the letter says,",
-    "will receive “a terrible blow”."
+    "wrote to him about a beard."
    ]
   },
   {
-   "start": 262.658,
-   "end": 264.605,
+   "start": 283.212,
+   "end": 284.642,
    "lines": [
-    "It gives Monteagle enough to frighten him,"
+    "Apparently taking her advice,"
    ]
   },
   {
-   "start": 264.638,
-   "end": 267.448,
+   "start": 284.932,
+   "end": 287.222,
    "lines": [
-    "and very little he could",
-    "use to question the writer."
+    "he became the first President to wear one."
    ]
   },
   {
-   "start": 268.018,
-   "end": 270.848,
+   "start": 287.632,
+   "end": 289.842,
    "lines": [
-    "Today the sheet is held",
-    "by The National Archives."
+    "In November he won a four-way race."
    ]
   },
   {
-   "start": 273.306,
-   "end": 275.585,
+   "start": 290.232,
+   "end": 293.202,
    "lines": [
-    "We can inspect the",
-    "handwriting and compare the"
+    "Many white Southerners feared",
+    "he would move against slavery."
    ]
   },
   {
-   "start": 275.618,
-   "end": 277.768,
+   "start": 293.552,
+   "end": 296.582,
    "lines": [
-    "text with accounts of what happened next."
+    "Before he took office, seven",
+    "states had left the Union,"
    ]
   },
   {
-   "start": 278.018,
-   "end": 280.725,
+   "start": 296.892,
+   "end": 298.022,
    "lines": [
-    "We still cannot put a name",
-    "to the hand that wrote it."
+    "South Carolina first,"
    ]
   },
   {
-   "start": 280.758,
-   "end": 285.148,
+   "start": 298.292,
+   "end": 301.699,
    "lines": [
-    "Francis Tresham, a conspirator",
-    "and Monteagle’s brother-in-law,"
+    "and formed the Confederacy",
+    "under Jefferson Davis."
    ]
   },
   {
-   "start": 285.278,
-   "end": 287.288,
+   "start": 301.732,
+   "end": 305.402,
    "lines": [
-    "came under suspicion at the time."
+    "Slavery, and the fight over its",
+    "spread, lay at the root of the crisis."
    ]
   },
   {
-   "start": 287.758,
-   "end": 291.888,
+   "start": 305.872,
+   "end": 307.382,
    "lines": [
-    "A family connection might explain why",
-    "somebody wanted to save Monteagle."
+    "His election was the spark."
    ]
   },
   {
-   "start": 292.258,
-   "end": 294.568,
+   "start": 307.832,
+   "end": 310.082,
    "lines": [
-    "It cannot establish who sent the letter."
+    "On the twelfth of April, 1861,"
    ]
   },
   {
-   "start": 299.813,
-   "end": 303.068,
+   "start": 310.752,
+   "end": 314.519,
    "lines": [
-    "Monteagle took it to Robert",
-    "Cecil, Earl of Salisbury,"
+    "Confederate forces attacked Fort",
+    "Sumter, in Charleston harbour."
    ]
   },
   {
-   "start": 303.398,
-   "end": 304.808,
+   "start": 314.552,
+   "end": 318.882,
    "lines": [
-    "the king’s chief minister."
+    "It surrendered, and Lincoln called",
+    "for seventy-five thousand volunteers."
    ]
   },
   {
-   "start": 305.238,
-   "end": 308.988,
+   "start": 319.412,
+   "end": 320.602,
    "lines": [
-    "A warning addressed to one man",
-    "was now in government hands."
+    "The war had begun."
    ]
   },
   {
-   "start": 322.008,
-   "end": 323.958,
+   "start": 327.994,
+   "end": 330.004,
    "lines": [
-    "The king was away when the letter arrived."
+    "Early on came defeat at Bull Run."
    ]
   },
   {
-   "start": 324.188,
-   "end": 326.818,
+   "start": 330.434,
+   "end": 335.054,
    "lines": [
-    "When he returned to London,",
-    "he was told about it."
+    "In February 1862, his son",
+    "Willie died, aged eleven."
    ]
   },
   {
-   "start": 327.108,
-   "end": 330.338,
+   "start": 335.094,
+   "end": 336.681,
    "lines": [
-    "Meanwhile, news of the warning",
-    "had reached the conspirators."
+    "In August he wrote publicly,"
    ]
   },
   {
-   "start": 330.948,
-   "end": 333.038,
+   "start": 336.714,
+   "end": 340.421,
    "lines": [
-    "Catesby and Winter challenged Tresham."
+    "\"My paramount object in this",
+    "struggle is to save the Union,"
    ]
   },
   {
-   "start": 333.288,
-   "end": 335.578,
+   "start": 340.454,
+   "end": 344.124,
    "lines": [
-    "He persuaded them he",
-    "hadn’t informed on them,"
+    "and is not either to save",
+    "or to destroy slavery.\""
    ]
   },
   {
-   "start": 335.728,
-   "end": 338.778,
+   "start": 344.554,
+   "end": 347.764,
    "lines": [
-    "and on the third of November",
-    "they decided to go on."
+    "Yet he had already shown his",
+    "Cabinet a draft proclamation."
    ]
   },
   {
-   "start": 339.088,
-   "end": 339.888,
+   "start": 348.274,
+   "end": 351.924,
    "lines": [
-    "By then,"
+    "On the first of January",
+    "1863, as a war measure,"
    ]
   },
   {
-   "start": 339.988,
-   "end": 344.258,
+   "start": 352.194,
+   "end": 355.661,
    "lines": [
-    "the decision over whether Parliament",
-    "could meet safely lay in other hands."
+    "the Emancipation Proclamation",
+    "declared that all persons held"
    ]
   },
   {
-   "start": 348.509,
-   "end": 351.658,
+   "start": 355.694,
+   "end": 358.121,
    "lines": [
-    "On the night before the opening,",
-    "officials searched at Westminster."
+    "as slaves in the rebel states \"are,"
    ]
   },
   {
-   "start": 352.308,
-   "end": 356.138,
+   "start": 358.154,
+   "end": 360.104,
    "lines": [
-    "Sir Thomas Knyvett’s party found",
-    "gunpowder and took a man into custody."
+    "and henceforward shall be free\"."
    ]
   },
   {
-   "start": 356.528,
-   "end": 359.278,
+   "start": 360.474,
+   "end": 363.141,
    "lines": [
-    "The king, the Lords and",
-    "the Commons survived."
+    "It could not free anyone",
+    "beyond the Union army's reach,"
    ]
   },
   {
-   "start": 359.628,
-   "end": 363.075,
+   "start": 363.174,
+   "end": 367.024,
    "lines": [
-    "For a moment, put aside the",
-    "familiar pictures of Guy Fawkes"
+    "and left slavery untouched",
+    "in the loyal border states."
    ]
   },
   {
-   "start": 363.108,
-   "end": 365.698,
+   "start": 367.354,
+   "end": 369.944,
    "lines": [
-    "and look at what an",
-    "official actually wrote."
+    "But the war was now a war against slavery."
    ]
   },
   {
-   "start": 366.008,
-   "end": 369.418,
+   "start": 370.154,
+   "end": 372.884,
    "lines": [
-    "The House of Commons met briefly",
-    "on the fifth of November."
+    "It also opened the army",
+    "and navy to Black men;"
    ]
   },
   {
-   "start": 377.74,
-   "end": 381.258,
+   "start": 373.194,
+   "end": 375.064,
    "lines": [
-    "Its clerk, Ralph Ewens, made a",
-    "note in the margin of the Journal."
+    "nearly two hundred thousand served."
    ]
   },
   {
-   "start": 381.548,
-   "end": 385.238,
+   "start": 375.414,
+   "end": 379.064,
    "lines": [
-    "The prisoner appears there as",
-    "Johnson, a servant of Thomas Percy."
+    "Frederick Douglass recruited soldiers,",
+    "and two of his sons enlisted."
    ]
   },
   {
-   "start": 385.588,
-   "end": 387.718,
+   "start": 379.414,
+   "end": 383.044,
    "lines": [
-    "If that single page were all we had,"
+    "In July the Union won at",
+    "Gettysburg, at terrible cost."
    ]
   },
   {
-   "start": 387.908,
-   "end": 391.658,
+   "start": 383.394,
+   "end": 384.194,
    "lines": [
-    "the name children learn on Bonfire",
-    "Night would be missing from the story."
+    "That August,"
    ]
   },
   {
-   "start": 391.928,
-   "end": 394.698,
+   "start": 384.754,
+   "end": 388.584,
    "lines": [
-    "That detail tells us something",
-    "about the speed of events."
+    "Frederick Douglass protested to Lincoln",
+    "that Black soldiers were paid less."
    ]
   },
   {
-   "start": 395.128,
-   "end": 397.975,
+   "start": 388.974,
+   "end": 392.584,
    "lines": [
-    "The clerk could record the",
-    "discovery and the danger"
+    "In November, Lincoln helped",
+    "dedicate a cemetery there."
    ]
   },
   {
-   "start": 398.008,
-   "end": 401.378,
+   "start": 396.094,
+   "end": 397.604,
    "lines": [
-    "while the identity of the",
-    "prisoner was still emerging."
+    "The signed copy begins:"
    ]
   },
   {
-   "start": 405.64,
-   "end": 409.138,
+   "start": 397.974,
+   "end": 401.821,
    "lines": [
-    "We know who Johnson was",
-    "because other records survive."
+    "\"Four score and seven years ago our",
+    "fathers brought forth on this continent,"
    ]
   },
   {
-   "start": 420.483,
-   "end": 422.853,
+   "start": 401.854,
+   "end": 404.561,
    "lines": [
-    "In London, investigators wanted names."
+    "a new nation, conceived in Liberty,"
    ]
   },
   {
-   "start": 423.243,
-   "end": 427.673,
+   "start": 404.594,
+   "end": 407.561,
    "lines": [
-    "In the Midlands, Catesby had to explain",
-    "to potential supporters what had happened."
+    "and dedicated to the proposition that all"
    ]
   },
   {
-   "start": 428.107,
-   "end": 431.194,
+   "start": 407.594,
+   "end": 419.717,
    "lines": [
-    "The king was alive and",
-    "the conspiracy was public."
+    "men are created equal.\" In April 1864,"
    ]
   },
   {
-   "start": 431.41,
-   "end": 434.03,
+   "start": 419.947,
+   "end": 423.007,
    "lines": [
-    "What had sounded to the",
-    "plotters like the beginning of a"
+    "Lincoln wrote, \"I am",
+    "naturally anti-slavery."
    ]
   },
   {
-   "start": 434.063,
-   "end": 438.133,
+   "start": 423.067,
+   "end": 424.64,
    "lines": [
-    "rising now looked very different",
-    "to anyone asked to join it."
+    "If slavery is not wrong,"
    ]
   },
   {
-   "start": 438.463,
-   "end": 439.833,
+   "start": 424.68,
+   "end": 427.937,
    "lines": [
-    "On the seventh of November,"
+    "nothing is wrong.\" That",
+    "summer he expected to lose."
    ]
   },
   {
-   "start": 440.083,
-   "end": 443.233,
+   "start": 428.267,
+   "end": 432.513,
    "lines": [
-    "a royal proclamation",
-    "declared the rebels traitors."
+    "Then Union forces took Atlanta,",
+    "and in November he was re-elected."
    ]
   },
   {
-   "start": 449.561,
-   "end": 451.173,
+   "start": 432.707,
+   "end": 436.977,
    "lines": [
-    "That day, at the Tower of London,"
+    "In January 1865, the House",
+    "passed the Thirteenth Amendment,"
    ]
   },
   {
-   "start": 451.503,
-   "end": 453.873,
+   "start": 437.267,
+   "end": 438.357,
    "lines": [
-    "Fawkes made the first of",
-    "a series of confessions."
+    "which he had pressed for."
    ]
   },
   {
-   "start": 454.443,
-   "end": 456.33,
+   "start": 440.511,
+   "end": 442.957,
    "lines": [
-    "These documents are central to the story,"
+    "That March, in his Second",
+    "Inaugural, he said,"
    ]
   },
   {
-   "start": 456.363,
-   "end": 459.533,
+   "start": 443.347,
+   "end": 446.077,
    "lines": [
-    "and the circumstances in which",
-    "they were obtained matter."
+    "\"With malice toward none;",
+    "with charity for all;"
    ]
   },
   {
-   "start": 460.183,
-   "end": 461.213,
+   "start": 446.247,
+   "end": 449.617,
    "lines": [
-    "Fawkes was tortured."
+    "with firmness in the right, as",
+    "God gives us to see the right,"
    ]
   },
   {
-   "start": 461.603,
-   "end": 463.67,
+   "start": 449.867,
+   "end": 452.317,
    "lines": [
-    "A statement taken from",
-    "a prisoner under such"
+    "let us strive on to",
+    "finish the work we are in;"
    ]
   },
   {
-   "start": 463.703,
-   "end": 467.073,
+   "start": 452.527,
+   "end": 455.154,
    "lines": [
-    "pressure has to be read",
-    "alongside the other evidence."
+    "to bind up the nation's wounds…\" Frederick"
    ]
   },
   {
-   "start": 467.483,
-   "end": 469.37,
+   "start": 455.187,
+   "end": 458.417,
    "lines": [
-    "By the eighth of November the flight"
+    "Douglass recalled calling",
+    "it \"a sacred effort\"."
    ]
   },
   {
-   "start": 469.403,
-   "end": 472.233,
+   "start": 458.687,
+   "end": 462.497,
    "lines": [
-    "had ended at Holbeach",
-    "House in Staffordshire."
+    "On the ninth of April, at",
+    "Appomattox Court House, Robert E."
    ]
   },
   {
-   "start": 477.583,
-   "end": 481.153,
+   "start": 462.547,
+   "end": 465.877,
    "lines": [
-    "Catesby, Percy and the Wright brothers",
-    "died when local forces attacked."
+    "Lee surrendered his Confederate",
+    "army to the Union commander,"
    ]
   },
   {
-   "start": 481.783,
-   "end": 482.613,
+   "start": 466.247,
+   "end": 467.577,
    "lines": [
-    "Others were captured."
+    "Ulysses S. Grant."
    ]
   },
   {
-   "start": 482.983,
-   "end": 486.553,
+   "start": 468.187,
+   "end": 471.014,
    "lines": [
-    "There would be no trial at which",
-    "Catesby, the originator of the plot,"
+    "An estimated six hundred",
+    "and twenty thousand to"
    ]
   },
   {
-   "start": 486.763,
-   "end": 488.133,
+   "start": 471.047,
+   "end": 474.517,
    "lines": [
-    "could be questioned in public."
+    "seven hundred and fifty",
+    "thousand died in the war."
    ]
   },
   {
-   "start": 488.603,
-   "end": 492.593,
+   "start": 483.024,
+   "end": 486.094,
    "lines": [
-    "The man who lived to be questioned,",
-    "tried and condemned was Fawkes."
+    "Five days later, on the evening",
+    "of the fourteenth of April,"
    ]
   },
   {
-   "start": 492.983,
-   "end": 495.47,
+   "start": 486.424,
+   "end": 489.954,
    "lines": [
-    "Their different fates help",
-    "explain why we have come to"
+    "Lincoln was at Ford's Theatre",
+    "in Washington, watching a play,"
    ]
   },
   {
-   "start": 495.503,
-   "end": 498.113,
+   "start": 490.084,
+   "end": 491.394,
    "lines": [
-    "know one face so much",
-    "better than the others."
+    "Our American Cousin."
    ]
   },
   {
-   "start": 510.5,
-   "end": 513.252,
+   "start": 491.764,
+   "end": 494.814,
    "lines": [
-    "On the twenty-seventh of January, 1606,"
+    "At about a quarter past",
+    "ten, John Wilkes Booth,"
    ]
   },
   {
-   "start": 513.582,
-   "end": 516.332,
+   "start": 495.164,
+   "end": 499.874,
    "lines": [
-    "eight conspirators went on",
-    "trial at Westminster Hall."
+    "a Confederate sympathiser and racist",
+    "who despised his efforts to end slavery,"
    ]
   },
   {
-   "start": 516.822,
-   "end": 520.236,
+   "start": 500.084,
+   "end": 501.134,
    "lines": [
-    "The executions followed on the",
-    "thirtieth and thirty-first."
+    "shot the President."
    ]
   },
   {
-   "start": 520.4,
-   "end": 524.272,
+   "start": 501.684,
+   "end": 503.614,
    "lines": [
-    "Fawkes died on the second day, in",
-    "Old Palace Yard at Westminster."
+    "Lincoln never regained consciousness."
    ]
   },
   {
-   "start": 524.982,
-   "end": 527.269,
+   "start": 505.989,
+   "end": 508.751,
    "lines": [
-    "Less than three months",
-    "had passed since the"
+    "He was carried across the street",
+    "to the Petersen boarding house,"
    ]
   },
   {
-   "start": 527.302,
-   "end": 530.792,
+   "start": 508.784,
+   "end": 512.271,
    "lines": [
-    "morning his assumed name",
-    "appeared in the Commons Journal."
+    "and laid diagonally across",
+    "a bed in a small back room,"
    ]
   },
   {
-   "start": 535.636,
-   "end": 538.712,
+   "start": 512.304,
+   "end": 514.914,
    "lines": [
-    "For English Catholics who had",
-    "played no part in the conspiracy,"
+    "because he was too tall to lie straight."
    ]
   },
   {
-   "start": 539.062,
-   "end": 541.052,
+   "start": 515.504,
+   "end": 518.134,
    "lines": [
-    "its consequences were only beginning."
+    "Mary waited in the front",
+    "parlour with their son Robert."
    ]
   },
   {
-   "start": 541.442,
-   "end": 542.892,
+   "start": 518.484,
+   "end": 521.194,
    "lines": [
-    "When Parliament reassembled,"
+    "At twenty-two minutes past",
+    "seven the next morning,"
    ]
   },
   {
-   "start": 543.282,
-   "end": 546.452,
+   "start": 521.524,
+   "end": 522.734,
    "lines": [
-    "some Protestant members demanded",
-    "action against Catholics."
+    "Abraham Lincoln died."
    ]
   },
   {
-   "start": 547.082,
-   "end": 549.832,
+   "start": 523.064,
+   "end": 524.174,
    "lines": [
-    "James himself acknowledged",
-    "that most were loyal."
+    "He was fifty-six."
    ]
   },
   {
-   "start": 549.922,
-   "end": 553.469,
+   "start": 533.0,
+   "end": 536.944,
    "lines": [
-    "Yet he supported an oath requiring",
-    "Catholics to affirm their"
+    "His funeral train carried him one",
+    "thousand six hundred and fifty-four miles,"
    ]
   },
   {
-   "start": 553.502,
-   "end": 557.732,
+   "start": 536.977,
+   "end": 540.207,
    "lines": [
-    "allegiance to him and reject the",
-    "Pope’s authority to depose him."
+    "through hundreds of towns,",
+    "home to Springfield."
    ]
   },
   {
-   "start": 558.062,
-   "end": 559.212,
+   "start": 540.837,
+   "end": 543.267,
    "lines": [
-    "Think back to the letter."
+    "His son Willie's coffin",
+    "travelled with his."
    ]
   },
   {
-   "start": 562.468,
-   "end": 565.852,
+   "start": 543.697,
+   "end": 548.587,
    "lines": [
-    "Monteagle had been faced with a",
-    "threat to people of different beliefs."
+    "By December 1865, enough states had",
+    "ratified the Thirteenth Amendment."
    ]
   },
   {
-   "start": 566.222,
-   "end": 569.749,
+   "start": 549.297,
+   "end": 551.907,
    "lines": [
-    "He had taken it to the authorities",
-    "while there was still time to act."
+    "Slavery was abolished",
+    "in the United States."
    ]
   },
   {
-   "start": 569.782,
-   "end": 574.044,
+   "start": 555.174,
+   "end": 558.124,
    "lines": [
-    "If you were looking for",
-    "evidence of what a Catholic"
+    "In 1922 the Lincoln",
+    "Memorial was dedicated,"
    ]
   },
   {
-   "start": 574.084,
-   "end": 575.309,
+   "start": 558.157,
+   "end": 562.567,
    "lines": [
-    "subject might do when",
-    "the king was in danger,"
+    "with the Gettysburg Address and the",
+    "Second Inaugural carved on its walls."
    ]
   },
   {
-   "start": 575.342,
-   "end": 579.512,
+   "start": 563.077,
+   "end": 567.307,
    "lines": [
-    "his conduct was there in the official",
-    "account of the king’s deliverance."
+    "At the dedication, Black guests were",
+    "reportedly seated in a separate section."
    ]
   },
   {
-   "start": 579.802,
-   "end": 581.092,
+   "start": 567.837,
+   "end": 569.687,
    "lines": [
-    "For his fellow Catholics,"
+    "Historians still argue about him."
    ]
   },
   {
-   "start": 581.422,
-   "end": 584.852,
+   "start": 569.977,
+   "end": 573.327,
    "lines": [
-    "that example offered little",
-    "protection against suspicion."
+    "Some see a man who grew;",
+    "others, a man who was pushed."
    ]
   },
   {
-   "start": 587.728,
-   "end": 589.892,
+   "start": 573.917,
+   "end": 576.147,
    "lines": [
-    "A handful of men had chosen treason."
+    "Frederick Douglass,",
+    "who knew him, saw both."
    ]
   },
   {
-   "start": 590.342,
-   "end": 593.852,
+   "start": 576.317,
+   "end": 578.587,
    "lines": [
-    "People who had never met them would",
-    "be asked to prove their loyalty."
+    "The page he signed ends with a resolve:"
    ]
   },
   {
-   "start": 594.362,
-   "end": 597.089,
+   "start": 578.977,
+   "end": 581.967,
    "lines": [
-    "The arrests ended the",
-    "immediate peril to Parliament."
+    "\"that government of the people,",
+    "by the people, for the people,"
    ]
   },
   {
-   "start": 597.122,
-   "end": 602.552,
+   "start": 582.017,
+   "end": 586.267,
    "lines": [
-    "They could do little to undo what the",
-    "conspiracy had set in motion outside it."
+    "shall not perish from the earth.\"",
+    "Two minutes, a few sheets of paper,"
    ]
   },
   {
-   "start": 610.09,
-   "end": 611.6,
+   "start": 586.517,
+   "end": 588.647,
    "lines": [
-    "In January 1606,"
-   ]
-  },
-  {
-   "start": 611.99,
-   "end": 615.54,
-   "lines": [
-    "Parliament also decided how the fifth",
-    "of November should be remembered."
-   ]
-  },
-  {
-   "start": 615.99,
-   "end": 618.82,
-   "lines": [
-    "It passed a law providing",
-    "for an annual thanksgiving."
-   ]
-  },
-  {
-   "start": 619.23,
-   "end": 620.03,
-   "lines": [
-    "Each year,"
-   ]
-  },
-  {
-   "start": 620.17,
-   "end": 624.32,
-   "lines": [
-    "congregations would hear again how the",
-    "king and Parliament had been delivered."
-   ]
-  },
-  {
-   "start": 624.79,
-   "end": 627.62,
-   "lines": [
-    "Before the anniversary",
-    "became a familiar night out,"
-   ]
-  },
-  {
-   "start": 627.75,
-   "end": 629.84,
-   "lines": [
-    "it was a date on the church calendar,"
-   ]
-  },
-  {
-   "start": 629.93,
-   "end": 633.38,
-   "lines": [
-    "with a lesson that preachers",
-    "were expected to draw from it."
-   ]
-  },
-  {
-   "start": 637.501,
-   "end": 640.96,
-   "lines": [
-    "Beyond the church doors, bells",
-    "rang and people lit bonfires."
-   ]
-  },
-  {
-   "start": 641.37,
-   "end": 644.5,
-   "lines": [
-    "Some of the earliest celebrations",
-    "even included fireworks."
-   ]
-  },
-  {
-   "start": 644.93,
-   "end": 647.26,
-   "lines": [
-    "What went into the fire",
-    "changed with the times."
-   ]
-  },
-  {
-   "start": 647.75,
-   "end": 649.664,
-   "lines": [
-    "In the reign of Charles the First,"
-   ]
-  },
-  {
-   "start": 649.71,
-   "end": 653.26,
-   "lines": [
-    "there are signs of people burning",
-    "figures of the Pope or the devil."
-   ]
-  },
-  {
-   "start": 653.65,
-   "end": 658.02,
-   "lines": [
-    "At moments of particular anxiety about",
-    "a Catholic successor to the throne,"
-   ]
-  },
-  {
-   "start": 658.37,
-   "end": 660.7,
-   "lines": [
-    "such displays became more popular."
-   ]
-  },
-  {
-   "start": 664.932,
-   "end": 667.157,
-   "lines": [
-    "The figure on the bonfire",
-    "had a history of its"
-   ]
-  },
-  {
-   "start": 667.19,
-   "end": 670.74,
-   "lines": [
-    "own before it usually bore",
-    "the name of Guy Fawkes."
-   ]
-  },
-  {
-   "start": 671.07,
-   "end": 672.877,
-   "lines": [
-    "By the nineteenth century there were"
-   ]
-  },
-  {
-   "start": 672.91,
-   "end": 676.3,
-   "lines": [
-    "chants associated with",
-    "collecting money and firewood."
-   ]
-  },
-  {
-   "start": 676.83,
-   "end": 679.957,
-   "lines": [
-    "Children could take part in",
-    "the ritual without ever having"
-   ]
-  },
-  {
-   "start": 679.99,
-   "end": 683.543,
-   "lines": [
-    "heard the names of Robert",
-    "Catesby or Ralph Ewens."
-   ]
-  },
-  {
-   "start": 685.453,
-   "end": 686.52,
-   "lines": [
-    "Across generations,"
-   ]
-  },
-  {
-   "start": 686.85,
-   "end": 689.237,
-   "lines": [
-    "a complicated political story had acquired"
-   ]
-  },
-  {
-   "start": 689.27,
-   "end": 691.66,
-   "lines": [
-    "something almost any child could remember."
-   ]
-  },
-  {
-   "start": 692.03,
-   "end": 695.457,
-   "lines": [
-    "Guy Fawkes, the fifth of",
-    "November and a fire in the dark."
-   ]
-  },
-  {
-   "start": 695.49,
-   "end": 699.04,
-   "lines": [
-    "Back in the archive, the",
-    "letter is quieter company."
-   ]
-  },
-  {
-   "start": 699.41,
-   "end": 703.56,
-   "lines": [
-    "Its writer left no signature and",
-    "asked that the page be destroyed."
-   ]
-  },
-  {
-   "start": 704.17,
-   "end": 705.3,
-   "lines": [
-    "Monteagle kept it."
-   ]
-  },
-  {
-   "start": 705.43,
-   "end": 708.48,
-   "lines": [
-    "Of all the objects that might",
-    "stand for the Gunpowder Plot,"
-   ]
-  },
-  {
-   "start": 708.87,
-   "end": 712.12,
-   "lines": [
-    "perhaps the most telling is",
-    "this fragile sheet of paper,"
-   ]
-  },
-  {
-   "start": 712.37,
-   "end": 715.5,
-   "lines": [
-    "still here because somebody",
-    "chose to pass it on."
+    "and an argument that has never ended."
    ]
   }
  ]
