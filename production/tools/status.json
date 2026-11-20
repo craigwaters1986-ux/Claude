@@ -1215,14 +1215,17 @@
           "id": "research",
           "agent": "researcher",
           "task": "Research subject; research notes + sources",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/research/ep05-lincoln/research-notes.md",
+            "production/research/ep05-lincoln/sources.md"
+          ],
           "issues": [],
           "next": "Researcher writing research-notes.md + sources.md",
-          "updated": "2026-11-20 18:27"
+          "updated": "2026-11-20 18:38"
         },
         {
           "id": "keywords",
@@ -1241,14 +1244,14 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "research"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Scriptwriter fitting script to 10:00",
+          "updated": "2026-11-20 18:38"
         },
         {
           "id": "script-factcheck",
