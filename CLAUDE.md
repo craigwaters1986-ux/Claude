@@ -15,10 +15,31 @@ every agent and every session.
   thin black limbs, expressive eyes/brows/mouths, flat muted colours, slightly hand-drawn.
   Only clothing, hair, props, scenery and colours change between periods. Never realistic,
   3D, anime or photographic. The full style guide is `production/characters/style-guide.md`.
-- **Narration:** one consistent, natural British documentary voice (see `production/audio/voice-bible.md`).
+- **Narration (user rule, 2026-11-20):** the channel narrator is **ElevenLabs “LIAM DALE (British Male 60's)”**,
+  voice_id `w2ZdKT3ghAOcMRbpjC3u`, model `eleven_v4`, one take per paragraph group (Craig chose it: “all day long”).
+  ElevenLabs Creator plan (commercial YouTube use allowed). IPA between slashes for tricky names on `eleven_v4`
+  (e.g. `/ˌæpəˈmætəks/`). Assemble with `scripts/el_assemble.py` (48 kHz, edge-trimmed, −20 LUFS per clip,
+  0.34 s gaps). Kokoro `bm_george` is the fallback only. Details: `production/audio/voice-bible.md`.
 - **Visuals:** genuine continuous movement — walking/talking characters, moving vehicles,
   animated maps, weather and particles. Never a slideshow of still images.
-- **Audio:** clear narration on top; subtle, original or properly licensed music underneath; restrained SFX.
+- **Animation bar (user rule, 2026-11-20, after Episode 4):** every shot has visible *action*, not just a camera
+  move over a still set: characters walk, reach, open doors, carry, sit, react; props move (papers fall, curtains
+  sway, lamps flicker, lights dim); crowds and background figures shift. Sombre scenes stay non-graphic but are
+  still animated (silhouettes walking, figures keeping vigil, objects telling the story). Readable documents:
+  hold the whole page steady with a slow push and let a soft glow follow the words; **never chase a pen nib or
+  ride line by line** (Craig found it dizzying). Silhouettes need a lit background to read. QC runs
+  freezedetect (n 0.003, d 1.5) on the *delivered* limited-range file; keep cameras moving through shot edges.
+  Episode 4's cinematic kit (`the-human-story/episode-04-lincoln/src/kit/`: Cinema, Props, Actions, Seats,
+  Documents) is the baseline for new episodes.
+- **Audio:** clear narration on top; music underneath; restrained SFX.
+  - **Music quality bar (user rule, 2026-11-20):** cinematic orchestral score generated with **ElevenLabs Music**
+    (`eleven_music_v2_5`), one cue per chapter at the chapter's exact length, prompted for genre, mood,
+    instruments, tempo and how the energy evolves (e.g. solo fiddle + felt piano → strings, horn, timpani;
+    “restrained, concert-hall reverb, high-end BBC history documentary”). Instrumental only. The synthesised
+    score is the fallback only. Don't register the music in Content ID.
+  - **Mix (user rule):** narration about **24 dB** above music during speech; music swells in silent beats are
+    capped **5 dB** below full; −14 LUFS, ≤ −1 dBTP. Craig found louder music “very loud”.
+  - **No dripping/plinking water SFX** (Craig: annoying); water is a soft low wash.
 - **Text:** clear dates, names, places and short factual labels; readable on a phone.
 - **Technical:** 1920×1080, 30 fps, H.264 + AAC MP4, synchronised SRT subtitles, chapters.
 - **Channel logo (user rule, 2026-11-16):** the channel logo (`production/branding/logo-a.png`,

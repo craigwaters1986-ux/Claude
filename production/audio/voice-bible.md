@@ -1,5 +1,22 @@
 # Voice bible — The Human Story narrator
 
+## Current channel narrator (from Episode 4, 20 November 2026; Craig's choice)
+
+- **Engine:** ElevenLabs (Creator plan; commercial YouTube use allowed), connector `ElevenLabs` in Claude.
+- **Voice:** **LIAM DALE (British Male 60's)**, voice_id `w2ZdKT3ghAOcMRbpjC3u` — a veteran British history
+  documentary narrator. Chosen over Cedric M and Daniel Calder in an audition on the Episode 4 cold open.
+- **Model:** `eleven_v4`, `generations_count` 1, one generation per paragraph group (about 150–400 characters).
+  About 1 credit per character; a 10-minute episode's narration costs about 8,000 credits.
+- **Text:** spoken forms as before (years in words, no full stops in abbreviations). On `eleven_v4`, put IPA
+  between slashes for names the voice may misread: Appomattox `/ˌæpəˈmætəks/`, Bedell `/bəˈdɛl/`.
+- **Pace:** about 8% slower than Kokoro at 0.99 (Episode 4: 515 s against 480 s). Budget about 135 spoken words a
+  minute when fitting a script to its duration.
+- **Assembly:** `the-human-story/episode-04-lincoln/scripts/el_assemble.py` → 48 kHz mono WAV + audit JSON for
+  `tools/build_plan.py`; then faster-whisper words, `tools/align_captions.py`, `scripts/timeline.py`, `audio.py`.
+
+## Fallback: Kokoro (Episodes 1–3)
+
+
 - **Engine:** Kokoro-82M (open weights, Apache-2.0), run locally via `kokoro-onnx`.
 - **Voice:** `bm_george` (British English male) — the channel voice for every episode.
 - **Language code:** `en-gb`. Since ep02 v3 (2026-11-17) narration is synthesised in **groups** of
