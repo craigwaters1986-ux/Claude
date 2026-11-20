@@ -103,7 +103,10 @@ export function polePushFlatboat(f: number, op: PoleOpts): PoleOut {
   const plantTip = (cycleStart: number): Pt => {
     const pb = boatAt(cycleStart + PLANT);
     const sx = pb.x + B * FLATBOAT.walkBow * s;
-    return {x: sx - B * 175 * fs, y: op.bedY};
+    // the poler drifts sternward in world space by (deck walk - boat drift) during the push: plant the tip far
+    // enough ahead that he ends ~90 px short of it (pole about 30 deg from vertical at the start, 10 deg at the end)
+    const walkW = ((FLATBOAT.walkBow - FLATBOAT.walkStern) * s) / PUSH;
+    return {x: sx - B * (Math.max(0, (walkW - v) * PUSH) + 110 * fs), y: op.bedY};
   };
   const cycStart = n * POLE_CYCLE - (op.phase ?? 0);
   const T = plantTip(cycStart);
