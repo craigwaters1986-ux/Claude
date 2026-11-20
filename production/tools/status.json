@@ -1385,17 +1385,19 @@
           "id": "assembly",
           "agent": "video-editor",
           "task": "Assemble timeline and preview renders",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "narration",
             "characters",
             "environments",
             "music-sfx"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/src/Episode.tsx"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Episode composition assembled; render in Phase D",
+          "updated": "2026-11-20 20:57"
         },
         {
           "id": "final-render",
@@ -1407,8 +1409,8 @@
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Phase D: bash scripts/render.sh video && mux",
+          "updated": "2026-11-20 20:57"
         },
         {
           "id": "final-qc",

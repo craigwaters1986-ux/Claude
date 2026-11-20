@@ -3,9 +3,9 @@ Written 20 November 2026 (Phase 0: brief and upgrade spec; renumbered from Episo
 
 ## Start here
 
-**Where things stand.** Phase B done (20 Nov 2026): engine upgrade, a 40 s test reel, a 60 s music test, a 66-shot storyboard and a music cue sheet. **Waiting for Craig's Approvals 2 (style) and 3 (storyboard)**, and his yes or no on the ElevenLabs music option. Then **Phase C** (prompt below). Phase B summary: `production/reports/handoffs/ep04-lincoln/phase-b-engine-style-storyboard.md`.
+**Where things stand.** **Phase C done (20 Nov 2026)**: narration, plan, aligned captions, all 10 chapters (about 75 shots), shared kit, original synthesised score, SFX and mix. Approvals 2 and 3 given. ElevenLabs music was approved but **could not be used** (the account had no credits: every generation failed with "Insufficient funds"; nothing was charged), so the score is the synthesised one. **Next: Phase D** (render, QC, publishing pack, thumbnail, iPhone copy; prompt below).
 
-**Branch.** Phase B work is on **`claude/clever-albattani-64lx7v`** (it contains all of `claude/epic-mccarthy-8szsrf` plus Phase B). Start Phase C from that branch.
+**Branch.** Phase C is on **`claude/clever-albattani-64lx7v`** and mirrored to **`claude/tender-allen-8crxk1`** (the Phase C session's own branch; identical commits). Start Phase D from `claude/clever-albattani-64lx7v`.
 
 **How this episode runs (Lean mode, to save Craig's credits).** One fresh Claude session per phase. Each session:
 - starts from this file
@@ -41,7 +41,7 @@ Approvals go through `python3 production/tools/status.py approval <checkpoint> -
 
 ### Prompt for Phase D
 
-> Director: continue ep04-lincoln Phase D (render, QC, publishing pack, thumbnail, iPhone copy) from `production/scripts/ep04-lincoln/HANDOVER.md`. Stop at Approval 4 and send me the video and the iPhone copy.
+> Director: continue ep04-lincoln Phase D (render, QC, publishing pack, thumbnail, iPhone copy) from `production/scripts/ep04-lincoln/HANDOVER.md` on branch `claude/clever-albattani-64lx7v`. Follow "Phase D notes (from Phase C)". Stop at Approval 4 and send me the video and the iPhone copy.
 
 ## Content brief (Phase A)
 
@@ -189,6 +189,40 @@ Engine, kit, shot sequencer with `T('phrase')` caption anchors, caption band and
   - **Storyboard** `production/storyboards/ep04-lincoln/storyboard.md` (66 shots ≥ 6 s, each anchored to a script phrase for `T()`), **cue sheet** `music-cue-sheet.md`.
   - Known gaps for Phase C: `rideHorse`, `polePushFlatboat`, `raiseFlag`, `pointAtMap` still to build; telegraph bubble untested (no sourced telegram text); coat-tail and hat-lag overlap motion not yet in; US state maps need us-atlas (ISC). Music checked by measurement only, not by ear.
   - **Next: Craig's Approvals 2 + 3, then Phase C.**
+- 20 Nov 2026: **Approvals 2 and 3 given** by Craig; ElevenLabs music: yes.
+- 20 Nov 2026, **Phase C** (branch `claude/clever-albattani-64lx7v`, mirrored to `claude/tender-allen-8crxk1`):
+  - **ElevenLabs music:** licence checked (Music Terms, 9 Oct 2026, Exhibit A): every paid plan allows YouTube use, monetised included, with no attribution; the Free plan is non-commercial and needs attribution; avoid registering the music in Content ID. Ten cues were set up (flow "ep04-lincoln score"), but every generation failed with **"Insufficient funds"** (others refused as "free generations are busy"), so nothing was made or charged. The account's plan tier could not be read (the connector lacks usage permission). Score = original synthesised score.
+  - **Narration** (`research/episode-draft.json` from script rev1): 27 groups, **486.55 s**, Kokoro bm_george speed 0.99. Fixes: the sentence splitter no longer splits at initials ("Robert E. | Lee"); overrides for Appomattox and for John T. Stuart, Robert E. Lee and Ulysses S. Grant (the full stop after an initial made the model swallow it). Committed as `production/audio/ep04-lincoln/narration-draft.flac` + audit + `words.json`; `pronunciation-log.md`.
+  - **Plan:** `tools/build_plan.py` now takes `PLAN_CONFIG` (`production/scripts/ep04-lincoln/plan_config.py`: windows, beats by phrase, spoken years → numerals). 29 silent beats, 113.2 s; `edit-plan.md`, `chapters.txt`.
+  - **Captions:** faster-whisper small.en word timings → `tools/align_captions.py` (now maps spoken years) → `captions-aligned.srt`, 151 cues, 96.8% of words matched, median shift 0.07 s. `scripts/timeline.py` → `src/timeline/timeline.json`.
+  - **Picture:** `src/Episode.tsx` (composition `Episode`, 18,000 frames) plays `src/scenes/S01–S10.tsx`, each with its own solver/sets files (`s0N-*.ts(x)`). Shared kit: `USMap.tsx` (us-atlas, ISC; WV merged into VA before 1863; Natural Earth water; credits in `credits-maps.md`), `Horse.tsx`, `Flatboat.tsx`, `Flag.tsx`, `Sets04b.tsx`, plus test composition `KitTest`. Bliss plate corrected to "Written 1864 · the only copy signed and dated" (its signature line is dated 19 November 1863). Checks: `tsc` clean; `check-contacts.mjs` PASS (worst 1.22 px, all chapters); each builder ran freezedetect n=0.003 d=1.5 on its chapters and fixed every hit; Director's 40-frame contact sheet reviewed.
+  - **Sound:** `scripts/audio.py` (Episode 4): original score cues 1M1–1M11 per the cue sheet (Phase B theme, fiddle/piano → strings/horns → war ostinato → piano reprise → full finale), 112 SFX cues, no public-domain tunes used. `public/audio/mix.wav` 600.000 s, **−14.1 LUFS, −1.5 dBTP**, no silence ≥ 1.5 s, narration 20 dB over music in speech, every group at its plan time (0.0 ms). Stems in `output/stems/`. Listen copy `production/audio/ep04-lincoln/episode-04-mix-listen.mp3`; `sound-notes.md`.
+  - **Not done in C (Phase D):** full render, full QC, listening pass, thumbnail, publishing pack, iPhone copy.
+  - **Next: Phase D.**
+
+## Phase D notes (from Phase C)
+
+**Restore the working state (about 10 minutes).** Generated media is not in Git except the narration.
+```bash
+cd the-human-story/episode-04-lincoln && npm ci
+export REMOTION_BROWSER=$(ls -d /opt/pw-browsers/chromium_headless_shell-*/*/)chrome-headless-shell
+uv venv --python 3.12 /home/user/audio-py && uv pip install --python /home/user/audio-py/bin/python numpy scipy soundfile
+mkdir -p output/full-voice && ffmpeg -i ../../production/audio/ep04-lincoln/narration-draft.flac -ar 24000 -sample_fmt s16 output/full-voice/narration-draft.wav
+cp ../../production/audio/ep04-lincoln/narration-draft-audit.json output/full-voice/
+/home/user/audio-py/bin/python scripts/audio.py output/full-voice     # about 4 min -> public/audio/mix.wav + output/stems/
+npx tsc --noEmit && node scripts/check-contacts.mjs
+bash scripts/render.sh video && bash scripts/render.sh mux          # 10 chunks of 1800 frames -> output/episode-04-lincoln.mp4
+```
+The narration need not be re-rendered. If it ever is: `scripts/voice_sample.py` (overrides for Appomattox and the initials), then `PLAN_CONFIG=production/scripts/ep04-lincoln/plan_config.py python3 tools/build_plan.py …`, faster-whisper words, `tools/align_captions.py`, `scripts/timeline.py` (exact commands in the Phase C entry below), and a re-run of `audio.py`.
+
+**Known items for QC** (from the builders' reports and the Director's 40-frame contact sheet):
+- Shots 8.5, 10.2 and 10.5 run 5–6 s, and 7.4 (the Cabinet hand-overs) only about 3.7 s, because the narration is tight there.
+- Fort Sumter (6.6) reads a little like a ship on the water. Figures are cropped at the frame edges in the Douglass reception (8.5).
+- No speech bubbles anywhere: `documents.json` has no sourced Douglass wording, so 8.5 carries only "as Frederick Douglass later recalled".
+- Kit simplifications: generic hall for Cooper Union; the Appomattox parlour and the Petersen House are chapter-local sets; Kansas–Nebraska and the Proclamation's excepted areas are approximate shapes, labelled "excepted areas simplified"; the flatboat poler turns with an instant flip; the kit `doffHat` over-reaches (10.1 uses a local fix).
+- The title impact in the score assumes the title plate lands at 28.72 s; check it against the picture. The Memorial crescendo peaks at 554.9 s, as the crane starts. Nobody has listened yet: listen for Petersen, Bedell and Appomattox (`production/audio/ep04-lincoln/pronunciation-log.md`) and for the mix balance.
+- The end card is drawn in `s10-sets.tsx` (the kit's end card is Episode 3's).
+- Render stills with `--scale=0.25`, not 0.33 (non-integer height). Put check stills and test renders in the scratchpad, not `production/` (Phase C moved 36 MB of them out of Git).
 
 ## Phase C notes (from Phase B)
 
