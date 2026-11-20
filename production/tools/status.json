@@ -1200,7 +1200,9 @@
           "note": "Craig approved storyboard + cue sheet; ElevenLabs music: yes"
         },
         "final-render": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-20 23:19",
+          "note": "Final render, iPhone copy and pack sent to Craig 20 Nov 2026"
         }
       },
       "tasks": [
@@ -1237,14 +1239,16 @@
           "id": "keywords",
           "agent": "youtube-specialist",
           "task": "Keyword and title research",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "brief"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/exports/ep04-lincoln/youtube/keywords.md"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Tags and titles in the publishing pack",
+          "updated": "2026-11-20 23:19"
         },
         {
           "id": "script",
@@ -1424,46 +1428,51 @@
           ],
           "issues": [],
           "next": "Rendered and verified 20 Nov 2026",
-          "updated": "2026-11-20 22:59"
+          "updated": "2026-11-20 23:19"
         },
         {
           "id": "final-qc",
           "agent": "quality-control",
           "task": "QC review of final render",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "final-render"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/reports/qc/ep04-lincoln/qc-final-render-2026-11-20.md"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Measured QC passed; listen-through left for Craig",
+          "updated": "2026-11-20 23:19"
         },
         {
           "id": "publishing-pack",
           "agent": "youtube-specialist",
           "task": "Title, description, chapters, tags, thumbnail brief, checklist",
-          "status": "NOT STARTED",
+          "status": "COMPLETED",
           "depends": [
             "final-qc"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/exports/ep04-lincoln/youtube/publishing-pack.md",
+            "production/exports/ep04-lincoln/youtube/thumbnail.jpg"
+          ],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Craig uploads manually",
+          "updated": "2026-11-20 23:19"
         },
         {
           "id": "wrap",
           "agent": "director",
           "task": "Final report to the user (user publishes manually)",
-          "status": "NOT STARTED",
+          "status": "AWAITING REVIEW",
           "depends": [
             "approval:final-render"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Approval 4 from Craig",
+          "updated": "2026-11-20 23:19"
         }
       ]
     }
