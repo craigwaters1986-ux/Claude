@@ -75,8 +75,9 @@ def beat_at(t):
 # ------------------------------------------------------------------ narration on the programme timeline
 def narration():
     raw, sr = sf.read(os.path.join(NARDIR, 'narration-draft.wav'))
-    assert sr == 24000
-    raw = resample_poly(raw, 2, 1)
+    assert sr in (24000, 48000)
+    if raw.ndim > 1: raw = raw.mean(axis=1)
+    if sr == 24000: raw = resample_poly(raw, 2, 1)  # Kokoro drafts; the ElevenLabs narration is assembled at 48 kHz
     out = np.zeros(N)
     for g in plan['groups']:
         a = audit[g['group']]
