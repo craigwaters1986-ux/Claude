@@ -180,8 +180,9 @@ export const TheatreFromStalls: React.FC<{f: number; inBox?: React.ReactNode}> =
 };
 
 /** The corridor behind the boxes: dim walls in perspective, a closed door at the end, a gas sconce. */
-export const Corridor: React.FC<{f: number; floor: number}> = ({f, floor}) => {
+export const Corridor: React.FC<{f: number; floor: number; open?: number}> = ({f, floor, open = 0}) => {
   const fl = 1 + noise1(f / 5, 8) * 0.07;
+  const dw = 200 * (1 - 0.42 * open); // hinge on the left: the door's free edge swings away, a gap of light opens
   return (
     <g>
       <rect x={-900} y={-700} width={3700} height={2400} fill="#2A2420" />
@@ -189,8 +190,14 @@ export const Corridor: React.FC<{f: number; floor: number}> = ({f, floor}) => {
       <path d={`M2800,-700 L1240,330 L1240,${floor - 40} L2800,${floor + 400}Z`} fill="#342A24" {...o(4)} />
       <rect x={760} y={330} width={480} height={floor - 370} fill="#2E2622" {...o(4)} />
       {/* the closed door at the end */}
-      <rect x={900} y={430} width={200} height={floor - 470} fill="#4A3424" {...o(5)} />
-      <circle cx={1080} cy={650} r={7} fill="#C9A86A" />
+      {open > 0 && (
+        <g>
+          <rect x={900} y={430} width={200} height={floor - 470} fill="#FFD890" opacity={0.85 * open} />
+          <path d={`M${900 + dw},${floor - 40} L1100,${floor - 40} L${1100 + 520 * open},${floor + 400} L${900 + dw - 180 * open},${floor + 400}Z`} fill="#FFD890" opacity={0.22 * open} />
+        </g>
+      )}
+      <rect x={900} y={430} width={dw} height={floor - 470} fill="#4A3424" {...o(5)} />
+      <circle cx={900 + dw - 20} cy={650} r={7} fill="#C9A86A" />
       <path d={`M-900,${floor + 400} L760,${floor - 40} L1240,${floor - 40} L2800,${floor + 400}Z`} fill="#3E3028" {...o(4)} />
       {/* sconce on the right wall */}
       <ellipse cx={1500} cy={300} rx={260 * fl} ry={220 * fl} fill="url(#s09gas)" />
@@ -200,11 +207,26 @@ export const Corridor: React.FC<{f: number; floor: number}> = ({f, floor}) => {
 };
 
 /** The empty chair in the box: a curtain, the balustrade and one chair, in still, dim light. */
-export const EmptyChairSet: React.FC<{f: number; floor: number}> = ({f, floor}) => (
+/** The playbill's fall from the seat: u 0..1 (slide off the cushion, then a slow flutter to the floor). */
+const playbillAt = (u: number, floor: number) => {
+  const slide = clamp(u / 0.18);
+  const fall = clamp((u - 0.18) / 0.82);
+  const x = 860 + 40 * slide + 150 * fall + Math.sin(fall * 9) * 40 * (1 - fall);
+  const y = floor - 214 + 30 * slide * slide + (200 + 4) * (fall * fall * 0.35 + fall * 0.65);
+  const rot = -6 + 24 * slide + Math.sin(fall * 8) * 34 * (1 - fall) + 78 * fall;
+  return {x, y: Math.min(y, floor - 6), rot: fall >= 1 ? 84 : rot};
+};
+export const EmptyChairSet: React.FC<{f: number; floor: number; dim?: number; bill?: number; sway?: number}> = ({f, floor, dim = 0, bill = 0, sway = 0}) => {
+  const pb = playbillAt(bill, floor);
+  const sw = Math.sin(f / 22) * 46 * sway + Math.sin(f / 9) * 10 * sway;
+  return (
   <g>
     <rect x={-900} y={-700} width={3700} height={2400} fill="#241C1C" />
-    <path d={`M-900,-700 H2800 V-80 Q1960,30 960,-40 Q0,30 -900,-80Z`} fill="#5A1C22" {...o(4)} />
-    <path d={`M1500,-700 Q1560,${floor / 2} 1480,${floor}`} stroke="#4A161C" strokeWidth={140} fill="none" />
+    {/* stage glow from the left, fading as the house goes quiet */}
+    <ellipse cx={-200} cy={300} rx={1100} ry={800} fill="#FFC070" opacity={0.18 * (1 - dim)} />
+    <path d={`M-900,-700 H2800 V-80 Q1960,${30 + sw * 0.3} 960,-40 Q0,30 -900,-80Z`} fill="#5A1C22" {...o(4)} />
+    <path d={`M1500,-700 Q${1560 + sw},${floor / 2} ${1480 + sw * 0.6},${floor}`} stroke="#4A161C" strokeWidth={140} fill="none" />
+    <path d={`M1680,-700 Q${1720 + sw * 0.7},${floor / 2} ${1690 + sw * 0.4},${floor}`} stroke="#3E1218" strokeWidth={90} fill="none" />
     <rect x={-900} y={floor} width={3700} height={700} fill="#3A2826" {...o(4)} />
     <rect x={-900} y={floor - 300} width={3700} height={24} fill="#C9A86A" {...o(3)} />
     {/* chair: upholstered, seen from the side */}
@@ -214,12 +236,20 @@ export const EmptyChairSet: React.FC<{f: number; floor: number}> = ({f, floor}) 
       <path d="M-150,-196 Q-180,-330 -150,-470 Q-100,-500 -60,-470 Q-80,-330 -60,-196Z" fill="#6A2A2A" {...o(5)} />
       <path d="M-160,-260 Q-60,-280 60,-250" stroke="#4A1A1A" strokeWidth={22} fill="none" strokeLinecap="round" />
     </g>
+    {/* the playbill (no text: a plain folded sheet) */}
+    <g transform={`translate(${pb.x},${pb.y}) rotate(${pb.rot})`}>
+      <rect x={-46} y={-30} width={92} height={60} rx={3} fill="#E8DCC0" stroke="#2A1A14" strokeWidth={3} />
+      {[-14, -2, 10].map((yy) => <line key={yy} x1={-30} y1={yy} x2={30} y2={yy} stroke="#9A8A70" strokeWidth={3} />)}
+    </g>
     {/* motes in the lamp light */}
     {Array.from({length: 26}, (_, i) => (
       <circle key={i} cx={500 + hash(i) * 900 + Math.sin(f / 50 + i) * 30} cy={((hash(i * 3) * 900 - f * (0.3 + hash(i) * 0.4)) % 900 + 900) % 900} r={2 + hash(i * 5) * 2} fill="#F4E2B8" opacity={0.25} />
     ))}
+    {/* the house lights going down */}
+    <rect x={-900} y={-700} width={3700} height={2400} fill="#0A0608" opacity={0.42 * dim} />
   </g>
-);
+  );
+};
 
 /** The Petersen House (simplified): a narrow brick row house with curved front steps to a raised door. */
 export const PetersenFront: React.FC<{f: number; base: number}> = ({f, base}) => {
@@ -251,23 +281,34 @@ export const PetersenFront: React.FC<{f: number; base: number}> = ({f, base}) =>
 };
 
 /** The small back room seen from the doorway: a lamp on a table, a plain bed under a plain cover. No figure. */
-export const BackRoomFromDoor: React.FC<{f: number}> = ({f}) => {
+export const BackRoomFromDoor: React.FC<{f: number; far?: React.ReactNode; near?: React.ReactNode; covered?: boolean}> = ({f, far, near, covered = false}) => {
   const fl = 1 + noise1(f / 4, 12) * 0.08;
   return (
     <g>
       <rect x={-900} y={-700} width={3700} height={2400} fill="#4A4234" />
       <rect x={300} y={140} width={1320} height={660} fill="#6A6048" {...o(4)} />
       <rect x={300} y={800} width={1320} height={240} fill="#4A3A2C" {...o(4)} />
+      {far}
       {/* bed, set diagonally, plain cover only */}
       <path d="M520,760 L1180,700 L1420,820 L700,900Z" fill="#CFC6AE" {...o(4)} />
       <path d="M520,760 L520,640 L560,630 L560,752" fill="#4A3424" {...o(4)} />
       <path d="M700,900 L700,940 M1420,820 L1420,860" stroke={ink} strokeWidth={8} />
+      {covered && (
+        <g>
+          {/* a long figure under the cover, lying corner to corner (too tall to lie straight); head turned away, no face */}
+          <ellipse cx={612} cy={758} rx={58} ry={26} fill="#EDE6D2" {...o(3)} />
+          <ellipse cx={622} cy={744} rx={30} ry={22} fill="#2A2420" {...o(3)} />
+          <path d={`M640,770 Q900,${742 + Math.sin(f / 45) * 1.5} 1350,792 Q1370,806 1344,818 Q900,${806 + Math.sin(f / 45) * 1.5} 650,800 Q624,790 640,770Z`} fill="#A89A80" {...o(4)} />
+          <path d="M700,786 Q1000,770 1320,800" stroke="#8A7E66" strokeWidth={4} fill="none" />
+        </g>
+      )}
       {/* small table and lamp */}
       <rect x={1380} y={600} width={150} height={20} fill="#5A4030" {...o(3)} />
       <path d="M1395,620 V780 M1515,620 V780" stroke={ink} strokeWidth={8} />
       <ellipse cx={1455} cy={520} rx={320 * fl} ry={280 * fl} fill="url(#s09gas)" />
       <path d="M1440,600 L1444,560 L1466,560 L1470,600Z" fill="#B08A3A" {...o(2.5)} />
       <path d="M1445,560 Q1436,530 1448,512 L1462,512 Q1474,530 1465,560Z" fill="#F4E8C0" opacity={0.8} {...o(2.5)} />
+      {near}
       {/* doorway frame in the foreground (we stay at the door) */}
       <path d="M-900,-700 H2800 V1400 H-900Z M260,100 V1080 H1660 V100Z" fill="#1E1A16" fillRule="evenodd" />
       <path d="M260,1080 V100 H1660 V1080" fill="none" stroke="#3A2E24" strokeWidth={26} />

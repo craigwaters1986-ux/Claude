@@ -97,8 +97,8 @@ def speech_regions(pre=0.2, post=0.35, merge=0.9):
     return out
 
 
-def duck_curve(depth_db=-13.0, attack=0.35):
-    """Gain curve: depth_db under speech, 0 dB in the beats. Built at 1 kHz control rate, then interpolated."""
+def duck_curve(depth_db=-13.0, attack=0.35, beat_db=0.0):
+    """Gain curve: depth_db under speech, beat_db in the beats (Phase D: beats capped at -5 dB, Craig found the swells too loud). Built at 1 kHz control rate, then interpolated."""
     cr = 1000
     m = int(DUR * cr) + 1
     tgt = np.zeros(m)
@@ -108,7 +108,7 @@ def duck_curve(depth_db=-13.0, attack=0.35):
     ker = np.hanning(2 * k + 1); ker /= ker.sum()
     d = np.convolve(np.pad(tgt, k, mode='edge'), ker, mode='same')[k:-k]
     d = np.interp(np.arange(N) / SR, np.arange(m) / cr, d)
-    return undb(depth_db * np.clip(d, 0, 1))
+    return undb(beat_db + (depth_db - beat_db) * np.clip(d, 0, 1))
 
 
 # ------------------------------------------------------------------ score: instruments from the approved test
@@ -857,8 +857,8 @@ def main():
         np.savez(cache, m=mus.astype(np.float32), h=hit.astype(np.float32))
         json.dump(mcues, open(cues_json, 'w'), indent=1)
         log('music composed')
-    duck = duck_curve(-13.0)
-    duck_h = duck_curve(-7.0)
+    duck = duck_curve(-13.0, beat_db=-5.0)
+    duck_h = duck_curve(-7.0, beat_db=-4.0)
     musd = mus * duck[:, None] + hit * duck_h[:, None]
     fx = np.zeros((N + ns(30), 2))
     slog = []
@@ -872,7 +872,7 @@ def main():
     narc = compressor(nar, thr_db=-26, ratio=2.0, attack=0.006, release=0.12)
     nar_st = np.stack([narc, narc], axis=1)
     L_n = integrated_lufs(nar_st)
-    # music gain: narration sits 20 dB above the (ducked) music during speech, measured per 400 ms block
+    # music gain: narration sits 24 dB above the (ducked) music during speech (Phase D: was 20), measured per 400 ms block
     regs = speech_regions(0, 0, 0.6)
     starts = np.array([a for a, b in regs]); ends = np.array([b for a, b in regs])
     def in_speech(t):
@@ -882,7 +882,7 @@ def main():
     _, lm, _ = block_loudness(musd)
     spb = np.array([in_speech(t) for t in ts]) & (ln_ > -45)
     selm = spb & (lm > np.median(lm[spb]) - 15)
-    mus_g_db = float(np.median(ln_[selm] - lm[selm]) - 20.0)
+    mus_g_db = float(np.median(ln_[selm] - lm[selm]) - 24.0)
     mus_g = undb(mus_g_db)
     music = musd * mus_g
     bus = nar_st + music + fx

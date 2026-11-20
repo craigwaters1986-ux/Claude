@@ -9,21 +9,36 @@ import {seatHeight, seatPose, hipWorldY, feetWorld} from '../kit/Seats';
 import {castBuild, castScale} from '../kit/Cast';
 import type {CamKey} from '../kit/Cinema';
 import type {Solved, SeatCheck} from './reelSolve';
+import {walker, walkDist} from './sets';
 
 const seatChk = (pl: Placement, P: Pose, build: Build, seatY: number): SeatCheck => ({x: pl.x, hipY: hipWorldY(pl, P, build), seatY, feet: feetWorld(pl, P, build), floor: pl.y});
 void handWorld;
 
 // ---------------------------------------------------------------- 9.3 corridor: a still, dark figure (never glamorised)
 export const CORRIDOR_FLOOR = 880;
+export const DOOR_REACH = 186; // frame the hand reaches the box door's handle
+export const DOOR_OPEN = 206; // the door begins to open
 export function solveCorridor(f: number): Solved {
   const id = 'booth';
   const build = castBuild(id);
-  const pl: Placement = {x: 760, y: CORRIDOR_FLOOR, scale: castScale(id) * 1.0, dir: 1};
-  const P = mixPose(stand(f, 21), pose({hipL: -4, hipR: 4, shL: -4, elL: 6, shR: 4, elR: 8, headTilt: -2}), 0.6);
+  // Phase D: he walks away from us down the corridor (silhouette, three-quarter back), stops at the box door and
+  // reaches for the handle; the door opens a crack. Nothing beyond the door is shown.
+  const W0 = 8, W1 = 168;
+  const D = walkDist(W1 + 60, W0, W1, 2.0);
+  const wk = walker(f, W0, W1, 2.0);
+  const u = Math.min(1, wk.d / D);
+  const e = u * u * (3 - 2 * u) * 0.35 + u * 0.65;
+  const x = 330 + (985 - 330) * e;
+  const y = 1010 + (842 - 1010) * e;
+  const sc = castScale(id) * (2.1 + (1.05 - 2.1) * e);
+  const pl: Placement = {x, y, scale: sc, dir: 1};
+  const reach = kf(f, [[DOOR_REACH - 22, 0], [DOOR_REACH, 1]]);
+  const P0 = f < W0 ? stand(f, 21) : wk.p;
+  const P = mixPose(P0, pose({...P0, shR: 74, elR: 18, headTilt: -4}), reach);
   return {
-    figs: [{id, pl, P: {...P, bob: Math.sin(f / 26) * 1}, build}],
+    figs: [{id, pl, P: {...P, bob: (P.bob ?? 0) + Math.sin(f / 26) * 0.6}, build}],
     checks: [], seats: [],
-    cam: Array.from({length: 84}, (_, i): CamKey => [i * 3, 1.28 + 0.17 * (i / 83), 900 - 90 * (i / 83), 600]),
+    cam: [[0, 1.06, 640, 610], [W1, 1.3, 900, 580], [DOOR_OPEN + 40, 1.42, 980, 560]],
   };
 }
 

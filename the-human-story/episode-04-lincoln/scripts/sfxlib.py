@@ -650,20 +650,21 @@ def g_fire(dur, seed=330):
 
 
 def g_water(dur, seed=340):
+    """Gentle water: a low, slow wash of small waves against a hull or bank. Phase D: the pitched 'plip' bubbles
+    were removed (Craig: they sounded like dripping)."""
     n = ns(dur)
     r = R(seed)
-    out = lp(pink(dur, seed), 600) * 0.3 * (0.6 + 0.4 * np.sin(2 * np.pi * np.arange(n) / SR / 2.7))
-    t = 0.1
-    while t < dur - 0.3:
-        m = ns(r.uniform(0.04, 0.12))
+    base = lp(pink(dur, seed), 500) * 0.3
+    sw = np.zeros(n)
+    t = 0.0
+    while t < dur:
+        per = r.uniform(2.2, 4.0)
+        i0, m = ns(t), ns(per)
         tt = np.arange(m) / SR
-        f = r.uniform(400, 1100) * (1 + 1.5 * tt / tt[-1])
-        bub = osc_sine(f, m) * np.sin(np.pi * tt / tt[-1]) * 0.25
-        splash = bp(noise_n(m, seed + int(t * 100)), 500, 3000) * np.exp(-tt / 0.03) * 0.4
-        i = ns(t)
-        out[i:i + m] += bub + splash
-        t += r.uniform(0.3, 1.0)
-    return reverb(st(out * 0.6, 0.6), 0.25, 1.5, 4000, seed)
+        sw[i0:i0 + m] += (np.sin(np.pi * tt / per) ** 2)[: max(0, min(m, n - i0))]
+        t += per * r.uniform(0.55, 0.8)
+    wash = lp(bp(pink(dur, seed + 1), 150, 1400), 900) * 0.45 * (0.25 + sw / max(1e-6, sw.max()))
+    return reverb(st((base + wash) * 0.6, 0.6), 0.25, 1.6, 3000, seed)
 
 
 def g_crickets(dur, seed=350):

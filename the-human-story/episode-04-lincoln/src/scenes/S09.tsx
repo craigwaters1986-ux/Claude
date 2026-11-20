@@ -15,6 +15,8 @@ import {clamp, easeInOut, easeOut, kf, prog} from '../animations/core';
 import {S09Defs, Silhouette, GasLamp, NightStreet, FordsFacade, Carriage, PlaybillBoard, TheatreFromStalls, Corridor, EmptyChairSet, PetersenFront, BackRoomFromDoor, Parlour, MantelClock, GreyTag} from './s09-sets';
 import * as S9 from './s09-solve';
 import type {Fig} from './reelSolve';
+import {walker, stand, addPose, mixPose, pose} from './sets';
+import {noise1} from '../animations/core';
 
 const [S, E] = sectionWindow('s09');
 const ink = C.ink;
@@ -145,19 +147,20 @@ const Shot93: React.FC<{f: number; d: number}> = ({f, d}) => {
         {(layer) => [
           layer(1, (
             <g>
-              <Corridor f={f} floor={S9.CORRIDOR_FLOOR} />
-              <ellipse cx={g.pl.x} cy={560} rx={260} ry={360} fill="#8A7A66" opacity={0.28} />
+              <Corridor f={f} floor={S9.CORRIDOR_FLOOR} open={prog(f, S9.DOOR_OPEN, S9.DOOR_OPEN + 34, easeInOut)} />
+              {/* warm lamplight on the far wall and door, so the dark figure reads against it */}
+              <ellipse cx={1000} cy={600} rx={420} ry={330} fill="#C8A878" opacity={0.3} />
               <Silhouette>
                 <FigEl g={g} f={f} seed={21} />
               </Silhouette>
-              <GreyTag x={g.pl.x} y={400} text="JOHN WILKES BOOTH" t={prog(f, 16, 30) * (1 - prog(f, d - 30, d - 12))} />
+              <GreyTag x={g.pl.x} y={g.pl.y - 300 * (g.pl.scale ?? 1)} text="JOHN WILKES BOOTH" t={prog(f, 16, 30) * (1 - prog(f, 150, 170))} />
             </g>
           )),
         ]}
       </CineCam>
       <Particles f={f} kind="dust" n={34} seed={93} />
       <LightPool x={1500} y={300} r={520} f={f} color="#FFB060" seed={93} strength={0.2} flicker={1.6} />
-      <Look f={f} grade="night" sombre={1} vig={0.75} />
+      <Look f={f} grade="night" sombre={0.85} vig={0.75} />
     </Frame>
   );
 };
@@ -166,11 +169,48 @@ const ShotChair: React.FC<{f: number; d: number}> = ({f, d}) => (
     <CineDefs />
     <S09Defs />
     <CineCam f={f} keys={[[-36, 0.94, 960, 540], [d + 30, 1.38, 830, 590]]} seed={95}>{/* Phase D: wider push; the first pass held still 1.7 s */}
-      {(layer) => [layer(1, <EmptyChairSet f={f} floor={900} />)]}
+      {(layer) => [layer(1, <EmptyChairSet f={f} floor={900} dim={prog(f, 24, d - 6, easeInOut)} bill={prog(f, 26, 160)} sway={0.4 + 0.6 * prog(f, 0, 40)} />)]}
     </CineCam>
-    <LightPool x={900} y={460} r={640} f={f} color="#FFB060" seed={95} strength={0.18} flicker={0.4} />
-    <Look f={f} grade="night" sombre={1} vig={0.7} />
+    <LightPool x={900} y={460} r={640} f={f} color="#FFB060" seed={95} strength={0.18 * (1 - 0.6 * prog(f, 24, d))} flicker={0.8} />
+    <Look f={f} grade="night" sombre={0.85} vig={0.7} />
   </Frame>
+);
+
+// ---------------------------------------------------------------- 9.4 figures (Phase D): illustrative, unnamed, in silhouette or from behind
+/** Four men carry a cloaked figure across the street towards the steps (silhouettes, at a distance). */
+const Carriers: React.FC<{f: number}> = ({f}) => {
+  const s = 0.82;
+  const wk = walker(f, 0, 200, 2.2);
+  const x0 = 1330 - wk.d * s;
+  const base = 936;
+  const xs = [x0, x0 + 110, x0 + 400, x0 + 510];
+  const P = (k: number) => addPose(walker(f, 0, 200, 2.2, false, 0.1 + k * 0.27).p, {shL: 62, elL: 24, shR: 58, elR: 28});
+  const hy = base - 118 * s;
+  return (
+    <Silhouette>
+      {xs.map((x, k) => <Person key={k} id={['townsman', 'visitor', 'unionSoldier', 'townsman'][k]} x={x} y={base + (k % 2) * 8} scale={s} dir={-1} f={f} seed={140 + k} pose={P(k)} lod="low" />)}
+      <path d={`M${x0 - 30},${hy} Q${x0 + 150},${hy + 14 + Math.sin(f / 7) * 3} ${x0 + 540},${hy} L${x0 + 540},${hy + 26} Q${x0 + 150},${hy + 40} ${x0 - 30},${hy + 26}Z`} fill="#000" />
+    </Silhouette>
+  );
+};
+/** Beyond the bed: two men keep the vigil, heads slowly bowing (unnamed, illustrative). */
+const VigilFar: React.FC<{f: number}> = ({f}) => {
+  const bow = (k: number) => 6 + 10 * prog(f, 20 + k * 40, 120 + k * 40) + noise1(f / 60, k) * 2;
+  const pA = addPose(stand(f, 51), {shL: 8, elL: 20, shR: 10, elR: 22, headTilt: bow(0)});
+  const pB = mixPose(stand(f, 53), pose({...stand(f, 53), shR: 40, elR: 110, shL: 6, elL: 20, headTilt: bow(1)}), prog(f, 60, 90) * (1 - prog(f, 170, 200)));
+  return (
+    <g>
+      <Person id="townsman" x={1010} y={760} scale={1.0} dir={1} f={f} seed={151} pose={pA} expression="solemn" head={{hat: 'none'}} />
+      <Person id="visitor" x={1250} y={770} scale={1.0} dir={-1} f={f} seed={153} pose={pB} expression="sad" />
+    </g>
+  );
+};
+/** In the doorway: two figures seen from behind, shifting their weight. */
+const VigilNear: React.FC<{f: number}> = ({f}) => (
+  <Silhouette op={0.92}>
+    <Person id="unionSoldier" x={470} y={1150} scale={1.7} dir={1} f={f} seed={161} pose={addPose(stand(f, 61), {lean: 2 + Math.sin(f / 50) * 1.5, headTilt: 6})} fromBehind head={{hat: 'none'}} />
+    <Person id="townsman" x={1480} y={1160} scale={1.7} dir={-1} f={f} seed={163} pose={addPose(stand(f, 63), {lean: 1 + Math.sin(f / 46 + 1) * 1.5, headTilt: 8, shL: 12, elL: 30})} fromBehind head={{hat: 'none'}} />
+  </Silhouette>
 );
 
 // ---------------------------------------------------------------- 9.4 Petersen House steps → the back room from the doorway
@@ -185,18 +225,18 @@ const Shot94: React.FC<{f: number; d: number; sw: number}> = ({f, d, sw}) => {
           <CineCam f={f} keys={[[0, 1.0, 960, 520], [sw + 22, 1.28, 1050, 600]]} seed={96}>
             {(layer) => [
               layer(0.3, <NightStreet f={f} floor={900} far={false} />),
-              layer(1, <g><PetersenFront f={f} base={900} /><GasLamp x={360} base={930} f={f} seed={7} /></g>),
+              layer(1, <g><PetersenFront f={f} base={900} /><GasLamp x={360} base={930} f={f} seed={7} /><Carriers f={f} /></g>),
             ]}
           </CineCam>
-          <Look f={f} grade="night" sombre={0.9} />
+          <Look f={f} grade="night" sombre={0.8} />
         </g>
       )}
       {mix > 0 && (
         <g opacity={mix}>
           <CineCam f={f} keys={[[sw, 1.0, 960, 560], [d, 1.1, 980, 580]]} seed={97}>
-            {(layer) => [layer(1, <BackRoomFromDoor f={f} />)]}
+            {(layer) => [layer(1, <BackRoomFromDoor f={f} covered far={<VigilFar f={f - sw} />} near={<VigilNear f={f - sw} />} />)]}
           </CineCam>
-          <Look f={f} grade="lamp" sombre={1} vig={0.7} />
+          <Look f={f} grade="lamp" sombre={0.8} vig={0.7} />
         </g>
       )}
     </Frame>

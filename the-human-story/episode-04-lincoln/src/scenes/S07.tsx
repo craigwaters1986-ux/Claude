@@ -384,10 +384,12 @@ const Bliss: React.FC<{f: number; d: number}> = ({f, d}) => {
   const cy = (1 - hold) * (f < a ? kf(f, [[0, 520], [a, ny]]) : ny) + hold * 520;
   const ft = DOC_FONT[dc.hand];
   void ft;
+  void z; void cx; void cy; void hold;
   return (
     <Frame bg="#3A2A1E">
       <CineDefs />
-      <CineCam f={f} keys={[[0, z, cx, cy], [1e6, z, cx, cy]]} seed={84}>
+      {/* Phase D: steady slow push over the whole page (the camera no longer chases the nib, which read as dizzy) */}
+      <CineCam f={f} keys={[[0, 1.0, 960, 500], [d, 1.12, 960, 470]]} seed={84}>
         {(layer) => [
           layer(0.6, <DocDesk f={f} tone="#3A2A1E" />),
           layer(1, (
@@ -395,6 +397,7 @@ const Bliss: React.FC<{f: number; d: number}> = ({f, d}) => {
               <rect x={X + 10} y={Y + 14} width={W} height={L.height + 160} fill="rgba(0,0,0,0.3)" />
               <rect x={X} y={Y} width={W} height={L.height + 160} fill="#EFE2C2" stroke={C.ink} strokeWidth={4} />
               <DocText L={L} id="bliss-open" />
+              {f >= a - 10 && f < b + 40 && <ellipse cx={nx - 120} cy={ny - size * 0.35} rx={330} ry={size * 0.75} fill="#FFE6A0" opacity={0.2 * prog(f, a - 10, a + 10) * (1 - prog(f, b + 10, b + 40))} style={{mixBlendMode: 'multiply'}} />}
             </g>
           )),
         ]}

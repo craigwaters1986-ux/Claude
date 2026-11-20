@@ -234,7 +234,9 @@ const Bliss107: React.FC<{f: number; d: number}> = ({f, d}) => {
   const colX = BLISS_PAGE.x + 74 + 505;
   const lastC = {x: last.x + last.w / 2, y: last.y - 8};
   const cx = f < b ? colX : kf(f, [[b, colX], [b + 45, lastC.x]]);
-  const cy = f < a ? kf(f, [[0, 540], [a, pStart.y - 8]]) : f < b ? p.y - 8 : kf(f, [[b, p.y - 8], [b + 45, lastC.y]]);
+  // Phase D: the line-by-line ride is averaged over ±0.5 s so the camera glides rather than steps
+  const ySm = (g: number) => { let t = 0; for (let k = -15; k <= 15; k++) t += nibAt(L, u0 + (1 - u0) * prog(g + k, a, b, (q) => q)).y; return t / 31 - 8; };
+  const cy = f < a ? kf(f, [[0, 540], [a, ySm(a)]]) : f < b ? ySm(f) : kf(f, [[b, ySm(b)], [b + 45, lastC.y]]);
   const z = kf(f, [[0, 1.0], [12, 1.0], [a, 1.72], [b, 1.75], [b + 45, 2.5], [d, 2.65]]);
   void hold;
   const sigY = L.height + BLISS_PAGE.y + 70 + 24 * 1.6;
