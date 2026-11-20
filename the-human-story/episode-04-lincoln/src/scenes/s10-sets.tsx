@@ -132,6 +132,7 @@ export const Memorial: React.FC<{f: number; epitaphT?: number}> = ({f, epitaphT 
           <stop offset="1" stopColor="#FFF6E0" stopOpacity={0.1} />
         </linearGradient>
       </defs>
+      <rect x={812} y={346} width={296} height={104} fill="#D2CCBE" {...o(2)} />
       <g opacity={epitaphT}>
         <DocText L={{...L, lines}} id="memEpitaph" />
       </g>

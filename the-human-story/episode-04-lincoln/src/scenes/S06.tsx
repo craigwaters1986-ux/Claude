@@ -217,7 +217,7 @@ const SumterShot: React.FC<{f: number; d: number}> = ({f, d}) => {
             <g>
               <HarbourNight f={f} fortX={fortX} waterY={waterY} />
               <FortSilhouette x={fortX} y={waterY + 4} s={0.9} f={f} />
-              <SumterFlag f={f} x={fortX} y={waterY - 80} lower={prog(f, fb + 6, fb + 96)} />
+              <SumterFlag f={f} x={fortX + 60} base={waterY - 82} h={280} lower={prog(f, fb + 6, fb + 96)} />
               {[0, 1, 2].map((i) => <DistantFlash key={i} x={fortX - 180 + i * 170} y={waterY - 60 - (i % 2) * 20} f={f} at={0} every={34 + i * 9} r={70} seed={i + 3} until={surr} />)}
               {[0, 1, 2].map((i) => <DistantFlash key={'s' + i} x={-200 + i * 380} y={690} f={f} at={6} every={40 + i * 7} r={44} seed={i + 9} until={surr} />)}
               <HarbourSmoke x={fortX - 120} y={waterY - 80} f={f} seed={4} />

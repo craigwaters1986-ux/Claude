@@ -23,7 +23,7 @@ export function solveCorridor(f: number): Solved {
   return {
     figs: [{id, pl, P: {...P, bob: Math.sin(f / 26) * 1}, build}],
     checks: [], seats: [],
-    cam: [[0, 1.3, 860, 600], [240, 1.45, 830, 600]],
+    cam: [[0, 1.28, 870, 600], [8, 1.29, 868, 600], [232, 1.45, 830, 600], [245, 1.455, 829, 600]],
   };
 }
 

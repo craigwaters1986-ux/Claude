@@ -155,6 +155,8 @@ const Shot93: React.FC<{f: number; d: number}> = ({f, d}) => {
           )),
         ]}
       </CineCam>
+      <Particles f={f} kind="dust" n={34} seed={93} />
+      <LightPool x={1500} y={300} r={520} f={f} color="#FFB060" seed={93} strength={0.2} flicker={1.6} />
       <Look f={f} grade="night" sombre={1} vig={0.75} />
     </Frame>
   );
