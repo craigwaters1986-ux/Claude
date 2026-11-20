@@ -165,7 +165,7 @@ const ShotChair: React.FC<{f: number; d: number}> = ({f, d}) => (
   <Frame bg="#1A1414">
     <CineDefs />
     <S09Defs />
-    <CineCam f={f} keys={[[0, 1.08, 880, 560], [d, 1.2, 860, 580]]} seed={95}>
+    <CineCam f={f} keys={[[0, 1.0, 930, 550], [d, 1.34, 840, 585]]} seed={95}>{/* Phase D: wider push; the first pass held still 1.7 s */}
       {(layer) => [layer(1, <EmptyChairSet f={f} floor={900} />)]}
     </CineCam>
     <LightPool x={900} y={460} r={640} f={f} color="#FFB060" seed={95} strength={0.18} flicker={0.4} />
