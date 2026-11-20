@@ -244,7 +244,7 @@ const Orleans: React.FC<{f: number; d: number}> = ({f, d}) => {
       )}
       {mix > 0 && (
         <g opacity={mix}>
-          <CineCam f={f} keys={[[tB - 10, 1.0, 960, 520], [d, 1.2, 1000, 500]]} seed={35}>
+          <CineCam f={f} keys={[[tB - 10, 1.0, 960, 520], [d + 60, 1.26, 1010, 496]]} seed={35}>
             {(layer) => [
               layer(0.12, <SkyGrad time="dusk" id="s34dsk" />),
               layer(0.12, <circle cx={1500} cy={560} r={70} fill="#F2B07A" opacity={0.7} />),

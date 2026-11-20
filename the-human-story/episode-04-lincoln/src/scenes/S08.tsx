@@ -199,7 +199,7 @@ const Appomattox86: React.FC<{f: number; d: number}> = ({f}) => {
 
 // ---------------------------------------------------------------- 8.7 empty fields at dusk (sombre)
 const Fields87: React.FC<{f: number; d: number}> = ({f, d}) => {
-  const cam: [number, number, number, number][] = [[0, 1.24, 1010, 565], [d + 40, 0.94, 910, 535]]; // keeps moving to the last frame (Phase D: wider move, the first pass froze 2.0 s)
+  const cam: [number, number, number, number][] = [[0, 1.24, 1010, 565], [d + 100, 0.9, 890, 530]]; // keeps moving to the last frame (Phase D: wider move, the first pass froze 2.0 s)
   const tLab = prog(f, 26, 54);
   return (
     <Frame bg="#4A5A84">
