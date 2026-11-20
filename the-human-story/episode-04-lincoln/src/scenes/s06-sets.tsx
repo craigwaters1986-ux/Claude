@@ -224,6 +224,7 @@ export const DavisInset: React.FC<{f: number; t: number; x: number; y: number; w
 export const HarbourNight: React.FC<{f: number; fortX: number; waterY: number}> = ({f, fortX, waterY}) => (
   <g>
     <rect x={-700} y={waterY} width={3400} height={1200} fill="#18243A" />
+    {Array.from({length: 7}, (_, i) => <rect key={'m' + i} x={1420 + Math.sin(f / 9 + i * 1.7) * 30} y={waterY + 20 + i * 26} width={160 - i * 14} height={6} rx={3} fill="#C8CCD8" opacity={0.35 + 0.25 * Math.sin(f / 6 + i)} />)}
     {Array.from({length: 18}, (_, i) => (
       <path key={i} d={`M${-600 + ((i * 230 + f * (0.6 + (i % 3) * 0.2)) % 3200)},${waterY + 30 + (i % 6) * 34} q30,-6 60,0`} stroke="#3A4E70" strokeWidth={3} fill="none" opacity={0.7} />
     ))}
@@ -251,4 +252,4 @@ export const DistantFlash: React.FC<{x: number; y: number; f: number; at: number
     </g>
   );
 };
-export const HarbourSmoke: React.FC<{x: number; y: number; f: number; seed: number}> = ({x, y, f, seed}) => <Smoke x={x} y={y} f={f} n={8} size={46} rise={300} drift={160} seed={seed} opacity={0.35} color="#6A6A78" outline={false} />;
+export const HarbourSmoke: React.FC<{x: number; y: number; f: number; seed: number}> = ({x, y, f, seed}) => <Smoke x={x} y={y} f={f} n={10} size={60} rise={360} drift={220} seed={seed} opacity={0.5} color="#7A7A88" outline={false} />;

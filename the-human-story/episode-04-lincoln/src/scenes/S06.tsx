@@ -13,6 +13,7 @@ import {SummaryPanel} from '../kit/Documents';
 import {Study, OilLamp, WritingSlope, SkyGrad} from '../kit/Sets04';
 import * as M from '../kit/USMap';
 import {Stars} from '../kit/Places';
+import {Clouds} from '../components/Environment';
 import {C, FONT} from '../styles/theme';
 import {clamp, kf, prog, easeOut} from '../animations/core';
 import {solveGrace, solveLetter, letterTimes, sf, GRACE_FLOOR, LETTER_FLOOR, LETTER_DESK} from './s06-solve';
@@ -209,17 +210,18 @@ const SumterShot: React.FC<{f: number; d: number}> = ({f, d}) => {
   return (
     <Frame bg="#101A30">
       <CineDefs />
-      <CineCam f={f} keys={[[0, 1.0, 960, 540], [fb - 30, 1.18, 1040, 560], [d, 1.62, fortX, 560]]} seed={66}>
+      <CineCam f={f} keys={[[0, 1.0, 960, 540], [fb - 30, 1.3, 1040, 560], [d, 1.7, fortX, 560]]} seed={66} hand={0.5}>
         {(layer) => [
-          layer(0.1, <g><SkyGrad time="night" id="sum-sky" /><Stars f={f} n={80} /></g>),
+          layer(0.1, <g><SkyGrad time="night" id="sum-sky" /><Stars f={f} n={80} /><circle cx={1500} cy={200} r={46} fill="#E8E4D0" opacity={0.85} /></g>),
+          layer(0.2, <Clouds f={f} n={6} seed={7} speed={1.6} yMin={120} yMax={420} color="#2A3450" />),
           layer(0.3, <path d="M-800,700 L-200,680 L200,690 L600,676 L900,694 L900,720 L-800,720Z" fill="#141C2C" />),
           layer(0.6, (
             <g>
               <HarbourNight f={f} fortX={fortX} waterY={waterY} />
-              <SumterFlag f={f} x={fortX + 60} base={waterY + 50} h={400} lower={prog(f, fb + 6, fb + 96)} />
+              <SumterFlag f={f} x={fortX + 60} base={waterY - 20} h={330} lower={prog(f, fb + 6, fb + 96)} />
               <FortSilhouette x={fortX} y={waterY + 4} s={0.9} f={f} />
-              {[0, 1, 2].map((i) => <DistantFlash key={i} x={fortX - 180 + i * 170} y={waterY - 60 - (i % 2) * 20} f={f} at={0} every={34 + i * 9} r={70} seed={i + 3} until={surr} />)}
-              {[0, 1, 2].map((i) => <DistantFlash key={'s' + i} x={-200 + i * 380} y={690} f={f} at={6} every={40 + i * 7} r={44} seed={i + 9} until={surr} />)}
+              {[0, 1, 2].map((i) => <DistantFlash key={i} x={fortX - 180 + i * 170} y={waterY - 60 - (i % 2) * 20} f={f} at={0} every={26 + i * 7} r={130} seed={i + 3} until={surr} />)}
+              {[0, 1, 2].map((i) => <DistantFlash key={'s' + i} x={-200 + i * 380} y={690} f={f} at={6} every={30 + i * 7} r={90} seed={i + 9} until={surr} />)}
               <HarbourSmoke x={fortX - 120} y={waterY - 80} f={f} seed={4} />
               <HarbourSmoke x={fortX + 120} y={waterY - 70} f={f + 30} seed={5} />
             </g>
