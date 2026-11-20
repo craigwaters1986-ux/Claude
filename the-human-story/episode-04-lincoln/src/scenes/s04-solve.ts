@@ -456,16 +456,43 @@ export function solveCircuit(f: number, dur = DUR4.circuit): Solved {
   };
 }
 
+
+// ---------------------------------------------------------------- 5.3a / 5.7 speaking at a lectern (far hand on the lectern top)
+export const HALL_FLOOR = 900;
+export const STAGE_TOP = HALL_FLOOR - 90; // kit Sets04b STAGE_H
+export const LECT = {x: 1010, s: 1.1};
+export function solveLectern(f: number, seed = 3, x = 928): Solved {
+  const build = castBuild(A58);
+  const pl: Placement = {x, y: STAGE_TOP, scale: castScale(A58), dir: 1};
+  // rear edge of the lectern's sloped top (kit Lectern: top from (-44,-110)..(-40,-128) at scale s)
+  const grip = {x: LECT.x - 38 * LECT.s, y: STAGE_TOP - 124 * LECT.s};
+  const g = talkGesture(f, seed);
+  const base = addPose(g, {lean: 5 + Math.sin(f / 50 + seed) * 2, shR: 70 + Math.sin(f / 9 + seed) * 26 - g.shR + 55, elR: 50 + Math.sin(f / 7 + seed) * 20 - g.elR + 55});
+  const P = handsOn(pl, base, {L: grip}, build);
+  return {
+    figs: [{id: A58, pl, P, build, ex: exprAt(f, [[0, 'determined']]), talking: true, noHat: true, look: [0.6, -0.15]}],
+    checks: [chk('L lectern', pl, P, 'L', grip, build)], seats: [], grip,
+    cam: [[0, 1, 960, 540]],
+  };
+}
+export function solveHall(f: number): Solved {
+  return {...solveLectern(f, 3), cam: [[0, 1.0, 960, 520], [DUR5.hall, 1.35, 960, 560]] as CamKey[]};
+}
+export function solveCooper(f: number): Solved {
+  const d = DUR5.cooper;
+  return {...solveLectern(f, 7), cam: [[0, 0.82, 960, 420], [Math.round(d * 0.55), 1.55, 960, 600], [d, 1.62, 955, 600]] as CamKey[]};
+}
+
 // ---------------------------------------------------------------- registry for the contact checker
 export const SHOTS0405: {id: string; dur: number}[] = [
   {id: 'leg', dur: DUR4.leg}, {id: 'hand', dur: DUR4.hand}, {id: 'read', dur: DUR4.read}, {id: 'ride', dur: DUR4.ride}, {id: 'protest', dur: DUR4.protest},
   {id: 'ball1', dur: fr(AT4.ball2 - AT4.ball)}, {id: 'ball2', dur: fr(AT4.window - AT4.ball2)}, {id: 'window', dur: DUR4.window},
   {id: 'wed', dur: DUR4.wed}, {id: 'house', dur: DUR4.door}, {id: 'circuit', dur: DUR4.circuit}, {id: 'speak', dur: DUR4.speak}, {id: 'bill', dur: DUR4.bill},
-  {id: 'meet', dur: DUR5.meet}, {id: 'debate', dur: fr(AT5.charleston - AT5.debate)}, {id: 'result', dur: DUR5.result},
+  {id: 'meet', dur: DUR5.meet}, {id: 'hall', dur: DUR5.hall}, {id: 'cooper', dur: DUR5.cooper}, {id: 'debate', dur: fr(AT5.charleston - AT5.debate)}, {id: 'result', dur: DUR5.result},
 ];
 export const SOLVERS0405: Record<string, (f: number) => Solved> = {
   leg: solveLeg, hand: solveHand, read: solveRead, ride: solveRide, circuit: (f: number) => solveCircuit(f), protest: solveProtest, ball1: solveBall1, ball2: solveBall2, window: solveWindow,
-  wed: solveWed, house: solveHouse, speak: solveSpeak, bill: solveBill, meet: solveMeet, debate: solveDebate, result: solveResult,
+  wed: solveWed, house: solveHouse, speak: solveSpeak, bill: solveBill, meet: solveMeet, hall: solveHall, cooper: solveCooper, debate: solveDebate, result: solveResult,
 };
 export const camZoom0405 = (cam: CamKey[], f: number) => kf(f, cam.map((k) => [k[0], k[1]] as [number, number]));
 // names the shared checker (scripts/check-contacts.mjs) loops over

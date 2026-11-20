@@ -101,7 +101,8 @@ export function solveLetter(f: number): Solved {
   const sk = solveSkeleton(base, build);
   const read = localXf(pl, {x: sk.sh.x + 58, y: sk.sh.y + 22 + Math.sin(f / 28) * 1.2}, -4);
   const rest: PropXf = {x: 935, y: deskTop - 3, rot: 0, s};
-  const xf = track(f, [[grab, rest], [grab + 8, {...rest, y: rest.y - 12}], [grab + 30, read], [d, read]]);
+  const low = localXf(pl, {x: sk.sh.x + 42, y: sk.sh.y + 54}, -10);
+  const xf = track(f, [[grab, rest], [grab + 8, {...rest, y: rest.y - 12}], [grab + 30, read], [swap + 8, read], [swap + 30, low], [d, low]]);
   const flat = 1 - prog(f, grab + 2, grab + 22);
   const spans: HoldSpan[] = [
     {side: 'R', grip: SHEET.grips.grip2, a: grab, b: 1e9, ap: 12, label: 'R letter'},
@@ -126,3 +127,7 @@ export const SOLVERS06: Record<string, {dur: () => number; solve: (f: number) =>
   's06-letter': {dur: () => letterTimes().d, solve: solveLetter},
 };
 export {kf, mixPose, stand, pose};
+// for scripts/check-contacts.mjs
+export const S06_SHOTS = Object.entries(SOLVERS06).map(([id, s]) => ({id, dur: s.dur()}));
+export const S06_SOLVERS: Record<string, (f: number) => Solved> = Object.fromEntries(Object.entries(SOLVERS06).map(([id, s]) => [id, s.solve]));
+export const camZoom = (cam: CamKey[], f: number) => kf(f, cam.map((k) => [k[0], k[1]] as [number, number]));

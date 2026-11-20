@@ -37,12 +37,12 @@ import {Tree} from '../components/Environment';
 const ink = C.ink;
 const o = (w = 4) => ({stroke: ink, strokeWidth: w, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const});
 
-export const FLATBOAT = {bow: 270, stern: -270, deck: -38, draft: 20, cabin: [-262, -112] as [number, number], cabinH: 96, walkBow: 200, walkStern: -40};
+export const FLATBOAT = {bow: 420, stern: -420, deck: -40, draft: 22, cabin: [-410, -150] as [number, number], cabinH: 104, walkBow: 330, walkStern: -70};
 const PLANT = 14;
-const PUSH = 112;
+const PUSH = 150;
 const LIFT = 14;
 const TURN = 8;
-const RET = 84;
+const RET = 110;
 export const POLE_CYCLE = PLANT + PUSH + LIFT + TURN + RET + TURN;
 
 export type PoleOpts = {x0: number; waterY: number; bedY: number; v?: number; dir?: 1 | -1; s?: number; id?: string; phase?: number};
@@ -162,7 +162,7 @@ export const Flatboat: React.FC<{pl: Placement; f: number; cargo?: boolean}> = (
       <rect x={F.cabin[0] + 30} y={F.deck - 18 - F.cabinH + 30} width={30} height={22} fill="#F2B04A" opacity={0.55} {...o(3)} />
       {cargo && (
         <g>
-          {[-220, -180, -140].map((x, i) => (
+          {[-370, -330, -290, -250].map((x, i) => (
             <g key={x} transform={`translate(${x},${F.deck - 10 - F.cabinH - 14 + (i % 2) * 2})`}>
               <rect x={-17} y={-26} width={34} height={40} rx={8} fill="#A8865A" {...o(3)} />
               <path d="M-17,-12 H17 M-17,2 H17" stroke="#5E4128" strokeWidth={3} />

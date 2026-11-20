@@ -272,7 +272,7 @@ const Shot13: React.FC<{f: number; d: number}> = ({f, d}) => {
                   </g>
       )}
       <Look f={f} grade="lamp" vig={0.55} />
-      <Plate text="Signed and dated: 1864" t={prog(f, 66, 82) * (1 - prog(f, 196, 212))} />
+      <Plate text="Written 1864 · the only copy signed and dated" t={prog(f, 66, 82) * (1 - prog(f, 196, 212))} />
     </Frame>
   );
 };

@@ -11,12 +11,11 @@
 //   granularity: e.g. Colorado/Wyoming are treated as territory throughout.
 // - Before 20 June 1863 West Virginia is drawn as part of Virginia (no border). Before 1820 Maine is part of
 //   Massachusetts. DC is always drawn with Maryland (put a Washington dot on it).
-// - Rivers (Ohio, Mississippi) are HAND-PLACED APPROXIMATE polylines (no river data in world-atlas/us-atlas).
+// - Rivers (Ohio, Mississippi, Missouri, Tennessee, Wabash, Potomac) and the Great Lakes: Natural Earth 1:50m
+//   (public domain), extracted into src/kit/data/ne-water.json. Modern courses; 1:50m generalisation.
 // - Kansas and Nebraska Territory (1854) polygons are approximate (west edge = continental divide, simplified).
 // - Emancipation Proclamation excepted areas (LA parishes around New Orleans, VA Eastern Shore and Norfolk area)
 //   are simplified hand polygons; label the map "excepted areas simplified" (EXCEPTED_NOTE).
-// - The Great Lakes: drawn as hand-placed approximate water polygons over the Canadian side (Natural Earth
-//   countries include the lakes as land).
 //
 // PUBLIC API
 //   usProjection(view: USView | keyof VIEWS, box?: [x0,y0,x1,y1]) -> d3 GeoProjection (cached; pure)
@@ -25,7 +24,7 @@
 //        states = {SC: {fill: '#B23A2E', t: 0..1 (blend from the base fill), lift: px (peel up with a shadow),
 //                       hatch: 0..1 (diagonal hatch overlay), outline?: colour}} — keys are postal codes; 'VA'
 //                       covers WV while merged.
-//        rivers = {ohio: t, mississippi: t} draw-on 0..1 (use 1 to show).
+//        rivers = {ohio: t, mississippi: t, missouri?, tennessee?, wabash?, potomac?} draw-on 0..1 (1 = shown).
 //   <StateLabel proj code text? t size dx dy color />   (label at the state's centroid, or LABEL_AT override)
 //   <PlaceDot proj at label t side size color ring />   (pops in; `ring` pulses)
 //   <RouteLine proj pts t color width dashed icon='none'|'dot'|'train'|'wagon'|'boat' iconScale />
@@ -38,7 +37,8 @@
 //   routeAt(proj, pts, t) -> {x, y, angle}   (pure; place a moving icon yourself)
 //   statusOf(code, year) -> 'state' | 'territory' | 'foreign'
 //   DATA: PLACES, DEBATE_TOWNS, SECESSION, FREE_1860, SLAVE_1860, BORDER_STATES, CONFEDERACY, PROCLAMATION_SHADED,
-//         FUNERAL_ROUTE, FLATBOAT_1828, MOVE_1816, MOVE_1830, BATTLES, OHIO, MISSISSIPPI, KANSAS_T, NEBRASKA_T
+//         FUNERAL_ROUTE, FUNERAL_STOPS, FLATBOAT_1828, MOVE_1816, MOVE_1830, BATTLES, RIVERS, OHIO, MISSISSIPPI,
+//         KANSAS_T, NEBRASKA_T, SECESSION_LATER, STATE_NAME, EXCEPTED_NOTE
 //   COLOURS: MAPC (free, slave, union, confed, border, territory, sea, land, route)
 //
 // USAGE (inside a shot; never put a Frame inside another Frame's svg):
@@ -57,6 +57,7 @@ import {geoConicEqualArea, geoPath, GeoProjection} from 'd3-geo';
 import {feature, merge, mesh} from 'topojson-client';
 import usTopo from 'us-atlas/states-10m.json';
 import world from 'world-atlas/countries-50m.json';
+import WATER from './data/ne-water.json';
 import {C, FONT} from '../styles/theme';
 import {clamp, easeBack, easeOut} from '../animations/core';
 
@@ -69,9 +70,9 @@ export const MAPC = {
   sea: '#9DB7BD',
   seaLine: '#B3CACE',
   land: '#E6D9B8',
-  territory: '#D2CBB4',
-  foreign: '#C9C2B2',
-  neighbour: '#CFC7B2',
+  territory: '#D6CBA2',
+  foreign: '#C4C0B6',
+  neighbour: '#C4C0B6',
   free: '#6F8FB8',
   union: '#3F6EA6',
   slave: '#C27A5A',
@@ -205,25 +206,14 @@ export const MOVE_1816: LonLat[] = [PLACES.KnobCreek, [-86.1, 37.85], [-86.7, 37
 /** Indiana -> Macon County, Illinois, March 1830 (approximate). */
 export const MOVE_1830: LonLat[] = [PLACES.PigeonCreek, [-87.5, 38.68], [-88.2, 39.35], PLACES.Decatur];
 
-// Ohio River: Pittsburgh to Cairo. HAND-PLACED APPROXIMATE polyline.
-export const OHIO: LonLat[] = [
-  [-80.0, 40.44], [-80.3, 40.62], [-80.6, 40.62], [-80.66, 40.4], [-80.73, 40.07], [-80.86, 39.75], [-81.2, 39.5], [-81.45, 39.41], [-81.7, 39.22], [-81.8, 39.0], [-82.1, 38.88],
-  [-82.18, 38.6], [-82.45, 38.42], [-82.8, 38.6], [-83.0, 38.73], [-83.4, 38.63], [-83.74, 38.65], [-84.1, 38.8], [-84.51, 39.09], [-84.82, 39.1], [-84.9, 38.85],
-  [-85.2, 38.7], [-85.42, 38.73], [-85.6, 38.45], [-85.76, 38.27], [-85.95, 38.05], [-86.17, 37.99], [-86.45, 38.1], [-86.6, 37.88], [-86.76, 37.9], [-87.05, 37.86],
-  [-87.2, 37.78], [-87.4, 37.93], [-87.57, 37.96], [-87.59, 37.84], [-87.9, 37.9], [-87.98, 37.75], [-88.13, 37.66], [-88.2, 37.48], [-88.35, 37.43], [-88.49, 37.36],
-  [-88.6, 37.1], [-88.75, 37.15], [-89.0, 37.08], [-89.18, 36.99],
-];
-// Mississippi River: headwaters to the Gulf. HAND-PLACED APPROXIMATE polyline.
-export const MISSISSIPPI: LonLat[] = [
-  [-95.2, 47.24], [-94.6, 47.4], [-94.0, 47.0], [-94.2, 46.35], [-94.3, 45.9], [-93.9, 45.4], [-93.27, 44.98], [-92.85, 44.75], [-92.53, 44.56], [-91.95, 44.38], [-91.6, 44.05],
-  [-91.25, 43.82], [-91.2, 43.4], [-91.15, 43.03], [-90.85, 42.75], [-90.66, 42.5], [-90.25, 42.1], [-90.15, 41.75], [-90.58, 41.52], [-91.0, 41.2], [-91.1, 40.8], [-91.39, 40.39],
-  [-91.42, 39.94], [-91.36, 39.71], [-91.0, 39.4], [-90.75, 39.05], [-90.45, 38.95], [-90.18, 38.88], [-90.19, 38.63], [-90.35, 38.35], [-90.05, 37.98], [-89.75, 37.75],
-  [-89.52, 37.31], [-89.45, 37.08], [-89.18, 36.99], [-89.15, 36.75], [-89.53, 36.59], [-89.6, 36.25], [-89.7, 36.0], [-90.05, 35.6], [-90.05, 35.15], [-90.3, 34.8],
-  [-90.59, 34.53], [-90.9, 34.1], [-91.1, 33.75], [-91.06, 33.41], [-91.15, 33.0], [-91.1, 32.65], [-90.88, 32.35], [-91.1, 31.95], [-91.4, 31.56], [-91.55, 31.15],
-  [-91.6, 31.0], [-91.45, 30.75], [-91.19, 30.45], [-91.05, 30.2], [-90.8, 30.05], [-90.45, 29.98], [-90.07, 29.95], [-89.9, 29.78], [-89.6, 29.55], [-89.4, 29.3], [-89.25, 29.15],
-];
+// Rivers and Great Lakes: Natural Earth 1:50m (public domain), extracted to ./data/ne-water.json
+// (rivers ordered source -> mouth so draw-on runs downstream).
+export const RIVERS = WATER.rivers as Record<'ohio' | 'mississippi' | 'missouri' | 'tennessee' | 'wabash' | 'potomac', LonLat[]>;
+export const OHIO: LonLat[] = RIVERS.ohio;
+export const MISSISSIPPI: LonLat[] = RIVERS.mississippi;
+const nearest = (pts: LonLat[], q: LonLat) => pts.reduce((bi, p, i) => (Math.hypot(p[0] - q[0], p[1] - q[1]) < Math.hypot(pts[bi][0] - q[0], pts[bi][1] - q[1]) ? i : bi), 0);
 /** 1828 flatboat trip: Rockport down the Ohio and Mississippi to New Orleans (about 1,222 miles per the storyboard). */
-export const FLATBOAT_1828: LonLat[] = [...OHIO.slice(OHIO.findIndex((p) => p[0] <= -87.05)), ...MISSISSIPPI.slice(MISSISSIPPI.findIndex((p) => p[0] === -89.18 && p[1] === 36.99) + 1, MISSISSIPPI.findIndex((p) => p[0] === -90.07) + 1)];
+export const FLATBOAT_1828: LonLat[] = [PLACES.Rockport, ...OHIO.slice(nearest(OHIO, PLACES.Rockport) + 1), ...MISSISSIPPI.slice(nearest(MISSISSIPPI, PLACES.Cairo) + 1, nearest(MISSISSIPPI, PLACES.NewOrleans) + 1), PLACES.NewOrleans];
 // Kansas–Nebraska Act territories (1854): APPROXIMATE (west edge simplified along the continental divide).
 export const KANSAS_T: LonLat[] = [[-94.62, 37.0], [-94.61, 39.1], [-94.9, 39.5], [-95.1, 39.8], [-95.31, 40.0], [-105.85, 40.0], [-105.9, 39.6], [-106.2, 39.1], [-106.3, 38.5], [-106.6, 37.9], [-106.8, 37.0]];
 export const NEBRASKA_T: LonLat[] = [
@@ -236,13 +226,8 @@ export const NEBRASKA_T: LonLat[] = [
 const EXC_LA: LonLat[] = [[-91.95, 30.4], [-90.9, 30.38], [-90.4, 30.12], [-89.6, 30.08], [-89.3, 29.85], [-89.0, 29.3], [-89.6, 28.9], [-90.6, 28.95], [-91.5, 29.25], [-91.95, 29.5]];
 const EXC_VA1: LonLat[] = [[-76.1, 38.05], [-75.2, 38.05], [-75.5, 37.5], [-75.9, 37.05], [-76.1, 37.1]];
 const EXC_VA2: LonLat[] = [[-76.75, 37.4], [-76.25, 37.4], [-75.85, 36.9], [-75.8, 36.5], [-76.55, 36.5], [-76.65, 36.85]];
-// Great Lakes (approximate) to cover the Canadian half, which Natural Earth countries include as land.
-const LAKES: LonLat[][] = [
-  [[-92.1, 46.7], [-90.4, 46.6], [-88.4, 47.4], [-87.5, 47.0], [-86.0, 46.5], [-84.6, 46.5], [-84.6, 47.1], [-84.9, 47.9], [-86.4, 48.7], [-88.3, 48.8], [-89.4, 48.1], [-90.8, 47.4]],
-  [[-84.4, 45.9], [-83.5, 46.1], [-81.6, 46.1], [-80.4, 45.9], [-79.8, 44.8], [-80.4, 44.5], [-81.4, 45.2], [-81.7, 44.3], [-82.5, 43.0], [-83.0, 44.0], [-83.4, 44.3], [-83.3, 45.0], [-84.4, 45.6]],
-  [[-83.4, 42.0], [-82.5, 42.0], [-81.2, 42.6], [-80.0, 42.7], [-78.9, 42.85], [-79.8, 42.3], [-81.0, 41.7], [-82.5, 41.4], [-83.4, 41.7]],
-  [[-79.8, 43.3], [-78.5, 43.6], [-77.0, 43.95], [-76.2, 44.2], [-76.2, 43.5], [-77.7, 43.3], [-79.1, 43.25]],
-];
+// Great Lakes (Natural Earth lakes) drawn over the neighbours: Natural Earth countries include the Canadian halves.
+const LAKES: LonLat[][][] = WATER.lakes as LonLat[][][];
 
 // ------------------------------------------------------------------ views and projection
 export const VIEWS = {
@@ -367,7 +352,7 @@ export type USMapProps = {
   /** Force West Virginia separate (e.g. the 1 Jan 1863 Proclamation map) or merged. Default: by year. */
   wv?: 'merged' | 'separate';
   neighbours?: boolean;
-  rivers?: {ohio?: number; mississippi?: number};
+  rivers?: Partial<Record<'ohio' | 'mississippi' | 'missouri' | 'tennessee' | 'wabash' | 'potomac', number>>;
   lakes?: boolean;
   sea?: boolean;
   /** Base fill for states (default MAPC.land). */
@@ -409,9 +394,8 @@ export const USMap: React.FC<USMapProps> = ({proj, f, year, id, states = {}, wv,
       {flat.filter((k) => (states[k]?.hatch ?? 0) > 0).map((k) => <path key={'h' + k} d={B.units[k]} fill={`url(#hatch-${id})`} opacity={clamp(states[k]!.hatch!) * 0.55} />)}
       <path d={B.borders} fill="none" stroke={C.ink} strokeWidth={2.4} strokeLinejoin="round" />
       <path d={B.nation} fill="none" stroke={C.ink} strokeWidth={3.6} strokeLinejoin="round" />
-      {lakes && LAKES.map((L, i) => <path key={i} d={polyD(proj, L)} fill={MAPC.sea} stroke={C.ink} strokeWidth={2} strokeLinejoin="round" />)}
-      {rivers?.ohio !== undefined && <RiverLine proj={proj} pts={OHIO} t={rivers.ohio} />}
-      {rivers?.mississippi !== undefined && <RiverLine proj={proj} pts={MISSISSIPPI} t={rivers.mississippi} />}
+      {lakes && LAKES.map((L, i) => <path key={i} d={L.map((r) => polyD(proj, r)).join(' ')} fill={MAPC.sea} fillRule="evenodd" stroke={C.ink} strokeWidth={2} strokeLinejoin="round" />)}
+      {rivers && (Object.keys(rivers) as (keyof typeof RIVERS)[]).map((k) => <RiverLine key={k} proj={proj} pts={RIVERS[k]} t={rivers[k] ?? 0} width={k === 'mississippi' || k === 'ohio' ? 5 : 3.5} />)}
       {flat.filter((k) => states[k]?.outline).map((k) => <path key={'o' + k} d={B.units[k]} fill="none" stroke={states[k]!.outline} strokeWidth={5} strokeLinejoin="round" />)}
       {lifted.map((k) => {
         const s = states[k]!;

@@ -260,7 +260,7 @@ export function wagonRig(d: number, o2: {x0: number; y: number; s?: number; dir?
   const dir = o2.dir ?? 1;
   const kind = o2.team ?? 'ox';
   const wagonPl: Placement = {x: o2.x0 + dir * s * d, y: o2.y, scale: s, dir};
-  const gap = kind === 'ox' ? 360 : 340;
+  const gap = kind === 'ox' ? 430 : 400;
   const team = [0, 1].map((i) => {
     const pl: Placement = {x: wagonPl.x + dir * s * (gap - i * 26), y: o2.y - i * 4 * s, scale: s * (i ? 0.97 : 1), dir};
     return {pl, rig: quadRig(d, {kind, f: o2.f, amp: o2.amp, seed: 3 + i * 5}), far: i === 1};

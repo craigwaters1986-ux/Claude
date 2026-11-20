@@ -34,7 +34,7 @@ Source of words: the approved script rev1 (`production/scripts/ep04-lincoln/epis
 | --- | --- | --- | --- | --- | --- | --- |
 | 1.1 | 0:00–0:09 | "Two minutes" | ECU, slow push along the lines | The Bliss copy on a desk under lamplight. The first line writes on in Lincoln's hand (`write`, quill nib on the ink edge); camera travels along the line being read. Lamp pool flickers. | "Gettysburg Address (Bliss copy, 1864)" (plate) | cold open |
 | 1.2 | 0:09–0:17 | "after the main speaker" | W → M, crane down | Two lecterns side by side in an empty field at dusk (illustrative staging): a tall pile of paper at one, two sheets at the other. A clock face spins two hours, then stops at two minutes. | — | match cut (paper) |
-| 1.3 | 0:17–0:27 | "Five copies survive" | INS, pull back | Five sheets fan out on the desk; four fade to outline, one stays bright: the signed page. Pull back to show it in a frame in a quiet room. | "Signed and dated: 1864" | page |
+| 1.3 | 0:17–0:27 | "Five copies survive" | INS, pull back | Five sheets fan out on the desk; four fade to outline, one stays bright: the signed page. Pull back to show it in a frame in a quiet room. | "Written 1864 · the only copy signed and dated" (fixed in Phase C: the signature line is dated 19 November 1863) | page |
 | 1.4 | 0:27–0:35 | "less than a year of schooling" + 4 s beat | MCU → title | The quill rests; the page dissolves into the cinematic title plate over the cabin woods at golden hour (light sweep, light leak). | **ABRAHAM LINCOLN** (title plate) | dissolve; riser + impact on the title |
 
 ## Chapter 2 · A cabin in Kentucky (0:35–1:30) · 1M2

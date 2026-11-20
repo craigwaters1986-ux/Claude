@@ -219,3 +219,7 @@ export const SOLVERS07: Record<string, {dur: () => number; solve: (f: number) =>
   's07-meeting': {dur: () => solveTimes07().meeting, solve: solveMeeting},
 };
 export type {Pt};
+// for scripts/check-contacts.mjs
+export const S07_SHOTS = Object.entries(SOLVERS07).map(([id, s]) => ({id, dur: s.dur()}));
+export const S07_SOLVERS: Record<string, (f: number) => Solved> = Object.fromEntries(Object.entries(SOLVERS07).map(([id, s]) => [id, s.solve]));
+export const camZoom = (cam: CamKey[], f: number) => kf(f, cam.map((k) => [k[0], k[1]] as [number, number]));

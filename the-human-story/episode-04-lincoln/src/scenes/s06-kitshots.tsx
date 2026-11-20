@@ -4,7 +4,7 @@ import React from 'react';
 import {Frame} from '../kit/Shots';
 import {CineCam, CineDefs} from '../kit/Cinema';
 import {SkyGrad} from '../kit/Sets04';
-import {Capitol, CAPITOL_STEPS, Crowd, Lectern} from '../kit/Sets04b';
+import {Capitol, CAPITOL_STEPS, Lectern} from '../kit/Sets04b';
 import {raiseFlag, FlagPole} from '../kit/Flag';
 import {Person} from '../kit/Cast';
 import {Clouds} from '../components/Environment';
@@ -31,7 +31,7 @@ export const CapitolShot: React.FC<{f: number; d: number}> = ({f, d}) => {
               <CrowdRow f={f} y={base + 30} x0={300} x1={1620} n={22} s={0.34} seed={9} mood="listen" />
             </g>
           )),
-          layer(1.25, <Crowd x0={-300} x1={2200} y={1060} f={f} rows={3} s={1.1} seed={6} fromBehind />, 3),
+          layer(1.2, <CrowdRow f={f + 11} y={1170} x0={-300} x1={2200} n={10} s={0.95} seed={12} mood="listen" back />, 3),
         ]}
       </CineCam>
       <Look f={f} grade="day" vig={0.4} />

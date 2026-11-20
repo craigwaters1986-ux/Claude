@@ -315,7 +315,14 @@ export const GaslitStreet: React.FC<{f: number; floor?: number; slotX?: number; 
       {Array.from({length: 90}, (_, k) => <ellipse key={k} cx={-800 + (k % 30) * 120 + (Math.floor(k / 30) % 2) * 60} cy={floor + 30 + Math.floor(k / 30) * 40} rx={40} ry={12} fill="#3A383C" stroke="#1E1C20" strokeWidth={2} />)}
       <line x1={-900} y1={floor} x2={2900} y2={floor} stroke={ink} strokeWidth={5} />
       {[-200, 340, slotX - 80, slotX + slotW + 80, 1700, 2200].map((lx, k) => <GasLamp key={k} x={lx} base={floor - 6} f={f} seed={k + 3} />)}
-      <rect x={-900} y={floor - 300} width={3800} height={360} fill="#8A9AB8" opacity={fog * (0.8 + 0.2 * Math.sin(f / 60))} style={{mixBlendMode: 'screen'}} />
+      <defs>
+        <linearGradient id="gsfog" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#8A9AB8" stopOpacity={0} />
+          <stop offset="0.6" stopColor="#8A9AB8" stopOpacity={1} />
+          <stop offset="1" stopColor="#8A9AB8" stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <rect x={-900} y={floor - 320} width={3800} height={420} fill="url(#gsfog)" opacity={fog * (0.8 + 0.2 * Math.sin(f / 60))} style={{mixBlendMode: 'screen'}} />
     </g>
   );
 };

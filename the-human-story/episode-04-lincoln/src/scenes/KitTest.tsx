@@ -167,7 +167,7 @@ const MapKY: React.FC<P> = ({f, d}) => (
         <M.StateLabel proj={proj} code="KY" text="Kentucky" />
         <M.StateLabel proj={proj} code="IN" text="Indiana" />
         <M.StateLabel proj={proj} code="IL" text="Illinois Territory" size={24} year={1816.96} />
-        <M.PlaceDot proj={proj} at={M.PLACES.KnobCreek} label="Knob Creek" side="below" t={prog(f, 5, 20)} />
+        <M.PlaceDot proj={proj} at={M.PLACES.KnobCreek} label="Knob Creek" side="right" t={prog(f, 5, 20)} />
         <M.RouteLine proj={proj} pts={M.MOVE_1816} t={prog(f, 20, 80)} icon="wagon" />
         <M.PlaceDot proj={proj} at={M.PLACES.PigeonCreek} label="Little Pigeon Creek" side="above" t={prog(f, 70, 85)} />
       </g>
@@ -244,8 +244,8 @@ const MapWar: React.FC<P> = ({f, d}) => (
     {(proj) => (
       <g>
         <M.USMap proj={proj} f={f} year={1864} id="war" states={Object.fromEntries(M.CONFEDERACY.map((c) => [c, {fill: M.MAPC.confed, t: 1}]))} />
-        <M.PlaceDot proj={proj} at={M.PLACES.Washington} label="Washington" side="right" color="#3F6EA6" />
-        {M.BATTLES.map((b, i) => <M.BattleMarker key={b.name} proj={proj} at={b.at} label={b.name} side={b.name === 'Bull Run' || b.name === 'Appomattox' ? 'left' : 'right'} t={prog(f, 6 + i * 14, 18 + i * 14)} size={26} />)}
+        <M.PlaceDot proj={proj} at={M.PLACES.Washington} label="Washington" side="above" color="#3F6EA6" />
+        {M.BATTLES.map((b, i) => <M.BattleMarker key={b.name} proj={proj} at={b.at} label={b.name} side={b.name === 'Atlanta' || b.name === 'Gettysburg' ? 'right' : 'left'} t={prog(f, 6 + i * 14, 18 + i * 14)} size={26} />)}
       </g>
     )}
   </MapFrame>
@@ -273,7 +273,7 @@ const CapitolShot: React.FC<P & {dome: 'bulfinch' | 'unfinished' | 'finished'; y
       {(layer) => [
         layer(0.15, <SkyGrad time={dome === 'finished' ? 'day' : 'dawn'} id={`csky${dome}`} />),
         layer(0.8, <g><rect x={-800} y={800} width={3600} height={400} fill="#7A8A50" /><Capitol x={960} base={800} s={0.9} dome={dome} f={f} /></g>),
-        layer(1.2, dome === 'bulfinch' ? <g /> : <Crowd x0={-100} x1={2000} y={1010} f={f} rows={3} fromBehind seed={dome === 'finished' ? 7 : 3} />),
+        layer(1.2, dome === 'bulfinch' ? <g /> : <Crowd x0={-100} x1={2000} y={930} f={f} rows={3} fromBehind seed={dome === 'finished' ? 7 : 3} />),
       ]}
     </CineCam>
     <Look f={f} grade={dome === 'finished' ? 'day' : 'dawn'} />
@@ -327,7 +327,7 @@ const TrainShot: React.FC<P> = ({f, d}) => {
               <Train x={x} y={820} d={f * 4} f={f} cars={3} draped lit={0.6} s={0.9} />
             </g>
           )),
-          layer(1.3, <Crowd x0={-300} x1={2400} y={1060} f={f} rows={2} fromBehind hats={0.6} seed={9} />),
+          layer(1.3, <Crowd x0={-300} x1={2400} y={990} f={f} rows={2} fromBehind hats={0.6} seed={9} />),
         ]}
       </CineCam>
       <Look f={f} grade="night" />
@@ -346,7 +346,7 @@ const FlagsRow: React.FC<P> = ({f}) => (
 );
 
 const LIST: {d: number; el: React.FC<P>}[] = [
-  {d: 160, el: Ride}, {d: 140, el: WagonShot}, {d: 260, el: Boat}, {d: 180, el: FlagShot}, {d: 90, el: FlagsRow},
+  {d: 160, el: Ride}, {d: 140, el: WagonShot}, {d: K.KIT_SOLVED_SHOTS[2].dur, el: Boat}, {d: 180, el: FlagShot}, {d: 90, el: FlagsRow},
   {d: 90, el: MapKY}, {d: 90, el: MapRiver}, {d: 100, el: MapIL}, {d: 80, el: MapKN}, {d: 70, el: Map1860}, {d: 90, el: MapSec}, {d: 70, el: MapEP}, {d: 80, el: MapWar}, {d: 110, el: MapFuneral},
   {d: 60, el: (p) => <CapitolShot {...p} dome="bulfinch" year="1847" />}, {d: 60, el: (p) => <CapitolShot {...p} dome="unfinished" year="1861" />}, {d: 60, el: (p) => <CapitolShot {...p} dome="finished" year="1865" />},
   {d: 90, el: HallShot}, {d: 90, el: StreetShot}, {d: 120, el: TrainShot},

@@ -124,7 +124,7 @@ const Thirteenth103: React.FC<{f: number; d: number}> = ({f, d}) => {
           layer(1, (
             <g>
               <DeskTop tone="warm" />
-              <PageInsert d={D} L={L} x={P.x} y={P.y} w={P.w} h={P.h} reveal={prog(f, 8, 150, (t) => t)} f={f} id="s103" tone="#F1E6CA" />
+              <PageInsert d={D} L={L} x={P.x} y={P.y} w={P.w} h={P.h} reveal={prog(f, -6, 150, (t) => t)} f={f} id="s103" tone="#F1E6CA" />
             </g>
           )),
         ]}
