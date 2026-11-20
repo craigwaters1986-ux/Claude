@@ -1,0 +1,93 @@
+/**
+ * App-level domain types. Components import from here, not from database.ts,
+ * so the UI doesn't depend on the exact shape of generated DB types.
+ */
+import type { Enums, Tables, TablesInsert, TablesUpdate } from "./database";
+
+export type ProjectStatus = Enums<"project_status">;
+export type SnagStatus = Enums<"snag_status">;
+
+export type Project = Tables<"projects">;
+/** A snag row as stored. Its image_url/image_path are the cover (first photo). */
+export type SnagRow = Tables<"snags">;
+export type SnagPhoto = Tables<"snag_photos">;
+/** Where a user last was, from any device: lets another device offer "Continue". */
+export type UserState = Tables<"user_state">;
+export type ProjectMode = "list" | "plans";
+
+/** A floor / area of a project, optionally with a drawing snags can be pinned on. */
+export type Level = Tables<"levels">;
+/** Where a snag sits: its level and, if pinned, the spot on that level's drawing (fractions 0–1). */
+export type SnagLocation = { level_id: string | null; pin_x: number | null; pin_y: number | null };
+/** A snag with all its photos, in order. What the app works with. */
+export type Snag = SnagRow & { photos: SnagPhoto[] };
+
+/** Most photos the app lets you attach to one snag. */
+export const MAX_PHOTOS_PER_SNAG = 6;
+
+export type ProjectSummary = Project & {
+  total_snags: number;
+  open_snags: number;
+  in_progress_snags: number;
+  resolved_snags: number;
+  /** Latest change to the project, its snags, photos or levels. */
+  last_activity_at: string;
+};
+
+/** Fields a user can set when creating/editing a project. */
+export type ProjectInput = Pick<
+  TablesInsert<"projects">,
+  "name" | "description" | "location" | "status"
+>;
+export type ProjectPatch = Partial<ProjectInput>;
+
+/** Fields a user can set when creating a snag (number & owner are server-side). */
+export type SnagInput = Pick<
+  TablesInsert<"snags">,
+  | "project_id"
+  | "title"
+  | "description"
+  | "location_details"
+  | "assigned_to"
+  | "status"
+  | "level_id"
+  | "pin_x"
+  | "pin_y"
+>;
+export type SnagPatch = Pick<
+  TablesUpdate<"snags">,
+  "title" | "description" | "location_details" | "assigned_to" | "status" | "level_id" | "pin_x" | "pin_y"
+>;
+/** A photo already uploaded to Storage, ready to attach to a snag. */
+export type SnagPhotoInput = Pick<SnagPhoto, "id" | "position" | "image_url" | "image_path">;
+
+/**
+ * A snag shown in the list before the server has confirmed it
+ * (optimistic UI during Rapid Entry).
+ */
+export type ListedSnag = Snag & {
+  _pending?: boolean;
+  /** Saved on this device but not on the server yet: waiting for signal, uploading now, or refused. */
+  _offline?: "waiting" | "saving" | "failed";
+};
+
+export const SNAG_STATUSES: readonly SnagStatus[] = ["open", "in_progress", "resolved"];
+export const PROJECT_STATUSES: readonly ProjectStatus[] = [
+  "active",
+  "on_hold",
+  "completed",
+  "archived",
+];
+
+export const SNAG_STATUS_LABEL: Record<SnagStatus, string> = {
+  open: "Open",
+  in_progress: "In Progress",
+  resolved: "Resolved",
+};
+
+export const PROJECT_STATUS_LABEL: Record<ProjectStatus, string> = {
+  active: "Active",
+  on_hold: "On Hold",
+  completed: "Completed",
+  archived: "Archived",
+};
