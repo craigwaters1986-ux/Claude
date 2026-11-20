@@ -37,7 +37,7 @@
 //   routeAt(proj, pts, t) -> {x, y, angle}   (pure; place a moving icon yourself)
 //   statusOf(code, year) -> 'state' | 'territory' | 'foreign'
 //   DATA: PLACES, DEBATE_TOWNS, SECESSION, FREE_1860, SLAVE_1860, BORDER_STATES, CONFEDERACY, PROCLAMATION_SHADED,
-//         FUNERAL_ROUTE, FUNERAL_STOPS, FLATBOAT_1828, MOVE_1816, MOVE_1830, BATTLES, RIVERS, OHIO, MISSISSIPPI,
+//         FUNERAL_ROUTE, FUNERAL_PATH, FUNERAL_STOPS, FLATBOAT_1828, MOVE_1816, MOVE_1830, BATTLES, RIVERS, OHIO, MISSISSIPPI,
 //         KANSAS_T, NEBRASKA_T, SECESSION_LATER, STATE_NAME, EXCEPTED_NOTE
 //   COLOURS: MAPC (free, slave, union, confed, border, territory, sea, land, route)
 //
@@ -194,6 +194,9 @@ export const CONFEDERACY = ['SC', 'MS', 'FL', 'AL', 'GA', 'LA', 'TX', 'VA', 'AR'
  *  and leave WV blank); parts of LA and VA excepted (ExceptedAreas, simplified). */
 export const PROCLAMATION_SHADED = ['SC', 'MS', 'FL', 'AL', 'GA', 'LA', 'TX', 'VA', 'AR', 'NC'];
 export const FUNERAL_ROUTE: LonLat[] = ['Washington', 'Baltimore', 'Harrisburg', 'Philadelphia', 'NewYork', 'Albany', 'Buffalo', 'Cleveland', 'Columbus', 'Indianapolis', 'Chicago', 'Springfield'].map((k) => PLACES[k]);
+/** Drawn path for the funeral train: the 12 stops plus shore waypoints (via Erie, Pennsylvania) so the line keeps to
+ *  land along Lake Erie. Use FUNERAL_ROUTE for stop dots, FUNERAL_PATH for the RouteLine. */
+export const FUNERAL_PATH: LonLat[] = [...FUNERAL_ROUTE.slice(0, 7), [-79.6, 42.35], [-80.08, 42.13], [-80.9, 41.85], ...FUNERAL_ROUTE.slice(7)];
 export const FUNERAL_STOPS = ['Washington', 'Baltimore', 'Harrisburg', 'Philadelphia', 'New York', 'Albany', 'Buffalo', 'Cleveland', 'Columbus', 'Indianapolis', 'Chicago', 'Springfield'];
 export const BATTLES: {name: string; at: LonLat; date: string}[] = [
   {name: 'Bull Run', at: PLACES.BullRun, date: 'July 1861'},

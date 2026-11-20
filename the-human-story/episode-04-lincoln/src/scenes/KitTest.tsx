@@ -258,7 +258,7 @@ const MapFuneral: React.FC<P> = ({f, d}) => {
       {() => (
         <g>
           <M.USMap proj={proj} f={f} year={1865.3} id="fun" />
-          <M.RouteLine proj={proj} pts={M.FUNERAL_ROUTE} t={t} icon="train" color="#1E1C22" dashed={false} width={6} />
+          <M.RouteLine proj={proj} pts={M.FUNERAL_PATH} t={t} icon="train" color="#1E1C22" dashed={false} width={6} />
           {M.FUNERAL_ROUTE.map((p, i) => <M.PlaceDot key={i} proj={proj} at={p} label={M.FUNERAL_STOPS[i]} size={22} dot={8} color="#1E1C22" side={['Baltimore', 'Philadelphia', 'Columbus', 'Indianapolis', 'Springfield'].includes(M.FUNERAL_STOPS[i]) ? 'below' : 'above'} t={prog(t, i / 11 - 0.02, i / 11 + 0.04, (x) => x)} />)}
         </g>
       )}
