@@ -1215,14 +1215,14 @@
           "id": "research",
           "agent": "researcher",
           "task": "Research subject; research notes + sources",
-          "status": "NOT STARTED",
+          "status": "IN PROGRESS",
           "depends": [
             "brief"
           ],
           "deliverables": [],
           "issues": [],
-          "next": "",
-          "updated": "2026-11-20 18:24"
+          "next": "Researcher writing research-notes.md + sources.md",
+          "updated": "2026-11-20 18:27"
         },
         {
           "id": "keywords",
