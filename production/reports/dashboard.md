@@ -89,7 +89,7 @@ Approvals: Final episode script: **APPROVED** · Initial character & animation s
 
 ## ep04-lincoln — Abraham Lincoln: From Log Cabin to Legacy (working title)
 
-Progress: NOT STARTED: 5 · IN PROGRESS: 3 · COMPLETED: 9
+Progress: NOT STARTED: 5 · COMPLETED: 12
 
 | Task | Agent | Assigned task | Status | Dependencies | Completed deliverables | Outstanding issues | Next action |
 |---|---|---|---|---|---|---|---|
@@ -102,10 +102,10 @@ Progress: NOT STARTED: 5 · IN PROGRESS: 3 · COMPLETED: 9
 | `style-sample` | animator | Character/animation style sample for approval | **COMPLETED** | brief (COMPLETED) | `production/exports/ep04-lincoln/phase-b/ep04-upgrade-test.mp4`<br>`production/exports/ep04-lincoln/phase-b/ep04-music-test.mp4`<br>`production/reports/handoffs/ep04-lincoln/phase-b-engine-style-storyboard.md` | — | Approved by Craig 20 Nov 2026 |
 | `narration` | audio-engineer | Generate narration, timings and SRT | **COMPLETED** | approval:script (APPROVED) | `production/audio/ep04-lincoln/narration-draft.flac`<br>`production/scripts/ep04-lincoln/captions-aligned.srt`<br>`production/scripts/ep04-lincoln/edit-plan.md` | — | 486.55 s, 27 groups; captions aligned (96.8%) |
 | `storyboard` | storyboard | Timestamped storyboard + asset requests | **COMPLETED** | approval:script (APPROVED) | `production/storyboards/ep04-lincoln/storyboard.md`<br>`production/storyboards/ep04-lincoln/music-cue-sheet.md` | — | Approved by Craig 20 Nov 2026 |
-| `characters` | animator | Build characters and character animation | **IN PROGRESS** | approval:style (APPROVED), approval:storyboard (APPROVED) | — | — | Phase C agents building |
-| `environments` | environment-designer | Build environments, maps, vehicles, effects | **IN PROGRESS** | approval:storyboard (APPROVED) | — | — | Phase C agents building |
-| `music-sfx` | audio-engineer | Music, SFX and mix | **IN PROGRESS** | storyboard (COMPLETED) | — | — | Phase C agents building |
-| `assembly` | video-editor | Assemble timeline and preview renders | **COMPLETED** | narration (COMPLETED), characters (IN PROGRESS), environments (IN PROGRESS), music-sfx (IN PROGRESS) | `the-human-story/episode-04-lincoln/src/Episode.tsx` | — | Episode composition assembled; render in Phase D |
+| `characters` | animator | Build characters and character animation | **COMPLETED** | approval:style (APPROVED), approval:storyboard (APPROVED) | `the-human-story/episode-04-lincoln/src/scenes/S01.tsx`<br>`the-human-story/episode-04-lincoln/src/kit/Horse.tsx` | — | Phase C done |
+| `environments` | environment-designer | Build environments, maps, vehicles, effects | **COMPLETED** | approval:storyboard (APPROVED) | `the-human-story/episode-04-lincoln/src/kit/USMap.tsx`<br>`the-human-story/episode-04-lincoln/src/kit/Sets04b.tsx`<br>`production/scripts/ep04-lincoln/credits-maps.md` | — | Phase C done |
+| `music-sfx` | audio-engineer | Music, SFX and mix | **COMPLETED** | storyboard (COMPLETED) | `the-human-story/episode-04-lincoln/scripts/audio.py`<br>`production/audio/ep04-lincoln/sound-notes.md`<br>`production/audio/ep04-lincoln/episode-04-mix-listen.mp3` | — | Phase C done; -14.1 LUFS, -1.5 dBTP |
+| `assembly` | video-editor | Assemble timeline and preview renders | **COMPLETED** | narration (COMPLETED), characters (COMPLETED), environments (COMPLETED), music-sfx (COMPLETED) | `the-human-story/episode-04-lincoln/src/Episode.tsx` | — | Episode composition assembled; render in Phase D |
 | `final-render` | video-editor | Render and verify final MP4 | **NOT STARTED** | assembly (COMPLETED) | — | — | Phase D: bash scripts/render.sh video && mux |
 | `final-qc` | quality-control | QC review of final render | **NOT STARTED** | final-render (NOT STARTED) | — | — | — |
 | `publishing-pack` | youtube-specialist | Title, description, chapters, tags, thumbnail brief, checklist | **NOT STARTED** | final-qc (NOT STARTED) | — | — | — |

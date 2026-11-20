@@ -1345,41 +1345,52 @@
           "id": "characters",
           "agent": "animator",
           "task": "Build characters and character animation",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:style",
             "approval:storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/src/scenes/S01.tsx",
+            "the-human-story/episode-04-lincoln/src/kit/Horse.tsx"
+          ],
           "issues": [],
-          "next": "Phase C agents building",
-          "updated": "2026-11-20 20:18"
+          "next": "Phase C done",
+          "updated": "2026-11-20 20:57"
         },
         {
           "id": "environments",
           "agent": "environment-designer",
           "task": "Build environments, maps, vehicles, effects",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "approval:storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/src/kit/USMap.tsx",
+            "the-human-story/episode-04-lincoln/src/kit/Sets04b.tsx",
+            "production/scripts/ep04-lincoln/credits-maps.md"
+          ],
           "issues": [],
-          "next": "Phase C agents building",
-          "updated": "2026-11-20 20:18"
+          "next": "Phase C done",
+          "updated": "2026-11-20 20:57"
         },
         {
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "storyboard"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/scripts/audio.py",
+            "production/audio/ep04-lincoln/sound-notes.md",
+            "production/audio/ep04-lincoln/episode-04-mix-listen.mp3"
+          ],
           "issues": [],
-          "next": "Phase C agents building",
-          "updated": "2026-11-20 20:18"
+          "next": "Phase C done; -14.1 LUFS, -1.5 dBTP",
+          "updated": "2026-11-20 20:57"
         },
         {
           "id": "assembly",
