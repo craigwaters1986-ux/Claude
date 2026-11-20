@@ -201,7 +201,7 @@ export function solveWindow(f: number): Solved {
   return {
     figs: [{id: LAW, pl: w.pl, P: w.P, build: w.build, ex: exprAt(f, [[0, 'tired'], [stop + 10, 'sad']], 14), look}],
     checks: w.checks, seats: w.seats, quill: w.quill, reveal: w.reveal, seatH: w.h, stop,
-    cam: [[0, 1.02, 980, 560], [400, 1.16, 960, 590]],
+    cam: [[0, 1.0, 990, 560], [DUR4.window, 1.26, 940, 600]],
   };
 }
 

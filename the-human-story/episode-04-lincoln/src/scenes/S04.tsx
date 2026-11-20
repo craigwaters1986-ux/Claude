@@ -200,6 +200,7 @@ const Window: React.FC<{f: number; d: number}> = ({f, d}) => {
       </CineCam>
       <LightPool x={1110} y={760} r={420} f={f} color="#FFB060" seed={7} strength={0.26} />
       <GodRays x={1400} y={190} w={260} f={f} angle={28} len={900} color="#C8D8F0" op={0.09} />
+      <Motes f={f * 1.6} x={1050} y={250} w={520} h={560} n={34} seed={11} />
       <Look f={f} grade="night" vig={0.62} amount={0.7} />
       <SummaryPanel title="Letter, January 1841" lines={['Written after the engagement', 'with Mary Todd broke off']} x={1120} y={160} w={680} t={prog(f, 30, 50) * (1 - prog(f, d - 24, d - 6))} />
     </Frame>

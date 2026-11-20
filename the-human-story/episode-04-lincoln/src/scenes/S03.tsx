@@ -8,7 +8,7 @@ import {PropAt, AXE, RailLog, Chips} from '../kit/Props';
 import {SkyGrad, Ridge, TreeRow, Clearing, RailPile} from '../kit/Sets04';
 import {usProjection, USMap, StateLabel, PlaceDot, RouteLine, RiverLine, FLATBOAT_1828, OHIO, MISSISSIPPI, PLACES, MAPC} from '../kit/USMap';
 import {Birds} from '../components/Environment';
-import {Particles} from '../components/Effects';
+import {Particles, Smoke} from '../components/Effects';
 import {T} from '../timeline';
 import {C, FONT} from '../styles/theme';
 import {prog, kf, noise1, hash} from '../animations/core';
@@ -197,6 +197,19 @@ const Waterfront: React.FC<{f: number; base: number}> = ({f, base}) => (
     })}
   </g>
 );
+/** A distant paddle steamer silhouette crossing the dusk river (no figures), smoke from twin stacks. */
+const Steamer: React.FC<{f: number; x: number; y: number}> = ({f, x, y}) => (
+  <g>
+    <Smoke x={x - 20} y={y - 120} f={f} n={10} size={14} rise={150} drift={-90} color="#4A4458" opacity={0.55} seed={34} outline={false} />
+    <Smoke x={x + 16} y={y - 120} f={f + 37} n={10} size={14} rise={150} drift={-90} color="#4A4458" opacity={0.55} seed={35} outline={false} />
+    <path d={`M${x - 130},${y} L${x + 130},${y} L${x + 110},${y + 20} L${x - 116},${y + 20}Z`} fill="#24202C" stroke={ink} strokeWidth={2.5} />
+    <rect x={x - 100} y={y - 34} width={190} height={34} fill="#2C2836" stroke={ink} strokeWidth={2.5} />
+    <rect x={x - 60} y={y - 58} width={110} height={24} fill="#2C2836" stroke={ink} strokeWidth={2.5} />
+    {[-20, 16].map((dx) => <rect key={dx} x={x + dx - 6} y={y - 122} width={12} height={64} fill="#24202C" stroke={ink} strokeWidth={2} />)}
+    {[-70, -30, 10, 50].map((dx, i) => <rect key={i} x={x + dx} y={y - 24} width={10} height={8} fill="#F2B04A" opacity={0.5 + 0.3 * noise1(f / 25 + i, 6)} />)}
+    <path d={`M${x + 60},${y - 6} a26,26 0 0,1 52,0Z`} fill="#24202C" stroke={ink} strokeWidth={2} />
+  </g>
+);
 const Orleans: React.FC<{f: number; d: number}> = ({f, d}) => {
   const tB = lf(T('On a second trip'), 'orleans');
   const tTag = lf(T('Stories of its effect'), 'orleans');
@@ -231,7 +244,7 @@ const Orleans: React.FC<{f: number; d: number}> = ({f, d}) => {
       )}
       {mix > 0 && (
         <g opacity={mix}>
-          <CineCam f={f} keys={[[tB - 10, 1.0, 960, 520], [d, 1.12, 980, 500]]} seed={35}>
+          <CineCam f={f} keys={[[tB - 10, 1.0, 960, 520], [d, 1.2, 1000, 500]]} seed={35}>
             {(layer) => [
               layer(0.12, <SkyGrad time="dusk" id="s34dsk" />),
               layer(0.12, <circle cx={1500} cy={560} r={70} fill="#F2B07A" opacity={0.7} />),
@@ -244,6 +257,7 @@ const Orleans: React.FC<{f: number; d: number}> = ({f, d}) => {
                     return <path key={i} d={`M${x},${y} q30,-7 60,0 t60,0`} stroke={i % 4 === 0 ? '#C88A6A' : '#5E6A8A'} strokeWidth={4} fill="none" opacity={0.8} />;
                   })}
                   <rect x={1420} y={612} width={160} height={6} fill="#F2B07A" opacity={0.35 + 0.15 * noise1(f / 20, 2)} />
+                  <Steamer f={f} x={-200 + f * 1.6} y={690} />
                 </g>
               )),
             ]}
