@@ -1185,7 +1185,9 @@
       "notes": "",
       "approvals": {
         "script": {
-          "state": "NOT REQUESTED"
+          "state": "PENDING",
+          "updated": "2026-11-20 18:48",
+          "note": ""
         },
         "style": {
           "state": "NOT REQUESTED"
@@ -1252,8 +1254,8 @@
             "production/scripts/ep05-lincoln/episode-05-script.md"
           ],
           "issues": [],
-          "next": "Scriptwriter fitting script to 10:00",
-          "updated": "2026-11-20 18:46"
+          "next": "Awaiting Craig's Approval 1; QC blocking fixed, 9 minor notes optional",
+          "updated": "2026-11-20 18:48"
         },
         {
           "id": "script-factcheck",
@@ -1272,14 +1274,16 @@
           "id": "script-qc",
           "agent": "quality-control",
           "task": "QC review of the script",
-          "status": "IN PROGRESS",
+          "status": "COMPLETED",
           "depends": [
             "script-factcheck"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/reports/qc/ep05-lincoln/qc-script-2026-11-20.md"
+          ],
           "issues": [],
           "next": "Combined fact + quality review",
-          "updated": "2026-11-20 18:46"
+          "updated": "2026-11-20 18:48"
         },
         {
           "id": "style-sample",

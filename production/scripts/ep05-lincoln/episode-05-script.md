@@ -41,11 +41,11 @@ He rode the legal circuit for years. In eighteen forty-six he was elected to Con
 
 *Animated map: the Kansas and Nebraska territories open up. Springfield hall, June 1858: Lincoln at the lectern; the quotation appears as a readable document card. Name tag: Stephen A. Douglas, short, combative. Seven debate towns light up on an Illinois map; crowds, banners, reporters' pencils. For the Charleston quotation: a still, sombre close on the printed newspaper text, no crowd reaction. Cooper Union: wide hall in New York, gaslight.*
 
-In eighteen fifty-four, the Kansas–Nebraska Act reopened the question of slavery in the western territories, and drew Lincoln back into politics, and into the new Republican Party. In June eighteen fifty-eight, running for the Senate, he opened a speech with a line from the Bible. "A house divided against itself cannot stand." "I believe this government cannot endure, permanently half slave and half free."
+In eighteen fifty-four, the Kansas–Nebraska Act reopened the question of slavery in the western territories, and drew Lincoln back into politics, and into the new Republican Party. In June eighteen fifty-eight, running for the Senate, he quoted the Bible in a speech. "A house divided against itself cannot stand." "I believe this government cannot endure, permanently half slave and half free."
 
 He met the Democrat Stephen Douglas in seven debates across Illinois. Some of his words are hard to hear today. At Charleston he said, "I am not, nor ever have been, in favor of bringing about in any way the social and political equality of the white and black races."
 
-The legislature, which chose senators then, returned Douglas. Lincoln lost. But the debates made his name, and in February eighteen sixty he spoke at Cooper Union: "let us have faith that right makes might".
+The legislature, which chose senators then, returned Douglas. Lincoln lost. But the debates made his name, and in February eighteen sixty he spoke at Cooper Union in New York: "let us have faith that right makes might".
 
 ## 04:30–05:25 • President of a breaking country
 
