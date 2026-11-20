@@ -1,5 +1,5 @@
 {
-  "active": "ep05-lincoln",
+  "active": "ep04-lincoln",
   "episodes": {
     "ep01-ww2": {
       "title": "World War II: How It Started, How It Ended",
@@ -1178,9 +1178,9 @@
         }
       ]
     },
-    "ep05-lincoln": {
+    "ep04-lincoln": {
       "title": "Abraham Lincoln: From Log Cabin to Legacy (working title)",
-      "duration": 720,
+      "duration": 600,
       "created": "2026-11-20 18:24",
       "notes": "",
       "approvals": {
@@ -1246,7 +1246,7 @@
           "id": "script",
           "agent": "scriptwriter",
           "task": "Write narration script fitted to duration",
-          "status": "AWAITING REVIEW",
+          "status": "IN PROGRESS",
           "depends": [
             "research"
           ],
@@ -1254,8 +1254,8 @@
             "production/scripts/ep05-lincoln/episode-05-script.md"
           ],
           "issues": [],
-          "next": "Awaiting Craig's Approval 1; QC blocking fixed, 9 minor notes optional",
-          "updated": "2026-11-20 18:48"
+          "next": "Craig approved; applying QC minor notes",
+          "updated": "2026-11-20 18:50"
         },
         {
           "id": "script-factcheck",

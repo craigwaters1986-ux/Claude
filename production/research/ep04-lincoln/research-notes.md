@@ -1,4 +1,4 @@
-# Research notes — ep05-lincoln · Abraham Lincoln: from birth to death, and his legacy (720 s)
+# Research notes — ep04-lincoln · Abraham Lincoln: from birth to death, and his legacy (720 s)
 
 Researcher · 20 November 2026 · Lean mode: these notes are the accuracy gate for the script; the one combined
 review checks the script against them. Write ONLY from rows marked HIGH or MEDIUM, using the "safe wording"

@@ -1,5 +1,5 @@
-# The Human Story · Episode 5 handover
-Written 20 November 2026 (Phase 0: brief and upgrade spec) · **Abraham Lincoln: from birth to death, and his legacy** · episode ID `ep05-lincoln`
+# The Human Story · Episode 4 handover
+Written 20 November 2026 (Phase 0: brief and upgrade spec; renumbered from Episode 5 to Episode 4 on 20 November 2026 after the Titanic episode was shelved) · **Abraham Lincoln: from birth to death, and his legacy** · episode ID `ep04-lincoln`
 
 ## Start here
 
@@ -23,27 +23,27 @@ Keep chats short; put detail here, not in chat. Subagents only where they save t
 | **C** | Narration, plan, captions, all scenes, score, SFX, mix | Commit; prompt for D |
 | **D** | Render, QC, publishing pack, thumbnail, iPhone copy | **STOP: Approval 4 (final render)** |
 
-Approvals go through `python3 production/tools/status.py approval <checkpoint> --episode ep05-lincoln --state …`.
+Approvals go through `python3 production/tools/status.py approval <checkpoint> --episode ep04-lincoln --state …`.
 
 ### Prompt for Phase A (paste into a new Claude Code session on this repo)
 
-> Director: continue The Human Story Episode 5 (ep05-lincoln), Phase A (research and script), from `production/scripts/ep05-lincoln/HANDOVER.md` on branch `claude/epic-mccarthy-8szsrf`. Lean mode: research, then the script, then one combined review. Stop at Approval 1, update the handover, push, and give me the prompt for Phase B.
+> Director: continue The Human Story Episode 4 (ep04-lincoln), Phase A (research and script), from `production/scripts/ep04-lincoln/HANDOVER.md` on branch `claude/epic-mccarthy-8szsrf`. Lean mode: research, then the script, then one combined review. Stop at Approval 1, update the handover, push, and give me the prompt for Phase B.
 
 ### Prompt for Phase B
 
-> Director: continue ep05-lincoln Phase B (engine upgrade, test reel, music test, storyboard) from `production/scripts/ep05-lincoln/HANDOVER.md`. Stop at Approvals 2 + 3, update the handover, push, and give me the prompt for Phase C.
+> Director: continue ep04-lincoln Phase B (engine upgrade, test reel, music test, storyboard) from `production/scripts/ep04-lincoln/HANDOVER.md`. Stop at Approvals 2 + 3, update the handover, push, and give me the prompt for Phase C.
 
 ### Prompt for Phase C
 
-> Director: continue ep05-lincoln Phase C (narration, captions, all scenes, score and mix) from `production/scripts/ep05-lincoln/HANDOVER.md`. Update the handover, push, and give me the prompt for Phase D.
+> Director: continue ep04-lincoln Phase C (narration, captions, all scenes, score and mix) from `production/scripts/ep04-lincoln/HANDOVER.md`. Update the handover, push, and give me the prompt for Phase D.
 
 ### Prompt for Phase D
 
-> Director: continue ep05-lincoln Phase D (render, QC, publishing pack, thumbnail, iPhone copy) from `production/scripts/ep05-lincoln/HANDOVER.md`. Stop at Approval 4 and send me the video and the iPhone copy.
+> Director: continue ep04-lincoln Phase D (render, QC, publishing pack, thumbnail, iPhone copy) from `production/scripts/ep04-lincoln/HANDOVER.md`. Stop at Approval 4 and send me the video and the iPhone copy.
 
 ## Content brief (Phase A)
 
-**Subject.** Abraham Lincoln (12 February 1809 – 15 April 1865), from birth to death, then his legacy. Told through people, places and the paper he left behind, as Episode 3 was told through the letter. The narrator's words are the only claims; every claim traces to `production/research/ep05-lincoln/sources.md`.
+**Subject.** Abraham Lincoln (12 February 1809 – 15 April 1865), from birth to death, then his legacy. Told through people, places and the paper he left behind, as Episode 3 was told through the letter. The narrator's words are the only claims; every claim traces to `production/research/ep04-lincoln/sources.md`.
 
 **Draft chapter outline (the scriptwriter refines it; the windows are targets).**
 
@@ -102,14 +102,14 @@ Approvals go through `python3 production/tools/status.py approval <checkpoint> -
 
 ## Upgrade spec: “more cinematic” (Phase B builds it; acceptance tested)
 
-**Baseline.** The Episode 4 handover (`production/scripts/ep04-titanic/HANDOVER.md`, section “Animation upgrade”) already specifies the following, with acceptance tests:
+**Baseline.** The shelved Titanic handover (`production/scripts/ep04-titanic/HANDOVER.md`, section “Animation upgrade”) already specifies the following, with acceptance tests:
 - seats and `SeatedPerson`
 - more movement (freezedetect n = 0.003, d = 1.5 → nothing)
 - the expression timeline and new expressions
 - speech, thought, shout and radio bubbles, with the accuracy rules
 - **real readable documents** (`documents.json`, licensed fonts, no scribble)
 
-Implement all of it here too, in a new engine `the-human-story/episode-05-lincoln/` copied from `episode-03-gunpowder-plot/`. If Codex has pushed an Episode 4 engine with these upgrades by then (branch `ep04-titanic`), copy that instead and say so.
+Implement all of it here too, in a new engine `the-human-story/episode-04-lincoln/` copied from `episode-03-gunpowder-plot/`. If Codex pushed a Titanic engine with these upgrades (branch `ep04-titanic`), copy that instead and say so.
 
 On top of that, Craig asked for the following.
 
@@ -172,10 +172,10 @@ On top of that, Craig asked for the following.
 
 ## Reuse from Episode 3 (do not rebuild)
 
-Engine, kit, shot sequencer with `T('phrase')` caption anchors, caption band and logo, Kokoro narration pipeline (speed 0.99, 0.21 s and 0.34 s gaps), word-aligned captions, `build_plan.py` (replace its section table), chunked resumable render, mix and master, QC commands, publishing-pack format and iPhone copy. All documented in `production/scripts/ep03-gunpowder-plot/HANDOVER.md` (section “Milestone 3 build and restart”) and in the Episode 4 handover sections “Build route”, “QC and deliverables” and “Lessons from Episode 3”. Tools (Python venvs, Kokoro weights, faster-whisper) are installed fresh per session as described there. Expect about 15 minutes of setup.
+Engine, kit, shot sequencer with `T('phrase')` caption anchors, caption band and logo, Kokoro narration pipeline (speed 0.99, 0.21 s and 0.34 s gaps), word-aligned captions, `build_plan.py` (replace its section table), chunked resumable render, mix and master, QC commands, publishing-pack format and iPhone copy. All documented in `production/scripts/ep03-gunpowder-plot/HANDOVER.md` (section “Milestone 3 build and restart”) and in the shelved Titanic handover (`production/scripts/ep04-titanic/HANDOVER.md`) sections “Build route”, “QC and deliverables” and “Lessons from Episode 3”. Tools (Python venvs, Kokoro weights, faster-whisper) are installed fresh per session as described there. Expect about 15 minutes of setup.
 
 ## Where things stand (update at the end of every phase)
 
-- 20 Nov 2026: **duration changed to 10:00 (600 s) by Craig**; chapter windows rescaled above. (The dashboard entry still says 720 s because `status.py` has no setter for duration and `status.json` must not be hand-edited; this handover is authoritative.)
-- 20 Nov 2026, Phase 0 (this file): brief and upgrade spec written; dashboard episode `ep05-lincoln` created with the standard tasks. **Next: Phase A.**
-- 20 Nov 2026, **Phase A**: research `production/research/ep05-lincoln/research-notes.md` + `sources.md` (37 sources; LoC, UMich Collected Works, Britannica, Smithsonian, fords.org blocked automated fetches, so Collected Works texts came via Abraham Lincoln Online, cross-checked with NPS/NARA). Script `production/scripts/ep05-lincoln/episode-05-script.md` (1,300 spoken words, about 8:57 + 28 s beats) with claim map `script-sources.md`. Combined QC `production/reports/qc/ep05-lincoln/qc-script-2026-11-20.md`: PASS WITH FIXES; the one BLOCKING issue (House Divided line wrongly called the speech's opening) is fixed, as is the minor "Cooper Union in New York". 8 MINOR notes remain optional (schooling "by his own count", "1863" at Gettysburg, explaining "Bliss copy", Chapter 7 order and "their pay", Charleston quote context, Douglas/Douglass homophones, explaining *Our American Cousin* and Lee/Grant roles, 1922 seating claim MEDIUM confidence) plus chapters 3, 7, 8 and 9 running 1–2 s over their windows (fix in timing). Any wording change must stay within 1,300 words. **Next: Craig's Approval 1, then Phase B.**
+- 20 Nov 2026: **duration changed to 10:00 (600 s) by Craig**; chapter windows rescaled above. (Dashboard duration set to 600 s with the new `status.py rename-episode` command.)
+- 20 Nov 2026, Phase 0 (this file): brief and upgrade spec written; dashboard episode `ep04-lincoln` created with the standard tasks. **Next: Phase A.**
+- 20 Nov 2026, **Phase A**: research `production/research/ep04-lincoln/research-notes.md` + `sources.md` (37 sources; LoC, UMich Collected Works, Britannica, Smithsonian, fords.org blocked automated fetches, so Collected Works texts came via Abraham Lincoln Online, cross-checked with NPS/NARA). Script `production/scripts/ep04-lincoln/episode-04-script.md` (1,300 spoken words, about 8:57 + 28 s beats) with claim map `script-sources.md`. Combined QC `production/reports/qc/ep04-lincoln/qc-script-2026-11-20.md`: PASS WITH FIXES; the one BLOCKING issue (House Divided line wrongly called the speech's opening) is fixed, as is the minor "Cooper Union in New York". 8 MINOR notes remain optional (schooling "by his own count", "1863" at Gettysburg, explaining "Bliss copy", Chapter 7 order and "their pay", Charleston quote context, Douglas/Douglass homophones, explaining *Our American Cousin* and Lee/Grant roles, 1922 seating claim MEDIUM confidence) plus chapters 3, 7, 8 and 9 running 1–2 s over their windows (fix in timing). Any wording change must stay within 1,300 words. **Next: Craig's Approval 1, then Phase B.**

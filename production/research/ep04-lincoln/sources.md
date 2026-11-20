@@ -1,4 +1,4 @@
-# Sources — ep05-lincoln (Abraham Lincoln: from birth to death, and his legacy)
+# Sources — ep04-lincoln (Abraham Lincoln: from birth to death, and his legacy)
 
 Researcher · all accessed **20 November 2026**.
 Method: **(fetched)** = page read directly (curl/WebFetch) and quoted from the saved text; **(search summary)** =

@@ -1,4 +1,6 @@
 # The Human Story · Episode 4 handover
+
+> **SHELVED (Craig, 20 November 2026).** The Titanic episode is shelved. Episode 4 is now **Abraham Lincoln** (`ep04-lincoln`, handover `production/scripts/ep04-lincoln/HANDOVER.md`). This file is kept for its animation-upgrade spec, build route and lessons, which the Lincoln episode reuses.
 Written 19 November 2026 (milestone 0: brief, animation upgrade spec and build route) · **Titanic** (working title; the title is set with the script)
 
 ## Start here

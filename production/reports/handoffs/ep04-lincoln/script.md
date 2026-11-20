@@ -1,4 +1,4 @@
-# Handoff — ep05-lincoln — script
+# Handoff — ep04-lincoln — script
 
 - **From:** scriptwriter
 - **To:** director (cc: quality-control for the combined review; storyboard, audio-engineer for Phase B/C)
@@ -6,8 +6,8 @@
 - **Status:** AWAITING REVIEW (combined fact and quality review, then **Approval 1: user sign-off on the script**)
 
 ## Deliverables
-- `production/scripts/ep05-lincoln/episode-05-script.md` — 10-chapter narration script for 10:00 (600 s), Episode 3 format (timed chapter headings, italic animator directions with marked silent beats, narration), word-count and timing table at the end.
-- `production/scripts/ep05-lincoln/script-sources.md` — claim-to-source map: every factual sentence and quotation mapped to S# in `production/research/ep05-lincoln/sources.md`.
+- `production/scripts/ep04-lincoln/episode-04-script.md` — 10-chapter narration script for 10:00 (600 s), Episode 3 format (timed chapter headings, italic animator directions with marked silent beats, narration), word-count and timing table at the end.
+- `production/scripts/ep04-lincoln/script-sources.md` — claim-to-source map: every factual sentence and quotation mapped to S# in `production/research/ep04-lincoln/sources.md`.
 
 ## Summary
 1,300 spoken words (script-counted; compounds such as "sixty-five" count as one; a whitespace split also gives 1,300), about 8:57 of speech at 145 wpm, plus 28 s of marked silent beats. Per chapter: 56 / 109 / 119 / 145 / 148 / 120 / 207 / 149 / 110 / 137. The film opens and closes on the Bliss copy of the Gettysburg Address (opening sentence quoted in chapter 7, closing clause as the final page). Quotations were checked by script against §Q of the research notes: House Divided (two lines), Charleston 1858 excerpt, Cooper Union fragment, Greeley letter, Proclamation key phrase, Hodges letter, Second Inaugural ("malice toward" to "wounds"), Douglass's "a sacred effort" (attributed as his recollection). Years and numbers are written as spoken (Episode 3 convention).

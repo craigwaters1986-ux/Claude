@@ -1,6 +1,6 @@
-# Episode 5 script: claim-to-source map
+# Episode 4 script: claim-to-source map
 
-Script: `production/scripts/ep05-lincoln/episode-05-script.md` · Sources: `production/research/ep05-lincoln/sources.md` (S#) · Research rows: `production/research/ep05-lincoln/research-notes.md` (§Q quotations, chapter tables, §D disputes).
+Script: `production/scripts/ep04-lincoln/episode-04-script.md` · Sources: `production/research/ep04-lincoln/sources.md` (S#) · Research rows: `production/research/ep04-lincoln/research-notes.md` (§Q quotations, chapter tables, §D disputes).
 Every factual sentence and quotation in the narration is listed in order. "Paraphrase" = no quotation marks in the narration. Quotation text was copied from §Q and checked against it.
 
 ## 1 · Two minutes (00:00–00:35)

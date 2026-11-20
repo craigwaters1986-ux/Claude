@@ -1,4 +1,4 @@
-# The Human Story • Episode 5
+# The Human Story • Episode 4
 # Abraham Lincoln: From Birth to Death, and His Legacy
 
 Narration draft for review (Approval 1). Duration **10:00 (600 s)**. Chapter times are edit targets; narration is budgeted at about 145 spoken words a minute (Kokoro, speed 0.99) for roughly 8:45–9:00 of speech, and the marked silent beats close the gap. Directions in italics are for the animator and storyboard. Every claim traces to `script-sources.md`. Quotations are exact, with Lincoln's American spelling ("favor"); the narration around them is British English. Numbers and years are written as they are spoken, following the Episode 3 convention; captions may use numerals.

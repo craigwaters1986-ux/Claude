@@ -12,6 +12,7 @@ Usage
   status.py set  --episode EP --id TASK [--status S] [--next "..."] [--deliverable PATH]... [--issue "..."]... [--resolve N]... [--note "..."]
   status.py approval CHECKPOINT --episode EP --state PENDING|APPROVED|CHANGES_REQUESTED [--note "..."]
   status.py active EP
+  status.py rename-episode --episode EP --to NEWEP [--title "..."] [--duration S]
   status.py render
 Statuses: NOT STARTED, IN PROGRESS, BLOCKED, AWAITING REVIEW, COMPLETED
 Checkpoints: script, style, storyboard, final-render
@@ -150,6 +151,7 @@ def main():
     s = sub.add_parser("set"); s.add_argument("--episode"); s.add_argument("--id", required=True); s.add_argument("--status", choices=STATUSES); s.add_argument("--next"); s.add_argument("--deliverable", action="append", default=[]); s.add_argument("--issue", action="append", default=[]); s.add_argument("--resolve", action="append", type=int, default=[]); s.add_argument("--agent", choices=AGENTS); s.add_argument("--task"); s.add_argument("--force", action="store_true")
     s = sub.add_parser("approval"); s.add_argument("checkpoint", choices=list(CHECKPOINTS)); s.add_argument("--episode"); s.add_argument("--state", required=True, choices=["NOT REQUESTED", "PENDING", "APPROVED", "CHANGES_REQUESTED"]); s.add_argument("--note", default="")
     s = sub.add_parser("active"); s.add_argument("episode")
+    s = sub.add_parser("rename-episode"); s.add_argument("--episode", required=True); s.add_argument("--to", required=True); s.add_argument("--title"); s.add_argument("--duration", type=int)
     sub.add_parser("render")
     a = ap.parse_args()
 
@@ -163,6 +165,16 @@ def main():
             render(db); print("rendered"); return
         if a.cmd == "active":
             ep_or_die(db, a.episode); db["active"] = a.episode
+        elif a.cmd == "rename-episode":
+            ep, e = ep_or_die(db, a.episode)
+            if a.to != ep:
+                if a.to in db["episodes"]:
+                    sys.exit(f"Episode {a.to} already exists")
+                db["episodes"] = {(a.to if k == ep else k): v for k, v in db["episodes"].items()}
+                if db.get("active") == ep: db["active"] = a.to
+            e = db["episodes"][a.to]
+            if a.title: e["title"] = a.title
+            if a.duration: e["duration"] = a.duration
         elif a.cmd == "new-episode":
             if a.episode in db["episodes"]:
                 sys.exit(f"Episode {a.episode} already exists")
