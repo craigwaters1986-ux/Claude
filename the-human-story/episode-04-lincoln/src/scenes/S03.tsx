@@ -176,6 +176,9 @@ const Waterfront: React.FC<{f: number; base: number}> = ({f, base}) => (
         </g>
       );
     })}
+    {/* the river in front of the levee (the ships sit on it) */}
+    <rect x={-1400} y={base - 2} width={4800} height={1200} fill="#3E4A6A" />
+    <line x1={-1400} y1={base} x2={3400} y2={base} stroke={ink} strokeWidth={4} />
     <g transform={`translate(980,${base})`}>
       <rect x={-60} y={-130} width={120} height={130} fill="#3E3850" stroke={ink} strokeWidth={3} />
       {[-48, 0, 48].map((x, i) => <path key={i} d={`M${x - 14},-130 L${x - 14},-150 L${x},${i === 1 ? -230 : -196} L${x + 14},-150 L${x + 14},-130Z`} fill="#3E3850" stroke={ink} strokeWidth={3} />)}
@@ -235,8 +238,6 @@ const Orleans: React.FC<{f: number; d: number}> = ({f, d}) => {
               layer(0.5, <Waterfront f={f} base={600} />),
               layer(0.8, (
                 <g>
-                  <rect x={-600} y={598} width={3200} height={900} fill="#3E4A6A" />
-                  <line x1={-600} y1={600} x2={2600} y2={600} stroke={ink} strokeWidth={4} />
                   {Array.from({length: 26}, (_, i) => {
                     const y = 640 + ((i * 41) % 360);
                     const x = ((i * 233 + f * (0.5 + (i % 3) * 0.25)) % 2600) - 400;

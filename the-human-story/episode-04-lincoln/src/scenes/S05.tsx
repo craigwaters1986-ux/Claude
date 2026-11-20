@@ -75,7 +75,7 @@ const Meet: React.FC<{f: number; d: number}> = ({f}) => {
       <CineCam f={f} keys={s.cam} seed={82}>
         {(layer) => [
           layer(0.88, <MeetingRoom f={f} floor={Q.MEET_FLOOR} />, 3),
-          layer(0.94, <Crowd x0={-200} x1={2100} y={Q.MEET_FLOOR - 120} f={f} rows={1} s={0.8} seed={8} hats={0.5} />, 2),
+          layer(0.92, <g>{[180, 330, 700, 1080, 1620, 1760].map((x, i) => <Person key={i} id={['townsman', 'farmer', 'visitor'][i % 3]} x={x} y={Q.MEET_FLOOR - 24} f={f + i * 11} seed={120 + i} pose={stand(f + i * 11, 120 + i)} lod="low" scale={0.86} dir={x < 900 ? 1 : -1} look={[x < 900 ? 0.6 : -0.6, -0.1]} />)}</g>, 2),
           layer(1, (
             <g>
               {s.figs.slice(0, -1).map((g, i) => <FigEl key={i} g={g} f={f} seed={83 + i} />)}
@@ -109,7 +109,7 @@ const Hall: React.FC<{f: number; d: number}> = ({f, d}) => {
           layer(0.88, <Legislature f={f} floor={Q.HALL_FLOOR} />, 3),
           layer(0.88, <rect x={-800} y={-500} width={3600} height={2000} fill="#1A1420" opacity={0.45} />),
           layer(1, <Speaker s={s} f={f} seed={88} />),
-          layer(1.3, <Benches y={1010} f={f} rows={2} seed={9} />, 3),
+          layer(1.3, <Benches y={850} f={f} rows={2} seed={9} />, 3),
         ]}
       </CineCam>
       {[420, 1500].map((x, i) => <LightPool key={i} x={x} y={300} r={520} f={f} color="#FFC870" seed={12 + i} strength={0.3} />)}
@@ -127,7 +127,7 @@ const HouseDoc: React.FC<{f: number; d: number}> = ({f, d}) => {
       <CineCam f={f} keys={[[0, 1.0, 960, 500], [d, 1.08, 960, 490]]} seed={89}>
         {(layer) => [
           layer(0.9, <g><rect x={-800} y={-500} width={3600} height={2000} fill="#3A2A1E" />{Array.from({length: 14}, (_, i) => <line key={i} x1={-800} y1={i * 90} x2={2800} y2={i * 90 + 20} stroke="#2E2018" strokeWidth={8} />)}</g>),
-          layer(1, <DocSheet d={dd} x={260} y={210} w={1400} h={480} size={56} f={f} maxWords={9} pad={70} />),
+          layer(1, <DocSheet d={dd} x={190} y={230} w={1540} h={420} size={56} f={f} maxWords={12} pad={70} />),
         ]}
       </CineCam>
       <LightPool x={760} y={420} r={900} f={f} color="#FFB060" seed={15} strength={0.2} />
@@ -138,7 +138,7 @@ const HouseDoc: React.FC<{f: number; d: number}> = ({f, d}) => {
 };
 
 // ---------------------------------------------------------------- 5.4 seven debates across Illinois; Douglas on the platform
-const IL_BOX: [number, number, number, number] = [560, 30, 1360, 900];
+const IL_BOX: [number, number, number, number] = [640, 30, 1280, 830];
 const ILMap: React.FC<{f: number; d: number}> = ({f, d}) => {
   const proj = usProjection('ILLINOIS', IL_BOX);
   return (
@@ -177,8 +177,8 @@ const Debate: React.FC<{f: number; d: number}> = ({f}) => {
               <Rim kind="warm" side="l"><FigEl g={dg} f={f} seed={93} /></Rim>
             </g>
           )),
-          layer(1.15, <Reporters f={f} x={1560} floor={1000} />, 2),
-          layer(1.3, <CrowdBacks f={f} y={960} n={16} x0={-300} dx={170} s={1.05} seed={3} />, 3),
+          layer(1.12, <Reporters f={f} x={600} floor={840} />, 2),
+          layer(1.3, <CrowdBacks f={f} y={800} n={9} x0={760} dx={170} s={1.0} seed={3} />, 3),
         ]}
       </CineCam>
       <Look f={f} grade="day" vig={0.4} />
@@ -249,12 +249,12 @@ const Cooper: React.FC<{f: number; d: number}> = ({f, d}) => {
   return (
     <Frame bg="#2A2220">
       <CineDefs />
-      <CineCam f={f} keys={[...s.cam.slice(0, 2), [d, 1.62, 1150, 600]]} seed={97}>
+      <CineCam f={f} keys={s.cam} seed={97}>
         {(layer) => [
           layer(0.85, <HallBack f={f} floor={Q.HALL_FLOOR} lit={0.9} />, 2),
-          layer(0.95, <Crowd x0={-300} x1={2200} y={Q.HALL_FLOOR + 40} f={f} rows={3} s={0.85} seed={4} fromBehind hats={0.3} />, 1),
           layer(1, <Speaker s={s} f={f} seed={98} />),
-          layer(1.3, <Benches y={1030} f={f} rows={2} seed={13} />, 3),
+          layer(1.04, <Crowd x0={-400} x1={2300} y={Q.HALL_FLOOR + 10} f={f} rows={3} s={0.9} seed={4} fromBehind hats={0.3} />, 1),
+          layer(1.3, <Benches y={930} f={f} rows={2} seed={13} />, 3),
         ]}
       </CineCam>
       {[300, 960, 1620].map((x, i) => <LightPool key={i} x={x} y={260} r={460} f={f} color="#FFD080" seed={18 + i} strength={0.24} />)}

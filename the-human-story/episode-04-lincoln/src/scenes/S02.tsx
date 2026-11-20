@@ -9,7 +9,7 @@ import {Stool} from '../kit/Seats';
 import {SkyGrad, Ridge, TreeRow, Clearing, CabinInterior, CabinExterior} from '../kit/Sets04';
 import {usProjection, USMap, StateLabel, RouteLine, RiverLine, MOVE_1816, OHIO, MAPC} from '../kit/USMap';
 import {StickFigure} from '../characters/StickFigure';
-import {Particles} from '../components/Effects';
+import {Particles, Smoke} from '../components/Effects';
 import {T} from '../timeline';
 import {C, FONT} from '../styles/theme';
 import {prog, kf, clamp, easeInOut} from '../animations/core';
@@ -40,6 +40,18 @@ const WinterSky: React.FC<{id: string}> = ({id}) => (
   </g>
 );
 
+/** Foreground bare branch hanging in from the top right (2.1 parallax, sways in the wind). */
+const ForeBranch: React.FC<{f: number}> = ({f}) => {
+  const sw = Math.sin(f / 38) * 1.6;
+  return (
+    <g transform={`rotate(${sw},2250,-260)`}>
+      <path d="M2250,-260 Q1900,-60 1560,40 M1900,-80 Q1830,40 1760,140 M1720,-4 Q1640,-60 1560,-110 M1640,22 Q1560,90 1470,120" stroke="#2E2A28" strokeWidth={26} strokeLinecap="round" fill="none" />
+      <path d="M1600,30 Q1520,44 1440,80 M1780,110 Q1740,180 1700,220" stroke="#2E2A28" strokeWidth={12} strokeLinecap="round" fill="none" />
+      <path d="M2250,-262 Q1900,-64 1560,36" stroke="#F4F6F8" strokeWidth={8} strokeLinecap="round" fill="none" opacity={0.8} />
+    </g>
+  );
+};
+
 // ---------------------------------------------------------------- 2.1 winter woods, the cabin (crane down)
 const CabinWoods: React.FC<{f: number; d: number}> = ({f, d}) => {
   const fl = 800;
@@ -62,6 +74,7 @@ const CabinWoods: React.FC<{f: number; d: number}> = ({f, d}) => {
             <g>
               <SnowGround y={fl} />
               <g transform={`translate(960,${fl}) scale(1.25) translate(-960,${-fl})`}>
+                <Smoke x={1110} y={fl - 350} f={f} n={14} size={30} rise={400} drift={130} color="#A4A6AE" opacity={0.6} seed={9} outline={false} />
                 <CabinExterior x={960} base={fl} f={f} lit={0.75} />
                 <path d={`M${960 - 262},${fl - 200} Q${960},${fl - 340} ${960 + 262},${fl - 200} L${960 + 250},${fl - 206} L${960},${fl - 326} L${960 - 250},${fl - 206}Z`} fill="#F4F6F8" stroke={C.ink} strokeWidth={3} />
               </g>
@@ -70,6 +83,7 @@ const CabinWoods: React.FC<{f: number; d: number}> = ({f, d}) => {
               <path d={`M560,${fl + 4} Q700,${fl + 60} 880,${fl + 40}`} stroke="#C4CED6" strokeWidth={8} fill="none" />
             </g>
           )),
+          layer(1.45, <ForeBranch f={f} />, 4),
         ]}
       </CineCam>
       <Particles f={f} kind="snow" n={70} seed={21} wind={0.6} speed={0.55} opacity={0.85} />
@@ -112,7 +126,6 @@ const Family: React.FC<{f: number; d: number}> = ({f}) => {
               <FigEl g={sa} f={f} seed={33} />
               <FigEl g={na} f={f} seed={32} />
               <PropAt def={BUNDLE} xf={s.bundle as never} st={{f}} />
-              <Breath x={1060} y={430} f={f + 20} dir={-1} every={70} s={1.2} />
             </g>
           )),
         ]}

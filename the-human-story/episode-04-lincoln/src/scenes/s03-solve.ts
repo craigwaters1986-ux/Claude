@@ -40,7 +40,8 @@ export function solveRiver(f: number): Solved {
   return {
     figs: [{id: p.fig.id, pl: p.fig.pl, P: p.fig.P, build: p.fig.build, ex: exprAt(f, [[0, 'determined'], [120, 'neutral']]), look: [0.8, 0.2], tag: f >= 96 && f < d - 4}],
     checks: p.checks, seats: [], pole: p,
-    cam: [[0, 1.12, bx0 + 120, 560], [d, 1.22, bx1 + 100, 580]],
+    // title plate (0–90): wider and lower so the poler sits below the title, then settle on the boat
+    cam: [[0, 0.95, bx0 + 120, 340], [80, 0.98, boatX(80, RIVER_OPTS) + 120, 360], [118, 1.12, boatX(118, RIVER_OPTS) + 120, 560], [d, 1.22, bx1 + 100, 580]],
   };
 }
 
@@ -143,7 +144,7 @@ export function solveCaptain(f: number): Solved {
   const P = mixPose(stand(f, 3), pose({lean: -2, hipL: -6, hipR: 6, shL: -4, elL: 10, shR: 6, elR: 14, headTilt: -4}), prog(f, 120, 150));
   const vols: Fig[] = VOLS.map((v, i) => {
     const up = prog(f, v.at, v.at + 12);
-    const P2 = mixPose(stand(f, 10 + i), pose({hipL: -5, hipR: 5, shR: 140 + Math.sin(f / 7 + i) * 3, elR: 0, shL: -6, elL: 10, headTilt: -4}), up * (1 - prog(f, 170 + i * 3, 186 + i * 3)));
+    const P2 = mixPose(stand(f, 10 + i), pose({hipL: -5, hipR: 5, shR: 124 + Math.sin(f / 7 + i) * 4, elR: 22, shL: -6, elL: 10, headTilt: -4}), up * (1 - prog(f, 170 + i * 3, 186 + i * 3)));
     const sc = v.row === 1 ? 0.92 : 1.1;
     return {id: 'farmer', pl: {x: v.x, y: CAPT_FLOOR - (v.row === 1 ? 44 : 0), scale: sc, dir: -1}, P: P2, ex: exprAt(f, [[0, 'curious'], [v.at, 'happy']]), look: [-0.9, 0]};
   });

@@ -398,7 +398,7 @@ export const CrowdBacks: React.FC<{f: number; y: number; n?: number; x0?: number
         <g key={i} transform={`translate(${x},${y + bob + hash(i * 7) * 20}) scale(${s * (0.9 + hash(i * 5) * 0.2)})`}>
           <path d="M-70,140 Q-66,40 0,30 Q66,40 70,140Z" fill={['#3A3430', '#4A4238', '#2E3240', '#5A4A3A'][i % 4]} {...o(4)} />
           <circle cx={0} cy={-14} r={44} fill="#FFFFFF" {...o(5)} />
-          <path d="M-42,-26 Q0,-70 42,-26 Q30,-50 0,-56 Q-30,-50 -42,-26Z" fill="#2A2420" />
+          <path d="M-44,-10 A44,44 0 0,1 44,-10 Q40,8 24,14 Q0,20 -24,14 Q-40,8 -44,-10Z" fill="#2A2420" />
           {hat && <g><rect x={-30} y={-110} width={60} height={64} fill="#2A2622" {...o(3.5)} /><ellipse cx={0} cy={-46} rx={50} ry={8} fill="#2A2622" {...o(3.5)} /></g>}
         </g>
       );

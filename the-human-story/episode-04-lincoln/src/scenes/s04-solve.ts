@@ -408,7 +408,7 @@ export function solveDebate(f: number): Solved {
       {id: A58, pl: plL, P: PL, build: bL, ex: {expression: 'grim'}, look: [-0.8, 0.1]},
     ],
     checks: [], seats: [seatChk(plL, PL, bL, PLAT_FLOOR - h)], seatH: h,
-    cam: [[0, 1.0, 960, 540], [140, 1.12, 1000, 540]],
+    cam: [[0, 1.3, 1080, 600], [140, 1.4, 1100, 600]],
   };
 }
 
@@ -476,11 +476,12 @@ export function solveLectern(f: number, seed = 3, x = 928): Solved {
   };
 }
 export function solveHall(f: number): Solved {
-  return {...solveLectern(f, 3), cam: [[0, 1.0, 960, 520], [DUR5.hall, 1.35, 960, 560]] as CamKey[]};
+  return {...solveLectern(f, 3), cam: [[0, 1.15, 960, 560], [DUR5.hall, 1.45, 960, 580]] as CamKey[]};
 }
 export function solveCooper(f: number): Solved {
   const d = DUR5.cooper;
-  return {...solveLectern(f, 7), cam: [[0, 0.82, 960, 420], [Math.round(d * 0.55), 1.55, 960, 600], [d, 1.62, 955, 600]] as CamKey[]};
+  const tq = fr(T('let us have faith that right makes might') - AT5.cooper);
+  return {...solveLectern(f, 7), tq, cam: [[0, 0.92, 960, 470], [Math.round(d * 0.5), 1.45, 1000, 640], [tq - 6, 1.55, 1180, 630], [d, 1.6, 1185, 630]] as CamKey[]};
 }
 
 // ---------------------------------------------------------------- registry for the contact checker

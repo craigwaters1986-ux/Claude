@@ -30,7 +30,7 @@ export const CapitolShot: React.FC<{f: number; d: number; dateAt: number}> = ({f
             {[0, 1, 2].map((i) => {
               const dist = f * (1.6 + i * 0.2) + i * 90;
               const dir = (i % 2 ? -1 : 1) as 1 | -1;
-              return <Person key={i} id={['townsman', 'townswoman', 'visitor'][i]} x={(i % 2 ? 1500 : 300) + dir * dist} y={BASE + 150 + i * 40} f={f} seed={100 + i} pose={parishWalk(dist, false, 0.2 * i, 0)} dir={dir} scale={0.55} lod="low" />;
+              return <Person key={i} id={['townsman', 'townswoman', 'visitor'][i]} x={(i % 2 ? 1500 : 300) + dir * dist} y={BASE + 60 + i * 26} f={f} seed={100 + i} pose={parishWalk(dist, false, 0.2 * i, 0)} dir={dir} scale={0.5} lod="low" />;
             })}
           </g>
         )),

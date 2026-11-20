@@ -31,7 +31,7 @@ for (const sh of m.SHOTS) {
   rep[sh.id] = r;
 }
 // Phase C chapters s01 + s09 (same measure; each module exports <X>_SHOTS, <X>_SOLVERS and camZoom)
-for (const [file, shK, soK] of [['s01-solve', 'S01_SHOTS', 'S01_SOLVERS'], ['s09-solve', 'S09_SHOTS', 'S09_SOLVERS'], ['s02-solve', 'S02_SHOTS', 'S02_SOLVERS'], ['s03-solve', 'S03_SHOTS', 'S03_SOLVERS'], ['kitSolve', 'KIT_SOLVED_SHOTS', 'KIT_SOLVERS'], ['s08-solve', 'SHOTS', 'SOLVERS'], ['s10-solve', 'SHOTS', 'SOLVERS'], ['s06-solve', 'S06_SHOTS', 'S06_SOLVERS'], ['s07-solve', 'S07_SHOTS', 'S07_SOLVERS']]) {
+for (const [file, shK, soK] of [['s01-solve', 'S01_SHOTS', 'S01_SOLVERS'], ['s09-solve', 'S09_SHOTS', 'S09_SOLVERS'], ['s02-solve', 'S02_SHOTS', 'S02_SOLVERS'], ['s03-solve', 'S03_SHOTS', 'S03_SOLVERS'], ['kitSolve', 'KIT_SOLVED_SHOTS', 'KIT_SOLVERS'], ['s08-solve', 'SHOTS', 'SOLVERS'], ['s10-solve', 'SHOTS', 'SOLVERS'], ['s06-solve', 'S06_SHOTS', 'S06_SOLVERS'], ['s07-solve', 'S07_SHOTS', 'S07_SOLVERS'], ['s04-solve', 'S04_SHOTS', 'S04_SOLVERS']]) {
   await build({entryPoints: [`src/scenes/${file}.ts`], bundle: true, platform: 'node', format: 'esm', outfile: `output/${file}.mjs`, loader: {'.json': 'json'}, external: ['react', 'remotion'], logLevel: 'error'});
   const cm = await import(pathToFileURL(`output/${file}.mjs`).href + '?' + Date.now());
   for (const sh of cm[shK]) {
