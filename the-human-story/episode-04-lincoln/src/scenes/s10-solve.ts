@@ -19,7 +19,7 @@ export const A10 = {
   section: T('reportedly seated in a separate section') - 0.15,
   debate: T('Historians still argue'),
   bliss: T('The page he signed'),
-  end: beat('s10', 2)[0] + 3.6, // the last line is held, then the end card for the rest of the silent beat
+  end: beat('s10', 2)[0] + 1.6, // the last line is held, then the end card for the rest of the 7 s silent beat
 };
 const fr = (a: number, b: number) => Math.round((b - a) * 30);
 export const D10 = {

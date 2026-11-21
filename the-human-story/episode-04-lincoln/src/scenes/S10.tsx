@@ -16,6 +16,7 @@ import {USMap, usProjection, RouteLine, PlaceDot, FUNERAL_ROUTE, PLACES, MAPC, M
 import {clamp, kf, prog} from '../animations/core';
 import {FONT} from '../styles/theme';
 import * as S10S from './s10-solve';
+import {T} from '../timeline';
 import {FigEl, Look, IrisOpen, PageInsert, DeskTop, Plate} from './s08-sets';
 import {StationNight, PlatformFront, RailCarInterior, TwoCoffins, Memorial, MemorialDefs, DedicationSeating, GreyTag, EndCardOver} from './s10-sets';
 import {Train, Track, HallBack, Lectern} from '../kit/Sets04b';
@@ -186,8 +187,11 @@ const Debate106: React.FC<{f: number; d: number}> = ({f}) => {
   const s = S10S.solveLectern(f);
   const fl = S10S.LECT_FLOOR;
   const LC = S10S.LECTERN;
-  const tGrew = prog(f, Math.round((570.2 - A10.debate) * 30), Math.round((570.2 - A10.debate) * 30) + 16);
-  const tPushed = prog(f, Math.round((571.7 - A10.debate) * 30), Math.round((571.7 - A10.debate) * 30) + 16);
+  // Phase D2: tags anchored to the caption, on the spoken words ("a man who grew" +0.7 s, "a man who was pushed" +2.2 s)
+  const GREW = Math.round((T('Some see a man who grew') + 0.7 - A10.debate) * 30);
+  const PUSHED = Math.round((T('Some see a man who grew') + 2.2 - A10.debate) * 30);
+  const tGrew = prog(f, GREW, GREW + 16);
+  const tPushed = prog(f, PUSHED, PUSHED + 16);
   const tHead = prog(f, 40, 56);
   return (
     <Frame bg="#8A7458">
@@ -223,8 +227,9 @@ const Bliss107: React.FC<{f: number; d: number}> = ({f, d}) => {
   const L = blissLayout();
   const startChar = D.text.indexOf('that government of the people');
   const u0 = startChar / L.chars;
-  const a = Math.round((579.0 - A10.bliss) * 30);
-  const b = Math.round((584.6 - A10.bliss) * 30);
+  // Phase D2: anchored to the caption (was hard-coded 579.0 / 584.6 s); the quotation takes 6.0 s to speak
+  const a = Math.round((T('that government of the people') - A10.bliss) * 30);
+  const b = a + 180;
   const read = u0 + (1 - u0) * prog(f, a, b, (t) => t);
   const p = nibAt(L, read);
   const pStart = nibAt(L, u0);

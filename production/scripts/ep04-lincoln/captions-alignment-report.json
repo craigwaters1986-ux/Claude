@@ -1,11 +1,11 @@
 {
- "cues": 151,
+ "cues": 153,
  "script_tokens": 1321,
- "matched_tokens": 1279,
- "coverage": 0.9682,
- "cues_moved": 150,
- "median_abs_start_shift": 0.071,
- "max_abs_start_shift": 1.333,
+ "matched_tokens": 1260,
+ "coverage": 0.9538,
+ "cues_moved": 151,
+ "median_abs_start_shift": 0.068,
+ "max_abs_start_shift": 1.361,
  "transcript_mismatches": [
   [
    "twelfth",
@@ -24,20 +24,8 @@
    "1 200"
   ],
   [
-   "ten",
-   "10"
-  ],
-  [
    "stuart",
    "stewart"
-  ],
-  [
-   "right",
-   "wright"
-  ],
-  [
-   "eleven",
-   "11"
   ],
   [
    "twelfth",
@@ -52,8 +40,8 @@
    "75 000"
   ],
   [
-   "eleven",
-   "11"
+   "eighteen sixty two his son willie died aged eleven in august he wrote publicly my",
+   ""
   ],
   [
    "first",
@@ -64,12 +52,12 @@
    "200 000"
   ],
   [
-   "anti slavery if slavery is not wrong nothing is wrong that summer he",
-   ""
+   "four",
+   "4"
   ],
   [
-   "re elected",
-   "reelected"
+   "seven",
+   "7"
   ],
   [
    "thirteenth",
@@ -80,12 +68,20 @@
    "9th"
   ],
   [
-   "fourteenth",
-   "14th"
+   "court house",
+   "courthouse"
   ],
   [
-   "theatre",
-   "theater"
+   "six hundred and twenty thousand",
+   "620 000"
+  ],
+  [
+   "seven hundred and fifty thousand",
+   "750 000"
+  ],
+  [
+   "fourteenth",
+   "14th"
   ],
   [
    "sympathiser",
@@ -96,12 +92,20 @@
    "peterson"
   ],
   [
-   "parlour",
-   "parlor"
+   "twenty two",
+   "22"
   ],
   [
-   "travelled",
-   "traveled"
+   "fifty six",
+   "56"
+  ],
+  [
+   "one thousand six hundred and fifty four",
+   "1 654"
+  ],
+  [
+   "thirteenth",
+   "13th"
   ]
  ]
 }

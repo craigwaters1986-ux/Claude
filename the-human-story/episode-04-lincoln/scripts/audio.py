@@ -315,7 +315,7 @@ def compose():
                      [C['D'], C['G'], C['Bm'], C['G'], C['A']]):
         piano_chord(ch, t + 0.1, vel=0.2, dur=3.0, seed=int(t * 10))
     b0, b1 = beat_at(GR[0][1])
-    T_TITLE = round(b0 + 4.0, 3)
+    T_TITLE = round(b0 + 1.0, 3)
     piano_theme([PHRASE1[:4]], b0 + 0.15, shift=0, beat=B, vel=0.34, seed=30)
     riser(T_TITLE, 3.0, vel=0.13)
     put(timp_roll(midi(nm('A1')), 2.2, v0=0.05, v1=0.85, seed=11), T_TITLE - 2.2, 0.9, wet=0.4, bus='h')
