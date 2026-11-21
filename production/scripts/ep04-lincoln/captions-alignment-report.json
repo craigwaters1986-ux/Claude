@@ -1,12 +1,16 @@
 {
- "cues": 153,
+ "cues": 152,
  "script_tokens": 1321,
- "matched_tokens": 1260,
- "coverage": 0.9538,
- "cues_moved": 151,
- "median_abs_start_shift": 0.068,
- "max_abs_start_shift": 1.361,
+ "matched_tokens": 1267,
+ "coverage": 0.9591,
+ "cues_moved": 152,
+ "median_abs_start_shift": 0.07,
+ "max_abs_start_shift": 1.44,
  "transcript_mismatches": [
+  [
+   "two",
+   "2"
+  ],
   [
    "twelfth",
    "12th"
@@ -16,20 +20,24 @@
    "19"
   ],
   [
-   "flatboat",
-   "flat boat"
-  ],
-  [
    "twelve hundred",
    "1 200"
+  ],
+  [
+   "ten",
+   "10"
   ],
   [
    "stuart",
    "stewart"
   ],
   [
-   "twelfth",
-   "12th"
+   "eleven",
+   "11"
+  ],
+  [
+   "the twelfth of",
+   "12"
   ],
   [
    "harbour",
@@ -40,24 +48,16 @@
    "75 000"
   ],
   [
-   "eighteen sixty two his son willie died aged eleven in august he wrote publicly my",
-   ""
+   "eleven",
+   "11"
   ],
   [
-   "first",
-   "1st"
+   "the first of",
+   "1"
   ],
   [
    "two hundred thousand",
    "200 000"
-  ],
-  [
-   "four",
-   "4"
-  ],
-  [
-   "seven",
-   "7"
   ],
   [
    "thirteenth",
@@ -84,12 +84,24 @@
    "14th"
   ],
   [
+   "theatre",
+   "theater"
+  ],
+  [
+   "ten",
+   "10"
+  ],
+  [
    "sympathiser",
    "sympathizer"
   ],
   [
    "petersen",
    "peterson"
+  ],
+  [
+   "parlour",
+   "parlor"
   ],
   [
    "twenty two",

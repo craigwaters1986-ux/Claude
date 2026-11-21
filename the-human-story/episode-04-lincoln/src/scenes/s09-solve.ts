@@ -15,14 +15,14 @@ const seatChk = (pl: Placement, P: Pose, build: Build, seatY: number): SeatCheck
 
 // ---------------------------------------------------------------- 9.3 corridor: a still, dark figure (never glamorised)
 export const CORRIDOR_FLOOR = 880;
-export const DOOR_REACH = 186; // frame the hand reaches the box door's handle
-export const DOOR_OPEN = 206; // the door begins to open
+export const DOOR_REACH = 166; // frame the hand reaches the box door's handle
+export const DOOR_OPEN = 184; // the door begins to open
 export function solveCorridor(f: number): Solved {
   const id = 'booth';
   const build = castBuild(id);
   // Phase D: he walks away from us down the corridor (silhouette, three-quarter back), stops at the box door and
   // reaches for the handle; the door opens a crack. Nothing beyond the door is shown.
-  const W0 = 8, W1 = 168;
+  const W0 = 8, W1 = 148; // John North: the corridor shot is 7.2 s, so walk, reach and door are 20 frames earlier
   const D = walkDist(W1 + 60, W0, W1, 2.0);
   const wk = walker(f, W0, W1, 2.0);
   const u = Math.min(1, wk.d / D);

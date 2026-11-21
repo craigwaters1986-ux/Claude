@@ -364,7 +364,7 @@ const Shot95: React.FC<{f: number; d: number; card: number}> = ({f, d, card}) =>
 // ---------------------------------------------------------------- section
 const A2 = T('watching a play');
 const A3 = T('John Wilkes Booth');
-const A3b = TE('a Confederate sympathiser'); // cut to the empty chair before the next words
+const A3b = TE('a Confederate sympathiser') - 0.6; // John North: 0.6 s early, so Booth is seen aiming before the shot // cut to the empty chair before the next words
 // the shot is fired as the narrator says "shot" (0.15 s into the cue); the empty chair holds the silent beat
 const FIRE = sf(T('shot the President') + 0.15 - A3b);
 const CHAIR = beat('s09', 1)[0];

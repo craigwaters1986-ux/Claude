@@ -32,7 +32,7 @@ const A = {
   procMap: T('It could not free anyone'),
   recruit: T('It also opened the army'),
   gettys: T('In July the Union won'),
-  meeting: T('That August'),
+  meeting: T('Frederick Douglass protested'), // John North: 'That August,' stays on the Gettysburg shot, which would otherwise be 3 s
   cemetery: T('In November, Lincoln helped'),
   bliss: T('The signed copy begins'),
 };

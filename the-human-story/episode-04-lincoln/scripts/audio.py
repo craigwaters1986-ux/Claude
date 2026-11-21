@@ -827,7 +827,7 @@ def compose_el():
     note(el_place(M, X[10], CH[9], skip=CH[9] - v10, fin=1.2, fout=1.0), 'EL c10', 'funeral processional, full orchestra at the Memorial, solo piano for the historians and the last page')
     # end card: the title chord returns (c01 from 26.4 s; its arrival at 27.40 s lands on the end card)
     z0, z1 = beat_at(GR[26][1])
-    T_END = round(z0 + 1.6, 3)  # = A10.end in src/scenes/s10-solve.ts
+    T_END = round(z0 + 1.0, 3)  # = A10.end in src/scenes/s10-solve.ts
     note(el_place(M, X[1], T_END - 1.0, skip=26.4, fin=0.8, fout=0.5, gain_db=2.0), 'EL c01 reprise', 'the title chord returns on the end card and rings out')
 
     # Charleston: no music under the quotation (as in the approved cue sheet); the strings return quietly at "The legislature..."

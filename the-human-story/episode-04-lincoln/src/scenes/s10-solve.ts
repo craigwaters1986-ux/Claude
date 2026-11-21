@@ -19,7 +19,7 @@ export const A10 = {
   section: T('At the dedication') - 0.15, // Phase D2: the sentence now opens with its own cue, "At the dedication,"
   debate: T('Historians still argue'),
   bliss: T('The page he signed'),
-  end: beat('s10', 2)[0] + 1.6, // the last line is held, then the end card for the rest of the 7 s silent beat
+  end: beat('s10', 2)[0] + 1.0, // the last line is held, then the end card for the rest of the silent beat (5 s with John North)
 };
 const fr = (a: number, b: number) => Math.round((b - a) * 30);
 export const D10 = {

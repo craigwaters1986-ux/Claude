@@ -78,6 +78,10 @@ RESEG = [
       'On the ninth of April, at Appomattox Court House,', 'Robert E. Lee surrendered his Confederate army',
       'to the Union commander, Ulysses S. Grant.', 'An estimated six hundred and twenty thousand',
       'to seven hundred and fifty thousand died in the war.']),
+    ('His election was the spark. On the twelfth of April,', 1,
+     ['His election was the spark.', 'On the twelfth of April, 1861,']),
+    ('In July the Union won at Gettysburg,', 3, ['In July the Union won at Gettysburg, at terrible cost.', 'That August,',
+     'Frederick Douglass protested to Lincoln that Black soldiers were paid less.']),
     ('shall not perish from the earth." Two minutes, a few sheets of paper,', 2,
      ['shall not perish from the earth."', 'Two minutes, a few sheets of paper, and an argument that has never ended.']),
 ]
@@ -131,13 +135,11 @@ for head, n, segs in RESEG:
     cues[i:i + n] = new
 
 # ------------------------------------------------------------------ 1b. hand-timed cues
-# The recogniser dropped the words between "Bull Run." and "paramount" (narration 283.8-291.0 s), so these three cues
-# had fallen back to pause-anchored guesses and ran up to 1.4 s ahead of the voice. Times below are raw narration
-# seconds measured from the pauses in the recording (silencedetect -38 dB); to_prog maps them through the plan.
+# Hand-timed cues: (first words, raw start s, raw end s), raw narration seconds measured from the pauses in the recording
+# (silencedetect -38 dB); to_prog maps them through the plan. Only for cues the recogniser could not place. The three
+# Liam Dale entries (Bull Run to "paramount") were removed with the John North narration (21 Nov 2026).
 RETIME = [
-    ('In February 1862, his son', None, 288.92),
-    ('In August he wrote publicly,', 289.20, 291.01),
-    ('"My paramount object in this', 291.33, None),
+    ('That year he joined a protest', 128.85, None),  # John North: speech resumes at 128.89 s; the recogniser put 'That' 0.6 s early
 ]
 for head, rs, re_ in RETIME:
     c = next(c for c in cues if c['text'].startswith(head))

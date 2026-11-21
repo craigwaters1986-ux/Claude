@@ -1,708 +1,705 @@
 1
-00:00:03,000 --> 00:00:04,214
+00:00:03,000 --> 00:00:04,140
 Two minutes.
 
 2
-00:00:04,334 --> 00:00:09,694
+00:00:04,313 --> 00:00:09,743
 That is roughly how long Abraham
 Lincoln spoke at Gettysburg in 1863,
 
 3
-00:00:09,734 --> 00:00:13,231
+00:00:09,821 --> 00:00:13,003
 after the main speaker had
 talked for about two hours.
 
 4
-00:00:13,409 --> 00:00:16,150
+00:00:13,240 --> 00:00:15,801
 Five copies survive in his own hand.
 
 5
-00:00:16,190 --> 00:00:20,189
+00:00:15,983 --> 00:00:20,027
 Only one, known as the Bliss
 copy, is signed and dated.
 
 6
-00:00:20,229 --> 00:00:22,162
+00:00:20,229 --> 00:00:22,111
 It is kept in the White House.
 
 7
-00:00:22,281 --> 00:00:24,932
+00:00:22,408 --> 00:00:25,205
 The man who wrote it
 had, by his own count,
 
 8
-00:00:24,972 --> 00:00:27,041
+00:00:25,245 --> 00:00:27,300
 less than a year of schooling.
 
 9
-00:00:37,355 --> 00:00:41,160
+00:00:37,055 --> 00:00:41,302
 Abraham Lincoln was born on
 the twelfth of February, 1809,
 
 10
-00:00:41,200 --> 00:00:45,374
+00:00:41,342 --> 00:00:44,974
 in a one-room log cabin on
 his father's farm in Kentucky.
 
 11
-00:00:45,616 --> 00:00:49,096
+00:00:45,318 --> 00:00:48,809
 His parents were Thomas
 Lincoln, a carpenter and farmer,
 
 12
-00:00:49,136 --> 00:00:50,769
+00:00:48,855 --> 00:00:50,238
 and Nancy Hanks.
 
 13
-00:00:50,959 --> 00:00:55,669
+00:00:50,541 --> 00:00:55,031
 When he was seven, the family moved
 to Indiana, partly, he later said,
 
 14
-00:00:55,709 --> 00:00:59,597
+00:00:55,071 --> 00:00:58,777
 on account of slavery, but
 chiefly over land titles.
 
 15
-00:00:59,669 --> 00:01:02,778
+00:00:59,015 --> 00:01:01,981
 An axe was put into his hands at once.
 
 16
-00:01:07,318 --> 00:01:11,945
+00:01:06,521 --> 00:01:11,148
 When he was nine, his mother died
 of what people called milk sickness.
 
 17
-00:01:12,143 --> 00:01:16,125
+00:01:11,459 --> 00:01:15,727
 His stepmother, Sarah Bush
 Johnston, proved, in his words,
 
 18
-00:01:16,165 --> 00:01:18,088
+00:01:15,767 --> 00:01:16,536
 "a good and kind mother".
 
 19
-00:01:18,326 --> 00:01:21,904
+00:01:16,576 --> 00:01:21,519
 He wrote of himself, "What he
 has in the way of education,
 
 20
-00:01:21,944 --> 00:01:30,798
+00:01:21,559 --> 00:01:30,432
 he has picked up." At nineteen,
 
 21
-00:01:30,838 --> 00:01:35,821
+00:01:30,472 --> 00:01:34,985
 Lincoln helped take a flatboat down the
 Ohio and Mississippi to New Orleans,
 
 22
-00:01:35,861 --> 00:01:37,958
+00:01:35,025 --> 00:01:37,201
 over twelve hundred miles.
 
 23
-00:01:38,047 --> 00:01:41,153
+00:01:37,562 --> 00:01:40,679
 In 1830 the family moved on to Illinois,
 
 24
-00:01:41,193 --> 00:01:44,009
+00:01:40,719 --> 00:01:43,446
 where he split rails to fence ten acres.
 
 25
-00:01:44,093 --> 00:01:47,802
+00:01:43,637 --> 00:01:47,223
 Rails like these later became
 part of his campaign image.
 
 26
-00:01:48,043 --> 00:01:49,883
+00:01:47,589 --> 00:01:49,424
 On a second trip to New Orleans,
 
 27
-00:01:49,923 --> 00:01:53,732
+00:01:49,464 --> 00:01:53,199
 he would have seen slavery on
 a scale unknown in Illinois.
 
 28
-00:01:53,772 --> 00:01:57,541
+00:01:53,239 --> 00:01:56,915
 Stories of its effect on him
 came only after his death;
 
 29
-00:01:57,642 --> 00:01:59,811
+00:01:57,098 --> 00:01:59,280
 historians treat them with caution.
 
 30
-00:02:00,199 --> 00:02:04,462
+00:01:59,753 --> 00:02:03,805
 At New Salem he was a store
 clerk, postmaster and surveyor.
 
 31
-00:02:04,592 --> 00:02:08,700
+00:02:04,084 --> 00:02:08,102
 In the Black Hawk War, his fellow
 volunteers elected him captain.
 
 32
-00:02:08,782 --> 00:02:12,935
+00:02:08,315 --> 00:02:12,527
 He saw no battle, but said
 nothing later satisfied him more.
 
 33
-00:02:17,542 --> 00:02:22,761
+00:02:16,742 --> 00:02:22,092
 In 1834, Lincoln was elected to
 the Illinois legislature as a Whig.
 
 34
-00:02:23,029 --> 00:02:25,779
+00:02:22,315 --> 00:02:24,526
 He borrowed law books from John T.
 
 35
-00:02:25,819 --> 00:02:28,734
+00:02:24,566 --> 00:02:27,980
 Stuart, later his law
 partner, and taught himself.
 
 36
-00:02:28,932 --> 00:02:31,430
+00:02:28,143 --> 00:02:30,527
 "He studied with nobody," he wrote.
 
 37
-00:02:31,734 --> 00:02:37,511
+00:02:30,811 --> 00:02:35,553
 In 1837 he moved to Springfield with
 all his belongings in two saddlebags.
 
 38
-00:02:37,647 --> 00:02:41,641
+00:02:35,593 --> 00:02:40,539
 That year he joined a protest
 against slavery in the legislature.
 
 39
-00:02:41,825 --> 00:02:44,122
+00:02:40,741 --> 00:02:42,945
 He met Mary Todd at a ball.
 
 40
-00:02:45,762 --> 00:02:50,764
+00:02:44,585 --> 00:02:49,792
 Their engagement broke off, and
 in January 1841 Lincoln wrote,
 
 41
-00:02:50,852 --> 00:02:53,716
+00:02:49,954 --> 00:02:52,924
 "I am now the most miserable man living."
 
 42
-00:02:53,756 --> 00:02:57,040
+00:02:52,964 --> 00:02:56,355
 Friends spoke of his
 bouts of deep melancholy.
 
 43
-00:02:57,220 --> 00:03:02,248
+00:02:56,659 --> 00:03:01,738
 But in November 1842 they married,
 and they would have four sons.
 
 44
-00:03:02,435 --> 00:03:05,134
+00:03:02,063 --> 00:03:04,665
 He rode the legal circuit for years.
 
 45
-00:03:06,774 --> 00:03:11,142
+00:03:06,305 --> 00:03:10,708
 In 1846 he was elected to
 Congress for a single term,
 
 46
-00:03:11,182 --> 00:03:14,442
+00:03:10,755 --> 00:03:13,760
 where he opposed the war
 with Mexico and proposed a
 
 47
-00:03:14,482 --> 00:03:18,128
+00:03:13,800 --> 00:03:17,187
 bill to begin ending slavery
 in the District of Columbia.
 
 48
-00:03:22,706 --> 00:03:24,358
+00:03:21,606 --> 00:03:23,311
 In 1854,
 
 49
-00:03:24,398 --> 00:03:26,925
+00:03:23,351 --> 00:03:25,793
 the Kansas–Nebraska Act
 reopened the question
 
 50
-00:03:26,965 --> 00:03:29,508
+00:03:25,833 --> 00:03:28,385
 of slavery in the western territories,
 
 51
-00:03:29,548 --> 00:03:33,927
+00:03:28,425 --> 00:03:32,650
 and drew Lincoln back into politics,
 in the new Republican Party.
 
 52
-00:03:34,166 --> 00:03:39,655
+00:03:32,965 --> 00:03:38,401
 In June 1858, running for the Senate,
 he quoted the Bible in a speech.
 
 53
-00:03:39,695 --> 00:03:42,435
+00:03:38,441 --> 00:03:41,215
 "A house divided against itself cannot
 
 54
-00:03:42,475 --> 00:03:45,973
+00:03:41,255 --> 00:03:44,807
 stand." "I believe this
 government cannot endure,
 
 55
-00:03:46,013 --> 00:03:48,905
+00:03:44,847 --> 00:03:47,755
 permanently half slave
 and half free." He met
 
 56
-00:03:48,945 --> 00:03:53,738
+00:03:47,795 --> 00:03:52,612
 the Democrat Stephen Douglas in
 seven debates across Illinois.
 
 57
-00:03:53,778 --> 00:03:57,970
+00:03:52,652 --> 00:03:57,292
 At Charleston he said something
 hard to hear today: "I am not,
 
 58
-00:03:58,010 --> 00:03:59,306
+00:03:57,332 --> 00:03:58,711
 nor ever have been,
 
 59
-00:03:59,346 --> 00:04:04,785
+00:03:58,751 --> 00:04:04,004
 in favor of bringing about in any way
 the social and political equality of
 
 60
-00:04:04,825 --> 00:04:10,020
+00:04:04,044 --> 00:04:09,073
 the white and black races…" He also
 opposed Black voting and jury service.
 
 61
-00:04:10,211 --> 00:04:14,359
+00:04:09,439 --> 00:04:13,631
 The legislature, which chose
 senators then, returned Douglas.
 
 62
-00:04:14,453 --> 00:04:15,839
+00:04:13,720 --> 00:04:15,139
 Lincoln lost.
 
 63
-00:04:15,879 --> 00:04:17,978
+00:04:15,179 --> 00:04:17,353
 But the debates made his name,
 
 64
-00:04:18,018 --> 00:04:22,691
+00:04:17,449 --> 00:04:22,024
 and in February 1860 he spoke
 at Cooper Union in New York:
 
 65
-00:04:22,813 --> 00:04:26,021
+00:04:22,283 --> 00:04:25,496
 "let us have faith that
 right makes might".
 
 66
-00:04:30,061 --> 00:04:34,782
+00:04:29,536 --> 00:04:34,201
 In May 1860, the Republicans
 chose him to run for President.
 
 67
-00:04:34,948 --> 00:04:38,607
+00:04:34,503 --> 00:04:38,198
 That October, an eleven-year-old
 girl, Grace Bedell,
 
 68
-00:04:38,647 --> 00:04:40,515
+00:04:38,238 --> 00:04:40,100
 wrote to him about a beard.
 
 69
-00:04:40,647 --> 00:04:42,408
+00:04:40,368 --> 00:04:42,253
 Apparently taking her advice,
 
 70
-00:04:42,448 --> 00:04:45,114
+00:04:42,293 --> 00:04:44,722
 he became the first President to wear one.
 
 71
-00:04:45,326 --> 00:04:48,229
+00:04:45,200 --> 00:04:48,267
 In November he won a four-way race.
 
 72
-00:04:48,282 --> 00:04:52,103
+00:04:48,473 --> 00:04:52,059
 Many white Southerners feared
 he would move against slavery.
 
 73
-00:04:52,143 --> 00:04:55,904
+00:04:52,099 --> 00:04:55,859
 Before he took office, seven
 states had left the Union,
 
 74
-00:04:55,944 --> 00:04:57,590
+00:04:55,949 --> 00:04:57,683
 South Carolina first,
 
 75
-00:04:57,630 --> 00:05:00,958
+00:04:57,723 --> 00:05:01,335
 and formed the Confederacy
 under Jefferson Davis.
 
 76
-00:05:01,156 --> 00:05:05,912
-Slavery, and the fight over its
-spread, lay at the root of the crisis.
+00:05:01,375 --> 00:05:04,023
+Slavery, and the fight over its spread,
 
 77
-00:05:05,963 --> 00:05:07,936
-His election was the spark.
+00:05:04,063 --> 00:05:07,328
+lay at the root of the crisis.
 
 78
-00:05:08,319 --> 00:05:10,786
+00:05:07,368 --> 00:05:11,651
+His election was the spark.
 On the twelfth of April, 1861,
 
 79
-00:05:10,826 --> 00:05:15,155
+00:05:11,691 --> 00:05:15,885
 Confederate forces attacked Fort
 Sumter, in Charleston harbour.
 
 80
-00:05:15,195 --> 00:05:20,138
+00:05:15,925 --> 00:05:21,026
 It surrendered, and Lincoln called
 for seventy-five thousand volunteers.
 
 81
-00:05:20,247 --> 00:05:22,016
+00:05:21,146 --> 00:05:22,850
 The war had begun.
 
 82
-00:05:26,057 --> 00:05:28,773
+00:05:26,891 --> 00:05:29,500
 Early on came defeat at Bull Run.
 
 83
-00:05:28,956 --> 00:05:32,331
+00:05:29,866 --> 00:05:33,625
 In February 1862, his son
 Willie died, aged eleven.
 
 84
-00:05:32,371 --> 00:05:34,760
+00:05:33,665 --> 00:05:36,089
 In August he wrote publicly,
 
 85
-00:05:34,800 --> 00:05:39,642
+00:05:36,129 --> 00:05:41,181
 "My paramount object in this
 struggle is to save the Union,
 
 86
-00:05:39,682 --> 00:05:43,139
+00:05:41,260 --> 00:05:44,714
 and is not either to save
 or to destroy slavery."
 
 87
-00:05:43,179 --> 00:05:47,458
+00:05:44,754 --> 00:05:49,031
 Yet he had already shown his
 Cabinet a draft proclamation.
 
 88
-00:05:47,498 --> 00:05:51,542
+00:05:49,071 --> 00:05:53,189
 On the first of January
 1863, as a war measure,
 
 89
-00:05:51,582 --> 00:05:55,524
+00:05:53,229 --> 00:05:56,724
 the Emancipation Proclamation
 declared that all persons held
 
 90
-00:05:55,564 --> 00:05:57,957
+00:05:56,764 --> 00:05:59,109
 as slaves in the rebel states "are,
 
 91
-00:05:57,997 --> 00:06:00,131
+00:05:59,149 --> 00:06:01,358
 and henceforward shall be free".
 
 92
-00:06:00,415 --> 00:06:04,064
+00:06:01,836 --> 00:06:05,170
 It could not free anyone
 beyond the Union army's reach,
 
 93
-00:06:04,104 --> 00:06:07,725
+00:06:05,210 --> 00:06:08,585
 and left slavery untouched
 in the loyal border states.
 
 94
-00:06:07,814 --> 00:06:11,280
+00:06:08,759 --> 00:06:12,206
 But the war was now a war against slavery.
 
 95
-00:06:11,320 --> 00:06:14,747
+00:06:12,246 --> 00:06:15,544
 It also opened the army
 and navy to Black men;
 
 96
-00:06:14,899 --> 00:06:17,554
+00:06:15,844 --> 00:06:18,455
 nearly two hundred thousand served.
 
 97
-00:06:17,688 --> 00:06:22,041
+00:06:18,776 --> 00:06:22,922
 Frederick Douglass recruited soldiers,
 and two of his sons enlisted.
 
 98
-00:06:22,235 --> 00:06:25,416
+00:06:23,302 --> 00:06:26,322
 In July the Union won at
 Gettysburg, at terrible cost.
 
 99
-00:06:25,456 --> 00:06:26,768
+00:06:26,362 --> 00:06:27,884
 That August,
 
 100
-00:06:26,861 --> 00:06:31,060
+00:06:28,167 --> 00:06:32,318
 Frederick Douglass protested to Lincoln
 that Black soldiers were paid less.
 
 101
-00:06:31,100 --> 00:06:35,887
+00:06:32,358 --> 00:06:37,161
 In November, Lincoln helped
 dedicate a cemetery there.
 
 102
-00:06:39,427 --> 00:06:41,298
+00:06:40,701 --> 00:06:42,572
 The signed copy begins:
 
 103
-00:06:41,424 --> 00:06:46,351
+00:06:42,834 --> 00:06:47,646
 "Four score and seven years ago our
 fathers brought forth on this continent,
 
 104
-00:06:46,391 --> 00:06:49,260
+00:06:47,686 --> 00:06:50,640
 a new nation, conceived in Liberty,
 
 105
-00:06:49,300 --> 00:06:52,034
+00:06:50,680 --> 00:07:00,198
 and dedicated to the proposition that all
-
-106
-00:06:52,074 --> 00:06:59,433
 men are created equal." In April 1864,
 
-107
-00:06:59,473 --> 00:07:03,455
+106
+00:07:00,238 --> 00:07:04,802
 Lincoln wrote, "I am
 naturally anti-slavery.
 
-108
-00:07:03,538 --> 00:07:05,174
+107
+00:07:04,970 --> 00:07:06,602
 If slavery is not wrong,
 
-109
-00:07:05,214 --> 00:07:09,341
+108
+00:07:06,642 --> 00:07:10,827
 nothing is wrong." That
 summer he expected to lose.
 
-110
-00:07:09,421 --> 00:07:14,452
+109
+00:07:11,053 --> 00:07:15,999
 Then Union forces took Atlanta,
 and in November he was re-elected.
 
-111
-00:07:14,736 --> 00:07:19,298
+110
+00:07:16,416 --> 00:07:20,804
 In January 1865, the House
 passed the Thirteenth Amendment,
 
-112
-00:07:19,338 --> 00:07:21,003
+111
+00:07:20,844 --> 00:07:22,391
 which he had pressed for.
 
-113
-00:07:23,043 --> 00:07:26,203
+112
+00:07:24,431 --> 00:07:27,820
 That March, in his Second
 Inaugural, he said,
 
-114
-00:07:26,266 --> 00:07:29,887
+113
+00:07:28,040 --> 00:07:31,765
 "With malice toward none;
 with charity for all;
 
-115
-00:07:29,997 --> 00:07:33,931
+114
+00:07:32,006 --> 00:07:35,911
 with firmness in the right, as
 God gives us to see the right,
 
-116
-00:07:33,971 --> 00:07:37,151
+115
+00:07:35,951 --> 00:07:38,933
 let us strive on to
 finish the work we are in;
 
-117
-00:07:37,207 --> 00:07:39,900
+116
+00:07:39,070 --> 00:07:41,746
 to bind up the nation's wounds…" Frederick
 
-118
-00:07:39,940 --> 00:07:43,667
+117
+00:07:41,786 --> 00:07:45,490
 Douglass recalled calling
 it "a sacred effort".
 
-119
-00:07:43,707 --> 00:07:47,264
+118
+00:07:45,530 --> 00:07:49,191
 On the ninth of April, at
 Appomattox Court House, Robert E.
 
-120
-00:07:47,304 --> 00:07:51,061
+119
+00:07:49,231 --> 00:07:52,868
 Lee surrendered his Confederate
 army to the Union commander,
 
-121
-00:07:51,101 --> 00:07:52,179
+120
+00:07:52,908 --> 00:07:53,967
 Ulysses S.
 
-122
-00:07:52,219 --> 00:07:55,956
+121
+00:07:54,007 --> 00:07:57,774
 Grant. An estimated six
 hundred and twenty thousand to
 
-123
-00:07:55,996 --> 00:07:59,183
+122
+00:07:57,814 --> 00:08:00,839
 seven hundred and fifty
 thousand died in the war.
 
-124
-00:08:03,419 --> 00:08:07,006
+123
+00:08:04,879 --> 00:08:08,557
 Five days later, on the evening
 of the fourteenth of April,
 
-125
-00:08:07,046 --> 00:08:10,740
+124
+00:08:08,647 --> 00:08:12,282
 Lincoln was at Ford's Theatre
 in Washington, watching a play,
 
-126
-00:08:10,780 --> 00:08:12,311
+125
+00:08:12,322 --> 00:08:13,790
 Our American Cousin.
 
-127
-00:08:12,501 --> 00:08:15,724
+126
+00:08:14,172 --> 00:08:17,338
 At about a quarter past
 ten, John Wilkes Booth,
 
-128
-00:08:15,764 --> 00:08:20,852
+127
+00:08:17,378 --> 00:08:22,311
 a Confederate sympathiser and racist
 who despised his efforts to end slavery,
 
-129
-00:08:20,892 --> 00:08:22,302
+128
+00:08:22,351 --> 00:08:23,693
 shot the President.
 
-130
-00:08:22,445 --> 00:08:25,045
+129
+00:08:24,020 --> 00:08:26,428
 Lincoln never regained consciousness.
 
-131
-00:08:27,085 --> 00:08:30,638
+130
+00:08:28,468 --> 00:08:31,959
 He was carried across the street
 to the Petersen boarding house,
 
-132
-00:08:30,678 --> 00:08:34,075
+131
+00:08:31,999 --> 00:08:35,071
 and laid diagonally across
 a bed in a small back room,
 
-133
-00:08:34,115 --> 00:08:36,526
+132
+00:08:35,111 --> 00:08:37,533
 because he was too tall to lie straight.
 
-134
-00:08:36,761 --> 00:08:40,073
+133
+00:08:38,045 --> 00:08:41,255
 Mary waited in the front
 parlour with their son Robert.
 
-135
-00:08:40,255 --> 00:08:43,150
+134
+00:08:41,814 --> 00:08:44,648
 At twenty-two minutes past
 seven the next morning,
 
-136
-00:08:43,190 --> 00:08:44,904
+135
+00:08:44,731 --> 00:08:46,372
 Abraham Lincoln died.
 
-137
-00:08:45,084 --> 00:08:46,593
+136
+00:08:46,673 --> 00:08:48,148
 He was fifty-six.
 
-138
-00:08:52,720 --> 00:08:57,597
+137
+00:08:53,880 --> 00:08:58,972
 His funeral train carried him one
 thousand six hundred and fifty-four miles,
 
-139
-00:08:57,637 --> 00:09:00,656
+138
+00:08:59,012 --> 00:09:02,134
 through hundreds of towns,
 home to Springfield.
 
-140
-00:09:00,822 --> 00:09:03,507
+139
+00:09:02,407 --> 00:09:04,963
 His son Willie's coffin
 travelled with his.
 
-141
-00:09:03,669 --> 00:09:09,140
+140
+00:09:05,559 --> 00:09:10,885
 By December 1865, enough states had
 ratified the Thirteenth Amendment.
 
-142
-00:09:09,180 --> 00:09:12,371
+141
+00:09:10,998 --> 00:09:14,087
 Slavery was abolished
 in the United States.
 
-143
-00:09:14,711 --> 00:09:18,500
+142
+00:09:16,427 --> 00:09:20,281
 In 1922 the Lincoln
 Memorial was dedicated,
 
-144
-00:09:18,540 --> 00:09:23,009
+143
+00:09:20,321 --> 00:09:24,530
 with the Gettysburg Address and the
 Second Inaugural carved on its walls.
 
-145
-00:09:23,148 --> 00:09:24,366
+144
+00:09:24,852 --> 00:09:26,086
 At the dedication,
 
-146
-00:09:24,406 --> 00:09:28,580
+145
+00:09:26,126 --> 00:09:30,808
 Black guests were reportedly
 seated in a separate section.
 
-147
-00:09:28,620 --> 00:09:31,080
+146
+00:09:30,848 --> 00:09:33,228
 Historians still argue about him.
 
-148
-00:09:31,161 --> 00:09:35,390
+147
+00:09:33,268 --> 00:09:36,854
 Some see a man who grew;
 others, a man who was pushed.
 
-149
-00:09:35,526 --> 00:09:38,535
+148
+00:09:37,141 --> 00:09:40,289
 Frederick Douglass,
 who knew him, saw both.
 
-150
-00:09:38,575 --> 00:09:41,290
+149
+00:09:40,329 --> 00:09:43,131
 The page he signed ends with a resolve:
 
-151
-00:09:41,500 --> 00:09:45,525
+150
+00:09:43,373 --> 00:09:47,411
 "that government of the people,
 by the people, for the people,
 
-152
-00:09:45,565 --> 00:09:50,657
+151
+00:09:47,451 --> 00:09:52,444
 shall not perish from the earth."
 Two minutes, a few sheets of paper,
 
-153
-00:09:50,697 --> 00:09:53,261
+152
+00:09:52,484 --> 00:09:54,957
 and an argument that has never ended.
 

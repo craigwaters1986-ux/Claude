@@ -1,7 +1,7 @@
 {
  "target_ms": 600000,
- "narration_ms": 525121,
- "gap_ms": 74879,
+ "narration_ms": 528676,
+ "gap_ms": 71324,
  "chapters": [
   {
    "start_ms": 0,
@@ -10,56 +10,56 @@
    "section": "s01"
   },
   {
-   "start_ms": 31855,
+   "start_ms": 31555,
    "start": "0:31",
    "title": "A cabin in Kentucky",
    "section": "s02"
   },
   {
-   "start_ms": 85450,
-   "start": "1:25",
+   "start_ms": 84850,
+   "start": "1:24",
    "title": "The rail-splitter",
    "section": "s03"
   },
   {
-   "start_ms": 135042,
-   "start": "2:15",
+   "start_ms": 134242,
+   "start": "2:14",
    "title": "Lawyer and politician",
    "section": "s04"
   },
   {
-   "start_ms": 200206,
-   "start": "3:20",
+   "start_ms": 199106,
+   "start": "3:19",
    "title": "A house divided",
    "section": "s05"
   },
   {
-   "start_ms": 267561,
+   "start_ms": 267036,
    "start": "4:27",
    "title": "President of a breaking country",
    "section": "s06"
   },
   {
-   "start_ms": 323557,
-   "start": "5:23",
+   "start_ms": 324391,
+   "start": "5:24",
    "title": "War and emancipation",
    "section": "s07"
   },
   {
-   "start_ms": 415405,
-   "start": "6:55",
+   "start_ms": 416661,
+   "start": "6:56",
    "title": "Malice toward none",
    "section": "s08"
   },
   {
-   "start_ms": 480919,
-   "start": "8:00",
+   "start_ms": 482379,
+   "start": "8:02",
    "title": "Ford's Theatre",
    "section": "s09"
   },
   {
-   "start_ms": 530220,
-   "start": "8:50",
+   "start_ms": 531380,
+   "start": "8:51",
    "title": "Legacy",
    "section": "s10"
   }
@@ -78,17 +78,17 @@
    "section": "s01",
    "slot": "post",
    "kind": "title",
-   "start_ms": 26741,
-   "end_ms": 31515,
-   "dur_ms": 4774,
+   "start_ms": 27000,
+   "end_ms": 31215,
+   "dur_ms": 4215,
    "description": "The page dissolves into the title plate ABRAHAM LINCOLN over the cabin woods; riser and impact."
   },
   {
    "section": "s02",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 31855,
-   "end_ms": 34355,
+   "start_ms": 31555,
+   "end_ms": 34055,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -96,8 +96,8 @@
    "section": "s02",
    "slot": "pre",
    "kind": "scene",
-   "start_ms": 34355,
-   "end_ms": 37355,
+   "start_ms": 34055,
+   "end_ms": 37055,
    "dur_ms": 3000,
    "description": "Winter woods in Kentucky, the log cabin, chimney smoke; crane down."
   },
@@ -105,8 +105,8 @@
    "section": "s02",
    "slot": "after group 1",
    "kind": "scene",
-   "start_ms": 62478,
-   "end_ms": 66978,
+   "start_ms": 61681,
+   "end_ms": 66181,
    "dur_ms": 4500,
    "description": "The boy chops; the light fades to dusk over a small grave under trees (sombre)."
   },
@@ -114,17 +114,17 @@
    "section": "s02",
    "slot": "post",
    "kind": "scene",
-   "start_ms": 82843,
-   "end_ms": 85110,
-   "dur_ms": 2267,
+   "start_ms": 82401,
+   "end_ms": 84510,
+   "dur_ms": 2109,
    "description": "The boy reads by firelight; push to his face; match cut on the fire."
   },
   {
    "section": "s03",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 85450,
-   "end_ms": 87950,
+   "start_ms": 84850,
+   "end_ms": 87350,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -132,8 +132,8 @@
    "section": "s03",
    "slot": "pre",
    "kind": "scene",
-   "start_ms": 87950,
-   "end_ms": 89950,
+   "start_ms": 87350,
+   "end_ms": 89350,
    "dur_ms": 2000,
    "description": "Wide river at dawn, the flatboat drifting, before the narrator speaks."
   },
@@ -141,17 +141,17 @@
    "section": "s03",
    "slot": "post",
    "kind": "scene",
-   "start_ms": 132635,
-   "end_ms": 134702,
-   "dur_ms": 2067,
+   "start_ms": 132227,
+   "end_ms": 133902,
+   "dur_ms": 1675,
    "description": "Close-up: quiet pride as he is chosen captain. No battle."
   },
   {
    "section": "s04",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 135042,
-   "end_ms": 137542,
+   "start_ms": 134242,
+   "end_ms": 136742,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -159,8 +159,8 @@
    "section": "s04",
    "slot": "after group 5",
    "kind": "scene",
-   "start_ms": 163822,
-   "end_ms": 165422,
+   "start_ms": 162645,
+   "end_ms": 164245,
    "dur_ms": 1600,
    "description": "The ball: Mary and Lincoln meet, over the shoulder each way."
   },
@@ -168,8 +168,8 @@
    "section": "s04",
    "slot": "after group 6",
    "kind": "scene",
-   "start_ms": 184834,
-   "end_ms": 186434,
+   "start_ms": 184365,
+   "end_ms": 185965,
    "dur_ms": 1600,
    "description": "Horseback in the rain on the circuit."
   },
@@ -177,17 +177,17 @@
    "section": "s04",
    "slot": "post",
    "kind": "scene",
-   "start_ms": 197828,
-   "end_ms": 199866,
-   "dur_ms": 2038,
+   "start_ms": 196887,
+   "end_ms": 198766,
+   "dur_ms": 1879,
    "description": "The Capitol (pre-dome) and a desk in the House."
   },
   {
    "section": "s05",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 200206,
-   "end_ms": 202706,
+   "start_ms": 199106,
+   "end_ms": 201606,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -195,8 +195,8 @@
    "section": "s05",
    "slot": "post",
    "kind": "scene",
-   "start_ms": 265721,
-   "end_ms": 267221,
+   "start_ms": 265196,
+   "end_ms": 266696,
    "dur_ms": 1500,
    "description": "Cooper Union: the hall holds on the readable line."
   },
@@ -204,8 +204,8 @@
    "section": "s06",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 267561,
-   "end_ms": 270061,
+   "start_ms": 267036,
+   "end_ms": 269536,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -213,8 +213,8 @@
    "section": "s06",
    "slot": "post",
    "kind": "scene",
-   "start_ms": 321716,
-   "end_ms": 323217,
+   "start_ms": 322550,
+   "end_ms": 324051,
    "dur_ms": 1501,
    "description": "Fort Sumter at night: the flag comes down on the beat. Timpani."
   },
@@ -222,8 +222,8 @@
    "section": "s07",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 323557,
-   "end_ms": 326057,
+   "start_ms": 324391,
+   "end_ms": 326891,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -231,8 +231,8 @@
    "section": "s07",
    "slot": "after group 17",
    "kind": "scene",
-   "start_ms": 395587,
-   "end_ms": 399087,
+   "start_ms": 396861,
+   "end_ms": 400361,
    "dur_ms": 3500,
    "description": "Gettysburg cemetery rows at dusk, slow crane (sombre)."
   },
@@ -240,8 +240,8 @@
    "section": "s07",
    "slot": "post",
    "kind": "doc",
-   "start_ms": 413565,
-   "end_ms": 415065,
+   "start_ms": 414821,
+   "end_ms": 416321,
    "dur_ms": 1500,
    "description": "Hold on the opening words of the Bliss copy."
   },
@@ -249,8 +249,8 @@
    "section": "s08",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 415405,
-   "end_ms": 417905,
+   "start_ms": 416661,
+   "end_ms": 419161,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -258,8 +258,8 @@
    "section": "s08",
    "slot": "after group 19",
    "kind": "scene",
-   "start_ms": 440703,
-   "end_ms": 442703,
+   "start_ms": 442091,
+   "end_ms": 444091,
    "dur_ms": 2000,
    "description": "The tally board turns: 119 to 56."
   },
@@ -267,17 +267,17 @@
    "section": "s08",
    "slot": "post",
    "kind": "scene",
-   "start_ms": 478883,
-   "end_ms": 480579,
-   "dur_ms": 1696,
+   "start_ms": 480539,
+   "end_ms": 482039,
+   "dur_ms": 1500,
    "description": "Empty fields at dusk under the estimated toll (sombre)."
   },
   {
    "section": "s09",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 480919,
-   "end_ms": 483419,
+   "start_ms": 482379,
+   "end_ms": 484879,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -285,8 +285,8 @@
    "section": "s09",
    "slot": "after group 22",
    "kind": "scene",
-   "start_ms": 504745,
-   "end_ms": 506745,
+   "start_ms": 506128,
+   "end_ms": 508128,
    "dur_ms": 2000,
    "description": "The empty chair in the box; no event shown."
   },
@@ -294,17 +294,17 @@
    "section": "s09",
    "slot": "post",
    "kind": "scene",
-   "start_ms": 526293,
-   "end_ms": 529880,
-   "dur_ms": 3587,
+   "start_ms": 527848,
+   "end_ms": 531040,
+   "dur_ms": 3192,
    "description": "The clock at 7:22, date card 15 April 1865; light shifts to morning."
   },
   {
    "section": "s10",
    "slot": "pre",
    "kind": "card",
-   "start_ms": 530220,
-   "end_ms": 532720,
+   "start_ms": 531380,
+   "end_ms": 533880,
    "dur_ms": 2500,
    "description": "Chapter title plate."
   },
@@ -312,8 +312,8 @@
    "section": "s10",
    "slot": "after group 24",
    "kind": "doc",
-   "start_ms": 552071,
-   "end_ms": 554371,
+   "start_ms": 553787,
+   "end_ms": 556087,
    "dur_ms": 2300,
    "description": "Hold on the Thirteenth Amendment, Section 1."
   },
@@ -321,9 +321,9 @@
    "section": "s10",
    "slot": "post",
    "kind": "end",
-   "start_ms": 592961,
+   "start_ms": 594657,
    "end_ms": 599660,
-   "dur_ms": 6699,
+   "dur_ms": 5003,
    "description": "Hold on the last line of the Bliss copy, then the end card (music up)."
   }
  ],
@@ -332,269 +332,269 @@
    "group": 0,
    "section": "s01",
    "raw_start": 0.25,
-   "raw_end": 23.991,
+   "raw_end": 24.25,
    "final_start_ms": 3000,
-   "final_end_ms": 26741,
+   "final_end_ms": 27000,
    "shift_ms": 2750
   },
   {
    "group": 1,
    "section": "s02",
-   "raw_start": 24.331,
-   "raw_end": 49.454,
-   "final_start_ms": 37355,
-   "final_end_ms": 62478,
-   "shift_ms": 13024
+   "raw_start": 24.59,
+   "raw_end": 49.216,
+   "final_start_ms": 37055,
+   "final_end_ms": 61681,
+   "shift_ms": 12465
   },
   {
    "group": 2,
    "section": "s02",
-   "raw_start": 49.794,
-   "raw_end": 65.319,
-   "final_start_ms": 67318,
-   "final_end_ms": 82843,
-   "shift_ms": 17524
+   "raw_start": 49.556,
+   "raw_end": 65.436,
+   "final_start_ms": 66521,
+   "final_end_ms": 82401,
+   "shift_ms": 16965
   },
   {
    "group": 3,
    "section": "s03",
-   "raw_start": 65.659,
-   "raw_end": 89.141,
-   "final_start_ms": 89950,
-   "final_end_ms": 113432,
-   "shift_ms": 24291
+   "raw_start": 65.776,
+   "raw_end": 89.325,
+   "final_start_ms": 89350,
+   "final_end_ms": 112899,
+   "shift_ms": 23574
   },
   {
    "group": 4,
    "section": "s03",
-   "raw_start": 89.481,
-   "raw_end": 108.344,
-   "final_start_ms": 113772,
-   "final_end_ms": 132635,
-   "shift_ms": 24291
+   "raw_start": 89.665,
+   "raw_end": 108.653,
+   "final_start_ms": 113239,
+   "final_end_ms": 132227,
+   "shift_ms": 23574
   },
   {
    "group": 5,
    "section": "s04",
-   "raw_start": 108.684,
-   "raw_end": 134.964,
-   "final_start_ms": 137542,
-   "final_end_ms": 163822,
-   "shift_ms": 28858
+   "raw_start": 108.993,
+   "raw_end": 134.896,
+   "final_start_ms": 136742,
+   "final_end_ms": 162645,
+   "shift_ms": 27749
   },
   {
    "group": 6,
    "section": "s04",
-   "raw_start": 135.304,
-   "raw_end": 154.376,
-   "final_start_ms": 165762,
-   "final_end_ms": 184834,
-   "shift_ms": 30458
+   "raw_start": 135.236,
+   "raw_end": 155.016,
+   "final_start_ms": 164585,
+   "final_end_ms": 184365,
+   "shift_ms": 29349
   },
   {
    "group": 7,
    "section": "s04",
-   "raw_start": 154.716,
-   "raw_end": 165.77,
-   "final_start_ms": 186774,
-   "final_end_ms": 197828,
-   "shift_ms": 32058
+   "raw_start": 155.356,
+   "raw_end": 165.938,
+   "final_start_ms": 186305,
+   "final_end_ms": 196887,
+   "shift_ms": 30949
   },
   {
    "group": 8,
    "section": "s05",
-   "raw_start": 166.11,
-   "raw_end": 182.759,
-   "final_start_ms": 202706,
-   "final_end_ms": 219355,
-   "shift_ms": 36596
+   "raw_start": 166.278,
+   "raw_end": 182.773,
+   "final_start_ms": 201606,
+   "final_end_ms": 218101,
+   "shift_ms": 35328
   },
   {
    "group": 9,
    "section": "s05",
-   "raw_start": 183.099,
-   "raw_end": 196.842,
-   "final_start_ms": 219695,
-   "final_end_ms": 233438,
-   "shift_ms": 36596
+   "raw_start": 183.113,
+   "raw_end": 196.984,
+   "final_start_ms": 218441,
+   "final_end_ms": 232312,
+   "shift_ms": 35328
   },
   {
    "group": 10,
    "section": "s05",
-   "raw_start": 197.182,
-   "raw_end": 218.943,
-   "final_start_ms": 233778,
-   "final_end_ms": 255539,
-   "shift_ms": 36596
+   "raw_start": 197.324,
+   "raw_end": 219.511,
+   "final_start_ms": 232652,
+   "final_end_ms": 254839,
+   "shift_ms": 35328
   },
   {
    "group": 11,
    "section": "s05",
-   "raw_start": 219.283,
-   "raw_end": 229.125,
-   "final_start_ms": 255879,
-   "final_end_ms": 265721,
-   "shift_ms": 36596
+   "raw_start": 219.851,
+   "raw_end": 229.868,
+   "final_start_ms": 255179,
+   "final_end_ms": 265196,
+   "shift_ms": 35328
   },
   {
    "group": 12,
    "section": "s06",
-   "raw_start": 229.465,
-   "raw_end": 251.207,
-   "final_start_ms": 270061,
-   "final_end_ms": 291803,
-   "shift_ms": 40596
+   "raw_start": 230.208,
+   "raw_end": 252.431,
+   "final_start_ms": 269536,
+   "final_end_ms": 291759,
+   "shift_ms": 39328
   },
   {
    "group": 13,
    "section": "s06",
-   "raw_start": 251.547,
-   "raw_end": 274.259,
-   "final_start_ms": 292143,
-   "final_end_ms": 314855,
-   "shift_ms": 40596
+   "raw_start": 252.771,
+   "raw_end": 276.257,
+   "final_start_ms": 292099,
+   "final_end_ms": 315585,
+   "shift_ms": 39328
   },
   {
    "group": 14,
    "section": "s06",
-   "raw_start": 274.599,
-   "raw_end": 281.12,
-   "final_start_ms": 315195,
-   "final_end_ms": 321716,
-   "shift_ms": 40596
+   "raw_start": 276.597,
+   "raw_end": 283.222,
+   "final_start_ms": 315925,
+   "final_end_ms": 322550,
+   "shift_ms": 39328
   },
   {
    "group": 15,
    "section": "s07",
-   "raw_start": 281.46,
-   "raw_end": 302.561,
-   "final_start_ms": 326057,
-   "final_end_ms": 347158,
-   "shift_ms": 44597
+   "raw_start": 283.562,
+   "raw_end": 305.402,
+   "final_start_ms": 326891,
+   "final_end_ms": 348731,
+   "shift_ms": 43329
   },
   {
    "group": 16,
    "section": "s07",
-   "raw_start": 302.901,
-   "raw_end": 326.383,
-   "final_start_ms": 347498,
-   "final_end_ms": 370980,
-   "shift_ms": 44597
+   "raw_start": 305.742,
+   "raw_end": 328.577,
+   "final_start_ms": 349071,
+   "final_end_ms": 371906,
+   "shift_ms": 43329
   },
   {
    "group": 17,
    "section": "s07",
-   "raw_start": 326.723,
-   "raw_end": 350.99,
-   "final_start_ms": 371320,
-   "final_end_ms": 395587,
-   "shift_ms": 44597
+   "raw_start": 328.917,
+   "raw_end": 353.532,
+   "final_start_ms": 372246,
+   "final_end_ms": 396861,
+   "shift_ms": 43329
   },
   {
    "group": 18,
    "section": "s07",
-   "raw_start": 351.33,
-   "raw_end": 365.468,
-   "final_start_ms": 399427,
-   "final_end_ms": 413565,
-   "shift_ms": 48097
+   "raw_start": 353.872,
+   "raw_end": 367.992,
+   "final_start_ms": 400701,
+   "final_end_ms": 414821,
+   "shift_ms": 46829
   },
   {
    "group": 19,
    "section": "s08",
-   "raw_start": 365.808,
-   "raw_end": 388.606,
-   "final_start_ms": 417905,
-   "final_end_ms": 440703,
-   "shift_ms": 52097
+   "raw_start": 368.332,
+   "raw_end": 391.262,
+   "final_start_ms": 419161,
+   "final_end_ms": 442091,
+   "shift_ms": 50829
   },
   {
    "group": 20,
    "section": "s08",
-   "raw_start": 388.946,
-   "raw_end": 409.27,
-   "final_start_ms": 443043,
-   "final_end_ms": 463367,
-   "shift_ms": 54097
+   "raw_start": 391.602,
+   "raw_end": 412.361,
+   "final_start_ms": 444431,
+   "final_end_ms": 465190,
+   "shift_ms": 52829
   },
   {
    "group": 21,
    "section": "s08",
-   "raw_start": 409.61,
-   "raw_end": 424.786,
-   "final_start_ms": 463707,
-   "final_end_ms": 478883,
-   "shift_ms": 54097
+   "raw_start": 412.701,
+   "raw_end": 427.71,
+   "final_start_ms": 465530,
+   "final_end_ms": 480539,
+   "shift_ms": 52829
   },
   {
    "group": 22,
    "section": "s09",
-   "raw_start": 425.126,
-   "raw_end": 446.452,
-   "final_start_ms": 483419,
-   "final_end_ms": 504745,
-   "shift_ms": 58293
+   "raw_start": 428.05,
+   "raw_end": 449.299,
+   "final_start_ms": 484879,
+   "final_end_ms": 506128,
+   "shift_ms": 56829
   },
   {
    "group": 23,
    "section": "s09",
-   "raw_start": 446.792,
-   "raw_end": 466.0,
-   "final_start_ms": 507085,
-   "final_end_ms": 526293,
-   "shift_ms": 60293
+   "raw_start": 449.639,
+   "raw_end": 469.019,
+   "final_start_ms": 508468,
+   "final_end_ms": 527848,
+   "shift_ms": 58829
   },
   {
    "group": 24,
    "section": "s10",
-   "raw_start": 466.34,
-   "raw_end": 485.691,
-   "final_start_ms": 532720,
-   "final_end_ms": 552071,
-   "shift_ms": 66380
+   "raw_start": 469.359,
+   "raw_end": 489.266,
+   "final_start_ms": 533880,
+   "final_end_ms": 553787,
+   "shift_ms": 64521
   },
   {
    "group": 25,
    "section": "s10",
-   "raw_start": 486.031,
-   "raw_end": 509.555,
-   "final_start_ms": 554711,
-   "final_end_ms": 578235,
-   "shift_ms": 68680
+   "raw_start": 489.606,
+   "raw_end": 513.168,
+   "final_start_ms": 556427,
+   "final_end_ms": 579989,
+   "shift_ms": 66821
   },
   {
    "group": 26,
    "section": "s10",
-   "raw_start": 509.895,
-   "raw_end": 524.281,
-   "final_start_ms": 578575,
-   "final_end_ms": 592961,
-   "shift_ms": 68680
+   "raw_start": 513.508,
+   "raw_end": 527.836,
+   "final_start_ms": 580329,
+   "final_end_ms": 594657,
+   "shift_ms": 66821
   }
  ],
  "captions": {
-  "cues": 153,
-  "pauses_matched": 139,
+  "cues": 152,
+  "pauses_matched": 152,
   "pauses_predicted": 183,
   "per_group": [
    {
     "group": 0,
-    "matched": 8,
+    "matched": 9,
     "predicted": 10
    },
    {
     "group": 1,
-    "matched": 8,
+    "matched": 10,
     "predicted": 12
    },
    {
     "group": 2,
-    "matched": 6,
+    "matched": 7,
     "predicted": 9
    },
    {
     "group": 3,
-    "matched": 5,
+    "matched": 7,
     "predicted": 7
    },
    {
@@ -604,7 +604,7 @@
    },
    {
     "group": 5,
-    "matched": 8,
+    "matched": 7,
     "predicted": 9
    },
    {
@@ -619,7 +619,7 @@
    },
    {
     "group": 8,
-    "matched": 5,
+    "matched": 6,
     "predicted": 6
    },
    {
@@ -629,7 +629,7 @@
    },
    {
     "group": 10,
-    "matched": 4,
+    "matched": 6,
     "predicted": 7
    },
    {
@@ -639,7 +639,7 @@
    },
    {
     "group": 12,
-    "matched": 7,
+    "matched": 9,
     "predicted": 9
    },
    {
@@ -654,12 +654,12 @@
    },
    {
     "group": 15,
-    "matched": 3,
+    "matched": 4,
     "predicted": 6
    },
    {
     "group": 16,
-    "matched": 5,
+    "matched": 6,
     "predicted": 6
    },
    {
@@ -679,7 +679,7 @@
    },
    {
     "group": 20,
-    "matched": 6,
+    "matched": 8,
     "predicted": 8
    },
    {
@@ -689,12 +689,12 @@
    },
    {
     "group": 22,
-    "matched": 8,
+    "matched": 9,
     "predicted": 9
    },
    {
     "group": 23,
-    "matched": 5,
+    "matched": 4,
     "predicted": 6
    },
    {
@@ -704,7 +704,7 @@
    },
    {
     "group": 25,
-    "matched": 7,
+    "matched": 6,
     "predicted": 10
    },
    {
