@@ -284,3 +284,5 @@ The narration need not be re-rendered. If it ever is: `scripts/voice_sample.py` 
 - QC: `production/reports/qc/ep04-lincoln/qc-final-render-2026-11-21-john-north.md`. Approval 4 re-opened (PENDING).
 - Lesson: freezedetect hits come from camera keys that ease to a stop on screen; put the last key past the cut.
 - Next: Craig's Approval 4. Next phase in a fresh session, with mechanical steps on Haiku (CLAUDE.md model policy).
+
+- **Published** by Craig on YouTube (21 Nov 2026), John North version. Episode 4 is complete.
