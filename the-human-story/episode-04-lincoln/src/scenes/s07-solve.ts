@@ -124,8 +124,9 @@ export function solveRecruit(f: number, d = 278): Solved {
   const SL = {x: pl.x - 128, y: REC_FLOOR - 166, w: 84, h: 56};
   // writes in the enlistment ledger in two bursts, looks up at the recruit between
   const burst = (a: number, b: number) => prog(f, a, b, (t) => t);
-  const u = 0.5 * burst(20, 110) + 0.5 * burst(170, 250);
-  const writing = (f >= 20 && f < 110) || (f >= 170 && f < 250);
+  // Phase D2: the second burst runs to 27 frames before the shot ends (it was fixed at 250 of 277), so he is not left idle
+  const u = 0.5 * burst(20, 110) + 0.5 * burst(170, d - 27);
+  const writing = (f >= 20 && f < 110) || (f >= 170 && f < d - 27);
   const nb = linesNib(SL.x + SL.w - 10, SL.y + 16, -(SL.w - 22), 13, 3, u, f);
   const nib = writing ? nb : {x: nb.x, y: nb.y - 10};
   const lean = 12 + 16 * clamp((pl.x - nib.x - 40) / SL.w);

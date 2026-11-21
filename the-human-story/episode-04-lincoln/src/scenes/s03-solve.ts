@@ -6,7 +6,7 @@ import {clamp, easeInOut, kf, lerp, prog} from '../animations/core';
 import {AXE, gripWorld, handsOn, approach, PropXf} from '../kit/Props';
 import {chopRail, chopImpactPoint, grabCarry, exprAt, track, CHOP_CYCLE} from '../kit/Actions';
 import {castBuild, castScale} from '../kit/Cast';
-import {T, sectionWindow, FPS} from '../timeline';
+import {T, TE, sectionWindow, FPS} from '../timeline';
 import type {CamKey} from '../kit/Cinema';
 import type {Fig, Solved, Check} from './reelSolve';
 import {chk} from './s02-solve';
@@ -56,7 +56,8 @@ export function solveRails(f: number): Solved {
   const out = chopRail(f, pl, build, start);
   const impact = chopImpactPoint(pl, build);
   const ax = out.props.axe;
-  const impacts = [0, 1, 2, 3].map((k) => start + k * CHOP_CYCLE + 31);
+  // Phase D2: an impact that could not be read before the shot ends (it would land inside the closing dissolve) is dropped
+  const impacts = [0, 1, 2, 3].map((k) => start + k * CHOP_CYCLE + 31).filter((i) => i <= d - 24);
   const nImp = impacts.filter((i) => f >= i).length;
   const ex = exprAt(f, [[0, 'determined'], [impacts[0] + 2, 'grim'], [impacts[0] + 12, 'determined'], [impacts[2] + 2, 'grim'], [impacts[2] + 12, 'determined']]);
   return {
@@ -70,6 +71,8 @@ export function solveRails(f: number): Solved {
 // ---------------------------------------------------------------- 3.5 New Salem: store clerk, postmaster, surveyor (one tracking move)
 export const SALEM_FLOOR = 860;
 export const SALEM = {a: 640, b: 1900, c: 3160};
+/** Shot-local frame at fraction u of the New Salem caption. */
+const SALEM_K = (u: number) => Math.round(lf3(T('At New Salem'), 'salem') + (lf3(TE('At New Salem'), 'salem') - lf3(T('At New Salem'), 'salem')) * u);
 export function solveSalem(f: number): Solved {
   const d = DUR03.salem;
   const id = 'abeYoung';
@@ -126,7 +129,9 @@ export function solveSalem(f: number): Solved {
     ],
     checks, seats: [], sack: sack.props.sack, sackPlaced: f > put, letter, letterHeld: f >= g0 && held, nSorted, chainR: cR, chainL: cL, headA: hA,
     crateTop, counterTop, tableTop,
-    cam: [[0, 1.75, SALEM.a + 60, 600], [44, 1.75, SALEM.a + 130, 600], [70, 1.75, SALEM.b + 40, 600], [118, 1.75, SALEM.b + 110, 600], [140, 1.75, SALEM.c + 120, 600], [d, 1.8, SALEM.c + 200, 600]],
+    // Phase D2: the stations follow the caption "At New Salem he was a store clerk, postmaster and surveyor." (the camera
+    // leaves the store on "clerk", is at the post office for "postmaster" and reaches the surveyor on "surveyor")
+    cam: [[0, 1.75, SALEM.a + 60, 600], [SALEM_K(0.45), 1.75, SALEM.a + 130, 600], [SALEM_K(0.63), 1.75, SALEM.b + 40, 600], [SALEM_K(0.79), 1.75, SALEM.b + 110, 600], [SALEM_K(0.94), 1.75, SALEM.c + 120, 600], [d, 1.8, SALEM.c + 200, 600]],
   };
 }
 

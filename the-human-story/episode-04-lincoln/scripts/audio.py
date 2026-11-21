@@ -968,7 +968,7 @@ def sfx_cues():
     add(cue('later his law partner') + 1.0, g_paper('flip', 39), -26, 0, 'page turn (readBook)')
     add(cue('In 1837 he moved to Springfield'), g_hooves(5.0, 0.9, 40, far=0.3), -26, 0, 'riding into Springfield')
     add(cue('He met Mary Todd'), g_crowd(4.0, 16, 'murmur', 41, 0.55), -32, 0, 'the ball')
-    add(cue('Their engagement broke off') + 0.4, g_pen(5.5, 42), -22, 0.1, 'pen scratch: the 1841 letter (write)')
+    add(cue('Their engagement broke off') + 0.4, g_pen(6.6, 42), -22, 0.1, 'pen scratch: the 1841 letter (write)')  # Phase D2: the writing runs to the end of the quotation
     add(cue('But in November 1842') + 2.0, g_creak(1.0, 43, wheel=False), -30, -0.2, 'door opens (openDoor)')
     add(cue('He rode the legal circuit'), g_hooves(GR[6][1] - cue('He rode the legal circuit') + 2.0, 0.85, 44, far=0.35), -26, 0, 'horseback on the circuit')
     add(cue('He rode the legal circuit'), g_rain(GR[6][1] - cue('He rode the legal circuit') + 2.2, 0.45, 45), -30, 0, 'rain')
@@ -994,7 +994,7 @@ def sfx_cues():
     add(t_fs, g_wind(GR[14][1] - t_fs + 4.0, 0.3, 0.0, 60), -32, 0, 'night wind')
     for k, dt in enumerate([1.4, 3.6, 5.2, 7.4]):
         add(t_fs + dt, g_boom_distant(61 + k, 0.8, 0.95), -26, (-0.4, 0.3, -0.1, 0.4)[k], 'distant soft cannon (Fort Sumter)')
-    add(GR[14][1] + 0.1, g_creak(1.6, 66, wheel=False), -32, 0.3, 'flag halyard')
+    add(GR[14][1] - 0.45, g_creak(1.6, 66, wheel=False), -32, 0.3, 'flag halyard')  # Phase D2: the flag starts down 14 frames before the beat
     # ch 7 War and emancipation
     add(cue('In February 1862, his son'), g_wind(5.0, 0.2, 0.0, 67), -38, 0, 'quiet room air')
     add(cue('In August he wrote publicly') + 1.4, g_paper('flip', 68), -24, 0, 'page: the Greeley letter')

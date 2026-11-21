@@ -16,6 +16,7 @@ import {PlaceTag} from '../kit/Places';
 import {Birds} from '../components/Environment';
 import {clamp, prog} from '../animations/core';
 import * as S8 from './s08-solve';
+import {T, beat} from '../timeline';
 import {FigEl, Look, IrisOpen, PageInsert, DeskTop, HouseChamber, ChamberRows, TallyBoard, Parlour, GrassField, RailFence, QuietLabel} from './s08-sets';
 import {AtlantaShot, CapitolWide} from './s08-map';
 
@@ -81,7 +82,7 @@ const Write81: React.FC<{f: number; d: number}> = ({f, d}) => {
         </g>
       )}
       <Look f={f} grade="lamp" vig={0.6} />
-      <TitlePlate f={f} d={90} num={8} title="Malice toward none" />
+      <TitlePlate f={f} d={Math.round((beat('s08', 0)[1] - beat('s08', 0)[0]) * 30)} num={8} title="Malice toward none" />
       <IrisOpen f={f} />
     </Frame>
   );
@@ -89,9 +90,12 @@ const Write81: React.FC<{f: number; d: number}> = ({f, d}) => {
 
 // ---------------------------------------------------------------- 8.3 the House chamber; the tally board turns (silent beat)
 const House83: React.FC<{f: number; d: number}> = ({f, d}) => {
-  const flipAt = Math.round((438.3 - A08.house) * 30); // silent beat 438.3–440.3 s
-  const lookUp = prog(f, 120, 170);
-  const cam: [number, number, number, number][] = [[0, 1.0, 960, 560], [110, 1.06, 960, 540], [flipAt - 6, 2.15, 960, 440], [d, 2.22, 960, 438]];
+  // Phase D2: the tiles turn at the start of the silent beat after "which he had pressed for." (was a hard-coded 438.3 s);
+  // the look-up, the blur switch and the push-in all hang off it (first render: flipAt 168, look-up 120-170, key at 110)
+  const flipAt = Math.round((beat('s08', 1)[0] - A08.house) * 30);
+  const lookAt = flipAt - 48;
+  const lookUp = prog(f, lookAt, flipAt + 2);
+  const cam: [number, number, number, number][] = [[0, 1.0, 960, 560], [flipAt - 58, 1.06, 960, 540], [flipAt - 6, 2.15, 960, 440], [d, 2.22, 960, 438]];
   return (
     <Frame bg="#CBB892">
       <CineDefs />
@@ -103,7 +107,7 @@ const House83: React.FC<{f: number; d: number}> = ({f, d}) => {
               <TallyBoard x={960} y={430} f={f} at={flipAt} />
             </g>
           ), 0),
-          layer(1.12, <ChamberRows f={f} lookUp={lookUp} />, f > 120 ? 3 : 0),
+          layer(1.12, <ChamberRows f={f} lookUp={lookUp} />, f > lookAt ? 3 : 0),
         ]}
       </CineCam>
       <GodRays x={300} y={160} w={260} f={f} angle={-24} len={900} op={0.1} />
@@ -114,7 +118,9 @@ const House83: React.FC<{f: number; d: number}> = ({f, d}) => {
 
 // ---------------------------------------------------------------- 8.4 the Capitol steps, then the readable page
 const Capitol84: React.FC<{f: number; d: number}> = ({f, d}) => {
-  const X = Math.round((443.0 - A08.capitol) * 30);
+  // Phase D2: the page takes over just before "With malice toward none" is spoken (was a hard-coded 443.0 s), so the
+  // Capitol steps and the date card hold for about 3 s and the write-on starts with the voice
+  const X = Math.round((T('With malice toward none') - A08.capitol) * 30) - 8;
   const mix = prog(f, X, X + 14);
   const D = doc('secondInaugural');
   const P = {x: 250, y: 250, w: 1420, h: 470};
@@ -147,7 +153,9 @@ const Capitol84: React.FC<{f: number; d: number}> = ({f, d}) => {
 const Reception85: React.FC<{f: number; d: number}> = ({f}) => {
   const s = S8.solveReception85(f);
   const [a, b] = s.figs;
-  const tAttr = prog(f, Math.round((455.19 - A08.reception) * 30), Math.round((455.19 - A08.reception) * 30) + 12);
+  // Phase D2: the attribution arrives as the narrator names Douglass (was a hard-coded 455.19 s)
+  const aAt = Math.round((T('Frederick Douglass recalled') - A08.reception) * 30);
+  const tAttr = prog(f, aAt, aAt + 12);
   return (
     <Frame bg="#D8CCB0">
       <CineDefs />

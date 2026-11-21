@@ -5,7 +5,7 @@
 // 7.9 10 August 1863: Douglass at the White House door · 7.8 (return) the cemetery, silent beat · 7.10 the Bliss copy.
 import React from 'react';
 import {Shots, Frame} from '../kit/Shots';
-import {T, sectionWindow} from '../timeline';
+import {T, sectionWindow, beat} from '../timeline';
 import {CineCam, CineDefs, TitlePlate, LightPool, GodRays, Rim, PassBy} from '../kit/Cinema';
 import {PropAt, QUILL, Door, DOOR_W, DOOR_H, InkPot} from '../kit/Props';
 import {Chair, WritingDesk} from '../kit/Seats';
@@ -65,8 +65,9 @@ const BullRun: React.FC<{f: number; d: number}> = ({f, d}) => {
         ))]}
       </CineCam>
       <Look f={f} grade="day" vig={0.4} amount={0.6} />
-      <TitlePlate f={f} d={90} num={7} title="War and emancipation" />
-      <DateCardF f={f} at={94} until={d + 20} date="Bull Run, July 1861" />
+      {/* Phase D2: the plate lasts the card beat (2.5 s) and the date card follows the marker (they were fixed at 90 and 94) */}
+      <TitlePlate f={f} d={Math.round((beat('s07', 0)[1] - beat('s07', 0)[0]) * 30)} num={7} title="War and emancipation" />
+      <DateCardF f={f} at={fd + 18} until={d + 20} date="Bull Run, July 1861" />
     </Frame>
   );
 };
@@ -263,10 +264,11 @@ const Recruit: React.FC<{f: number; d: number}> = ({f, d}) => {
         {(layer) => [
           layer(0.2, <SkyGrad time="day" id="rec-sky" />),
           layer(0.75, <RecruitStreet f={f} floor={REC_FLOOR} />, 2),
-          layer(0.82, <MarchingColumn f={f} y={760} x0={700} n={14} gap={92} s={0.6} speed={1.9} seed={2} />, 2),
+          layer(0.82, <MarchingColumn f={f} y={760} x0={1226 - 1.9 * d} n={14} gap={92} s={0.6} speed={1.9} seed={2} />, 2),
           layer(1, (
             <g>
-              <MarchingColumn f={f} y={810} x0={520} n={12} gap={104} s={0.74} speed={2.2} lod="full" seed={3} />
+              {/* Phase D2: x0 follows the shot length so the lead man stops short of the recruiting table, as in the first render */}
+              <MarchingColumn f={f} y={810} x0={1130 - 2.2 * d} n={12} gap={104} s={0.74} speed={2.2} lod="full" seed={3} />
               {[860, 950].map((x, i) => <Person key={i} id={i ? 'recruit' : 'recruit2'} x={x} y={REC_FLOOR + 10} scale={0.98} dir={1} pose={stand(f + i * 20, 80 + i)} f={f} seed={80 + i} expression="determined" look={[0.8, 0]} />)}
               <FigEl g={rc} f={f} seed={79} />
               <RecruitTable x={RECRUIT_TABLE.x} floor={REC_FLOOR} w={RECRUIT_TABLE.w} h={RECRUIT_TABLE.h} />
@@ -373,7 +375,7 @@ const Bliss: React.FC<{f: number; d: number}> = ({f, d}) => {
   const W = 1600;
   const L = layoutDoc(text, dc.hand, size, W - 140, X + 70, Y + 70 + size, 1.45);
   const a = rel(T('Four score and seven years ago'), A.bliss);
-  const b = rel(T('men are created equal'), A.bliss) + 30;
+  const b = rel(T('men are created equal', 0, 'end'), A.bliss); // Phase D2: the end of the cue (was its start + 30 frames)
   const at = (g: number) => nibAt(L, prog(g, a, b, (t) => t));
   const sm = [-12, -6, 0, 6, 12].map((k) => at(f + k));
   const nx = sm.reduce((p, q) => p + q.x, 0) / sm.length;

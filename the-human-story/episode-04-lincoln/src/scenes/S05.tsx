@@ -13,7 +13,7 @@ import {PlaceTag} from '../kit/Places';
 import {stand} from '../characters/poses';
 import {prog, kf} from '../animations/core';
 import {FONT} from '../styles/theme';
-import {T} from '../timeline';
+import {T, beat} from '../timeline';
 import * as Q from './s04-solve';
 import {FigEl, Look, IrisOpen, Motes, Legislature, MeetingRoom, DebateField, CrowdBacks, Reporters, NEWSPAPER, Broadsheet} from './s04-sets';
 
@@ -58,7 +58,7 @@ const KNMap: React.FC<{f: number; d: number}> = ({f, d}) => {
       </CineCam>
       <Look f={f} grade="day" vig={0.35} amount={0.6} />
       <LightLeak f={f} t={1 - prog(f, 60, 100)} />
-      <TitlePlate f={f} d={90} num={5} title="A house divided" />
+      <TitlePlate f={f} d={fr(beat('s05', 0)[1] - beat('s05', 0)[0])} num={5} title="A house divided" />
       <Plate text="Kansas–Nebraska Act, 1854" t={prog(f, tAct, tAct + 14)} />
       <IrisOpen f={f} />
     </Frame>

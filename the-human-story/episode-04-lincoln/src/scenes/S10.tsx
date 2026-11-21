@@ -16,7 +16,7 @@ import {USMap, usProjection, RouteLine, PlaceDot, FUNERAL_ROUTE, PLACES, MAPC, M
 import {clamp, kf, prog} from '../animations/core';
 import {FONT} from '../styles/theme';
 import * as S10S from './s10-solve';
-import {T} from '../timeline';
+import {T, beat} from '../timeline';
 import {FigEl, Look, IrisOpen, PageInsert, DeskTop, Plate} from './s08-sets';
 import {StationNight, PlatformFront, RailCarInterior, TwoCoffins, Memorial, MemorialDefs, DedicationSeating, GreyTag, EndCardOver} from './s10-sets';
 import {Train, Track, HallBack, Lectern} from '../kit/Sets04b';
@@ -27,6 +27,7 @@ const {A10} = S10S;
 const STOP_KEYS = ['Baltimore', 'Harrisburg', 'Philadelphia', 'NewYork', 'Albany', 'Buffalo', 'Cleveland', 'Columbus', 'Indianapolis', 'Chicago'];
 const Train101: React.FC<{f: number; d: number}> = ({f, d}) => {
   const X = S10S.STATION_AT;
+  const MILES_AT = Math.round((T('His funeral train carried him') + 1.9 - A10.train) * 30);
   const mix = prog(f, X - 8, X + 8);
   const proj = usProjection('FUNERAL');
   const rt = prog(f, 24, X - 20, (t) => t);
@@ -52,7 +53,8 @@ const Train101: React.FC<{f: number; d: number}> = ({f, d}) => {
             ]}
           </CineCam>
           <GradeLayer grade="night" amount={0.45} />
-          <MapNote text="1,654 miles" x={960} y={850} t={prog(f, 96, 112)} anchor="middle" size={40} />
+          {/* Phase D2: the figure appears as it is spoken, about 1.9 s into the caption (it was a fixed frame 96) */}
+          <MapNote text="1,654 miles" x={960} y={850} t={prog(f, MILES_AT, MILES_AT + 16)} anchor="middle" size={40} />
         </g>
       )}
       {mix > 0 && (
@@ -79,7 +81,7 @@ const Train101: React.FC<{f: number; d: number}> = ({f, d}) => {
           <Look f={f} grade="night" vig={0.6} />
         </g>
       )}
-      <TitlePlate f={f} d={90} num={10} title="Legacy" />
+      <TitlePlate f={f} d={Math.round((beat('s10', 0)[1] - beat('s10', 0)[0]) * 30)} num={10} title="Legacy" />
       <IrisOpen f={f} />
     </Frame>
   );

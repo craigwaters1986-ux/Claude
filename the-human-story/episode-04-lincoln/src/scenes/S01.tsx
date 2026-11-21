@@ -120,8 +120,13 @@ const Shot12: React.FC<{f: number; d: number}> = ({f, d}) => {
   const LX = 700;
   const RX = 1220;
   // left clock: two hours pass (two turns of the minute hand); then the right clock: two minutes
-  const spin = prog(f, 14, 96, easeInOut);
-  const tick = prog(f, 104, 134, (t) => t);
+  // Phase D2: the clock beats scale with the shot (bounded by two caption anchors), so they land on the same words
+  // as in the first render: the spin ends on "speaker", the tick ends on "two" (hours). At d = 181 this is 96/104/134.
+  const spinEnd = Math.round(d * 0.53);
+  const tickA = Math.round(d * 0.575);
+  const tickB = Math.round(d * 0.74);
+  const spin = prog(f, 14, spinEnd, easeInOut);
+  const tick = prog(f, tickA, tickB, (t) => t);
   const cam: [number, number, number, number][] = [[0, 1.0, 960, 470], [40, 1.02, 960, 480], [d, 1.4, RX - 80, 520]];
   const grass = (seed: number) => Array.from({length: 26}, (_, i) => {
     const x = -700 + i * 130 + hash(i + seed) * 60;
@@ -154,7 +159,7 @@ const Shot12: React.FC<{f: number; d: number}> = ({f, d}) => {
                 <path d="M-50,-10 L58,-12 L60,-6 L-48,-4Z" fill="#EFE3C6" stroke={ink} strokeWidth={2.5} />
               </g>
               <ClockFace x={LX} y={330} r={74} minDeg={spin * 720} hourDeg={spin * 60} glow={spin > 0 && spin < 1 ? 1 : 0.3} t={prog(f, 4, 16)} />
-              <ClockFace x={RX} y={330} r={74} minDeg={tick * 12} hourDeg={0} glow={f > 104 ? 1 : 0} t={prog(f, 8, 20)} />
+              <ClockFace x={RX} y={330} r={74} minDeg={tick * 12} hourDeg={0} glow={f > tickA ? 1 : 0} t={prog(f, 8, 20)} />
             </g>
           )),
           layer(1.4, <PassBy f={f} x0={1700} speed={-1.6} y={1140} kind="grass" s={1.5} />),

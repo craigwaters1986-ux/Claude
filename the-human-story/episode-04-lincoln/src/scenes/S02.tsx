@@ -318,7 +318,7 @@ const Read: React.FC<{f: number; d: number}> = ({f, d}) => {
           )),
         ]}
       </CineCam>
-      <LightPool x={kf(f, [[0, 900], [96, 640]])} y={760} r={760} f={f} color="#FF9A40" seed={27} strength={0.4} />
+      <LightPool x={kf(f, [[0, 900], [s.pullF as number, 640]])} y={760} r={760} f={f} color="#FF9A40" seed={27} strength={0.4} />
       <Look f={f} grade="lamp" vig={0.62} />
       <TailDip f={f} d={d} />
     </Frame>

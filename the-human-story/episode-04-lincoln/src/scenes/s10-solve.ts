@@ -16,7 +16,7 @@ export const A10 = {
   coffins: T("His son Willie's coffin"),
   thirteenth: T('By December 1865') + 2.3, // after "By December 1865," so the card and the page land together
   memorial: T('In 1922 the Lincoln'),
-  section: T('reportedly seated in a separate section') - 0.15,
+  section: T('At the dedication') - 0.15, // Phase D2: the sentence now opens with its own cue, "At the dedication,"
   debate: T('Historians still argue'),
   bliss: T('The page he signed'),
   end: beat('s10', 2)[0] + 1.6, // the last line is held, then the end card for the rest of the 7 s silent beat
@@ -97,9 +97,10 @@ export function solveLectern(f: number): Solved {
   const checks: Check[] = [chk('L lectern', pl, P, 'L', tL, build)];
   if (f < 96 || f > 168) checks.push(chk('R lectern', pl, P, 'R', tR, build));
   return {
-    figs: [{id, pl, P, build, ex: exprAt(f, [[0, 'solemn'], [60, 'thinking'], [150, 'determined'], [210, 'solemn']]), talking: f > 20 && f < 230 && Math.sin(f / 23) > -0.4, look: [0.5, 0]}],
+    // Phase D2: he speaks and the camera pushes to the end of the (longer) shot; they stopped at fixed frames 230 and 260
+    figs: [{id, pl, P, build, ex: exprAt(f, [[0, 'solemn'], [60, 'thinking'], [150, 'determined'], [210, 'solemn']]), talking: f > 20 && f < D10.debate - 40 && Math.sin(f / 23) > -0.4, look: [0.5, 0]}],
     checks, seats: [],
-    cam: [[0, 1.15, 930, 600], [90, 1.3, 925, 600], [260, 1.75, 915, 625]],
+    cam: [[0, 1.15, 930, 600], [90, 1.3, 925, 600], [Math.max(260, D10.debate), 1.75, 915, 625]],
   };
 }
 

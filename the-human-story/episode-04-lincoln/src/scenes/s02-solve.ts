@@ -112,8 +112,8 @@ export function solveFamily(f: number): Solved {
   const tagN = lf(T('and Nancy Hanks'), 'family');
   return {
     figs: [
-      {id: 'thomas', pl: plT, P: PT, build: bT, ex: exprAt(f, [[0, 'determined'], [120, 'happy']]), look: f > 110 && f < 170 ? [0.8, -0.3] : [0.6, 0.8], tag: f >= 8 && f < 120},
-      {id: 'nancy', pl: plN, P: PN, build: bN, ex: exprAt(f, [[0, 'happy'], [90, 'curious'], [140, 'happy']]), look: f < 80 ? [-0.3, 0.6] : [-0.7, 0], tag: f >= Math.min(110, tagN - 30) && f < d - 4},
+      {id: 'thomas', pl: plT, P: PT, build: bT, ex: exprAt(f, [[0, 'determined'], [120, 'happy']]), look: f > 110 && f < 170 ? [0.8, -0.3] : [0.6, 0.8], tag: f >= 8 && f < tagN - 6}, // Phase D2: Thomas's tag stays until Nancy is named (it ended at a fixed frame 120, before his name was spoken)
+      {id: 'nancy', pl: plN, P: PN, build: bN, ex: exprAt(f, [[0, 'happy'], [90, 'curious'], [140, 'happy']]), look: f < 80 ? [-0.3, 0.6] : [-0.7, 0], tag: f >= tagN - 20 && f < d - 4},
       {id: 'sarahSister', pl: plS, P: PS, build: true, ex: exprAt(f, [[0, 'curious'], [120, 'happy']]), look: [-0.8, 0.1], tag: f >= 150 && f < d - 4},
     ],
     checks: [chk('Thomas R plane', plT, PT, 'R', gR, bT), chk('Thomas L plane', plT, PT, 'L', gL, bT), chk('Nancy R baby', plN, PN, 'R', nR, bN), chk('Nancy L baby', plN, PN, 'L', nL, bN)],
@@ -267,9 +267,13 @@ export function solveRead(f: number): Solved {
   const checks = [chk('R book', pl, out.P, 'R', gripWorld(bk, BOOK.grips.handle!), build), chk('L book', pl, out.P, 'L', gripWorld(bk, BOOK.grips.grip2!), build)];
   const hw = headWorld(pl, out.P, build);
   return {
-    figs: [{id, pl, P: out.P, build, ex: exprAt(f, [[0, 'curious'], [120, 'thinking' as string], [200, 'happy']]), look: [0.5, 0.8]}],
-    checks, seats: [seatChk(pl, out.P, build, READ_FLOOR - h)], book: bk, open: 1, page: pageTurn(f, 60, 70), seatH: h, head: hw,
-    cam: [[0, 2.1, 430, 740], [26, 2.1, 440, 735], [96, 1.2, 800, 640], [140, 1.25, 820, 630], [d, 2.5, hw.x - 24, hw.y + 26]],
+    // Phase D2: the shot is 5.6 s now (it was 10 s), so every beat scales with its length: the same hold on the fire, pull-back
+    // and push to the boy's face as before (they were fixed at frames 26, 96 and 140), a gentler final zoom, and the
+    // expressions and first page turn at the same fractions of the shot
+    figs: [{id, pl, P: out.P, build, ex: exprAt(f, [[0, 'curious'], [Math.round(d * 0.4), 'thinking' as string], [Math.round(d * 0.67), 'happy']]), look: [0.5, 0.8]}],
+    checks, seats: [seatChk(pl, out.P, build, READ_FLOOR - h)], book: bk, open: 1, page: pageTurn(f, Math.round(d * 0.3), 70), seatH: h, head: hw,
+    pullF: Math.round(d * 0.32),
+    cam: [[0, 2.1, 430, 740], [Math.round(d * 0.087), 2.1, 440, 735], [Math.round(d * 0.32), 1.2, 800, 640], [Math.round(d * 0.467), 1.25, 820, 630], [d, d < 240 ? 2.2 : 2.5, hw.x - 24, hw.y + 26]],
   };
 }
 

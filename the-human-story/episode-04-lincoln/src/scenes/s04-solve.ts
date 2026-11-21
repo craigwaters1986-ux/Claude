@@ -9,7 +9,7 @@ import {BOOK, QUILL, STOVEPIPE, gripWorld, handsOn, approach, PropXf, doorHandle
 import {grabCarry, pageTurn, writeAt, exprAt, localXf, track} from '../kit/Actions';
 import {seatHeight, seatPose, sitDown, standUp, hipWorldY, feetWorld} from '../kit/Seats';
 import {castBuild, castScale} from '../kit/Cast';
-import {T, beat, sectionWindow} from '../timeline';
+import {T, TE, beat, sectionWindow} from '../timeline';
 import type {CamKey} from '../kit/Cinema';
 import {rideHorse, walkDist} from '../kit/Horse';
 import type {Check, SeatCheck, Fig, Solved} from './reelSolve';
@@ -195,8 +195,10 @@ export function solveProtest(f: number): Solved {
 }
 
 export function solveWindow(f: number): Solved {
-  const stop = DUR4.window - 72; // "Friends spoke of his bouts…": he stops and looks out
-  const w = writeShot(f, LAW, 24, 210, stop, true, 6);
+  // Phase D2: both anchored to the captions (they were DUR4.window - 72 and a fixed frame 210): the writing ends with the
+  // quotation and he stops and looks out as "Friends spoke of his bouts…" begins
+  const stop = fr(T('Friends spoke of his bouts') - AT4.window);
+  const w = writeShot(f, LAW, 24, fr(TE('I am now the most miserable man living') - AT4.window), stop, true, 6);
   const look: [number, number] = f < stop + 12 ? [0.8, 0.9] : [1, -0.25];
   return {
     figs: [{id: LAW, pl: w.pl, P: w.P, build: w.build, ex: exprAt(f, [[0, 'tired'], [stop + 10, 'sad']], 14), look}],
@@ -211,7 +213,8 @@ export function solveBill(f: number): Solved {
   return {
     figs: [{id: LAW, pl: w.pl, P: w.P, build: w.build, ex: exprAt(f, [[0, 'determined'], [pull, 'thinking']]), look: [0.8, 0.9]}],
     checks: w.checks, seats: w.seats, quill: w.quill, reveal: w.reveal, seatH: w.h, pull,
-    cam: [[0, 2.2, 880, 690], [pull, 2.3, 875, 690], [pull + 90, 1.0, 960, 560], [400, 0.98, 960, 560]],
+    // Phase D2: the pull-back lands 10 frames before the chapter cut (the closing beat is shorter now)
+    cam: [[0, 2.2, 880, 690], [pull, 2.3, 875, 690], [Math.min(pull + 90, DUR4.bill - 10), 1.0, 960, 560], [400, 0.98, 960, 560]],
   };
 }
 
@@ -481,7 +484,7 @@ export function solveHall(f: number): Solved {
 export function solveCooper(f: number): Solved {
   const d = DUR5.cooper;
   const tq = fr(T('let us have faith that right makes might') - AT5.cooper);
-  return {...solveLectern(f, 7), tq, cam: [[0, 0.92, 960, 470], [Math.round(d * 0.5), 1.45, 1000, 640], [tq - 6, 1.55, 1180, 630], [d, 1.6, 1185, 630]] as CamKey[]};
+  return {...solveLectern(f, 7), tq, cam: [[0, 0.92, 960, 470], [Math.min(Math.round(d * 0.5), tq - 42), 1.45, 1000, 640], [tq - 6, 1.55, 1180, 630], [d, 1.6, 1185, 630]] as CamKey[]}; // Phase D2: the mid key stays ahead of the pan to the quotation (the keys had crossed)
 }
 
 // ---------------------------------------------------------------- registry for the contact checker

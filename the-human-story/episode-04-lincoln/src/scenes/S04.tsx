@@ -13,6 +13,7 @@ import {Particles} from '../components/Effects';
 import {stand, addPose} from '../characters/poses';
 import {prog} from '../animations/core';
 import * as Q from './s04-solve';
+import {T, beat} from '../timeline';
 import {FigEl, Look, IrisOpen, Motes, SeatedFig, Legislature, MemberDesk, BallRoom, Dancers, Musicians, NightWindow, DeskCandle, SlopeScribble, Parlour, HouseHall, SonsRow} from './s04-sets';
 import {RideShot, CircuitShot, CapitolShot} from './s04-ride';
 
@@ -45,8 +46,9 @@ const Leg: React.FC<{f: number; d: number}> = ({f, d}) => {
       <Motes f={f} x={300} y={200} w={900} h={600} />
       <Look f={f} grade="day" vig={0.42} />
       <LightLeak f={f} t={1 - prog(f, 60, 100)} />
-      <TitlePlate f={f} d={90} num={4} title="Lawyer and politician" />
-      <DateCard at={96} until={d - 4} date="1834" title="Illinois legislature" />
+      {/* Phase D2: the plate lasts the card beat (2.5 s) and the date card arrives on "In 1834," (they were fixed at 90 and 96) */}
+      <TitlePlate f={f} d={sec(beat('s04', 0)[1])} num={4} title="Lawyer and politician" />
+      <DateCard at={sec(T('In 1834')) + 6} until={d - 4} date="1834" title="Illinois legislature" />
       <IrisOpen f={f} />
     </Frame>
   );

@@ -15,6 +15,8 @@ import {prog} from '../animations/core';
 import {castBuild, castScale} from '../kit/Cast';
 import {walk04} from './reelSolve';
 import {Look, Plate} from './s08-sets';
+import {T, TE} from '../timeline';
+import {A08} from './s08-solve';
 
 // ---------------------------------------------------------------- 8.2 Atlanta on the map, then the queue at the polls
 const QUEUE = [
@@ -27,7 +29,10 @@ const QUEUE = [
   {id: 'visitor', x: 400, seed: 7},
 ];
 export const AtlantaShot: React.FC<{f: number; d: number}> = ({f, d}) => {
-  const X = 92;
+  // Phase D2: the map holds through "took Atlanta," (45% into the caption) and the polling queue arrives on "and in November"
+  // (was a fixed frame 92)
+  const cueA = T('Then Union forces took Atlanta'), cueB = TE('Then Union forces took Atlanta');
+  const X = Math.round((cueA + 0.45 * (cueB - cueA) - A08.atlanta) * 30);
   const mix = prog(f, X, X + 14);
   const proj = usProjection('WAR_EAST');
   const g = Math.max(0, f - X);

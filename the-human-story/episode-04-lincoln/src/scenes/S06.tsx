@@ -21,6 +21,7 @@ import {FigEl, Look, DateCardF, FactLabel, SheetAt, WrittenLines, CrowdRow, Conv
 import {CapitolShot, SumterFlag} from './s06-kitshots';
 
 const [S, E] = sectionWindow('s06');
+const CARD6 = Math.round((beat('s06', 0)[1] - beat('s06', 0)[0]) * 30); // the title-card beat in frames
 const A = {
   conv: S,
   grace: T('That October'),
@@ -55,8 +56,9 @@ const Convention: React.FC<{f: number; d: number}> = ({f, d}) => {
       <LightPool x={960} y={360} r={900} f={f} color="#FFD08A" seed={61} strength={0.16} />
       <Look f={f} grade="golden" vig={0.5} amount={0.6} />
       <LightLeak f={f} t={1 - prog(f, 60, 100)} />
-      <TitlePlate f={f} d={90} num={6} title="President of a breaking country" />
-      <DateCardF f={f} at={96} until={d + 20} date="May 1860 · Chicago" />
+      {/* Phase D2: the plate lasts the card beat (2.5 s) and the date card follows it (they were fixed at 90 and 96) */}
+      <TitlePlate f={f} d={CARD6} num={6} title="President of a breaking country" />
+      <DateCardF f={f} at={CARD6 + 6} until={d + 20} date="May 1860 · Chicago" />
     </Frame>
   );
 };
@@ -218,7 +220,7 @@ const SumterShot: React.FC<{f: number; d: number}> = ({f, d}) => {
           layer(0.6, (
             <g>
               <HarbourNight f={f} fortX={fortX} waterY={waterY} />
-              <SumterFlag f={f} x={fortX + 60} base={waterY - 20} h={330} lower={prog(f, fb + 6, fb + 96)} />
+              <SumterFlag f={f} x={fortX + 60} base={waterY - 20} h={330} lower={prog(f, fb - 14, d - 8)} />
               <FortSilhouette x={fortX} y={waterY + 4} s={0.9} f={f} />
               {[0, 1, 2].map((i) => <DistantFlash key={i} x={fortX - 180 + i * 170} y={waterY - 60 - (i % 2) * 20} f={f} at={0} every={26 + i * 7} r={130} seed={i + 3} until={surr} />)}
               {[0, 1, 2].map((i) => <DistantFlash key={'s' + i} x={-200 + i * 380} y={690} f={f} at={6} every={30 + i * 7} r={90} seed={i + 9} until={surr} />)}

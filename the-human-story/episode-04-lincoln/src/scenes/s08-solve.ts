@@ -8,7 +8,7 @@ import {writeAt, shakeHands, exprAt} from '../kit/Actions';
 import {seatHeight, seatPose, hipWorldY, feetWorld} from '../kit/Seats';
 import {layoutDoc, nibAt, doc, Layout} from '../kit/Documents';
 import {castBuild, castScale} from '../kit/Cast';
-import {T, sectionWindow} from '../timeline';
+import {T, TE, sectionWindow} from '../timeline';
 import {walk04, Check, Solved} from './reelSolve';
 import {handWorld, Pt, Build} from '../characters/skeleton';
 
@@ -47,10 +47,11 @@ export function layout81(): Layout {
   const d = doc('hodges');
   return layoutDoc(d.text, d.hand, 50, PAGE81.w - 150, PAGE81.x + 76, PAGE81.y + 118, 1.42, 99);
 }
-/** Write-on progress of the insert: the narration speaks the lines from ~419.95 s. */
+/** Write-on progress of the insert. Phase D2: anchored to the captions (was hard-coded 419.5-425.6 s): it starts 0.3 s
+ *  before "I am naturally anti-slavery" is spoken (the cue opens with "Lincoln wrote,") and ends with "nothing is wrong." */
 export const insReveal = (f: number) => {
-  const a = Math.round((419.5 - S08_S) * 30);
-  const b = Math.round((425.6 - S08_S) * 30);
+  const a = Math.round((T('I am naturally anti-slavery') + 0.75 - S08_S) * 30);
+  const b = Math.round((TE('nothing is wrong') - S08_S) * 30);
   return prog(f, a, b, (t) => t);
 };
 export function solveWrite81(f: number): Solved {
