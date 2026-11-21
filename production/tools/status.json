@@ -1468,14 +1468,16 @@
           "id": "wrap",
           "agent": "director",
           "task": "Final report to the user (user publishes manually)",
-          "status": "AWAITING REVIEW",
+          "status": "COMPLETED",
           "depends": [
             "approval:final-render"
           ],
-          "deliverables": [],
+          "deliverables": [
+            "production/reports/qc/ep04-lincoln/qc-final-render-2026-11-21.md"
+          ],
           "issues": [],
-          "next": "Approval 4 from Craig",
-          "updated": "2026-11-20 23:19"
+          "next": "Approval 4 given 21 Nov 2026; Craig uploads manually",
+          "updated": "2026-11-21 07:55"
         }
       ]
     }

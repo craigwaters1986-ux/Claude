@@ -2,7 +2,7 @@
 
 Craig uploads and publishes manually. Nothing is uploaded, scheduled or published automatically.
 
-- [ ] Approval 4 (final render) recorded (`python3 production/tools/status.py approval …`)
+- [x] Approval 4 (final render) recorded, 21 Nov 2026 (`python3 production/tools/status.py approval …`)
 - [ ] Final MP4 `production/exports/ep04-lincoln/episode-04-lincoln-1080p.mp4` checked (QC report in `production/reports/qc/ep04-lincoln/`)
 - [ ] `episode-04-subtitles.srt` uploaded as English (United Kingdom) subtitles. The captions are also burnt into the picture (series style), so leave YouTube's CC off by default.
 - [ ] Title chosen from `title-options.md`

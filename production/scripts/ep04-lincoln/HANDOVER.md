@@ -3,7 +3,7 @@ Written 20 November 2026 (Phase 0: brief and upgrade spec; renumbered from Episo
 
 ## Start here
 
-**Where things stand (21 Nov 2026).** **Phase D2 is done: the second final render (ElevenLabs narration and score) is waiting for Craig's Approval 4.** See the 21 Nov entry under "Where things stand" below. Approval 4 is **not** given (dashboard: PENDING).
+**Where things stand (21 Nov 2026).** **Phase D2 is done: the second final render (ElevenLabs narration and score) is waiting for Craig's Approval 4.** See the 21 Nov entry under "Where things stand" below. **Approval 4 was given by Craig on 21 Nov 2026** (recorded on the dashboard). The 1922 seating shot and three captions about 0.5 s early were left as they are. Craig uploads manually; nothing is published automatically.
 
 **Branch.** Phase D2 is on **`claude/sweet-einstein-gtzfnt`** (it continues `claude/clever-albattani-64lx7v`). Phase C is on **`claude/clever-albattani-64lx7v`** and mirrored to **`claude/tender-allen-8crxk1`** (the Phase C session's own branch; identical commits). Start Phase D from `claude/clever-albattani-64lx7v`.
 
