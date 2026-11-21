@@ -10,7 +10,7 @@ Craig uploads and publishes manually. Nothing is uploaded, scheduled or publishe
 - [ ] Tags from `keywords.md`
 - [ ] Thumbnail `thumbnail.jpg` (1280 × 720, < 2 MB; alternative `thumbnail-alt-memorial.jpg`)
 - [ ] Category: Education; language: English (UK); audience setting chosen by Craig
-- [ ] Altered or synthetic content disclosure: the narration is a synthetic voice (ElevenLabs, Liam Dale)
+- [ ] Altered or synthetic content disclosure: the narration is a synthetic voice (ElevenLabs, John North)
 - [ ] Music is generated with ElevenLabs Music: do **not** register it in Content ID
 - [ ] End screen and cards set; playlist chosen
 - [ ] Final look and listen by Craig before clicking Publish

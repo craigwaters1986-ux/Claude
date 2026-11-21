@@ -11,15 +11,15 @@ Two minutes at Gettysburg. Less than a year of schooling. One signed page that s
 This animated documentary follows Abraham Lincoln from a one-room log cabin in Kentucky in 1809 to the Petersen House on the morning of 15 April 1865, and then on to his funeral train, the Thirteenth Amendment and the Lincoln Memorial. It uses his own words, quoted exactly from the surviving texts: the House Divided speech, the Charleston debate, the Emancipation Proclamation, the Bliss copy of the Gettysburg Address and the Second Inaugural. It sets out what the Proclamation did and did not do, the part Black soldiers and Frederick Douglass played, and why historians still argue about him.
 
 0:00 Two minutes
-0:32 A cabin in Kentucky
-1:25 The rail-splitter
-2:15 Lawyer and politician
-3:20 A house divided
-4:28 President of a breaking country
+0:31 A cabin in Kentucky
+1:24 The rail-splitter
+2:14 Lawyer and politician
+3:19 A house divided
+4:27 President of a breaking country
 5:24 War and emancipation
-6:55 Malice toward none
-8:01 Ford's Theatre
-8:50 Legacy
+6:56 Malice toward none
+8:02 Ford's Theatre
+8:51 Legacy
 
 Selected sources
 • National Park Service, Lincoln Home NHS, Lincoln Chronology: https://www.nps.gov/liho/learn/historyculture/lincolnchronology.htm
@@ -40,7 +40,7 @@ Selected sources
 
 The war-dead figure (620,000–750,000) is an estimate; the range runs from the long-standing count to J. David Hacker's census-based estimate. The cabin shown is a generic period cabin, not the original. Stories of what Lincoln saw in New Orleans come from after his death and are treated with caution. Where historians disagree about Lincoln's views on race, the film presents it as a debate. Unnamed people are illustrative, not historical individuals. Maps are simplified (modern state outlines; the Proclamation's excepted areas are approximate).
 
-Narration: ElevenLabs voice (Liam Dale), a synthetic voice. Music: generated with ElevenLabs Music. Sound design: The Human Story. Maps: U.S. Census Bureau via us-atlas (ISC); Natural Earth (public domain). Fonts: Montserrat, Playfair Display, Caveat, Libre Baskerville (SIL Open Font License 1.1); Special Elite (Apache License 2.0).
+Narration: ElevenLabs voice (John North), a synthetic voice. Music: generated with ElevenLabs Music. Sound design: The Human Story. Maps: U.S. Census Bureau via us-atlas (ISC); Natural Earth (public domain). Fonts: Montserrat, Playfair Display, Caveat, Libre Baskerville (SIL Open Font License 1.1); Special Elite (Apache License 2.0).
 
 This episode refers to slavery, war deaths and the assassination of President Lincoln. No violence or injury is shown.
 

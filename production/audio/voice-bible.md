@@ -1,6 +1,16 @@
 # Voice bible — The Human Story narrator
 
-## Current channel narrator (from Episode 4, 20 November 2026; Craig's choice)
+## Current channel narrator (from 21 November 2026; Craig's choice after his family's review)
+
+- **Voice:** **John North - Warm Northerner**, voice_id `7rQX8r6PVq3gfJ8rZzyE`, `eleven_v4`, one take per group.
+  Chosen from round 4 of the samples (`production/audio/ep04-lincoln/voice-samples/round4-northern/13-john-north.mp3`)
+  because the family found Liam Dale too old and too slow and the other candidates too posh.
+- **Pace:** about 141 spoken words a minute raw; `el_assemble.py` plays the takes at tempo **1.04** (ffmpeg
+  `atempo`, pitch kept; `EL_TEMPO=1` for raw), about 146 words a minute. Budget about 140 words a minute when
+  fitting a script. Episode 4: 539 s raw speech, 519 s after the tempo lift.
+- Everything else below (engine, model, IPA, assembly) is unchanged.
+
+## Previous narrator (Episode 4 first and second renders, 20–21 November 2026)
 
 - **Engine:** ElevenLabs (Creator plan; commercial YouTube use allowed), connector `ElevenLabs` in Claude.
 - **Voice:** **LIAM DALE (British Male 60's)**, voice_id `w2ZdKT3ghAOcMRbpjC3u` — a veteran British history

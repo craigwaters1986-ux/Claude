@@ -15,8 +15,10 @@ every agent and every session.
   thin black limbs, expressive eyes/brows/mouths, flat muted colours, slightly hand-drawn.
   Only clothing, hair, props, scenery and colours change between periods. Never realistic,
   3D, anime or photographic. The full style guide is `production/characters/style-guide.md`.
-- **Narration (user rule, 2026-11-20):** the channel narrator is **ElevenLabs “LIAM DALE (British Male 60's)”**,
-  voice_id `w2ZdKT3ghAOcMRbpjC3u`, model `eleven_v4`, one take per paragraph group (Craig chose it: “all day long”).
+- **Narration (user rule, 2026-11-21):** the channel narrator is **ElevenLabs “John North - Warm Northerner”**,
+  voice_id `7rQX8r6PVq3gfJ8rZzyE`, model `eleven_v4`, one take per paragraph group, played at **tempo 1.04**
+  (pitch kept) by `el_assemble.py`. Craig's family found Liam Dale (`w2ZdKT3ghAOcMRbpjC3u`) too old and too slow
+  and the other voices too posh; Craig chose John North for a northern English accent.
   ElevenLabs Creator plan (commercial YouTube use allowed). IPA between slashes for tricky names on `eleven_v4`
   (e.g. `/ˌæpəˈmætəks/`). Assemble with `scripts/el_assemble.py` (48 kHz, edge-trimmed, −20 LUFS per clip,
   0.34 s gaps). Kokoro `bm_george` is the fallback only. Details: `production/audio/voice-bible.md`.
