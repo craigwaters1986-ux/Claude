@@ -277,3 +277,10 @@ The narration need not be re-rendered. If it ever is: `scripts/voice_sample.py` 
 - Placement scales already include the cast scale: `Person scale = pl.scale / CAST[id].scale` (see `FigEl` in `UpgradeTest.tsx`).
 - Reach limits are real: adult arm 93 px × scale, Lincoln (TALL) 101 px × scale. Stage props within reach (the checker found three out-of-reach moments in the first pass).
 - `src/Episode.tsx` is a stub and `src/timeline/timeline.json` is still Episode 3's; Phase C replaces both from the narration, plan and captions.
+
+## 21 Nov 2026 · Family review fixes and new narrator (render 3)
+- Craig's family asked for: a realistic quill, a realistic horse and cart, a different narrator, the shooting shown (no blood) and Lincoln carried by real characters, and Booth as a real character. All done (`Props.tsx` QUILL, `s09-sets.tsx` Carriage/BoxInterior, `S09.tsx` ShotBox and carriers, `s09-solve.ts` solveBox).
+- Narrator now **John North** (`7rQX8r6PVq3gfJ8rZzyE`): takes in `production/audio/ep04-lincoln/elevenlabs-groups-john-north/` (sessions in `john-north-sessions.txt`; do not regenerate). `el_assemble.py` plays them at tempo 1.04 (`EL_TEMPO`). Liam Dale takes remain in `elevenlabs-groups/`.
+- QC: `production/reports/qc/ep04-lincoln/qc-final-render-2026-11-21-john-north.md`. Approval 4 re-opened (PENDING).
+- Lesson: freezedetect hits come from camera keys that ease to a stop on screen; put the last key past the cut.
+- Next: Craig's Approval 4. Next phase in a fresh session, with mechanical steps on Haiku (CLAUDE.md model policy).
