@@ -108,6 +108,11 @@ Match the model to the difficulty of each task; pass `model` on the Agent call t
   scriptwriting, storyboard, character/environment/map building, music composition, assembly
   and render debugging.
 Keep checks to one pass; no repeated verification loops unless something failed.
+**Reminder (Craig, 2026-11-21): use lighter models for simpler tasks.** The main chat must not do mechanical work
+itself on the main model: hand downloads, polling, renders and their monitoring, ffprobe/loudness/QC measurements,
+iPhone copies, document and credit updates, and dashboard housekeeping to a `haiku` subagent (`sonnet` for reviews),
+with a tight prompt. Keep the main model for creative and debugging decisions. Start a fresh session per phase
+rather than letting one chat run long (long chats re-read their whole history on every turn).
 
 ## Shared workspace and handoffs
 
