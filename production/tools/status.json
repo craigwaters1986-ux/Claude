@@ -1316,7 +1316,7 @@
           "id": "narration",
           "agent": "audio-engineer",
           "task": "Generate narration, timings and SRT",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "approval:script"
           ],
@@ -1326,8 +1326,8 @@
             "production/scripts/ep04-lincoln/edit-plan.md"
           ],
           "issues": [],
-          "next": "486.55 s, 27 groups; captions aligned (96.8%)",
-          "updated": "2026-11-20 20:18"
+          "next": "Phase D2 (21 Nov 2026): ElevenLabs narration (Liam Dale) and ElevenLabs Music score; re-time, re-render, QC",
+          "updated": "2026-11-21 00:35"
         },
         {
           "id": "storyboard",
@@ -1383,7 +1383,7 @@
           "id": "music-sfx",
           "agent": "audio-engineer",
           "task": "Music, SFX and mix",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "storyboard"
           ],
@@ -1393,8 +1393,8 @@
             "production/audio/ep04-lincoln/episode-04-mix-listen.mp3"
           ],
           "issues": [],
-          "next": "Phase C done; -14.1 LUFS, -1.5 dBTP",
-          "updated": "2026-11-20 20:57"
+          "next": "Phase D2 (21 Nov 2026): ElevenLabs narration (Liam Dale) and ElevenLabs Music score; re-time, re-render, QC",
+          "updated": "2026-11-21 00:35"
         },
         {
           "id": "assembly",
@@ -1418,7 +1418,7 @@
           "id": "final-render",
           "agent": "video-editor",
           "task": "Render and verify final MP4",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "assembly"
           ],
@@ -1427,14 +1427,14 @@
             "production/exports/ep04-lincoln/episode-04-lincoln-720p-small.mp4"
           ],
           "issues": [],
-          "next": "Rendered and verified 20 Nov 2026",
-          "updated": "2026-11-20 23:19"
+          "next": "Phase D2 (21 Nov 2026): ElevenLabs narration (Liam Dale) and ElevenLabs Music score; re-time, re-render, QC",
+          "updated": "2026-11-21 00:35"
         },
         {
           "id": "final-qc",
           "agent": "quality-control",
           "task": "QC review of final render",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "final-render"
           ],
@@ -1442,14 +1442,14 @@
             "production/reports/qc/ep04-lincoln/qc-final-render-2026-11-20.md"
           ],
           "issues": [],
-          "next": "Measured QC passed; listen-through left for Craig",
-          "updated": "2026-11-20 23:19"
+          "next": "Phase D2 (21 Nov 2026): ElevenLabs narration (Liam Dale) and ElevenLabs Music score; re-time, re-render, QC",
+          "updated": "2026-11-21 00:36"
         },
         {
           "id": "publishing-pack",
           "agent": "youtube-specialist",
           "task": "Title, description, chapters, tags, thumbnail brief, checklist",
-          "status": "COMPLETED",
+          "status": "IN PROGRESS",
           "depends": [
             "final-qc"
           ],
@@ -1458,8 +1458,8 @@
             "production/exports/ep04-lincoln/youtube/thumbnail.jpg"
           ],
           "issues": [],
-          "next": "Craig uploads manually",
-          "updated": "2026-11-20 23:19"
+          "next": "Phase D2 (21 Nov 2026): ElevenLabs narration (Liam Dale) and ElevenLabs Music score; re-time, re-render, QC",
+          "updated": "2026-11-21 00:36"
         },
         {
           "id": "wrap",

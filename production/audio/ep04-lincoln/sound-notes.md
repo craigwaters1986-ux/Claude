@@ -1,108 +1,99 @@
 # Episode 4 sound notes · Abraham Lincoln (ep04-lincoln)
 
-Built 20 November 2026 by `the-human-story/episode-04-lincoln/scripts/audio.py`. Programme length 600.000 s.
+Rebuilt 21 November 2026 (Phase D2) by `the-human-story/episode-04-lincoln/scripts/audio.py`. Programme length 600.000 s.
+This replaces the first mix (Kokoro voice, synthesised score), which Craig reviewed on 20 November.
 
-- **Narration:** `narration-draft.wav` (Kokoro `bm_george`, 24 kHz), all 27 groups placed at their plan `final_start_ms`.
-- **Score:** original and fully synthesised (numpy/scipy). It uses the instruments and Lincoln theme from the approved Phase B test (`scripts/music_test.py`): solo fiddle over piano, string ensembles, horns, low brass, the formant choir, the war ostinato with side drum and bass-drum heartbeat, and the convolution hall.
-- **ElevenLabs:** no generated music. Those generations had failed for lack of funds.
-- **Public-domain tunes:** none used. The Battle Hymn, Johnny and Hail Columbia quotes on the cue sheet were left out because their melodies could not be checked against a printed source. Nothing needs crediting for tunes.
+- **Narration:** ElevenLabs voice **Liam Dale** (`w2ZdKT3ghAOcMRbpjC3u`, `eleven_v4`), 27 group takes in `elevenlabs-groups/`, assembled by `scripts/el_assemble.py` (48 kHz, 525.1 s) and placed at each group's plan `final_start_ms`. A synthetic voice.
+- **Score:** ten instrumental cues generated with **ElevenLabs Music** (`eleven_music_v2_5`), one per chapter, in `elevenlabs-score/` (prompts, node and generation ids, credits in its `README.md`). About 9,400 credits. Instrumental setting on for every cue.
+- **Sound effects and sync hits:** synthesised in `audio.py` as before (112 effect cues, unchanged list; the water is the soft wash, no drips). The hits kept under the generated cues are percussion only (timpani, bass drum), tuned to each cue's key, plus the title impact.
+- **Public-domain tunes:** none used.
+- **Nobody has listened to this mix.** Everything below is measured. Craig's listen at Approval 4 is the first.
 
-## Cue list as built
+## How the cues are placed
 
-Hits use exact times from the plan (beat starts and chapter starts). Every chapter card except Ford's Theatre (1M10, no hits) gets a soft timpani sting and a paper whoosh. The Legacy card sting is quieter.
+Each cue is anchored to a picture moment measured inside the cue (a swell, a hush, a release), not only to its chapter start. Times are programme times.
 
-| Time | Cue | What plays / hit |
+| Time | Cue | What plays [span] |
 | --- | --- | --- |
-| 0:00.30 | 1M1 | lamp-hum pad (D3/A3 strings); piano plays two notes of the theme (A4, D5) in the 3 s open; sparse piano chords under the narration |
-| 0:28.72 | 1M1 hit | the riser runs over the first 4 s of the title beat, then the **impact** (timpani, bass drum, low brass, choir) lands, then a held D major chord. **Picture: the title plate should land at 28.72 s (title-beat start + 4.0 s)** |
-| 0:35.00 | 1M2 | winter-air pad; Lincoln theme on solo fiddle over piano |
-| 1:03.69 | 1M2 grave | music thins to one sustained fiddle D5 (plus a low D) for the grave beat |
-| 1:12.44 | 1M2 | theme returns with the stepmother; strings join in the firelight beat (1:22.6) |
-| 1:33.00 | 1M3 | theme on clarinet over pizzicato strings and a river pulse |
-| 1:51.77 | 1M3 New Orleans | harmony darkens to D minor, no melody |
-| 2:16.08 | 1M3 hit | soft timpani on the captaincy close-up; a D major chord swells in the beat |
-| 2:23.00 | 1M4 | theme on full strings, warmer; strings and horn swell in the ball beat (2:46.8) |
-| 2:49.01 | 1M4 1841 | everything drops to a solo cello, very quiet |
-| 2:58.84 | 1M4 wedding | strings come back with the theme; pizzicato for the circuit and Congress |
-| 3:20.48 | 1M4 Capitol | horn swell and D major cadence in the Capitol beat |
-| 3:28.00 | 1M5 | low strings, unsettled harmony |
-| 3:45.16 | 1M5 house divided | one held D minor chord under the quotation |
-| 3:58.30 | 1M5 Charleston | no music: room tone only, until 4:12.2 |
-| 4:12.21 | 1M5 | low strings return quietly ("Lincoln lost"), building to Cooper Union |
-| 4:26.56 | 1M5 hit | horn swell at Cooper Union, peaking in the beat |
-| 4:33.00 | 1M6 | brass pulse for the convention; pizzicato and a fiddle fragment for Grace Bedell; brass chord for the election |
-| 4:53.55 | 1M6 secession | falling bass line, one note for each of the 7 seceding states |
-| 5:07.83 | 1M6 Fort Sumter | low drone |
-| 5:20.90 | 1M6 hit | **timpani + low brass hit in D minor as the flag comes down** (beat start + 0.2 s) |
-| 5:28.00 | 1M7 | war motif enters (ostinato, side drum, heartbeat) |
-| 5:30.43 | 1M7 Willie | drops to solo piano; ostinato returns quietly under the Greeley letter |
-| 5:48.27 | 1M7 Proclamation | freedom line rises (violins, D major, up a sixth) |
-| 5:52.14 | 1M7 hit | sting on the signature (timpani + brass, D major) |
-| 6:00.47 | 1M8 | war motif and freedom line (minor) together |
-| 6:10.15 | 1M8 march | steady march: side drum, bass drum, horns on the theme. No tune quote |
-| 6:19.41 | 1M8 Gettysburg | war build: ostinato, drums, low-brass theme, choir, timpani roll, riser |
-| 6:32.31 | 1M8 hit | **impact into the cemetery beat**, choir crest; music out by the end of the beat |
-| 6:36.02 | 1M8 | silence under the opening words of the Bliss copy (room tone only) |
-| 6:49.45 | 1M8 coda | quiet piano on the theme in the beat that holds the opening words |
-| 6:58.00 | 1M9 | theme on full strings and horns, with piano (hope) |
-| 7:18.40 | 1M9 hit | brass sting and timpani as the tally board turns (119 to 56) |
-| 7:20.51 | 1M9 malice | one held D major chord under "With malice toward none"; warm horn for "a sacred effort" |
-| 7:38.69 | 1M9 Appomattox | quiet strings |
-| 7:48.19 | 1M9 toll | low choir and low strings |
-| 7:54.54 | 1M9 beat | choir alone over the empty fields |
-| 8:03.00 | 1M10 | quiet reprise: the theme's first phrase on solo piano, slower; low choir pad; no hits, nothing startling |
-| 8:44.51 | 1M10 clock beat | one sustained piano chord (D major), then silence under the clock |
-| 8:53.00 | 1M11 funeral train | slow processional: low strings, muffled drum |
-| 9:03.70 | 1M11 Thirteenth | freedom line rises to the amendment |
-| 9:14.91 | 1M11 crane | crescendo (timpani roll, strings) through the Thirteenth Amendment beat, peaking as the Memorial crane begins; theme in full (violins, horns, choir) |
-| 9:27.84 | 1M11 | falls back: piano and soft strings for the historians, solo piano for the last page |
-| 9:56.32 | 1M11 end | theme in full (orchestra + choir) through the last-line beat; **final D major chord** on the end card, fading over the last 1.2 s |
+| 0:00.00 | EL c01 open | the first piano phrase of c01, stated in the silent open [0.00-4.00 s] |
+| 0:00.00 | EL c01 | cold open: felt piano and low strings; chord arrival on the title plate [0.00-35.92 s] |
+| 0:27.40 | hit title | short riser and timpani roll; impact (timpani, bass drum, low brass, D major) on the title plate, with c01's own chord |
+| 0:32.35 | EL c02 | solo fiddle over felt piano; thins to a hush in the grave beat [32.35-88.95 s] |
+| 1:26.59 | EL c03 | low strings, then clarinet and pizzicato; final chord through the captaincy beat [86.59-139.19 s] |
+| 2:15.04 | EL c04 | warm strings and piano; full in the ball, circuit and Capitol beats [135.04-203.24 s] |
+| 3:21.73 | EL c05 | low unsettled strings and sparse piano; horn swell into the Cooper Union beat [201.73-272.13 s] |
+| 3:53.76 | EL c05 out | no music under the Charleston quotation (room tone only) [232.46-250.54 s]; strings return over 4.5 s |
+| 4:27.56 | EL c06 | brass pulse and strings, falling bass, low drone at Fort Sumter [267.56-326.56 s] |
+| 5:21.92 | hit flag | timpani and bass drum as the flag comes down at Fort Sumter (beat start + 0.2 s) |
+| 5:23.56 | EL c07 | war ostinato, rising violin line at the Proclamation, march for the Black regiments, crest into the cemetery beat, then silence [323.56-408.89 s] |
+| 5:51.61 | hit signature | soft timpani on the signature |
+| 6:35.59 | hit cemetery | timpani and bass drum into the cemetery beat, under c07's crest |
+| 6:54.61 | EL c08 | strings and horns enter with the title plate; calm held chords for the Second Inaugural; low strings dying away under the toll, silence over the fields [414.61-483.08 s] |
+| 7:20.80 | hit tally | soft timpani as the tally board turns |
+| 7:59.92 | EL c09 | quiet reprise on solo felt piano; no hits; silence for the clock [479.92-530.72 s] |
+| 8:50.22 | EL c10 | funeral processional, full orchestra at the Memorial, solo piano for the historians and the last page [530.22-589.20 s] |
+| 9:53.56 | EL c01 reprise | the title chord returns on the end card and rings out [593.56-603.08 s] |
 
-## SFX (synthesised, restrained)
+Placement decisions worth knowing:
 
-The full list of 112 cues, with times and gains, is in `output/mix-stats.json` (`sfx`). The main ones:
+- **Title (0:27.40).** The cold-open cue's own chord arrival lands on the title plate, with the synthesised impact on the same frame. The plate starts 0.06 s earlier (`S01.tsx`, title beat start + 0.6 s).
+- **Cold open.** The cue's first piano phrase is also stated once in the 3 s open, so there is music before the narrator speaks.
+- **Grave beat (1:02.5).** The fiddle cue thins to a hush inside the beat and returns as the narrator does.
+- **Chapter 4** came out in C major (the others are in D major or D minor as prompted); it enters only after chapter 3's final chord has gone.
+- **Charleston (3:53–4:11).** No music under the quotation, as on the approved cue sheet: room tone only. The strings return over 4.5 s at "The legislature…".
+- **Cooper Union (4:25.8).** The cue's last horn chord lands on the beat.
+- **War and emancipation.** The cue starts 9.5 s in, so its rising violin line arrives with the Proclamation, its march with the Black regiments, and its crest falls away inside the cemetery beat. There is then no music under the opening of the Address, as on the cue sheet; the page holds in room tone.
+- **Ford's Theatre.** Solo felt piano, 3 dB quieter than the other cues, no hits. It has died away before "Abraham Lincoln died"; the clock beat is the clock alone.
+- **Legacy.** The cue starts 11 s in, so the full orchestra plays for the Memorial and drops to solo piano at "At the dedication,". The last line is spoken almost in the clear, then the title chord returns on the end card (the cold-open cue from 26.4 s) and rings out.
 
-- **Pen scratch at every `write`:** the quill in the cold open (0:00.3), the 1841 letter (2:49), Grace Bedell's letter (4:38), the signature on the Proclamation (5:48.9) and the Hodges letter (6:58.8). There are also soft reporters' pencils at the debates.
-- **Page turns at every document "page" transition:** 0:12, 1:24/1:27 (`readBook`), 2:31, 3:45, 5:37, 6:36, 7:23, 9:09 and 9:36.
-- **Cabin and frontier:** winter wind and a distant crow. Axe chops with wood chips (1:01.8), wagon wheels and hooves (Indiana, the stepmother's arrival), firelight crackle.
-- **River:** water and flatboat pole strokes (1:33), dawn birds, maul splitting rails, the waterfront at dusk.
-- **Horses:** hooves riding into Springfield, horseback with rain on the circuit (3:04), the carriage outside Ford's (8:03).
-- **Crowds, all low:** legislature, ball, party meeting, debates, Cooper Union, convention, House chamber, inauguration, reception, 1922 dedication. At Charleston there is room tone only, with no crowd and no applause.
-- **Fort Sumter:** four **distant, soft** cannon (5:09–5:15), harbour water, night wind and the flag halyard. This is the only cannon in the episode.
-- **War:** soldiers marching (6:11), wind at Gettysburg and the cemetery, and the White House door and footsteps for Douglass.
-- **Other events:** the tally board turning (7:18.4). The clock ticks from 8:38.5 and stops in the clock beat (9.5), then room tone and faint morning birds.
-- **Funeral train:** muted train wheels and a muted whistle (8:53).
-- **Ford's Theatre:** **no gunshot** and no startling sound. The theatre murmur is muffled, then room tone only. There are no comic sounds anywhere.
+## Level control
+
+- **Level ride per cue** (`level_ride`): a slow fader ride. A cue is left alone while its 3 s loudness stays within −6 to +3 dB of its own average; quieter passages are lifted towards −6 (at most 9 dB), louder ones pulled back by three quarters of the excess. Natural fade-outs are not lifted.
+- **Ducking:** the music sits 12 dB lower under speech than in the silent beats (0.35 s ramps). The beats stay 5 dB below full.
+- **24 dB rule:** the music gain is set so the narration sits 24 dB above the music during speech (median of 400 ms blocks).
+- **Speech-aware ceiling** (`ride_ceiling`): no 400 ms block of music may come closer than 19 dB to the narration's loudness while the narrator speaks, or closer than 4 dB in a silent beat. 60 blocks were trimmed, by at most 7.6 dB.
+- **Master:** −14 LUFS target, limiter ceiling −1.5 dBTP, 1.2 s fade at the end.
 
 ## Levels (measured)
 
 | Measure | Result |
 | --- | --- |
-| Integrated loudness (ffmpeg ebur128) | **−14.1 LUFS** (script: −14.05); LRA 3.6 LU |
-| True peak (ffmpeg ebur128) | **−1.5 dBTP** |
+| Integrated loudness (ffmpeg ebur128) | **-14.0 LUFS** (script: -14.02); LRA 5.9 LU |
+| True peak (ffmpeg ebur128) | **-1.5 dBTP** |
 | silencedetect n=−50 dB d=1.5 s | **none** |
-| Narration minus music during speech (median of 400 ms blocks) | **20.0 dB** (5th percentile 9.3 dB) |
-| Narration minus music + SFX during speech | 16.9 dB median |
-| Music ducking under speech | −13 dB (hits bus −7 dB), 0.35 s ramps; music back to full in the beats |
-| Stem loudness | narration −14.0, music −19.9, SFX −31.4 LUFS |
-| Limiter | at most 3.3 dB gain reduction |
-| Narration placement | all 27 groups cross-correlate at 0.0 ms (±1 sample) from `final_start_ms`, in both the narration stem and the mix |
-| Music in the beats (LUFS) | title 1M1 −14.9, grave −13.2, Cooper Union −15.1, flag −15.6, cemetery −12.2, tally −14.2, end card −11.1 (full list in `output/mix-stats.json`, `beats_music`) |
+| Narration minus music during speech (median of 400 ms blocks) | **23.8 dB** |
+| Narration's overall loudness minus music, each 400 ms block under speech | median 24.7 dB, 5th percentile 20.4 dB, closest 18.9 dB |
+| Narration minus music + effects during speech | 19.5 dB median |
+| Stem loudness | narration -13.9, music -32.5, effects -31.3 LUFS |
+| Limiter | at most 4.0 dB gain reduction |
+| Music in the silent beats (LUFS) | title plate -20.4, grave (hush) -32.3, ball -26.2, Capitol -27.1, Cooper Union -25.3, flag at Fort Sumter -24.5, cemetery -22.1, tally board -25.6, fields (silence) -50.7, empty chair -25.3, clock (silence) -40.7, Thirteenth Amendment -22.1, end card -21.7 (full list in `output/mix-stats.json`, `beats_music`) |
+
+For comparison, the first mix (the one Craig found too loud) had the narration 20 dB over the music and the music in the beats at −11 to −16 LUFS.
+
+The per-block figure the first notes quoted as a "5th percentile" (14.7 dB here, 9.3 dB in the first mix) compares the music with each instant of the narration, pauses between words included, so it reads low; the row above compares the music with the narration's overall loudness instead.
+
+## Checks on the generated cues
+
+- **Sung or spoken words:** none found. Each cue was run through a voice-activity detector (Silero, via faster-whisper) and the recogniser. Nothing reached the speech threshold (0.5); real narration scores above 0.7. The first 13 s of the chapter 8 cue scored weakly voice-like (0.15–0.35), which fits a string or horn melody in a vocal register. Worth a listen at 6:55.
+- **Key:** estimated from each cue's pitch content. All in D major or D minor except chapter 4 (C major).
+- **Clipping:** none; cue peaks are between −5.3 and −0.2 dBFS before the mix.
 
 ## Files
 
-- `public/audio/mix.wav`: 48 kHz stereo 16-bit, 28,800,000 samples (600.000 s). This is what the render muxes.
-- `output/stems/{narration,music,sfx}.wav`: same format and length. See `stems-note.md`.
-- `output/mix-stats.json`: stats, music cue list, SFX list.
-- `output/music-stem.npz` + `output/music-cues.json`: the cache for `REUSE_MUSIC`.
+- `public/audio/mix.wav`: 48 kHz stereo 16-bit, exactly 600.000 s. This is what the render muxes.
+- `output/stems/{narration,music,sfx}.wav`: same format and length.
+- `output/mix-stats.json`: stats, cue list, effects list, beat levels.
 - `production/audio/ep04-lincoln/episode-04-mix-listen.mp3`: 96 kb/s listen copy.
 
 ## Re-run
 
 ```
 cd the-human-story/episode-04-lincoln
-/home/user/audio-py/bin/python scripts/audio.py output/full-voice            # about 4 minutes on 4 cores
-REUSE_MUSIC=1 /home/user/audio-py/bin/python scripts/audio.py output/full-voice   # remix only (SFX/levels changes)
+mkdir -p output/el-voice output/el-full output/full-voice
+cp ../../production/audio/ep04-lincoln/elevenlabs-groups/*.mp3 output/el-voice/
+cp ../../production/audio/ep04-lincoln/narration-draft-audit.json output/full-voice/
+/home/user/audio-py/bin/python scripts/el_assemble.py                       # narration -> output/el-full
+/home/user/audio-py/bin/python scripts/audio.py output/el-full              # about 3 minutes; needs about 9 GB of memory
+REUSE_MUSIC=1 /home/user/audio-py/bin/python scripts/audio.py output/el-full  # remix only (effects or level changes)
+SYNTH_SCORE=1 /home/user/audio-py/bin/python scripts/audio.py output/el-full  # fallback: the synthesised score
 ```
-
-Any change to the score in `compose()` needs a run without `REUSE_MUSIC`.

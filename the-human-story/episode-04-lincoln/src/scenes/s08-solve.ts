@@ -16,7 +16,7 @@ export const [S08_S, S08_E] = sectionWindow('s08');
 /** Shot starts (programme seconds), anchored to the captions. */
 export const A08 = {
   write: S08_S,
-  atlanta: T('he expected to lose') + 1.3, // "That summer he expected to lose" (after the quoted "nothing is wrong")
+  atlanta: T('he expected to lose'), // "That summer he expected to lose." is its own caption cue since Phase D2
   house: T('the House passed the Thirteenth Amendment'),
   capitol: T('That March'),
   reception: T("to bind up the nation's wounds"),

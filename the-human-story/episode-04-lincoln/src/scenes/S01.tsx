@@ -328,8 +328,8 @@ const Shot14: React.FC<{f: number; d: number; tAt: number}> = ({f, d, tAt}) => {
 const A12 = T('That is roughly') + 2.4; // 1.1 holds the cold open and "Two minutes"
 const A13 = T('Five copies survive') + 0.35;
 const A14 = T('The man who wrote it');
-// the plate starts 0.6 s into the title beat so it emerges on the score's impact (audio.py T_TITLE = beat start + 1.0 s)
-// and holds for the rest of the 5.8 s beat (Phase D2: the cold open is shorter with the ElevenLabs narration)
+// the plate starts 0.6 s into the title beat so it emerges on the score's chord and impact (audio.py compose_el:
+// T_TITLE = beat start + 0.66 s) and holds for the rest of the 4.8 s beat (Phase D2: shorter cold open)
 const TITLE = beat('s01', 1)[0] + 0.6;
 
 export const S01: React.FC = () => (

@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""Episode 4 (Abraham Lincoln) sound: narration on the locked timeline, original synthesised score, synthesised SFX,
-mix, master and stems.
+"""Episode 4 (Abraham Lincoln) sound: narration on the locked timeline, score, synthesised SFX, mix, master and stems.
 
-Everything here is synthesised (numpy/scipy, no samples, no recordings, no generated-music service). The score builds
+Score (Phase D2, channel standard): ten instrumental cues generated with ElevenLabs Music, one per chapter
+(production/audio/ep04-lincoln/elevenlabs-score/), placed by compose_el() below. Narration: ElevenLabs voice Liam Dale,
+assembled by scripts/el_assemble.py (usage: python scripts/audio.py output/el-full). SFX and the few sync hits are
+synthesised here. If the cue files are missing (or SYNTH_SCORE=1), the original synthesised score compose() is used.
+
+The synthesised fallback (numpy/scipy, no samples, no recordings): the score builds
 on the approved Phase B music test (scripts/music_test.py): the same original Lincoln theme (D major, 72 bpm), the same
 instruments (solo fiddle + piano, string ensembles, horns, low brass, formant choir, war ostinato with side drum and
 bass-drum heartbeat) and the same convolution hall. Cues 1M1-1M11 follow production/storyboards/ep04-lincoln/
@@ -22,6 +26,7 @@ from scipy.signal import resample_poly
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from audio_lib import *  # noqa
+from audio_lib import _kweight  # noqa (not exported by *)
 from sfxlib import *  # noqa
 
 T0 = time.time()
@@ -98,8 +103,8 @@ def speech_regions(pre=0.2, post=0.35, merge=0.9):
     return out
 
 
-def duck_curve(depth_db=-13.0, attack=0.35, beat_db=0.0):
-    """Gain curve: depth_db under speech, beat_db in the beats (Phase D: beats capped at -5 dB, Craig found the swells too loud). Built at 1 kHz control rate, then interpolated."""
+def speech_weight(attack=0.35):
+    """1 under speech, 0 in the silent beats, with raised-cosine ramps (1 kHz control rate, interpolated)."""
     cr = 1000
     m = int(DUR * cr) + 1
     tgt = np.zeros(m)
@@ -108,8 +113,40 @@ def duck_curve(depth_db=-13.0, attack=0.35, beat_db=0.0):
     k = int(attack * cr)
     ker = np.hanning(2 * k + 1); ker /= ker.sum()
     d = np.convolve(np.pad(tgt, k, mode='edge'), ker, mode='same')[k:-k]
-    d = np.interp(np.arange(N) / SR, np.arange(m) / cr, d)
-    return undb(beat_db + (depth_db - beat_db) * np.clip(d, 0, 1))
+    return np.clip(np.interp(np.arange(N) / SR, np.arange(m) / cr, d), 0, 1)
+
+
+def duck_curve(depth_db=-13.0, attack=0.35, beat_db=0.0):
+    """Gain curve: depth_db under speech, beat_db in the beats (Phase D: beats capped at -5 dB, Craig found the swells too loud)."""
+    return undb(beat_db + (depth_db - beat_db) * speech_weight(attack))
+
+
+def ride_ceiling(music, weight, l_nar, under=19.0, beat=4.0, passes=2):
+    """Speech-aware ceiling for the music bus (Phase D2). No 400 ms block of music may come closer to the narration's
+    integrated loudness than `under` dB while the narrator speaks, or `beat` dB in the silent beats. Only blocks over
+    the ceiling are turned down, by the excess, with 0.3 s ramps; everything else is untouched. Returns
+    (music, the largest reduction in dB, the number of 100 ms blocks touched in the last pass that needed any)."""
+    worst, touched = 0.0, 0
+    for _ in range(passes):
+        ts, lm, _ = block_loudness(music)
+        wc = weight[np.minimum(N - 1, ((ts + 0.2) * SR).astype(int))]
+        ceil = l_nar - (beat + (under - beat) * wc)
+        ex = np.maximum(0.0, lm - ceil)
+        if ex.max() < 0.05:
+            break
+        worst, touched = max(worst, float(ex.max())), int((ex > 0.05).sum())
+        cr = 100
+        red = np.zeros(int(DUR * cr) + 1)
+        for t, e in zip(ts[ex > 0.05], ex[ex > 0.05]):
+            i, j = int(round(t * cr)), int(round((t + 0.4) * cr))
+            red[i:j + 1] = np.maximum(red[i:j + 1], e + 0.3)
+        k = 30
+        red = np.maximum.reduce([np.roll(red, q) for q in range(-k // 2, k // 2 + 1)])  # hold through the ramp
+        ker = np.hanning(2 * k + 1); ker /= ker.sum()
+        red = np.convolve(np.pad(red, k, mode='edge'), ker, mode='same')[k:-k]
+        g = undb(-np.interp(np.arange(N) / SR, np.arange(len(red)) / cr, red))
+        music = music * g[:, None]
+    return music, worst, touched
 
 
 # ------------------------------------------------------------------ score: instruments from the approved test
@@ -638,7 +675,7 @@ def compose():
         ensemble(CHORDS_A[2 * k], tm0 + k * BAR, BAR * 0.98, 0.26, seed=920 + 5 * k, spread=0.9)
         horn([CHORDS_A[2 * k][0]], tm0 + k * BAR, BAR * 0.9, vel=0.3, seed=170 + k)
     put_choir(['D3', 'A3', 'D4', 'F#4'], tm0, 4 * BAR, vel=0.3, seed=37, wet=0.8)
-    t_rep = cue('At the dedication, Black guests')
+    t_rep = cue('At the dedication')
     strings(tend, t_hist, [C['Bm'], C['G']], bar=(t_hist - tend) / 2, vel=0.13, bright=0.5, seed=960)
     cues.append((t_hist, '1M11', 'falls back: piano and soft strings for the historians, solo piano for the last page'))
     piano_bed(t_hist, int((t_page - t_hist) // BAR), vel=0.2, seed=1200, k0=2)
@@ -671,6 +708,174 @@ def compose():
         x = (BUF[k] + wet * 0.85)[:N]
         out[k] = hp(x, 30)
     return out['m'], out['h'], cues
+
+
+# ------------------------------------------------------------------ score: ElevenLabs Music cues (Phase D2, channel standard)
+# One generated cue per chapter (production/audio/ep04-lincoln/elevenlabs-score/c01-c10.mp3, see its README). Each cue is
+# anchored to a picture moment measured inside the cue (a swell, a hush, a release), not just to the chapter start.
+EL_DIR = os.path.join(PROD_A, 'elevenlabs-score')
+EL_TARGET = -20.0  # LUFS per cue before the mix sets the absolute level (24 dB under the narration)
+
+
+def el_available():
+    return all(os.path.exists(os.path.join(EL_DIR, f'c{i:02d}.mp3')) for i in range(1, 11))
+
+
+def el_load(i):
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', os.path.join(EL_DIR, f'c{i:02d}.mp3'), '-ac', '2', '-ar', str(SR), '-f', 'f32le', '-'],
+                         capture_output=True, check=True).stdout
+    return np.frombuffer(raw, np.float32).astype(float).reshape(-1, 2)
+
+
+def level_ride(x, lo=-6.0, hi=3.0, max_up=9.0, max_down=8.0, win=3.0):
+    """Slow fader ride for a music bed under narration. The cue's 3 s loudness is left alone while it stays within
+    [ref + lo, ref + hi] (ref = the cue's integrated loudness). Quieter passages are lifted towards ref + lo (at most
+    max_up dB; natural fade-outs below ref - 36 are not lifted), louder ones are pulled back by 75 % of the excess
+    (at most max_down dB). The gain moves over about 1.5 s, so phrases keep their shape."""
+    ref = integrated_lufs(x)
+    y = _kweight(x)
+    p = np.sum(y ** 2, axis=1)
+    cr = 50
+    hop = SR // cr
+    m = len(p) // hop
+    pc = p[:m * hop].reshape(m, hop).mean(axis=1)
+
+    def smooth(v, sec):
+        k = int(sec * cr) | 1
+        ker = np.hanning(k + 2)[1:-1]; ker /= ker.sum()
+        return np.convolve(np.pad(v, k // 2, mode='edge'), ker, mode='valid')
+
+    L = -0.691 + 10 * np.log10(np.maximum(smooth(pc, win), 1e-12))
+    below, above = (ref + lo) - L, L - (ref + hi)
+    taper = np.clip((L - (ref - 36)) / 12, 0, 1)  # full lift down to ref - 24, none below ref - 36
+    g = np.where(below > 0, np.minimum(below, max_up) * taper, 0.0) - np.where(above > 0, np.minimum(above * 0.75, max_down), 0.0)
+    g = smooth(g, 1.5)
+    gi = np.interp(np.arange(len(x)) / SR, (np.arange(m) + 0.5) / cr, g)
+    return x * undb(gi)[:, None], ref, float(g.min()), float(g.max())
+
+
+def el_place(buf, x, at, skip=0.0, dur=None, fin=1.0, fout=2.5, gain_db=0.0):
+    """Place a cue at programme time `at`, starting `skip` s into the cue, with equal-power fades. Returns (start, end)."""
+    if at < 0:
+        skip, at = skip - at, 0.0
+    a = ns(skip)
+    b = len(x) if dur is None else min(len(x), a + ns(dur))
+    seg = x[a:b].copy()
+    nf = min(len(seg), ns(fin))
+    seg[:nf] *= (np.sin(np.linspace(0, np.pi / 2, nf)) ** 2)[:, None]
+    nf = min(len(seg), ns(fout))
+    seg[-nf:] *= (np.cos(np.linspace(0, np.pi / 2, nf)) ** 2)[:, None]
+    place(buf, seg, at, undb(gain_db))
+    return round(at, 3), round(at + len(seg) / SR, 3)
+
+
+def compose_el():
+    """Score from the ElevenLabs Music cues. Returns (music, hits, cue notes) like compose().
+
+    Sync points (cue time -> programme time), measured from each cue's loudness envelope:
+      c01  its chord arrival at 27.40 s            -> the title plate (title beat start + 0.66 s), with the synthesised impact
+      c02  the melody's return at 34.68 s          -> the end of the grave beat (the hush before it sits inside the beat)
+      c03  the final chord's release at 48.6 s     -> the start of chapter 4 (the held chord covers the captaincy beat)
+      c05  the last horn chord at 64.04 s          -> the Cooper Union beat; no music under the Charleston quotation
+      c07  the crest falling away at 84.0 s        -> one second before the cemetery beat ends; silent under the Address
+      c10  the orchestra dropping to piano at 44 s -> "At the dedication," (the Memorial gets the full orchestra)
+      c01  (reprise) the chord arrival at 27.40 s  -> the end card
+    c04, c06, c08 and c09 start at or near their chapter starts. The synthesised hits kept from the first mix are
+    percussion only (timpani, bass drum), tuned to each cue's key, plus the title impact."""
+    for k in ('m', 'h'):
+        BUF[k] = np.zeros((N + ns(10), 2))
+        BUF[k + 'h'] = np.zeros((N + ns(10), 2))
+    M = BUF['m']
+    cues, X = [], {}
+    for i in range(1, 11):
+        x, ref, gmin, gmax = level_ride(el_load(i))
+        X[i] = x * undb(EL_TARGET - integrated_lufs(x))
+        log(f'  c{i:02d}: {len(x) / SR:6.2f} s, {ref:6.1f} LUFS, level ride {gmin:+.1f} to {gmax:+.1f} dB')
+
+    def note(span, cid, what):
+        cues.append((span[0], cid, f'{what} [{span[0]:.2f}-{span[1]:.2f} s]'))
+
+    # 1 Two minutes: the cue's own chord arrival lands on the title plate
+    b0, b1 = beat_at(GR[0][1])
+    T_TITLE = round(b0 + 0.66, 3)
+    note(el_place(M, X[1], T_TITLE - 27.40, fin=0.05, fout=3.0), 'EL c01', 'cold open: felt piano and low strings; chord arrival on the title plate')
+    # the cue's first piano phrase (5.5-9.5 s, the bars before it are silent) is also stated once in the 3 s open, before the narrator
+    note(el_place(M, X[1], 0.0, skip=5.5, dur=4.0, fin=0.5, fout=1.2), 'EL c01 open', 'the first piano phrase of c01, stated in the silent open')
+    # 2 A cabin in Kentucky: the hush sits in the grave beat; the fiddle returns as the narrator does
+    g1b0, g1b1 = beat_at(GR[1][1])
+    note(el_place(M, X[2], g1b1 + 0.05 - 34.68, fin=0.3, fout=3.0), 'EL c02', 'solo fiddle over felt piano; thins to a hush in the grave beat')
+    # 3 The rail-splitter: dark low strings for the river and New Orleans, clarinet from Illinois; the held chord covers the captaincy beat
+    note(el_place(M, X[3], CH[3] + 0.15 - 48.6, fin=0.5, fout=0.6), 'EL c03', 'low strings, then clarinet and pizzicato; final chord through the captaincy beat')
+    # 4 Lawyer and politician (the cue came out in C major; it enters after c03's chord has gone)
+    note(el_place(M, X[4], CH[3], fin=0.05, fout=2.0), 'EL c04', 'warm strings and piano; full in the ball, circuit and Capitol beats')
+    # 5 A house divided: last horn chord on the Cooper Union beat
+    c50, c51 = beat_at(GR[11][1])
+    note(el_place(M, X[5], c50 + 0.05 - 64.04, fin=1.0, fout=2.0, gain_db=-1.0), 'EL c05', 'low unsettled strings and sparse piano; horn swell into the Cooper Union beat')
+    # 6 President of a breaking country: low drone under Fort Sumter, fading as the flag comes down
+    note(el_place(M, X[6], CH[5], fin=0.3, fout=2.5), 'EL c06', 'brass pulse and strings, falling bass, low drone at Fort Sumter')
+    # 7 War and emancipation: the crest ends inside the cemetery beat, then silence under the Address
+    c70, c71 = beat_at(GR[17][1])
+    v7 = c71 - 1.0 - 84.0
+    note(el_place(M, X[7], CH[6], skip=CH[6] - v7, fin=1.2, fout=1.0), 'EL c07', 'war ostinato, rising violin line at the Proclamation, march for the Black regiments, crest into the cemetery beat, then silence')
+    # 8 Malice toward none: the Gettysburg page holds in room tone, then the strings enter with the title plate
+    note(el_place(M, X[8], CH[7] - 0.8, fin=0.05, fout=2.0), 'EL c08', 'strings and horns enter with the title plate; calm held chords for the Second Inaugural; low strings dying away under the toll, silence over the fields')
+    # 9 Ford's Theatre: solo felt piano, 3 dB quieter than the other cues; silence at the clock
+    note(el_place(M, X[9], CH[8] - 1.0, fin=0.05, fout=2.0, gain_db=-3.0), 'EL c09', 'quiet reprise on solo felt piano; no hits; silence for the clock')
+    # 10 Legacy: full orchestra for the Memorial, down to piano at "At the dedication,"
+    t_ded = cue('At the dedication')
+    v10 = t_ded - 44.0
+    note(el_place(M, X[10], CH[9], skip=CH[9] - v10, fin=1.2, fout=1.0), 'EL c10', 'funeral processional, full orchestra at the Memorial, solo piano for the historians and the last page')
+    # end card: the title chord returns (c01 from 26.4 s; its arrival at 27.40 s lands on the end card)
+    z0, z1 = beat_at(GR[26][1])
+    T_END = round(z0 + 1.6, 3)  # = A10.end in src/scenes/s10-solve.ts
+    note(el_place(M, X[1], T_END - 1.0, skip=26.4, fin=0.8, fout=0.5, gain_db=2.0), 'EL c01 reprise', 'the title chord returns on the end card and rings out')
+
+    # Charleston: no music under the quotation (as in the approved cue sheet); the strings return quietly at "The legislature..."
+    t_ch, t_lost = cue('At Charleston he said'), cue('The legislature, which chose')
+    env = np.ones(len(M))
+    a, b = ns(t_ch - 1.3), ns(t_ch + 0.2)
+    env[a:b] = np.cos(np.linspace(0, np.pi / 2, b - a)) ** 2
+    c, d = ns(t_lost + 0.3), ns(t_lost + 4.8)
+    env[b:c] = 0.0
+    env[c:d] = np.sin(np.linspace(0, np.pi / 2, d - c)) ** 2
+    M *= env[:, None]
+    cues.append((t_ch, 'EL c05 out', f'no music under the Charleston quotation (room tone only) [{t_ch - 1.3:.2f}-{t_lost + 0.3:.2f} s]; strings return over 4.5 s'))
+
+    # ---- synthesised hits (bus 'h'): frame-accurate sync points the generated cues cannot guarantee
+    riser(T_TITLE, 1.6, vel=0.10, bus='h')
+    put(timp_roll(midi(nm('A1')), 1.2, v0=0.05, v1=0.7, seed=11), T_TITLE - 1.2, 0.9, wet=0.4, bus='h')
+    impact(T_TITLE, choir_notes=None, vel=0.8)
+    cues.append((T_TITLE, 'hit title', 'short riser and timpani roll; impact (timpani, bass drum, low brass, D major) on the title plate, with c01\'s own chord'))
+    sting_note = {2: 'D2', 3: 'D2', 4: 'A1', 5: 'A1', 6: 'D2', 7: 'D2', 8: 'A1', 10: 'D2'}
+    for k, t in enumerate(CH[1:], start=2):
+        if k == 9:
+            continue  # no hits anywhere in Ford's Theatre
+        sting(t + 0.05, sting_note[k], vel=0.22 if k == 10 else 0.30)
+    T_FLAG = round(beat_at(GR[14][1])[0] + 0.2, 3)
+    put(timpani(midi(nm('D2')), vel=0.7, decay=2.6, seed=51), T_FLAG, 1.0, wet=0.6, bus='h')
+    put(war_drum(0.7, f0=48, seed=129), T_FLAG, 1.0, wet=0.6, bus='h')
+    cues.append((T_FLAG, 'hit flag', 'timpani and bass drum as the flag comes down at Fort Sumter (beat start + 0.2 s)'))
+    T_SIG = round(cue('the Emancipation Proclamation declared') - 0.05, 3)
+    put(timpani(midi(nm('D2')), vel=0.45, decay=2.0, seed=61), T_SIG, 0.9, wet=0.5, bus='h')
+    cues.append((T_SIG, 'hit signature', 'soft timpani on the signature'))
+    T_CEM = round(c70, 3)
+    put(timpani(midi(nm('D2')), vel=0.6, decay=2.6, seed=71), T_CEM, 1.0, wet=0.6, bus='h')
+    put(war_drum(0.6, f0=48, seed=149), T_CEM, 1.0, wet=0.6, bus='h')
+    cues.append((T_CEM, 'hit cemetery', 'timpani and bass drum into the cemetery beat, under c07\'s crest'))
+    T_TALLY = round(beat_at(GR[19][1])[0] + 0.1, 3)
+    put(timpani(midi(nm('D2')), vel=0.45, decay=2.0, seed=81), T_TALLY, 0.9, wet=0.5, bus='h')
+    cues.append((T_TALLY, 'hit tally', 'soft timpani as the tally board turns'))
+
+    log('ElevenLabs cues placed; hall on the hits')
+    m = hp(M[:N], 25)
+    wet = reverb(BUF['hh'], mix=1.0, dur=3.4, damp=4200, seed=21)
+    h = hp((BUF['h'] + wet * 0.85)[:N], 30)
+    # balance the hits against the cues: the title impact peaks 8 dB over the cues' average loudness (c01's own arrival is about +6 dB)
+    ts, lh, _ = block_loudness(h)
+    sel = (ts >= T_TITLE - 0.2) & (ts <= T_TITLE + 1.0)
+    h *= undb(EL_TARGET + 8.0 - float(lh[sel].max()))
+    cues.sort(key=lambda c: c[0])
+    return m, h, cues
 
 
 # ------------------------------------------------------------------ SFX generators new for Episode 4
@@ -760,7 +965,7 @@ def sfx_cues():
     s = CH[3]
     add(GR[5][0], g_crowd(4.5, 14, 'hushed', 37, 0.5), -32, 0, 'legislature room')
     add(cue('He borrowed law books') + 0.6, g_thud(38, 'stamp'), -30, 0, 'law book handed over')
-    add(cue('Stuart, later his law partner') + 1.0, g_paper('flip', 39), -26, 0, 'page turn (readBook)')
+    add(cue('later his law partner') + 1.0, g_paper('flip', 39), -26, 0, 'page turn (readBook)')
     add(cue('In 1837 he moved to Springfield'), g_hooves(5.0, 0.9, 40, far=0.3), -26, 0, 'riding into Springfield')
     add(cue('He met Mary Todd'), g_crowd(4.0, 16, 'murmur', 41, 0.55), -32, 0, 'the ball')
     add(cue('Their engagement broke off') + 0.4, g_pen(5.5, 42), -22, 0.1, 'pen scratch: the 1841 letter (write)')
@@ -832,7 +1037,7 @@ def sfx_cues():
     add(GR[24][0] + 0.5, g_muffled(g_whistle(100, 1.8)), -32, 0, 'train whistle (muted)')
     add(cue('Slavery was abolished') - 0.2, g_paper('flip', 101), -24, 0, 'page: the Thirteenth Amendment')
     add(GR[25][0], g_wind(8.0, 0.25, 0.0, 102), -36, 0, 'Memorial steps')
-    add(cue('At the dedication, Black guests'), g_crowd(4.6, 16, 'murmur', 103, 0.6), -36, 0, '1922 dedication crowd')
+    add(cue('At the dedication'), g_crowd(4.6, 16, 'murmur', 103, 0.6), -36, 0, '1922 dedication crowd')
     add(cue('Historians still argue'), g_room(6.0, 104), -32, 0, 'lecture room')
     add(cue('The page he signed ends') - 0.1, g_paper('flip', 105), -24, 0, 'page: the Bliss copy, last line')
     return L
@@ -854,12 +1059,16 @@ def main():
         mcues = json.load(open(cues_json))
         log('music reused from cache')
     else:
-        mus, hit, mcues = compose()
+        use_el = el_available() and not os.environ.get('SYNTH_SCORE')
+        mus, hit, mcues = compose_el() if use_el else compose()
         np.savez(cache, m=mus.astype(np.float32), h=hit.astype(np.float32))
         json.dump(mcues, open(cues_json, 'w'), indent=1)
-        log('music composed')
-    duck = duck_curve(-13.0, beat_db=-5.0)
-    duck_h = duck_curve(-7.0, beat_db=-4.0)
+        log('score: ElevenLabs Music cues' if use_el else 'score: synthesised fallback (no ElevenLabs cues found, or SYNTH_SCORE set)')
+    # Phase D2 (ElevenLabs cues): the bed sits 12 dB under the beat level (was 8 with the synthesised score, whose own
+    # crescendos peaked in the beats); the beats stay 5 dB below full, and the narration stays 24 dB above the bed.
+    use_el_levels = el_available() and not os.environ.get('SYNTH_SCORE')
+    duck = duck_curve(-17.0 if use_el_levels else -13.0, beat_db=-5.0)
+    duck_h = duck_curve(-9.0 if use_el_levels else -7.0, beat_db=-4.0)
     musd = mus * duck[:, None] + hit * duck_h[:, None]
     fx = np.zeros((N + ns(30), 2))
     slog = []
@@ -886,6 +1095,10 @@ def main():
     mus_g_db = float(np.median(ln_[selm] - lm[selm]) - 24.0)
     mus_g = undb(mus_g_db)
     music = musd * mus_g
+    ceil_db, ceil_blocks = 0.0, 0
+    if use_el_levels:
+        music, ceil_db, ceil_blocks = ride_ceiling(music, speech_weight(), L_n, under=19.0, beat=4.0)
+        log(f'speech-aware ceiling: at most {ceil_db:.1f} dB over, {ceil_blocks} blocks trimmed')
     bus = nar_st + music + fx
     TARGET, CEIL = -14.0, -1.5
     g = TARGET - integrated_lufs(bus)
@@ -907,8 +1120,13 @@ def main():
     sel = spb & (lm2 > np.median(lm2[spb]) - 15)
     beat_lv = []
     for a, b in BEATS:
-        if b - a >= 2.0:
-            beat_lv.append(dict(start=a, end=b, music_lufs=round(float(integrated_lufs(stems['music'][ns(a):ns(b)])), 1)))
+        if b - a >= 1.4:
+            seg = stems['music'][ns(a):ns(b)]
+            beat_lv.append(dict(start=a, end=b, music_lufs=round(float(integrated_lufs(seg)), 1),
+                                music_max_momentary_lufs=round(float(block_loudness(seg)[1].max()), 1)))
+    L_ns = integrated_lufs(stems['narration'])
+    insp = np.array([in_speech(t) for t in ts])
+    gap_int = L_ns - lm2[insp]
     stats = dict(mix_lufs=L, true_peak_dbtp=true_peak_db(y), master_gain_db=g, narration_lufs_premaster=L_n,
                  music_gain_db=mus_g_db, narration_lufs=integrated_lufs(stems['narration']),
                  music_lufs=integrated_lufs(stems['music']), sfx_lufs=integrated_lufs(stems['sfx']),
@@ -917,6 +1135,8 @@ def main():
                  speech_minus_background_median_db=float(np.median(ln2[spb] - lb2[spb])),
                  speech_minus_background_p05_db=float(np.percentile(ln2[spb] - lb2[spb], 5)),
                  speech_blocks_with_music_pct=float(100 * sel.sum() / max(1, spb.sum())),
+                 narration_level_minus_music_min_db=float(gap_int.min()), narration_level_minus_music_p05_db=float(np.percentile(gap_int, 5)),
+                 narration_level_minus_music_median_db=float(np.median(gap_int)), ceiling_max_trim_db=float(ceil_db), ceiling_blocks_trimmed=float(ceil_blocks),
                  max_gain_reduction_db=float(-db(gr.min())), sfx_cues=len(slog), duration_s=len(y) / SR)
     write_wav(os.path.join(ENG, 'public', 'audio', 'mix.wav'), y)
     for k, v in stems.items():

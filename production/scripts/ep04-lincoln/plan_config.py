@@ -1,10 +1,12 @@
 # Episode 4 (ep04-lincoln) plan config for tools/build_plan.py (PLAN_CONFIG=this file).
 # Section windows are the script's chapter windows (600 s total). Hold keys are phrases that end a narration group.
 # Silent beats follow the storyboard; the last slot of each section absorbs the remainder.
+# Phase D2 (ElevenLabs narration, 525 s): windows rebalanced so the title plate (4.8 s beat), the clock at 7:22
+# (3.6 s beat) and the end card (6.7 s beat) keep room; chapter cards are 2.5 s.
 TARGET_MS = 600000
 TITLE = 'Episode 4 (ep04-lincoln)'
 SECTIONS = {
- 's01': ('Two minutes', 32855,
+ 's01': ('Two minutes', 31855,
    [('open', 'Cold open: the Bliss copy under lamplight, the first line writes on before the narrator speaks.', 3000)], {},
    [('title', 'The page dissolves into the title plate ABRAHAM LINCOLN over the cabin woods; riser and impact.', None)]),
  's02': ('A cabin in Kentucky', 53595,
@@ -33,13 +35,13 @@ SECTIONS = {
    [('card', 'Chapter title plate.', 2500)],
    {'which he had pressed for': [('scene', 'The tally board turns: 119 to 56.', 2000)]},
    [('scene', 'Empty fields at dusk under the estimated toll (sombre).', None)]),
- 's09': ('Ford\'s Theatre', 47801,
+ 's09': ('Ford\'s Theatre', 49301,
    [('card', 'Chapter title plate.', 2500)],
    {'Lincoln never regained consciousness': [('scene', 'The empty chair in the box; no event shown.', 2000)]},
    [('scene', 'The clock at 7:22, date card 15 April 1865; light shifts to morning.', None)]),
- 's10': ('Legacy', 70280,
+ 's10': ('Legacy', 69780,
    [('card', 'Chapter title plate.', 2500)],
-   {'Slavery was abolished in the United States': [('doc', 'Hold on the Thirteenth Amendment, Section 1.', 2500)]},
+   {'Slavery was abolished in the United States': [('doc', 'Hold on the Thirteenth Amendment, Section 1.', 2300)]},
    [('end', 'Hold on the last line of the Bliss copy, then the end card (music up).', None)]),
 }
 _Y = {'oh nine': 1809, 'thirty': 1830, 'thirty-four': 1834, 'thirty-seven': 1837, 'forty-one': 1841, 'forty-two': 1842,
