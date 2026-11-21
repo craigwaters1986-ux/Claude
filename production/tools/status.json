@@ -1200,9 +1200,9 @@
           "note": "Craig approved storyboard + cue sheet; ElevenLabs music: yes"
         },
         "final-render": {
-          "state": "PENDING",
-          "updated": "2026-11-21 07:00",
-          "note": "Second final render (ElevenLabs voice and score), 21 Nov 2026, awaiting Craig"
+          "state": "APPROVED",
+          "updated": "2026-11-21 07:55",
+          "note": "Approved by Craig 21 Nov 2026 (second final render: ElevenLabs voice and score). Known open items accepted as is: 1922 seating shot staging, three captions about 0.5 s early."
         }
       },
       "tasks": [
