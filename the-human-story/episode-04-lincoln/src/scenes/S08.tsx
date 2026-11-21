@@ -132,7 +132,7 @@ const Capitol84: React.FC<{f: number; d: number}> = ({f, d}) => {
       {mix < 1 && <g opacity={1 - mix}><CapitolWide f={f} d={d} /></g>}
       {mix > 0 && (
         <g opacity={mix}>
-          <CineCam f={f} keys={[[0, 1.0, 960, 480], [X, 1.0, 960, 480], [d, 1.09, 960, 480]]} seed={84}>
+          <CineCam f={f} keys={[[0, 1.0, 960, 480], [X - 14, 1.01, 960, 482], [d, 1.12, 960, 470]]} seed={84}>
             {(layer) => [
               layer(1, (
                 <g>

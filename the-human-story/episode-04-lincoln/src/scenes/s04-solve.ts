@@ -190,7 +190,7 @@ export function solveProtest(f: number): Solved {
       {id: 'visitor', pl: mpl, P: addPose(stand(f, 8), {lean: 6, shL: 30, elL: 60}), build: mb, ex: {expression: 'solemn'}, look: [-0.7, 0.6], noHat: true},
     ],
     checks: w.checks, seats: w.seats, quill: w.quill, reveal: w.reveal, seatH: w.h,
-    cam: [[0, 1.2, 930, 640], [140, 1.42, 900, 660]],
+    cam: [[0, 1.2, 930, 640], [140, 1.42, 900, 660], [380, 1.58, 878, 670]], // keeps drifting: freezedetect hit the hold at 5.8-11.0 s
   };
 }
 
