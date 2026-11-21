@@ -1,0 +1,850 @@
+{
+ "target_ms": 720000,
+ "narration_ms": 564299,
+ "gap_ms": 155701,
+ "chapters": [
+  {
+   "start_ms": 0,
+   "start": "0:00",
+   "title": "A letter meant for the fire",
+   "section": "s01"
+  },
+  {
+   "start_ms": 45000,
+   "start": "0:45",
+   "title": "A new king",
+   "section": "s02"
+  },
+  {
+   "start_ms": 125000,
+   "start": "2:05",
+   "title": "The man behind the plot",
+   "section": "s03"
+  },
+  {
+   "start_ms": 220000,
+   "start": "3:40",
+   "title": "Ten days before Parliament",
+   "section": "s04"
+  },
+  {
+   "start_ms": 315000,
+   "start": "5:15",
+   "title": "Two names in the record",
+   "section": "s05"
+  },
+  {
+   "start_ms": 415000,
+   "start": "6:55",
+   "title": "After the arrest",
+   "section": "s06"
+  },
+  {
+   "start_ms": 505000,
+   "start": "8:25",
+   "title": "Who had to answer for it?",
+   "section": "s07"
+  },
+  {
+   "start_ms": 605000,
+   "start": "10:05",
+   "title": "How a date became a tradition",
+   "section": "s08"
+  }
+ ],
+ "beats": [
+  {
+   "section": "s01",
+   "slot": "pre",
+   "kind": "rustle",
+   "start_ms": 0,
+   "end_ms": 6000,
+   "dur_ms": 6000,
+   "description": "Cold open on the folds of the anonymous letter. A hand smooths it flat and the eyes follow the page down. Paper rustle only, no narration yet."
+  },
+  {
+   "section": "s01",
+   "slot": "post",
+   "kind": "title",
+   "start_ms": 40371,
+   "end_ms": 44660,
+   "dur_ms": 4289,
+   "description": "Series title card over the letter: The Gunpowder Plot. The letter has no signature, so none is drawn."
+  },
+  {
+   "section": "s02",
+   "slot": "pre",
+   "kind": "card",
+   "start_ms": 45000,
+   "end_ms": 48000,
+   "dur_ms": 3000,
+   "description": "Chapter card."
+  },
+  {
+   "section": "s02",
+   "slot": "pre",
+   "kind": "map",
+   "start_ms": 48000,
+   "end_ms": 51500,
+   "dur_ms": 3500,
+   "description": "Pull back from the page to a map of Scotland and England before the narrator returns."
+  },
+  {
+   "section": "s02",
+   "slot": "after group 2",
+   "kind": "doc",
+   "start_ms": 72900,
+   "end_ms": 75400,
+   "dur_ms": 2500,
+   "description": "Hold on the map: one crown over Edinburgh, a second over London, one king between them."
+  },
+  {
+   "section": "s02",
+   "slot": "post",
+   "kind": "scene",
+   "start_ms": 118484,
+   "end_ms": 124660,
+   "dur_ms": 6176,
+   "description": "Move into the parish street as the church bell sounds. The bell, not the camera, sets the family’s pace."
+  },
+  {
+   "section": "s03",
+   "slot": "pre",
+   "kind": "card",
+   "start_ms": 125000,
+   "end_ms": 128000,
+   "dur_ms": 3000,
+   "description": "Chapter card."
+  },
+  {
+   "section": "s03",
+   "slot": "pre",
+   "kind": "scene",
+   "start_ms": 128000,
+   "end_ms": 130500,
+   "dur_ms": 2500,
+   "description": "Robert Catesby alone in a Warwickshire room, labelled at first appearance."
+  },
+  {
+   "section": "s03",
+   "slot": "after group 5",
+   "kind": "scene",
+   "start_ms": 152234,
+   "end_ms": 155734,
+   "dur_ms": 3500,
+   "description": "London, May 1604: the four other men arrive one at a time; Guy Fawkes gets his own shot."
+  },
+  {
+   "section": "s03",
+   "slot": "after group 6",
+   "kind": "scene",
+   "start_ms": 178257,
+   "end_ms": 182757,
+   "dur_ms": 4500,
+   "description": "Old Palace of Westminster, interior, as the State Opening would look: benches filling, no one in danger on screen."
+  },
+  {
+   "section": "s03",
+   "slot": "after group 7",
+   "kind": "scene",
+   "start_ms": 204273,
+   "end_ms": 207273,
+   "dur_ms": 3000,
+   "description": "Princess Elizabeth’s portrait settles beside the Midlands map; the road markers where support was hoped for stay empty."
+  },
+  {
+   "section": "s03",
+   "slot": "post",
+   "kind": "scene",
+   "start_ms": 214687,
+   "end_ms": 219660,
+   "dur_ms": 4973,
+   "description": "Empty Midlands roads at dusk. The expected rising does not come."
+  },
+  {
+   "section": "s04",
+   "slot": "pre",
+   "kind": "card",
+   "start_ms": 220000,
+   "end_ms": 223000,
+   "dur_ms": 3000,
+   "description": "Chapter card."
+  },
+  {
+   "section": "s04",
+   "slot": "pre",
+   "kind": "scene",
+   "start_ms": 223000,
+   "end_ms": 225000,
+   "dur_ms": 2000,
+   "description": "Hoxton at supper time: the footman receives the folded sheet. The sender stays out of view."
+  },
+  {
+   "section": "s04",
+   "slot": "after group 9",
+   "kind": "scene",
+   "start_ms": 247794,
+   "end_ms": 250794,
+   "dur_ms": 3000,
+   "description": "Track the sheet from footman to Monteagle. Only the words quoted in the narration appear, in large type."
+  },
+  {
+   "section": "s04",
+   "slot": "after group 10",
+   "kind": "doc",
+   "start_ms": 271096,
+   "end_ms": 273096,
+   "dur_ms": 2000,
+   "description": "The surviving sheet at The National Archives (SP 14/216): slow pan along the hand."
+  },
+  {
+   "section": "s04",
+   "slot": "after group 11",
+   "kind": "doc",
+   "start_ms": 294603,
+   "end_ms": 299603,
+   "dur_ms": 5000,
+   "description": "Hold on the unsigned page. A question mark forms where the signature would be; no suspect is shown."
+  },
+  {
+   "section": "s04",
+   "slot": "post",
+   "kind": "scene",
+   "start_ms": 309030,
+   "end_ms": 314660,
+   "dur_ms": 5630,
+   "description": "Monteagle crosses to Whitehall and the letter passes to Robert Cecil at the council table."
+  },
+  {
+   "section": "s05",
+   "slot": "pre",
+   "kind": "card",
+   "start_ms": 315000,
+   "end_ms": 318000,
+   "dur_ms": 3000,
+   "description": "Chapter card."
+  },
+  {
+   "section": "s05",
+   "slot": "pre",
+   "kind": "scene",
+   "start_ms": 318000,
+   "end_ms": 322000,
+   "dur_ms": 4000,
+   "description": "From the council table out to the old Palace of Westminster at night."
+  },
+  {
+   "section": "s05",
+   "slot": "after group 13",
+   "kind": "scene",
+   "start_ms": 344299,
+   "end_ms": 348299,
+   "dur_ms": 4000,
+   "description": "Night exterior at Westminster as the officials’ search begins."
+  },
+  {
+   "section": "s05",
+   "slot": "after group 14",
+   "kind": "doc",
+   "start_ms": 369530,
+   "end_ms": 377530,
+   "dur_ms": 8000,
+   "description": "Cut to the Commons Journal. The clerk adds the marginal note while the page is silent, so the viewer reads “Johnson, servant to Thomas Percy” before the narrator links it to Fawkes."
+  },
+  {
+   "section": "s05",
+   "slot": "after group 15",
+   "kind": "doc",
+   "start_ms": 401430,
+   "end_ms": 405430,
+   "dur_ms": 4000,
+   "description": "Hold on the margin, then ease out to the whole open Journal."
+  },
+  {
+   "section": "s05",
+   "slot": "post",
+   "kind": "scene",
+   "start_ms": 409325,
+   "end_ms": 414660,
+   "dur_ms": 5335,
+   "description": "Dissolve from the Journal back to Westminster at first light."
+  },
+  {
+   "section": "s06",
+   "slot": "pre",
+   "kind": "card",
+   "start_ms": 415000,
+   "end_ms": 418000,
+   "dur_ms": 3000,
+   "description": "Chapter card."
+  },
+  {
+   "section": "s06",
+   "slot": "pre",
+   "kind": "map",
+   "start_ms": 418000,
+   "end_ms": 420500,
+   "dur_ms": 2500,
+   "description": "Map of London and the Midlands with the two strands: the investigation and the flight."
+  },
+  {
+   "section": "s06",
+   "slot": "after group 17",
+   "kind": "map",
+   "start_ms": 443351,
+   "end_ms": 449351,
+   "dur_ms": 6000,
+   "description": "Route animates from the Midlands towards Staffordshire; the proclamation passes from hand to hand along it."
+  },
+  {
+   "section": "s06",
+   "slot": "after group 18",
+   "kind": "doc",
+   "start_ms": 472201,
+   "end_ms": 477201,
+   "dur_ms": 5000,
+   "description": "In London, successive sheets accumulate on an examiner’s desk. No dialogue and no depiction of the questioning."
+  },
+  {
+   "section": "s06",
+   "slot": "post",
+   "kind": "scene",
+   "start_ms": 498241,
+   "end_ms": 504660,
+   "dur_ms": 6419,
+   "description": "Holbeche House exterior at dawn, non-graphic, then fade to the scattered fates as a row of empty places."
+  },
+  {
+   "section": "s07",
+   "slot": "pre",
+   "kind": "card",
+   "start_ms": 505000,
+   "end_ms": 508000,
+   "dur_ms": 3000,
+   "description": "Chapter card."
+  },
+  {
+   "section": "s07",
+   "slot": "pre",
+   "kind": "scene",
+   "start_ms": 508000,
+   "end_ms": 510500,
+   "dur_ms": 2500,
+   "description": "Approach to Westminster Hall on the morning of the trial."
+  },
+  {
+   "section": "s07",
+   "slot": "after group 20",
+   "kind": "scene",
+   "start_ms": 530925,
+   "end_ms": 535425,
+   "dur_ms": 4500,
+   "description": "Parish household hears the proclamation from the street. Illustrative people, no invented speech."
+  },
+  {
+   "section": "s07",
+   "slot": "after group 21",
+   "kind": "doc",
+   "start_ms": 559258,
+   "end_ms": 562258,
+   "dur_ms": 3000,
+   "description": "The letter returns to the table, as the narrator asked us to think back to it."
+  },
+  {
+   "section": "s07",
+   "slot": "after group 22",
+   "kind": "scene",
+   "start_ms": 585018,
+   "end_ms": 587518,
+   "dur_ms": 2500,
+   "description": "The family at their table; a neighbour’s door stays shut."
+  },
+  {
+   "section": "s07",
+   "slot": "post",
+   "kind": "scene",
+   "start_ms": 602392,
+   "end_ms": 604660,
+   "dur_ms": 2268,
+   "description": "The street at evening, bell silent, as the oath is read out."
+  },
+  {
+   "section": "s08",
+   "slot": "pre",
+   "kind": "card",
+   "start_ms": 605000,
+   "end_ms": 608000,
+   "dur_ms": 3000,
+   "description": "Chapter card."
+  },
+  {
+   "section": "s08",
+   "slot": "pre",
+   "kind": "scene",
+   "start_ms": 608000,
+   "end_ms": 610000,
+   "dur_ms": 2000,
+   "description": "A church bell swinging. Match its motion to the later bell."
+  },
+  {
+   "section": "s08",
+   "slot": "after group 24",
+   "kind": "doc",
+   "start_ms": 633291,
+   "end_ms": 637291,
+   "dur_ms": 4000,
+   "description": "The thanksgiving law as a page read aloud to a congregation."
+  },
+  {
+   "section": "s08",
+   "slot": "after group 25",
+   "kind": "scene",
+   "start_ms": 660722,
+   "end_ms": 664722,
+   "dur_ms": 4000,
+   "description": "The same street across generations: bells, bonfires and bundled wood."
+  },
+  {
+   "section": "s08",
+   "slot": "after group 26",
+   "kind": "scene",
+   "start_ms": 683243,
+   "end_ms": 685243,
+   "dur_ms": 2000,
+   "description": "Children gather wood and chant. No faces of historical figures on the bonfire figure."
+  },
+  {
+   "section": "s08",
+   "slot": "post",
+   "kind": "doc",
+   "start_ms": 715549,
+   "end_ms": 717049,
+   "dur_ms": 1500,
+   "description": "Quiet page turn back to the surviving letter."
+  },
+  {
+   "section": "s08",
+   "slot": "post",
+   "kind": "end",
+   "start_ms": 717049,
+   "end_ms": 719660,
+   "dur_ms": 2611,
+   "description": "Channel end card."
+  }
+ ],
+ "groups": [
+  {
+   "group": 0,
+   "section": "s01",
+   "raw_start": 0.0,
+   "raw_end": 22.244208333333333,
+   "final_start_ms": 6000,
+   "final_end_ms": 28244,
+   "shift_ms": 6000
+  },
+  {
+   "group": 1,
+   "section": "s01",
+   "raw_start": 22.454208333333334,
+   "raw_end": 34.370875,
+   "final_start_ms": 28454,
+   "final_end_ms": 40371,
+   "shift_ms": 6000
+  },
+  {
+   "group": 2,
+   "section": "s02",
+   "raw_start": 34.710875,
+   "raw_end": 56.110958333333336,
+   "final_start_ms": 51500,
+   "final_end_ms": 72900,
+   "shift_ms": 16789
+  },
+  {
+   "group": 3,
+   "section": "s02",
+   "raw_start": 56.32095833333334,
+   "raw_end": 78.38091666666668,
+   "final_start_ms": 75610,
+   "final_end_ms": 97670,
+   "shift_ms": 19289
+  },
+  {
+   "group": 4,
+   "section": "s02",
+   "raw_start": 78.59091666666667,
+   "raw_end": 99.19458333333334,
+   "final_start_ms": 97880,
+   "final_end_ms": 118484,
+   "shift_ms": 19289
+  },
+  {
+   "group": 5,
+   "section": "s03",
+   "raw_start": 99.53458333333333,
+   "raw_end": 121.26883333333333,
+   "final_start_ms": 130500,
+   "final_end_ms": 152234,
+   "shift_ms": 30965
+  },
+  {
+   "group": 6,
+   "section": "s03",
+   "raw_start": 121.47883333333333,
+   "raw_end": 143.79241666666667,
+   "final_start_ms": 155944,
+   "final_end_ms": 178257,
+   "shift_ms": 34465
+  },
+  {
+   "group": 7,
+   "section": "s03",
+   "raw_start": 144.00241666666665,
+   "raw_end": 165.30829166666666,
+   "final_start_ms": 182967,
+   "final_end_ms": 204273,
+   "shift_ms": 38965
+  },
+  {
+   "group": 8,
+   "section": "s03",
+   "raw_start": 165.51829166666664,
+   "raw_end": 172.72187499999998,
+   "final_start_ms": 207483,
+   "final_end_ms": 214687,
+   "shift_ms": 41965
+  },
+  {
+   "group": 9,
+   "section": "s04",
+   "raw_start": 173.061875,
+   "raw_end": 195.85558333333333,
+   "final_start_ms": 225000,
+   "final_end_ms": 247794,
+   "shift_ms": 51938
+  },
+  {
+   "group": 10,
+   "section": "s04",
+   "raw_start": 196.06558333333334,
+   "raw_end": 216.15791666666667,
+   "final_start_ms": 251004,
+   "final_end_ms": 271096,
+   "shift_ms": 54938
+  },
+  {
+   "group": 11,
+   "section": "s04",
+   "raw_start": 216.36791666666667,
+   "raw_end": 237.664625,
+   "final_start_ms": 273306,
+   "final_end_ms": 294603,
+   "shift_ms": 56938
+  },
+  {
+   "group": 12,
+   "section": "s04",
+   "raw_start": 237.874625,
+   "raw_end": 247.09245833333335,
+   "final_start_ms": 299813,
+   "final_end_ms": 309030,
+   "shift_ms": 61938
+  },
+  {
+   "group": 13,
+   "section": "s05",
+   "raw_start": 247.43245833333333,
+   "raw_end": 269.73091666666664,
+   "final_start_ms": 322000,
+   "final_end_ms": 344299,
+   "shift_ms": 74568
+  },
+  {
+   "group": 14,
+   "section": "s05",
+   "raw_start": 269.9409166666667,
+   "raw_end": 290.96229166666666,
+   "final_start_ms": 348509,
+   "final_end_ms": 369530,
+   "shift_ms": 78568
+  },
+  {
+   "group": 15,
+   "section": "s05",
+   "raw_start": 291.1722916666667,
+   "raw_end": 314.8617916666667,
+   "final_start_ms": 377740,
+   "final_end_ms": 401430,
+   "shift_ms": 86568
+  },
+  {
+   "group": 16,
+   "section": "s05",
+   "raw_start": 315.0717916666667,
+   "raw_end": 318.75733333333335,
+   "final_start_ms": 405640,
+   "final_end_ms": 409325,
+   "shift_ms": 90568
+  },
+  {
+   "group": 17,
+   "section": "s06",
+   "raw_start": 319.0973333333333,
+   "raw_end": 341.94754166666667,
+   "final_start_ms": 420500,
+   "final_end_ms": 443351,
+   "shift_ms": 101403
+  },
+  {
+   "group": 18,
+   "section": "s06",
+   "raw_start": 342.15754166666665,
+   "raw_end": 364.798,
+   "final_start_ms": 449561,
+   "final_end_ms": 472201,
+   "shift_ms": 107403
+  },
+  {
+   "group": 19,
+   "section": "s06",
+   "raw_start": 365.008,
+   "raw_end": 385.8375833333333,
+   "final_start_ms": 477411,
+   "final_end_ms": 498241,
+   "shift_ms": 112403
+  },
+  {
+   "group": 20,
+   "section": "s07",
+   "raw_start": 386.1775833333333,
+   "raw_end": 406.60349999999994,
+   "final_start_ms": 510500,
+   "final_end_ms": 530925,
+   "shift_ms": 124322
+  },
+  {
+   "group": 21,
+   "section": "s07",
+   "raw_start": 406.8135,
+   "raw_end": 430.43625,
+   "final_start_ms": 535636,
+   "final_end_ms": 559258,
+   "shift_ms": 128822
+  },
+  {
+   "group": 22,
+   "section": "s07",
+   "raw_start": 430.64624999999995,
+   "raw_end": 453.1964166666666,
+   "final_start_ms": 562468,
+   "final_end_ms": 585018,
+   "shift_ms": 131822
+  },
+  {
+   "group": 23,
+   "section": "s07",
+   "raw_start": 453.40641666666664,
+   "raw_end": 468.0697083333333,
+   "final_start_ms": 587728,
+   "final_end_ms": 602392,
+   "shift_ms": 134322
+  },
+  {
+   "group": 24,
+   "section": "s08",
+   "raw_start": 468.4097083333333,
+   "raw_end": 491.70141666666666,
+   "final_start_ms": 610000,
+   "final_end_ms": 633291,
+   "shift_ms": 141590
+  },
+  {
+   "group": 25,
+   "section": "s08",
+   "raw_start": 491.91141666666664,
+   "raw_end": 515.1322083333333,
+   "final_start_ms": 637501,
+   "final_end_ms": 660722,
+   "shift_ms": 145590
+  },
+  {
+   "group": 26,
+   "section": "s08",
+   "raw_start": 515.3422083333334,
+   "raw_end": 533.6527916666666,
+   "final_start_ms": 664932,
+   "final_end_ms": 683243,
+   "shift_ms": 149590
+  },
+  {
+   "group": 27,
+   "section": "s08",
+   "raw_start": 533.8627916666667,
+   "raw_end": 553.61775,
+   "final_start_ms": 685453,
+   "final_end_ms": 705208,
+   "shift_ms": 151590
+  },
+  {
+   "group": 28,
+   "section": "s08",
+   "raw_start": 553.82775,
+   "raw_end": 563.958625,
+   "final_start_ms": 705418,
+   "final_end_ms": 715549,
+   "shift_ms": 151590
+  }
+ ],
+ "captions": {
+  "cues": 181,
+  "pauses_matched": 157,
+  "pauses_predicted": 166,
+  "per_group": [
+   {
+    "group": 0,
+    "matched": 6,
+    "predicted": 6
+   },
+   {
+    "group": 1,
+    "matched": 3,
+    "predicted": 4
+   },
+   {
+    "group": 2,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 3,
+    "matched": 6,
+    "predicted": 7
+   },
+   {
+    "group": 4,
+    "matched": 6,
+    "predicted": 6
+   },
+   {
+    "group": 5,
+    "matched": 8,
+    "predicted": 9
+   },
+   {
+    "group": 6,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 7,
+    "matched": 6,
+    "predicted": 6
+   },
+   {
+    "group": 8,
+    "matched": 0,
+    "predicted": 0
+   },
+   {
+    "group": 9,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 10,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 11,
+    "matched": 6,
+    "predicted": 6
+   },
+   {
+    "group": 12,
+    "matched": 3,
+    "predicted": 3
+   },
+   {
+    "group": 13,
+    "matched": 7,
+    "predicted": 9
+   },
+   {
+    "group": 14,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 15,
+    "matched": 7,
+    "predicted": 8
+   },
+   {
+    "group": 16,
+    "matched": 0,
+    "predicted": 0
+   },
+   {
+    "group": 17,
+    "matched": 6,
+    "predicted": 7
+   },
+   {
+    "group": 18,
+    "matched": 6,
+    "predicted": 7
+   },
+   {
+    "group": 19,
+    "matched": 7,
+    "predicted": 8
+   },
+   {
+    "group": 20,
+    "matched": 6,
+    "predicted": 6
+   },
+   {
+    "group": 21,
+    "matched": 6,
+    "predicted": 6
+   },
+   {
+    "group": 22,
+    "matched": 5,
+    "predicted": 5
+   },
+   {
+    "group": 23,
+    "matched": 3,
+    "predicted": 3
+   },
+   {
+    "group": 24,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 25,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 26,
+    "matched": 2,
+    "predicted": 2
+   },
+   {
+    "group": 27,
+    "matched": 7,
+    "predicted": 7
+   },
+   {
+    "group": 28,
+    "matched": 2,
+    "predicted": 2
+   }
+  ]
+ }
+}

@@ -1,0 +1,129 @@
+{
+  "duration": 600,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "voice": "bm_george",
+  "speed": 0.99,
+  "sections": [
+    {
+      "id": "s01",
+      "chapter": "Two minutes",
+      "start": 0,
+      "end": 35,
+      "narration": "Two minutes. That is roughly how long Abraham Lincoln spoke at Gettysburg in eighteen sixty-three, after the main speaker had talked for about two hours. Five copies survive in his own hand. Only one, known as the Bliss copy, is signed and dated. It is kept in the White House. The man who wrote it had, by his own count, less than a year of schooling.",
+      "paragraphs": [
+        "Two minutes. That is roughly how long Abraham Lincoln spoke at Gettysburg in eighteen sixty-three, after the main speaker had talked for about two hours. Five copies survive in his own hand. Only one, known as the Bliss copy, is signed and dated. It is kept in the White House. The man who wrote it had, by his own count, less than a year of schooling."
+      ]
+    },
+    {
+      "id": "s02",
+      "chapter": "A cabin in Kentucky",
+      "start": 35,
+      "end": 90,
+      "narration": "Abraham Lincoln was born on the twelfth of February, eighteen oh nine, in a one-room log cabin on his father's farm in Kentucky. His parents were Thomas Lincoln, a carpenter and farmer, and Nancy Hanks. When he was seven, the family moved to Indiana, partly, he later said, on account of slavery, but chiefly over land titles. An axe was put into his hands at once. When he was nine, his mother died of what people called milk sickness. His stepmother, Sarah Bush Johnston, proved, in his words, \"a good and kind mother\". He wrote of himself, \"What he has in the way of education, he has picked up.\"",
+      "paragraphs": [
+        "Abraham Lincoln was born on the twelfth of February, eighteen oh nine, in a one-room log cabin on his father's farm in Kentucky. His parents were Thomas Lincoln, a carpenter and farmer, and Nancy Hanks.",
+        "When he was seven, the family moved to Indiana, partly, he later said, on account of slavery, but chiefly over land titles. An axe was put into his hands at once. When he was nine, his mother died of what people called milk sickness. His stepmother, Sarah Bush Johnston, proved, in his words, \"a good and kind mother\". He wrote of himself, \"What he has in the way of education, he has picked up.\""
+      ]
+    },
+    {
+      "id": "s03",
+      "chapter": "The rail-splitter",
+      "start": 90,
+      "end": 140,
+      "narration": "At nineteen, Lincoln helped take a flatboat down the Ohio and Mississippi to New Orleans, over twelve hundred miles. In eighteen thirty the family moved on to Illinois, where he split rails to fence ten acres. Rails like these later became part of his campaign image. On a second trip to New Orleans, he would have seen slavery on a scale unknown in Illinois. Stories of its effect on him came only after his death; historians treat them with caution. At New Salem he was a store clerk, postmaster and surveyor. In the Black Hawk War, his fellow volunteers elected him captain. He saw no battle, but said nothing later satisfied him more.",
+      "paragraphs": [
+        "At nineteen, Lincoln helped take a flatboat down the Ohio and Mississippi to New Orleans, over twelve hundred miles. In eighteen thirty the family moved on to Illinois, where he split rails to fence ten acres. Rails like these later became part of his campaign image.",
+        "On a second trip to New Orleans, he would have seen slavery on a scale unknown in Illinois. Stories of its effect on him came only after his death; historians treat them with caution.",
+        "At New Salem he was a store clerk, postmaster and surveyor. In the Black Hawk War, his fellow volunteers elected him captain. He saw no battle, but said nothing later satisfied him more."
+      ]
+    },
+    {
+      "id": "s04",
+      "chapter": "Lawyer and politician",
+      "start": 140,
+      "end": 205,
+      "narration": "In eighteen thirty-four, Lincoln was elected to the Illinois legislature as a Whig. He borrowed law books from John T. Stuart, later his law partner, and taught himself. \"He studied with nobody,\" he wrote. In eighteen thirty-seven he moved to Springfield with all his belongings in two saddlebags. That year he joined a protest against slavery in the legislature. He met Mary Todd at a ball. Their engagement broke off, and in January eighteen forty-one Lincoln wrote, \"I am now the most miserable man living.\" Friends spoke of his bouts of deep melancholy. But in November eighteen forty-two they married, and they would have four sons. He rode the legal circuit for years. In eighteen forty-six he was elected to Congress for a single term, where he opposed the war with Mexico and proposed a bill to begin ending slavery in the District of Columbia.",
+      "paragraphs": [
+        "In eighteen thirty-four, Lincoln was elected to the Illinois legislature as a Whig. He borrowed law books from John T. Stuart, later his law partner, and taught himself. \"He studied with nobody,\" he wrote. In eighteen thirty-seven he moved to Springfield with all his belongings in two saddlebags. That year he joined a protest against slavery in the legislature.",
+        "He met Mary Todd at a ball. Their engagement broke off, and in January eighteen forty-one Lincoln wrote, \"I am now the most miserable man living.\" Friends spoke of his bouts of deep melancholy. But in November eighteen forty-two they married, and they would have four sons.",
+        "He rode the legal circuit for years. In eighteen forty-six he was elected to Congress for a single term, where he opposed the war with Mexico and proposed a bill to begin ending slavery in the District of Columbia."
+      ]
+    },
+    {
+      "id": "s05",
+      "chapter": "A house divided",
+      "start": 205,
+      "end": 270,
+      "narration": "In eighteen fifty-four, the Kansas–Nebraska Act reopened the question of slavery in the western territories, and drew Lincoln back into politics, in the new Republican Party. In June eighteen fifty-eight, running for the Senate, he quoted the Bible in a speech. \"A house divided against itself cannot stand.\" \"I believe this government cannot endure, permanently half slave and half free.\" He met the Democrat Stephen Douglas in seven debates across Illinois. At Charleston he said something hard to hear today: \"I am not, nor ever have been, in favor of bringing about in any way the social and political equality of the white and black races…\" He also opposed Black voting and jury service. The legislature, which chose senators then, returned Douglas. Lincoln lost. But the debates made his name, and in February eighteen sixty he spoke at Cooper Union in New York: \"let us have faith that right makes might\".",
+      "paragraphs": [
+        "In eighteen fifty-four, the Kansas–Nebraska Act reopened the question of slavery in the western territories, and drew Lincoln back into politics, in the new Republican Party. In June eighteen fifty-eight, running for the Senate, he quoted the Bible in a speech. \"A house divided against itself cannot stand.\" \"I believe this government cannot endure, permanently half slave and half free.\"",
+        "He met the Democrat Stephen Douglas in seven debates across Illinois. At Charleston he said something hard to hear today: \"I am not, nor ever have been, in favor of bringing about in any way the social and political equality of the white and black races…\" He also opposed Black voting and jury service.",
+        "The legislature, which chose senators then, returned Douglas. Lincoln lost. But the debates made his name, and in February eighteen sixty he spoke at Cooper Union in New York: \"let us have faith that right makes might\"."
+      ]
+    },
+    {
+      "id": "s06",
+      "chapter": "President of a breaking country",
+      "start": 270,
+      "end": 325,
+      "narration": "In May eighteen sixty, the Republicans chose him to run for President. That October, an eleven-year-old girl, Grace Bedell, wrote to him about a beard. Apparently taking her advice, he became the first President to wear one. In November he won a four-way race. Many white Southerners feared he would move against slavery. Before he took office, seven states had left the Union, South Carolina first, and formed the Confederacy under Jefferson Davis. Slavery, and the fight over its spread, lay at the root of the crisis. His election was the spark. On the twelfth of April, eighteen sixty-one, Confederate forces attacked Fort Sumter, in Charleston harbour. It surrendered, and Lincoln called for seventy-five thousand volunteers. The war had begun.",
+      "paragraphs": [
+        "In May eighteen sixty, the Republicans chose him to run for President. That October, an eleven-year-old girl, Grace Bedell, wrote to him about a beard. Apparently taking her advice, he became the first President to wear one.",
+        "In November he won a four-way race. Many white Southerners feared he would move against slavery. Before he took office, seven states had left the Union, South Carolina first, and formed the Confederacy under Jefferson Davis. Slavery, and the fight over its spread, lay at the root of the crisis. His election was the spark.",
+        "On the twelfth of April, eighteen sixty-one, Confederate forces attacked Fort Sumter, in Charleston harbour. It surrendered, and Lincoln called for seventy-five thousand volunteers. The war had begun."
+      ]
+    },
+    {
+      "id": "s07",
+      "chapter": "War and emancipation",
+      "start": 325,
+      "end": 415,
+      "narration": "Early on came defeat at Bull Run. In February eighteen sixty-two, his son Willie died, aged eleven. In August he wrote publicly, \"My paramount object in this struggle is to save the Union, and is not either to save or to destroy slavery.\" Yet he had already shown his Cabinet a draft proclamation. On the first of January eighteen sixty-three, as a war measure, the Emancipation Proclamation declared that all persons held as slaves in the rebel states \"are, and henceforward shall be free\". It could not free anyone beyond the Union army's reach, and left slavery untouched in the loyal border states. But the war was now a war against slavery. It also opened the army and navy to Black men; nearly two hundred thousand served. Frederick Douglass recruited soldiers, and two of his sons enlisted. In July the Union won at Gettysburg, at terrible cost. That August, Frederick Douglass protested to Lincoln that Black soldiers were paid less. In November, Lincoln helped dedicate a cemetery there. The signed copy begins: \"Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.\"",
+      "paragraphs": [
+        "Early on came defeat at Bull Run. In February eighteen sixty-two, his son Willie died, aged eleven.",
+        "In August he wrote publicly, \"My paramount object in this struggle is to save the Union, and is not either to save or to destroy slavery.\" Yet he had already shown his Cabinet a draft proclamation. On the first of January eighteen sixty-three, as a war measure, the Emancipation Proclamation declared that all persons held as slaves in the rebel states \"are, and henceforward shall be free\".",
+        "It could not free anyone beyond the Union army's reach, and left slavery untouched in the loyal border states. But the war was now a war against slavery. It also opened the army and navy to Black men; nearly two hundred thousand served. Frederick Douglass recruited soldiers, and two of his sons enlisted.",
+        "In July the Union won at Gettysburg, at terrible cost. That August, Frederick Douglass protested to Lincoln that Black soldiers were paid less. In November, Lincoln helped dedicate a cemetery there. The signed copy begins: \"Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.\""
+      ]
+    },
+    {
+      "id": "s08",
+      "chapter": "Malice toward none",
+      "start": 415,
+      "end": 480,
+      "narration": "In April eighteen sixty-four, Lincoln wrote, \"I am naturally anti-slavery. If slavery is not wrong, nothing is wrong.\" That summer he expected to lose. Then Union forces took Atlanta, and in November he was re-elected. In January eighteen sixty-five, the House passed the Thirteenth Amendment, which he had pressed for. That March, in his Second Inaugural, he said, \"With malice toward none; with charity for all; with firmness in the right, as God gives us to see the right, let us strive on to finish the work we are in; to bind up the nation's wounds…\" Frederick Douglass recalled calling it \"a sacred effort\". On the ninth of April, at Appomattox Court House, Robert E. Lee surrendered his Confederate army to the Union commander, Ulysses S. Grant. An estimated six hundred and twenty thousand to seven hundred and fifty thousand died in the war.",
+      "paragraphs": [
+        "In April eighteen sixty-four, Lincoln wrote, \"I am naturally anti-slavery. If slavery is not wrong, nothing is wrong.\"",
+        "That summer he expected to lose. Then Union forces took Atlanta, and in November he was re-elected. In January eighteen sixty-five, the House passed the Thirteenth Amendment, which he had pressed for.",
+        "That March, in his Second Inaugural, he said, \"With malice toward none; with charity for all; with firmness in the right, as God gives us to see the right, let us strive on to finish the work we are in; to bind up the nation's wounds…\" Frederick Douglass recalled calling it \"a sacred effort\".",
+        "On the ninth of April, at Appomattox Court House, Robert E. Lee surrendered his Confederate army to the Union commander, Ulysses S. Grant. An estimated six hundred and twenty thousand to seven hundred and fifty thousand died in the war."
+      ]
+    },
+    {
+      "id": "s09",
+      "chapter": "Ford's Theatre",
+      "start": 480,
+      "end": 530,
+      "narration": "Five days later, on the evening of the fourteenth of April, Lincoln was at Ford's Theatre in Washington, watching a play, Our American Cousin. At about a quarter past ten, John Wilkes Booth, a Confederate sympathiser and racist who despised his efforts to end slavery, shot the President. Lincoln never regained consciousness. He was carried across the street to the Petersen boarding house, and laid diagonally across a bed in a small back room, because he was too tall to lie straight. Mary waited in the front parlour with their son Robert. At twenty-two minutes past seven the next morning, Abraham Lincoln died. He was fifty-six.",
+      "paragraphs": [
+        "Five days later, on the evening of the fourteenth of April, Lincoln was at Ford's Theatre in Washington, watching a play, Our American Cousin. At about a quarter past ten, John Wilkes Booth, a Confederate sympathiser and racist who despised his efforts to end slavery, shot the President.",
+        "Lincoln never regained consciousness. He was carried across the street to the Petersen boarding house, and laid diagonally across a bed in a small back room, because he was too tall to lie straight. Mary waited in the front parlour with their son Robert. At twenty-two minutes past seven the next morning, Abraham Lincoln died. He was fifty-six."
+      ]
+    },
+    {
+      "id": "s10",
+      "chapter": "Legacy",
+      "start": 530,
+      "end": 600,
+      "narration": "His funeral train carried him one thousand six hundred and fifty-four miles, through hundreds of towns, home to Springfield. His son Willie's coffin travelled with his. By December eighteen sixty-five, enough states had ratified the Thirteenth Amendment. Slavery was abolished in the United States. In nineteen twenty-two the Lincoln Memorial was dedicated, with the Gettysburg Address and the Second Inaugural carved on its walls. At the dedication, Black guests were reportedly seated in a separate section. Historians still argue about him. Some see a man who grew; others, a man who was pushed. Frederick Douglass, who knew him, saw both. The page he signed ends with a resolve: \"that government of the people, by the people, for the people, shall not perish from the earth.\" Two minutes, a few sheets of paper, and an argument that has never ended.",
+      "paragraphs": [
+        "His funeral train carried him one thousand six hundred and fifty-four miles, through hundreds of towns, home to Springfield. His son Willie's coffin travelled with his. By December eighteen sixty-five, enough states had ratified the Thirteenth Amendment. Slavery was abolished in the United States.",
+        "In nineteen twenty-two the Lincoln Memorial was dedicated, with the Gettysburg Address and the Second Inaugural carved on its walls. At the dedication, Black guests were reportedly seated in a separate section. Historians still argue about him. Some see a man who grew; others, a man who was pushed. Frederick Douglass, who knew him, saw both.",
+        "The page he signed ends with a resolve: \"that government of the people, by the people, for the people, shall not perish from the earth.\"",
+        "Two minutes, a few sheets of paper, and an argument that has never ended."
+      ]
+    }
+  ]
+}

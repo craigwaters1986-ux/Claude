@@ -1,0 +1,123 @@
+{
+ "cues": 152,
+ "script_tokens": 1321,
+ "matched_tokens": 1267,
+ "coverage": 0.9591,
+ "cues_moved": 152,
+ "median_abs_start_shift": 0.07,
+ "max_abs_start_shift": 1.44,
+ "transcript_mismatches": [
+  [
+   "two",
+   "2"
+  ],
+  [
+   "twelfth",
+   "12th"
+  ],
+  [
+   "nineteen",
+   "19"
+  ],
+  [
+   "twelve hundred",
+   "1 200"
+  ],
+  [
+   "ten",
+   "10"
+  ],
+  [
+   "stuart",
+   "stewart"
+  ],
+  [
+   "eleven",
+   "11"
+  ],
+  [
+   "the twelfth of",
+   "12"
+  ],
+  [
+   "harbour",
+   "harbor"
+  ],
+  [
+   "seventy five thousand",
+   "75 000"
+  ],
+  [
+   "eleven",
+   "11"
+  ],
+  [
+   "the first of",
+   "1"
+  ],
+  [
+   "two hundred thousand",
+   "200 000"
+  ],
+  [
+   "thirteenth",
+   "13th"
+  ],
+  [
+   "ninth",
+   "9th"
+  ],
+  [
+   "court house",
+   "courthouse"
+  ],
+  [
+   "six hundred and twenty thousand",
+   "620 000"
+  ],
+  [
+   "seven hundred and fifty thousand",
+   "750 000"
+  ],
+  [
+   "fourteenth",
+   "14th"
+  ],
+  [
+   "theatre",
+   "theater"
+  ],
+  [
+   "ten",
+   "10"
+  ],
+  [
+   "sympathiser",
+   "sympathizer"
+  ],
+  [
+   "petersen",
+   "peterson"
+  ],
+  [
+   "parlour",
+   "parlor"
+  ],
+  [
+   "twenty two",
+   "22"
+  ],
+  [
+   "fifty six",
+   "56"
+  ],
+  [
+   "one thousand six hundred and fifty four",
+   "1 654"
+  ],
+  [
+   "thirteenth",
+   "13th"
+  ]
+ ]
+}

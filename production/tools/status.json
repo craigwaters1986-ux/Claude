@@ -1,0 +1,1732 @@
+{
+  "active": "ep05-industrial",
+  "episodes": {
+    "ep01-ww2": {
+      "title": "World War II: How It Started, How It Ended",
+      "duration": 600,
+      "created": "2026-11-15 14:33",
+      "notes": "",
+      "approvals": {
+        "script": {
+          "state": "APPROVED",
+          "updated": "2026-11-15 16:23",
+          "note": "User approved script v3 in main chat"
+        },
+        "style": {
+          "state": "APPROVED",
+          "updated": "2026-11-15 14:46",
+          "note": "Approved by user via /approve style"
+        },
+        "storyboard": {
+          "state": "APPROVED",
+          "updated": "2026-11-15 19:11",
+          "note": "Approved by user; no mushroom cloud; keep Balkenkreuz; runtime ~605 s for end card"
+        },
+        "final-render": {
+          "state": "APPROVED",
+          "updated": "2026-11-16 19:31",
+          "note": "User approved final render as is (option 1), 2026-11-16. QC polish items N-1..N-10 deferred."
+        }
+      },
+      "tasks": [
+        {
+          "id": "brief",
+          "agent": "director",
+          "task": "Write episode brief and task plan",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "production/reports/handoffs/ep01-ww2/00-director-brief.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "research",
+          "agent": "researcher",
+          "task": "Research subject; research notes + sources",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/research/ep01-ww2/fact-check-script-part1.md",
+            "production/research/ep01-ww2/fact-check-script-part2.md"
+          ],
+          "issues": [],
+          "next": "Sources lists inside both fact-check files",
+          "updated": "2026-11-15 14:50"
+        },
+        {
+          "id": "keywords",
+          "agent": "youtube-specialist",
+          "task": "Keyword and title research",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/exports/ep01-ww2/youtube/keywords.md",
+            "production/exports/ep01-ww2/youtube/title-options.md",
+            "production/exports/ep01-ww2/youtube/hook-review.md",
+            "production/reports/handoffs/ep01-ww2/02-youtube-specialist-keywords.md"
+          ],
+          "issues": [
+            {
+              "text": "Hook review assumed 30 s; real speech window is 21.2 s - redo hook proposals for <=50 words",
+              "opened": "2026-11-15 15:30"
+            },
+            {
+              "text": "QC S3: mark hook-review.md superseded by v3",
+              "opened": "2026-11-15 16:19"
+            },
+            {
+              "text": "QC S4: published chapter for s01 should be 'Summer 1939', not 'The Hook'",
+              "opened": "2026-11-15 16:19"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-15 16:19"
+        },
+        {
+          "id": "script",
+          "agent": "scriptwriter",
+          "task": "Write narration script fitted to duration",
+          "status": "COMPLETED",
+          "depends": [
+            "research"
+          ],
+          "deliverables": [
+            "production/scripts/ep01-ww2/script.md",
+            "production/scripts/ep01-ww2/script.json",
+            "production/scripts/ep01-ww2/changelog-v2.md",
+            "production/reports/handoffs/ep01-ww2/03-scriptwriter-v2-factcheck.md",
+            "production/scripts/ep01-ww2/changelog-v3.md",
+            "production/reports/handoffs/ep01-ww2/05-scriptwriter-v3-hook.md"
+          ],
+          "issues": [
+            {
+              "text": "FACT s08: 156,000 landed by sea AND air (≈132k sea, ≈23k air) - fix wording",
+              "opened": "2026-11-15 14:50",
+              "resolved": "2026-11-15 15:27"
+            },
+            {
+              "text": "DISPUTED s11: 70-85 million is top of range; use 'an estimated 60 million or more'",
+              "opened": "2026-11-15 14:50",
+              "resolved": "2026-11-15 15:27"
+            },
+            {
+              "text": "5 nuance rewordings (part 1) + 2 optional (part 2)",
+              "opened": "2026-11-15 14:50",
+              "resolved": "2026-11-15 15:27"
+            },
+            {
+              "text": "Hook suggestions from youtube-specialist (hook-review.md)",
+              "opened": "2026-11-15 14:50",
+              "resolved": "2026-11-15 15:30"
+            },
+            {
+              "text": "QC v2 MINOR: hook ~153 wpm, trim to <=50 words (hook pass)",
+              "opened": "2026-11-15 15:30",
+              "resolved": "2026-11-15 16:18"
+            },
+            {
+              "text": "QC v2 MINOR: hook tense shift present->would",
+              "opened": "2026-11-15 15:30",
+              "resolved": "2026-11-15 16:18"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-15 16:23"
+        },
+        {
+          "id": "script-factcheck",
+          "agent": "researcher",
+          "task": "Fact-check the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script"
+          ],
+          "deliverables": [
+            "production/research/ep01-ww2/fact-check-script-part1.md",
+            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part1.md",
+            "production/research/ep01-ww2/fact-check-script-part2.md",
+            "production/reports/handoffs/ep01-ww2/01-researcher-factcheck-part2.md",
+            "production/research/ep01-ww2/fact-check-script-v3-hook.md",
+            "production/reports/handoffs/ep01-ww2/06-researcher-v3-spotcheck.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 16:18"
+        },
+        {
+          "id": "script-qc",
+          "agent": "quality-control",
+          "task": "QC review of the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script-factcheck"
+          ],
+          "deliverables": [
+            "production/reports/qc/ep01-ww2/qc-script-v2-20261115.md",
+            "production/reports/handoffs/ep01-ww2/04-quality-control-script-v2.md",
+            "production/reports/qc/ep01-ww2/qc-script-v3-hook-20261115.md",
+            "production/reports/handoffs/ep01-ww2/06-quality-control-v3-hook.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 16:19"
+        },
+        {
+          "id": "style-sample",
+          "agent": "animator",
+          "task": "Character/animation style sample for approval",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/characters/ep01-ww2/style-sample.png"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:46"
+        },
+        {
+          "id": "narration",
+          "agent": "audio-engineer",
+          "task": "Generate narration, timings and SRT",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/output/episode-01-narration.wav",
+            "the-human-story/episode-01-ww2/output/episode-01-subtitles.srt",
+            "production/audio/ep01-ww2/episode-01-narration.wav",
+            "production/audio/ep01-ww2/episode-01-subtitles.srt",
+            "production/audio/ep01-ww2/narration.json",
+            "production/audio/ep01-ww2/measurements.md",
+            "production/audio/ep01-ww2/licences.md",
+            "production/reports/handoffs/ep01-ww2/07-audio-engineer-narration-v3.md"
+          ],
+          "issues": [
+            {
+              "text": "Generated from the unapproved draft script — regenerate if the script changes",
+              "opened": "2026-11-15 14:33",
+              "resolved": "2026-11-15 16:29"
+            },
+            {
+              "text": "Engine copy research/script.json is still v1 - sync to v2 after approval before rebuilding",
+              "opened": "2026-11-15 15:30",
+              "resolved": "2026-11-15 16:29"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-15 16:29"
+        },
+        {
+          "id": "storyboard",
+          "agent": "storyboard",
+          "task": "Timestamped storyboard + asset requests",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [
+            "production/storyboards/ep01-ww2/storyboard.md",
+            "production/storyboards/ep01-ww2/asset-requests.md",
+            "production/reports/handoffs/ep01-ww2/07-storyboard.md",
+            "production/reports/handoffs/ep01-ww2/08-director-storyboard-decisions.md"
+          ],
+          "issues": [
+            {
+              "text": "Visual notes from fact-check: Dunkirk mostly larger ships from the mole; Mussolini at Munich; Pearl Harbor include Oahu airfields; camps liberated Jul 1944-Apr 1945; D-Day include paratroopers/gliders",
+              "opened": "2026-11-15 15:27",
+              "resolved": "2026-11-15 16:43"
+            },
+            {
+              "text": "Optional: show 1939 tension in s01 (e.g. Danzig headline on the bench newspaper)",
+              "opened": "2026-11-15 16:18",
+              "resolved": "2026-11-15 16:43"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-15 19:11"
+        },
+        {
+          "id": "characters",
+          "agent": "animator",
+          "task": "Build characters and character animation",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:style",
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/src/characters/StickFigure.tsx",
+            "production/reports/handoffs/ep01-ww2/09-animator-characters.md",
+            "production/characters/ep01-ww2/sheet-SheetEurope.png",
+            "production/characters/ep01-ww2/sheet-SheetAsia.png",
+            "production/characters/ep01-ww2/sheet-SheetCrowd.png",
+            "production/characters/ep01-ww2/sheet-SheetExpressions.png"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 19:37"
+        },
+        {
+          "id": "environments",
+          "agent": "environment-designer",
+          "task": "Build environments, maps, vehicles, effects",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/src/maps/GeoMap.tsx",
+            "production/environments/ep01-ww2/env-all.png",
+            "production/environments/ep01-ww2/map-notes.md",
+            "production/reports/handoffs/ep01-ww2/09-environment-designer.md"
+          ],
+          "issues": [
+            {
+              "text": "Dunkirk visual: most troops left from the mole on larger ships - don't show little ships carrying most of the army",
+              "opened": "2026-11-15 14:47",
+              "resolved": "2026-11-15 19:45"
+            },
+            {
+              "text": "Apply R-01 map corrections (MR_LINE Aug vs 28 Sept; LOST_TO_POLAND; 5 moderate border fixes) - sent to environment-designer",
+              "opened": "2026-11-15 19:34",
+              "resolved": "2026-11-15 19:45"
+            }
+          ],
+          "next": "MUST 35/35 done; SHOULD/COULD mostly pending (lean mode)",
+          "updated": "2026-11-15 19:45"
+        },
+        {
+          "id": "music-sfx",
+          "agent": "audio-engineer",
+          "task": "Music, SFX and mix",
+          "status": "AWAITING REVIEW",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [
+            "production/audio/ep01-ww2/episode-01-mix-reference.wav",
+            "production/audio/ep01-ww2/measurements.md",
+            "production/audio/ep01-ww2/licences.md",
+            "production/reports/handoffs/ep01-ww2/09-audio-engineer-music-sfx.md"
+          ],
+          "issues": [
+            {
+              "text": "QC S1: title-card SFX must not crowd the last hook line (ends 22.77 s, card at 22.8 s)",
+              "opened": "2026-11-15 16:19",
+              "resolved": "2026-11-15 19:39"
+            }
+          ],
+          "next": "Needs a human listen (measured only)",
+          "updated": "2026-11-15 19:39"
+        },
+        {
+          "id": "assembly",
+          "agent": "video-editor",
+          "task": "Assemble timeline and preview renders",
+          "status": "COMPLETED",
+          "depends": [
+            "narration",
+            "characters",
+            "environments",
+            "music-sfx"
+          ],
+          "deliverables": [
+            "production/video/ep01-ww2/ep01-hook-preview-wip.mp4",
+            "production/reports/handoffs/ep01-ww2/11-video-editor-assembly.md",
+            "the-human-story/episode-01-ww2/src/scenes/Episode.tsx",
+            "the-human-story/episode-01-ww2/scripts/render.sh"
+          ],
+          "issues": [
+            {
+              "text": "Render speed: 30 s hook preview took >10 min (900 frames) - profile maps/globe/particles before full render",
+              "opened": "2026-11-15 15:01",
+              "resolved": "2026-11-15 15:27"
+            },
+            {
+              "text": "Render speed: map frames 3.3x faster after border fix (12.7s->3.8s/frame/tab); still profile street/particles before full render",
+              "opened": "2026-11-15 15:27",
+              "resolved": "2026-11-16 05:16"
+            },
+            {
+              "text": "Use public/audio/mix.wav as the single audio track; Hiroshima flash frame 15992, Nagasaki glow ~16485 (estimate)",
+              "opened": "2026-11-15 19:39",
+              "resolved": "2026-11-16 05:16"
+            },
+            {
+              "text": "Weimar flag (black-red-gold, V-13) needed for S02-06 - not built; don't use the imperial flag",
+              "opened": "2026-11-15 19:45",
+              "resolved": "2026-11-16 05:16"
+            },
+            {
+              "text": "FX-02 atomic flash pending - use existing ScreenFlash with long fade",
+              "opened": "2026-11-15 19:45",
+              "resolved": "2026-11-16 05:16"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-16 05:16"
+        },
+        {
+          "id": "final-render",
+          "agent": "video-editor",
+          "task": "Render and verify final MP4",
+          "status": "COMPLETED",
+          "depends": [
+            "assembly"
+          ],
+          "deliverables": [
+            "the-human-story/episode-01-ww2/output/episode-01-ww2.mp4",
+            "production/video/ep01-ww2/ffprobe-report.txt",
+            "production/video/ep01-ww2/detect-review.md"
+          ],
+          "issues": [
+            {
+              "text": "First render (05:16) killed when the idle cloud container was suspended; restarted 11:49 as tracked background task (2 h slots, resumable)",
+              "opened": "2026-11-16 11:49",
+              "resolved": "2026-11-16 18:57"
+            }
+          ],
+          "next": "final-qc (sonnet)",
+          "updated": "2026-11-16 18:57"
+        },
+        {
+          "id": "final-qc",
+          "agent": "quality-control",
+          "task": "QC review of final render",
+          "status": "COMPLETED",
+          "depends": [
+            "final-render"
+          ],
+          "deliverables": [
+            "production/reports/qc/ep01-ww2/qc-final-render-20261116.md",
+            "production/reports/handoffs/ep01-ww2/12-quality-control-final-render.md"
+          ],
+          "issues": [
+            {
+              "text": "Listen-test the respelled words: Versailles, Sudetenland, Luftwaffe, El Alamein",
+              "opened": "2026-11-15 16:29"
+            },
+            {
+              "text": "Listen for music masking narration at 66.6, 173.3, 175.8, 194.7, 197.5, 278.8, 285.4, 590.5 s (fix: -3/4 dB music or -12 dB ducking)",
+              "opened": "2026-11-15 19:39"
+            }
+          ],
+          "next": "User listen + approval 4",
+          "updated": "2026-11-16 19:03"
+        },
+        {
+          "id": "publishing-pack",
+          "agent": "youtube-specialist",
+          "task": "Title, description, chapters, tags, thumbnail brief, checklist",
+          "status": "COMPLETED",
+          "depends": [
+            "final-qc"
+          ],
+          "deliverables": [
+            "production/exports/ep01-ww2/youtube/publishing-pack.md",
+            "production/exports/ep01-ww2/youtube/chapters.txt",
+            "production/exports/ep01-ww2/youtube/thumbnail-brief.md",
+            "production/exports/ep01-ww2/youtube/publishing-checklist.md",
+            "production/exports/ep01-ww2/episode-01-subtitles.srt"
+          ],
+          "issues": [],
+          "next": "User: pick title, make thumbnail, upload manually",
+          "updated": "2026-11-16 19:33"
+        },
+        {
+          "id": "wrap",
+          "agent": "director",
+          "task": "Final report to the user (user publishes manually)",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "map-sources",
+          "agent": "researcher",
+          "task": "Source map details (R-01): Japanese-held area 1941, D-Day beaches/nationalities, Versailles territorial losses, Sudetenland outline",
+          "status": "COMPLETED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [
+            "production/research/ep01-ww2/map-sources.md",
+            "production/reports/handoffs/ep01-ww2/08-researcher-map-sources.md"
+          ],
+          "issues": [
+            {
+              "text": "Researcher run stopped by account usage limit (resets 7pm UTC) before writing anything - relaunch after reset",
+              "opened": "2026-11-15 19:09",
+              "resolved": "2026-11-15 19:10"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-15 19:34"
+        },
+        {
+          "id": "thumbnail",
+          "agent": "animator",
+          "task": "Build and render the YouTube thumbnail (concept B, 1939 → 1945)",
+          "status": "AWAITING REVIEW",
+          "depends": [],
+          "deliverables": [
+            "production/thumbnails/ep01-ww2/thumbnail-ep01.jpg"
+          ],
+          "issues": [],
+          "next": "User picks/approves thumbnail",
+          "updated": "2026-11-16 19:57"
+        }
+      ]
+    },
+    "ep00-test-titanic": {
+      "title": "Team test: The sinking of the Titanic (45-second teaser)",
+      "duration": 45,
+      "created": "2026-11-15 14:33",
+      "notes": "",
+      "approvals": {
+        "script": {
+          "state": "PENDING",
+          "updated": "2026-11-15 14:41",
+          "note": "Test only - no approval needed"
+        },
+        "style": {
+          "state": "NOT REQUESTED"
+        },
+        "storyboard": {
+          "state": "NOT REQUESTED"
+        },
+        "final-render": {
+          "state": "NOT REQUESTED"
+        }
+      },
+      "tasks": [
+        {
+          "id": "brief",
+          "agent": "director",
+          "task": "Write episode brief and task plan",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "production/reports/handoffs/ep00-test-titanic/00-director-brief.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "research",
+          "agent": "researcher",
+          "task": "Research subject; research notes + sources",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/research/ep00-test-titanic/research-notes.md",
+            "production/research/ep00-test-titanic/sources.md",
+            "production/reports/handoffs/ep00-test-titanic/01-researcher-research.md"
+          ],
+          "issues": [
+            {
+              "text": "Nested delegation unavailable: Director ran as a sub-agent without the Agent tool (ToolSearch 'select:Agent,Task' -> 'No matching deferred tools found'). Researcher not launched.",
+              "opened": "2026-11-15 14:34",
+              "resolved": "2026-11-15 14:34"
+            }
+          ],
+          "next": "",
+          "updated": "2026-11-15 14:37"
+        },
+        {
+          "id": "keywords",
+          "agent": "youtube-specialist",
+          "task": "Keyword and title research",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "script",
+          "agent": "scriptwriter",
+          "task": "Write narration script fitted to duration",
+          "status": "AWAITING REVIEW",
+          "depends": [
+            "research"
+          ],
+          "deliverables": [
+            "production/scripts/ep00-test-titanic/script.md",
+            "production/reports/handoffs/ep00-test-titanic/02-scriptwriter-script.md"
+          ],
+          "issues": [
+            {
+              "text": "QC#1 MINOR: runs ~46-50 s; cut 6-8 words to fit 45 s",
+              "opened": "2026-11-15 14:41"
+            },
+            {
+              "text": "QC#3 MINOR: on-screen card 4 too long for mobile; split",
+              "opened": "2026-11-15 14:41"
+            },
+            {
+              "text": "QC#4 MINOR: use 'about' not 'c.' on screen",
+              "opened": "2026-11-15 14:41"
+            }
+          ],
+          "next": "Scriptwriter fixes (team test - optional)",
+          "updated": "2026-11-15 14:41"
+        },
+        {
+          "id": "script-factcheck",
+          "agent": "researcher",
+          "task": "Fact-check the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "Covered by QC in team test (2 figures checked against British inquiry)",
+          "updated": "2026-11-15 14:41"
+        },
+        {
+          "id": "script-qc",
+          "agent": "quality-control",
+          "task": "QC review of the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script-factcheck"
+          ],
+          "deliverables": [
+            "production/reports/qc/ep00-test-titanic/qc-script-20261115.md",
+            "production/reports/handoffs/ep00-test-titanic/03-quality-control-script-qc.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:41"
+        },
+        {
+          "id": "style-sample",
+          "agent": "animator",
+          "task": "Character/animation style sample for approval",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "narration",
+          "agent": "audio-engineer",
+          "task": "Generate narration, timings and SRT",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "storyboard",
+          "agent": "storyboard",
+          "task": "Timestamped storyboard + asset requests",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "characters",
+          "agent": "animator",
+          "task": "Build characters and character animation",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:style",
+            "approval:storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "environments",
+          "agent": "environment-designer",
+          "task": "Build environments, maps, vehicles, effects",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "music-sfx",
+          "agent": "audio-engineer",
+          "task": "Music, SFX and mix",
+          "status": "NOT STARTED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "assembly",
+          "agent": "video-editor",
+          "task": "Assemble timeline and preview renders",
+          "status": "NOT STARTED",
+          "depends": [
+            "narration",
+            "characters",
+            "environments",
+            "music-sfx"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "final-render",
+          "agent": "video-editor",
+          "task": "Render and verify final MP4",
+          "status": "NOT STARTED",
+          "depends": [
+            "assembly"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "final-qc",
+          "agent": "quality-control",
+          "task": "QC review of final render",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "publishing-pack",
+          "agent": "youtube-specialist",
+          "task": "Title, description, chapters, tags, thumbnail brief, checklist",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-qc"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        },
+        {
+          "id": "wrap",
+          "agent": "director",
+          "task": "Final report to the user (user publishes manually)",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-15 14:33"
+        }
+      ]
+    },
+    "ep02-ww1": {
+      "title": "World War I: From Start to Finish",
+      "duration": 720,
+      "created": "2026-11-16 21:02",
+      "notes": "",
+      "approvals": {
+        "script": {
+          "state": "APPROVED",
+          "updated": "2026-11-16 21:28",
+          "note": "User approved script v2 (1,519 words, 720 s) 2026-11-16"
+        },
+        "style": {
+          "state": "APPROVED",
+          "updated": "2026-11-16 21:28",
+          "note": "User approved WW1 style sample 2026-11-16; canaries: keep heads white (house style)"
+        },
+        "storyboard": {
+          "state": "APPROVED",
+          "updated": "2026-11-17 05:00",
+          "note": "User approved all 7 recommendations (Guide, Sarajevo, Somme, Armenian Genocide, canaries, red flags, poppies+bugle)"
+        },
+        "final-render": {
+          "state": "NOT REQUESTED"
+        }
+      },
+      "tasks": [
+        {
+          "id": "brief",
+          "agent": "director",
+          "task": "Write episode brief and task plan",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "production/reports/handoffs/ep02-ww1/00-director-brief.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-16 21:02"
+        },
+        {
+          "id": "research",
+          "agent": "researcher",
+          "task": "Research subject; research notes + sources",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/research/ep02-ww1/research-notes.md",
+            "production/research/ep02-ww1/sources.md",
+            "production/reports/handoffs/ep02-ww1/01-researcher-research.md"
+          ],
+          "issues": [],
+          "next": "Done: 132 facts; hook 'Two shots, one wrong turn'",
+          "updated": "2026-11-16 21:12"
+        },
+        {
+          "id": "keywords",
+          "agent": "youtube-specialist",
+          "task": "Keyword and title research",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "Lean mode: done in publishing pack at the end",
+          "updated": "2026-11-16 21:02"
+        },
+        {
+          "id": "script",
+          "agent": "scriptwriter",
+          "task": "Write narration script fitted to duration",
+          "status": "COMPLETED",
+          "depends": [
+            "research"
+          ],
+          "deliverables": [
+            "production/scripts/ep02-ww1/script.md",
+            "production/scripts/ep02-ww1/script.json",
+            "production/reports/handoffs/ep02-ww1/02-scriptwriter-script.md"
+          ],
+          "issues": [
+            {
+              "text": "TTS fit estimated (Kokoro not installed): all sections <=1.08x; recheck at narration",
+              "opened": "2026-11-16 21:22",
+              "resolved": "2026-11-16 21:29"
+            }
+          ],
+          "next": "Approved by user (checkpoint 1); fit recheck moved to narration",
+          "updated": "2026-11-16 21:29"
+        },
+        {
+          "id": "script-factcheck",
+          "agent": "researcher",
+          "task": "Fact-check the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "Covered by combined QC review (Lean mode)",
+          "updated": "2026-11-16 21:22"
+        },
+        {
+          "id": "script-qc",
+          "agent": "quality-control",
+          "task": "QC review of the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script-factcheck"
+          ],
+          "deliverables": [
+            "production/reports/qc/ep02-ww1/qc-script-20261116.md",
+            "production/reports/handoffs/ep02-ww1/04-quality-control-script-qc.md"
+          ],
+          "issues": [],
+          "next": "PASS WITH FIXES (0 blocking, 2 major, 6 minor)",
+          "updated": "2026-11-16 21:25"
+        },
+        {
+          "id": "style-sample",
+          "agent": "animator",
+          "task": "Character/animation style sample for approval",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/characters/ep02-ww1/style-sample.png",
+            "production/reports/handoffs/ep02-ww1/03-animator-style-sample.md"
+          ],
+          "issues": [
+            {
+              "text": "Trench set needed from environment-designer (sample uses a stand-in)",
+              "opened": "2026-11-16 21:20",
+              "resolved": "2026-11-16 21:29"
+            },
+            {
+              "text": "Decision: 'canary' munitionette yellow tint vs house rule of white heads",
+              "opened": "2026-11-16 21:20",
+              "resolved": "2026-11-16 21:29"
+            }
+          ],
+          "next": "Approved by user (checkpoint 2); canaries: keep heads white; trench set moved to storyboard MUST list",
+          "updated": "2026-11-16 21:29"
+        },
+        {
+          "id": "narration",
+          "agent": "audio-engineer",
+          "task": "Generate narration, timings and SRT",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [
+            "production/audio/ep02-ww1/narration.json",
+            "production/audio/ep02-ww1/episode-02-subtitles.srt",
+            "production/audio/ep02-ww1/measurements.md",
+            "production/audio/ep02-ww1/licences.md",
+            "production/reports/handoffs/ep02-ww1/06-audio-engineer-narration.md",
+            "production/audio/ep02-ww1/narration-before-after.mp3",
+            "production/reports/handoffs/ep02-ww1/10-audio-engineer-narration-naturalness.md"
+          ],
+          "issues": [
+            {
+              "text": "User listen 2026-11-17: some narration sounds robotic, e.g. '11 p.m.' has a long pause between P and M",
+              "opened": "2026-11-17 18:56",
+              "resolved": "2026-11-17 20:30"
+            },
+            {
+              "text": "User listen: narration-before-after.mp3 and v3 mix",
+              "opened": "2026-11-17 19:41",
+              "resolved": "2026-11-17 20:30"
+            }
+          ],
+          "next": "User approved v3 narration (2026-11-17)",
+          "updated": "2026-11-17 20:30"
+        },
+        {
+          "id": "storyboard",
+          "agent": "storyboard",
+          "task": "Timestamped storyboard + asset requests",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [
+            "production/storyboards/ep02-ww1/storyboard.md",
+            "production/storyboards/ep02-ww1/asset-requests.md",
+            "production/reports/handoffs/ep02-ww1/07-storyboard.md"
+          ],
+          "issues": [],
+          "next": "Approved (checkpoint 3); phase C next: characters, environments, music-sfx",
+          "updated": "2026-11-17 05:00"
+        },
+        {
+          "id": "characters",
+          "agent": "animator",
+          "task": "Build characters and character animation",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:style",
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-02-ww1/src/characters/cast.ts",
+            "production/characters/ep02-ww1/sheet-ep02-cast.png",
+            "production/reports/handoffs/ep02-ww1/09-animator-characters.md"
+          ],
+          "issues": [],
+          "next": "A-01..A-06 + A-S1 tremble done; APIs in handoff 09; FOCH_TAG wording confirmed by researcher",
+          "updated": "2026-11-17 18:17"
+        },
+        {
+          "id": "environments",
+          "agent": "environment-designer",
+          "task": "Build environments, maps, vehicles, effects",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "production/environments/ep02-ww1/map-notes.md",
+            "production/environments/ep02-ww1/sheet-Env.png",
+            "production/environments/ep02-ww1/sheet-Vehicles.png",
+            "production/environments/ep02-ww1/maps-sheet-A.png",
+            "production/environments/ep02-ww1/maps-sheet-B.png",
+            "production/environments/ep02-ww1/maps-sheet-C.png",
+            "production/reports/handoffs/ep02-ww1/09-environment-designer.md"
+          ],
+          "issues": [],
+          "next": "All MUST + E-S1 done; APIs in map-notes.md. On-screen front length: 'about 700 km'. Use distinct idSuffix for same-camera crossfades",
+          "updated": "2026-11-17 19:11"
+        },
+        {
+          "id": "music-sfx",
+          "agent": "audio-engineer",
+          "task": "Music, SFX and mix",
+          "status": "COMPLETED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [
+            "production/audio/ep02-ww1/episode-02-mix-reference-listen.mp3",
+            "production/audio/ep02-ww1/measurements.md",
+            "production/audio/ep02-ww1/licences.md",
+            "production/reports/handoffs/ep02-ww1/09-audio-engineer-music-sfx.md"
+          ],
+          "issues": [
+            {
+              "text": "User listen: hummed Silent Night 231-259 s (fallback: solo violin) and bugle 684.7 s",
+              "opened": "2026-11-17 18:40",
+              "resolved": "2026-11-17 20:30"
+            },
+            {
+              "text": "QC listen: music within 3-5 dB of narration at 12.9, 17.9, 18.0, 113.3, 159.5, 532.0 s (fix -3 dB)",
+              "opened": "2026-11-17 18:40"
+            }
+          ],
+          "next": "User approved mix (2026-11-17); music-masking spots carried to final QC",
+          "updated": "2026-11-17 20:30"
+        },
+        {
+          "id": "assembly",
+          "agent": "video-editor",
+          "task": "Assemble timeline and preview renders",
+          "status": "COMPLETED",
+          "depends": [
+            "narration",
+            "characters",
+            "environments",
+            "music-sfx"
+          ],
+          "deliverables": [
+            "the-human-story/episode-02-ww1/src/scenes/Episode.tsx",
+            "the-human-story/episode-02-ww1/scripts/render.sh",
+            "production/reports/handoffs/ep02-ww1/12-video-editor-assembly-a.md",
+            "production/reports/handoffs/ep02-ww1/12-video-editor-assembly-b.md",
+            "production/reports/handoffs/ep02-ww1/HANDOVER-ep02-ww1.md"
+          ],
+          "issues": [
+            {
+              "text": "Motion unchecked (stills only): smoke test TEST=3300-3599 before full render",
+              "opened": "2026-11-18 04:33"
+            },
+            {
+              "text": "S11-07 Versailles map labels 22-26 px (< 36 px rule; library change)",
+              "opened": "2026-11-18 04:33",
+              "resolved": "2026-11-18 19:04"
+            },
+            {
+              "text": "Minor overlaps: S06-02 ANZACS card vs GALLIPOLI label ~5 s; S11-03 BORDERS APPROXIMATE vs TURKEY; S10-01 FRANCE label into caption band",
+              "opened": "2026-11-18 04:33",
+              "resolved": "2026-11-18 19:04"
+            }
+          ],
+          "next": "Minor issues carried to final QC. Phase D next: smoke test -> full render",
+          "updated": "2026-11-18 19:04"
+        },
+        {
+          "id": "final-render",
+          "agent": "video-editor",
+          "task": "Render and verify final MP4",
+          "status": "NOT STARTED",
+          "depends": [
+            "assembly"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "Run bash scripts/render.sh (see HANDOVER-v2)",
+          "updated": "2026-11-18 19:06"
+        },
+        {
+          "id": "final-qc",
+          "agent": "quality-control",
+          "task": "QC review of final render",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-16 21:02"
+        },
+        {
+          "id": "publishing-pack",
+          "agent": "youtube-specialist",
+          "task": "Title, description, chapters, tags, thumbnail brief, checklist",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-qc"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-16 21:02"
+        },
+        {
+          "id": "wrap",
+          "agent": "director",
+          "task": "Final report to the user (user publishes manually)",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-16 21:02"
+        },
+        {
+          "id": "name-checks",
+          "agent": "researcher",
+          "task": "Confirm Foch 1918 tag wording and Ellison headstone initials",
+          "status": "COMPLETED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [
+            "production/research/ep02-ww1/research-notes.md",
+            "production/research/ep02-ww1/sources.md",
+            "production/reports/handoffs/ep02-ww1/09-researcher-name-checks.md"
+          ],
+          "issues": [],
+          "next": "Foch: GENERAL FERDINAND FOCH / Allied commander, 1918 (S10-02 is pre-6 Aug). Headstone: G. E. ELLISON",
+          "updated": "2026-11-17 18:13"
+        },
+        {
+          "id": "audio-rebuild",
+          "agent": "audio-engineer",
+          "task": "Rebuild git-ignored render audio (narration v3, sfx, music, mix.wav) in fresh container; verify against approved md5/measurements",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "the-human-story/episode-02-ww1/public/audio/mix.wav",
+            "production/reports/handoffs/ep02-ww1/11-audio-engineer-rebuild.md",
+            "production/audio/ep02-ww1/measurements.md"
+          ],
+          "issues": [
+            {
+              "text": "Narration md5 differs from approved (b0ff08dc vs b418917f), likely onnxruntime/numpy build; duration, timings, SRT identical; mix -14.1 LUFS/-1.5 dBTP matches v3; null test vs approved listen MP3 residual -38.6 dB mean. Confirm by ear at final QC.",
+              "opened": "2026-11-17 20:47"
+            }
+          ],
+          "next": "mix.wav ready for render",
+          "updated": "2026-11-17 20:47"
+        },
+        {
+          "id": "audio-rebuild-2",
+          "agent": "audio-engineer",
+          "task": "Rebuild git-ignored render audio (mix.wav) again in the 2026-11-18 container; verify vs measurements",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "the-human-story/episode-02-ww1/public/audio/mix.wav",
+            "production/reports/handoffs/ep02-ww1/13-audio-engineer-rebuild-2.md",
+            "production/audio/ep02-ww1/measurements.md"
+          ],
+          "issues": [],
+          "next": "mix.wav ready; versions pinned (narration md5 b0ff08dc reproducible)",
+          "updated": "2026-11-18 04:30"
+        }
+      ]
+    },
+    "ep04-lincoln": {
+      "title": "Abraham Lincoln: From Log Cabin to Legacy (working title)",
+      "duration": 600,
+      "created": "2026-11-20 18:24",
+      "notes": "",
+      "approvals": {
+        "script": {
+          "state": "APPROVED",
+          "updated": "2026-11-20 18:55",
+          "note": "Craig, 20 Nov 2026: approved, QC minor notes applied (rev1, 1,295 words)"
+        },
+        "style": {
+          "state": "APPROVED",
+          "updated": "2026-11-20 19:52",
+          "note": "Craig approved test reel + music test, 20 Nov 2026"
+        },
+        "storyboard": {
+          "state": "APPROVED",
+          "updated": "2026-11-20 19:52",
+          "note": "Craig approved storyboard + cue sheet; ElevenLabs music: yes"
+        },
+        "final-render": {
+          "state": "APPROVED",
+          "updated": "2026-11-21 21:13",
+          "note": "Craig published the John North version on YouTube himself (21 Nov 2026)."
+        }
+      },
+      "tasks": [
+        {
+          "id": "brief",
+          "agent": "director",
+          "task": "Write episode brief and task plan",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "production/scripts/ep05-lincoln/HANDOVER.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-20 18:25"
+        },
+        {
+          "id": "research",
+          "agent": "researcher",
+          "task": "Research subject; research notes + sources",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/research/ep05-lincoln/research-notes.md",
+            "production/research/ep05-lincoln/sources.md"
+          ],
+          "issues": [],
+          "next": "Researcher writing research-notes.md + sources.md",
+          "updated": "2026-11-20 18:38"
+        },
+        {
+          "id": "keywords",
+          "agent": "youtube-specialist",
+          "task": "Keyword and title research",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/exports/ep04-lincoln/youtube/keywords.md"
+          ],
+          "issues": [],
+          "next": "Tags and titles in the publishing pack",
+          "updated": "2026-11-20 23:19"
+        },
+        {
+          "id": "script",
+          "agent": "scriptwriter",
+          "task": "Write narration script fitted to duration",
+          "status": "COMPLETED",
+          "depends": [
+            "research"
+          ],
+          "deliverables": [
+            "production/scripts/ep05-lincoln/episode-05-script.md",
+            "production/scripts/ep04-lincoln/episode-04-script.md",
+            "production/scripts/ep04-lincoln/script-sources.md"
+          ],
+          "issues": [],
+          "next": "Approved by Craig 20 Nov 2026 with QC minors applied (1,295 words)",
+          "updated": "2026-11-20 18:55"
+        },
+        {
+          "id": "script-factcheck",
+          "agent": "researcher",
+          "task": "Fact-check the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "covered by combined QC review",
+          "updated": "2026-11-20 18:46"
+        },
+        {
+          "id": "script-qc",
+          "agent": "quality-control",
+          "task": "QC review of the script",
+          "status": "COMPLETED",
+          "depends": [
+            "script-factcheck"
+          ],
+          "deliverables": [
+            "production/reports/qc/ep05-lincoln/qc-script-2026-11-20.md"
+          ],
+          "issues": [],
+          "next": "Combined fact + quality review",
+          "updated": "2026-11-20 18:48"
+        },
+        {
+          "id": "style-sample",
+          "agent": "animator",
+          "task": "Character/animation style sample for approval",
+          "status": "COMPLETED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [
+            "production/exports/ep04-lincoln/phase-b/ep04-upgrade-test.mp4",
+            "production/exports/ep04-lincoln/phase-b/ep04-music-test.mp4",
+            "production/reports/handoffs/ep04-lincoln/phase-b-engine-style-storyboard.md"
+          ],
+          "issues": [],
+          "next": "Approved by Craig 20 Nov 2026",
+          "updated": "2026-11-20 20:18"
+        },
+        {
+          "id": "narration",
+          "agent": "audio-engineer",
+          "task": "Generate narration, timings and SRT",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [
+            "production/audio/ep04-lincoln/narration-draft.flac",
+            "production/scripts/ep04-lincoln/captions-aligned.srt",
+            "production/scripts/ep04-lincoln/edit-plan.md",
+            "production/audio/ep04-lincoln/elevenlabs-groups"
+          ],
+          "issues": [],
+          "next": "Phase D2 done 21 Nov 2026: ElevenLabs narration (Liam Dale) and ElevenLabs Music score; 525.1 s, 155 caption cues",
+          "updated": "2026-11-21 07:00"
+        },
+        {
+          "id": "storyboard",
+          "agent": "storyboard",
+          "task": "Timestamped storyboard + asset requests",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [
+            "production/storyboards/ep04-lincoln/storyboard.md",
+            "production/storyboards/ep04-lincoln/music-cue-sheet.md"
+          ],
+          "issues": [],
+          "next": "Approved by Craig 20 Nov 2026",
+          "updated": "2026-11-20 20:18"
+        },
+        {
+          "id": "characters",
+          "agent": "animator",
+          "task": "Build characters and character animation",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:style",
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/src/scenes/S01.tsx",
+            "the-human-story/episode-04-lincoln/src/kit/Horse.tsx"
+          ],
+          "issues": [],
+          "next": "Phase C done",
+          "updated": "2026-11-20 20:57"
+        },
+        {
+          "id": "environments",
+          "agent": "environment-designer",
+          "task": "Build environments, maps, vehicles, effects",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/src/kit/USMap.tsx",
+            "the-human-story/episode-04-lincoln/src/kit/Sets04b.tsx",
+            "production/scripts/ep04-lincoln/credits-maps.md"
+          ],
+          "issues": [],
+          "next": "Phase C done",
+          "updated": "2026-11-20 20:57"
+        },
+        {
+          "id": "music-sfx",
+          "agent": "audio-engineer",
+          "task": "Music, SFX and mix",
+          "status": "COMPLETED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/scripts/audio.py",
+            "production/audio/ep04-lincoln/sound-notes.md",
+            "production/audio/ep04-lincoln/episode-04-mix-listen.mp3",
+            "production/audio/ep04-lincoln/elevenlabs-score/README.md"
+          ],
+          "issues": [],
+          "next": "Phase D2 done 21 Nov 2026: ElevenLabs narration (Liam Dale) and ElevenLabs Music score; -14.0 LUFS, -1.5 dBTP, voice 24 dB over music; nobody has listened",
+          "updated": "2026-11-21 07:00"
+        },
+        {
+          "id": "assembly",
+          "agent": "video-editor",
+          "task": "Assemble timeline and preview renders",
+          "status": "COMPLETED",
+          "depends": [
+            "narration",
+            "characters",
+            "environments",
+            "music-sfx"
+          ],
+          "deliverables": [
+            "the-human-story/episode-04-lincoln/src/Episode.tsx"
+          ],
+          "issues": [],
+          "next": "Episode composition assembled; render in Phase D",
+          "updated": "2026-11-20 20:57"
+        },
+        {
+          "id": "final-render",
+          "agent": "video-editor",
+          "task": "Render and verify final MP4",
+          "status": "COMPLETED",
+          "depends": [
+            "assembly"
+          ],
+          "deliverables": [
+            "production/exports/ep04-lincoln/episode-04-lincoln-1080p.mp4",
+            "production/exports/ep04-lincoln/episode-04-lincoln-720p-small.mp4"
+          ],
+          "issues": [],
+          "next": "Second final render, 21 Nov 2026 (re-timed picture, new voice and score)",
+          "updated": "2026-11-21 07:00"
+        },
+        {
+          "id": "final-qc",
+          "agent": "quality-control",
+          "task": "QC review of final render",
+          "status": "COMPLETED",
+          "depends": [
+            "final-render"
+          ],
+          "deliverables": [
+            "production/reports/qc/ep04-lincoln/qc-final-render-2026-11-20.md",
+            "production/reports/qc/ep04-lincoln/qc-final-render-2026-11-21.md"
+          ],
+          "issues": [],
+          "next": "Measured QC passed; independent visual pass done, 2 majors fixed; open: 1922 seating shot, 3 captions 0.5 s early; listen-through left for Craig",
+          "updated": "2026-11-21 07:36"
+        },
+        {
+          "id": "publishing-pack",
+          "agent": "youtube-specialist",
+          "task": "Title, description, chapters, tags, thumbnail brief, checklist",
+          "status": "COMPLETED",
+          "depends": [
+            "final-qc"
+          ],
+          "deliverables": [
+            "production/exports/ep04-lincoln/youtube/publishing-pack.md",
+            "production/exports/ep04-lincoln/youtube/thumbnail.jpg"
+          ],
+          "issues": [],
+          "next": "Chapters and credits updated for the new voice and music; Craig uploads manually",
+          "updated": "2026-11-21 07:00"
+        },
+        {
+          "id": "wrap",
+          "agent": "director",
+          "task": "Final report to the user (user publishes manually)",
+          "status": "COMPLETED",
+          "depends": [
+            "approval:final-render"
+          ],
+          "deliverables": [
+            "production/reports/qc/ep04-lincoln/qc-final-render-2026-11-21.md"
+          ],
+          "issues": [],
+          "next": "Approval 4 given 21 Nov 2026; Craig uploads manually",
+          "updated": "2026-11-21 07:55"
+        }
+      ]
+    },
+    "ep05-industrial": {
+      "title": "The Industrial Revolution",
+      "duration": 600,
+      "created": "2026-11-21 21:31",
+      "notes": "",
+      "approvals": {
+        "script": {
+          "state": "NOT REQUESTED"
+        },
+        "style": {
+          "state": "NOT REQUESTED"
+        },
+        "storyboard": {
+          "state": "NOT REQUESTED"
+        },
+        "final-render": {
+          "state": "NOT REQUESTED"
+        }
+      },
+      "tasks": [
+        {
+          "id": "brief",
+          "agent": "director",
+          "task": "Write episode brief and task plan",
+          "status": "COMPLETED",
+          "depends": [],
+          "deliverables": [
+            "production/reports/handoffs/ep05-industrial/00-director-brief.md"
+          ],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "research",
+          "agent": "researcher",
+          "task": "Research subject; research notes + sources",
+          "status": "IN PROGRESS",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "keywords",
+          "agent": "youtube-specialist",
+          "task": "Keyword and title research",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "script",
+          "agent": "scriptwriter",
+          "task": "Write narration script fitted to duration",
+          "status": "NOT STARTED",
+          "depends": [
+            "research"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "script-factcheck",
+          "agent": "researcher",
+          "task": "Fact-check the script",
+          "status": "NOT STARTED",
+          "depends": [
+            "script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "script-qc",
+          "agent": "quality-control",
+          "task": "QC review of the script",
+          "status": "NOT STARTED",
+          "depends": [
+            "script-factcheck"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "style-sample",
+          "agent": "animator",
+          "task": "Character/animation style sample for approval",
+          "status": "NOT STARTED",
+          "depends": [
+            "brief"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "narration",
+          "agent": "audio-engineer",
+          "task": "Generate narration, timings and SRT",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "storyboard",
+          "agent": "storyboard",
+          "task": "Timestamped storyboard + asset requests",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:script"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "characters",
+          "agent": "animator",
+          "task": "Build characters and character animation",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:style",
+            "approval:storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "environments",
+          "agent": "environment-designer",
+          "task": "Build environments, maps, vehicles, effects",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "music-sfx",
+          "agent": "audio-engineer",
+          "task": "Music, SFX and mix",
+          "status": "NOT STARTED",
+          "depends": [
+            "storyboard"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "assembly",
+          "agent": "video-editor",
+          "task": "Assemble timeline and preview renders",
+          "status": "NOT STARTED",
+          "depends": [
+            "narration",
+            "characters",
+            "environments",
+            "music-sfx"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "final-render",
+          "agent": "video-editor",
+          "task": "Render and verify final MP4",
+          "status": "NOT STARTED",
+          "depends": [
+            "assembly"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "final-qc",
+          "agent": "quality-control",
+          "task": "QC review of final render",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "publishing-pack",
+          "agent": "youtube-specialist",
+          "task": "Title, description, chapters, tags, thumbnail brief, checklist",
+          "status": "NOT STARTED",
+          "depends": [
+            "final-qc"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        },
+        {
+          "id": "wrap",
+          "agent": "director",
+          "task": "Final report to the user (user publishes manually)",
+          "status": "NOT STARTED",
+          "depends": [
+            "approval:final-render"
+          ],
+          "deliverables": [],
+          "issues": [],
+          "next": "",
+          "updated": "2026-11-21 21:31"
+        }
+      ]
+    }
+  }
+}

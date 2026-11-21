@@ -1,0 +1,1575 @@
+{
+ "chapters": [
+  {
+   "start": 0.0,
+   "title": "Two minutes",
+   "section": "s01"
+  },
+  {
+   "start": 31.555,
+   "title": "A cabin in Kentucky",
+   "section": "s02"
+  },
+  {
+   "start": 84.85,
+   "title": "The rail-splitter",
+   "section": "s03"
+  },
+  {
+   "start": 134.242,
+   "title": "Lawyer and politician",
+   "section": "s04"
+  },
+  {
+   "start": 199.106,
+   "title": "A house divided",
+   "section": "s05"
+  },
+  {
+   "start": 267.036,
+   "title": "President of a breaking country",
+   "section": "s06"
+  },
+  {
+   "start": 324.391,
+   "title": "War and emancipation",
+   "section": "s07"
+  },
+  {
+   "start": 416.661,
+   "title": "Malice toward none",
+   "section": "s08"
+  },
+  {
+   "start": 482.379,
+   "title": "Ford's Theatre",
+   "section": "s09"
+  },
+  {
+   "start": 531.38,
+   "title": "Legacy",
+   "section": "s10"
+  }
+ ],
+ "beats": [
+  {
+   "section": "s01",
+   "kind": "open",
+   "start": 0.0,
+   "end": 3.0
+  },
+  {
+   "section": "s01",
+   "kind": "title",
+   "start": 27.0,
+   "end": 31.215
+  },
+  {
+   "section": "s02",
+   "kind": "card",
+   "start": 31.555,
+   "end": 34.055
+  },
+  {
+   "section": "s02",
+   "kind": "scene",
+   "start": 34.055,
+   "end": 37.055
+  },
+  {
+   "section": "s02",
+   "kind": "scene",
+   "start": 61.681,
+   "end": 66.181
+  },
+  {
+   "section": "s02",
+   "kind": "scene",
+   "start": 82.401,
+   "end": 84.51
+  },
+  {
+   "section": "s03",
+   "kind": "card",
+   "start": 84.85,
+   "end": 87.35
+  },
+  {
+   "section": "s03",
+   "kind": "scene",
+   "start": 87.35,
+   "end": 89.35
+  },
+  {
+   "section": "s03",
+   "kind": "scene",
+   "start": 132.227,
+   "end": 133.902
+  },
+  {
+   "section": "s04",
+   "kind": "card",
+   "start": 134.242,
+   "end": 136.742
+  },
+  {
+   "section": "s04",
+   "kind": "scene",
+   "start": 162.645,
+   "end": 164.245
+  },
+  {
+   "section": "s04",
+   "kind": "scene",
+   "start": 184.365,
+   "end": 185.965
+  },
+  {
+   "section": "s04",
+   "kind": "scene",
+   "start": 196.887,
+   "end": 198.766
+  },
+  {
+   "section": "s05",
+   "kind": "card",
+   "start": 199.106,
+   "end": 201.606
+  },
+  {
+   "section": "s05",
+   "kind": "scene",
+   "start": 265.196,
+   "end": 266.696
+  },
+  {
+   "section": "s06",
+   "kind": "card",
+   "start": 267.036,
+   "end": 269.536
+  },
+  {
+   "section": "s06",
+   "kind": "scene",
+   "start": 322.55,
+   "end": 324.051
+  },
+  {
+   "section": "s07",
+   "kind": "card",
+   "start": 324.391,
+   "end": 326.891
+  },
+  {
+   "section": "s07",
+   "kind": "scene",
+   "start": 396.861,
+   "end": 400.361
+  },
+  {
+   "section": "s07",
+   "kind": "doc",
+   "start": 414.821,
+   "end": 416.321
+  },
+  {
+   "section": "s08",
+   "kind": "card",
+   "start": 416.661,
+   "end": 419.161
+  },
+  {
+   "section": "s08",
+   "kind": "scene",
+   "start": 442.091,
+   "end": 444.091
+  },
+  {
+   "section": "s08",
+   "kind": "scene",
+   "start": 480.539,
+   "end": 482.039
+  },
+  {
+   "section": "s09",
+   "kind": "card",
+   "start": 482.379,
+   "end": 484.879
+  },
+  {
+   "section": "s09",
+   "kind": "scene",
+   "start": 506.128,
+   "end": 508.128
+  },
+  {
+   "section": "s09",
+   "kind": "scene",
+   "start": 527.848,
+   "end": 531.04
+  },
+  {
+   "section": "s10",
+   "kind": "card",
+   "start": 531.38,
+   "end": 533.88
+  },
+  {
+   "section": "s10",
+   "kind": "doc",
+   "start": 553.787,
+   "end": 556.087
+  },
+  {
+   "section": "s10",
+   "kind": "end",
+   "start": 594.657,
+   "end": 599.66
+  }
+ ],
+ "groups": [
+  {
+   "group": 0,
+   "section": "s01",
+   "start": 3.0,
+   "end": 27.0
+  },
+  {
+   "group": 1,
+   "section": "s02",
+   "start": 37.055,
+   "end": 61.681
+  },
+  {
+   "group": 2,
+   "section": "s02",
+   "start": 66.521,
+   "end": 82.401
+  },
+  {
+   "group": 3,
+   "section": "s03",
+   "start": 89.35,
+   "end": 112.899
+  },
+  {
+   "group": 4,
+   "section": "s03",
+   "start": 113.239,
+   "end": 132.227
+  },
+  {
+   "group": 5,
+   "section": "s04",
+   "start": 136.742,
+   "end": 162.645
+  },
+  {
+   "group": 6,
+   "section": "s04",
+   "start": 164.585,
+   "end": 184.365
+  },
+  {
+   "group": 7,
+   "section": "s04",
+   "start": 186.305,
+   "end": 196.887
+  },
+  {
+   "group": 8,
+   "section": "s05",
+   "start": 201.606,
+   "end": 218.101
+  },
+  {
+   "group": 9,
+   "section": "s05",
+   "start": 218.441,
+   "end": 232.312
+  },
+  {
+   "group": 10,
+   "section": "s05",
+   "start": 232.652,
+   "end": 254.839
+  },
+  {
+   "group": 11,
+   "section": "s05",
+   "start": 255.179,
+   "end": 265.196
+  },
+  {
+   "group": 12,
+   "section": "s06",
+   "start": 269.536,
+   "end": 291.759
+  },
+  {
+   "group": 13,
+   "section": "s06",
+   "start": 292.099,
+   "end": 315.585
+  },
+  {
+   "group": 14,
+   "section": "s06",
+   "start": 315.925,
+   "end": 322.55
+  },
+  {
+   "group": 15,
+   "section": "s07",
+   "start": 326.891,
+   "end": 348.731
+  },
+  {
+   "group": 16,
+   "section": "s07",
+   "start": 349.071,
+   "end": 371.906
+  },
+  {
+   "group": 17,
+   "section": "s07",
+   "start": 372.246,
+   "end": 396.861
+  },
+  {
+   "group": 18,
+   "section": "s07",
+   "start": 400.701,
+   "end": 414.821
+  },
+  {
+   "group": 19,
+   "section": "s08",
+   "start": 419.161,
+   "end": 442.091
+  },
+  {
+   "group": 20,
+   "section": "s08",
+   "start": 444.431,
+   "end": 465.19
+  },
+  {
+   "group": 21,
+   "section": "s08",
+   "start": 465.53,
+   "end": 480.539
+  },
+  {
+   "group": 22,
+   "section": "s09",
+   "start": 484.879,
+   "end": 506.128
+  },
+  {
+   "group": 23,
+   "section": "s09",
+   "start": 508.468,
+   "end": 527.848
+  },
+  {
+   "group": 24,
+   "section": "s10",
+   "start": 533.88,
+   "end": 553.787
+  },
+  {
+   "group": 25,
+   "section": "s10",
+   "start": 556.427,
+   "end": 579.989
+  },
+  {
+   "group": 26,
+   "section": "s10",
+   "start": 580.329,
+   "end": 594.657
+  }
+ ],
+ "captions": [
+  {
+   "start": 3.0,
+   "end": 3.8,
+   "lines": [
+    "Two minutes."
+   ]
+  },
+  {
+   "start": 4.49,
+   "end": 9.3,
+   "lines": [
+    "That is roughly how long Abraham Lincoln",
+    "spoke at Gettysburg in 1863,"
+   ]
+  },
+  {
+   "start": 9.77,
+   "end": 12.74,
+   "lines": [
+    "after the main speaker had",
+    "talked for about two hours."
+   ]
+  },
+  {
+   "start": 13.37,
+   "end": 15.6,
+   "lines": [
+    "Five copies survive in his own hand."
+   ]
+  },
+  {
+   "start": 15.97,
+   "end": 19.78,
+   "lines": [
+    "Only one, known as the Bliss copy,",
+    "is signed and dated."
+   ]
+  },
+  {
+   "start": 20.19,
+   "end": 21.84,
+   "lines": [
+    "It is kept in the White House."
+   ]
+  },
+  {
+   "start": 22.39,
+   "end": 25.02,
+   "lines": [
+    "The man who wrote it had,",
+    "by his own count,"
+   ]
+  },
+  {
+   "start": 25.29,
+   "end": 26.8,
+   "lines": [
+    "less than a year of schooling."
+   ]
+  },
+  {
+   "start": 37.005,
+   "end": 40.892,
+   "lines": [
+    "Abraham Lincoln was born",
+    "on the twelfth of February, 1809,"
+   ]
+  },
+  {
+   "start": 40.925,
+   "end": 44.695,
+   "lines": [
+    "in a one-room log cabin",
+    "on his father's farm in Kentucky."
+   ]
+  },
+  {
+   "start": 45.265,
+   "end": 48.515,
+   "lines": [
+    "His parents were Thomas Lincoln,",
+    "a carpenter and farmer,"
+   ]
+  },
+  {
+   "start": 48.825,
+   "end": 49.895,
+   "lines": [
+    "and Nancy Hanks."
+   ]
+  },
+  {
+   "start": 50.445,
+   "end": 54.892,
+   "lines": [
+    "When he was seven, the family moved",
+    "to Indiana, partly, he later said,"
+   ]
+  },
+  {
+   "start": 54.925,
+   "end": 58.475,
+   "lines": [
+    "on account of slavery,",
+    "but chiefly over land titles."
+   ]
+  },
+  {
+   "start": 58.945,
+   "end": 61.575,
+   "lines": [
+    "An axe was put into his hands at once."
+   ]
+  },
+  {
+   "start": 66.485,
+   "end": 70.835,
+   "lines": [
+    "When he was nine, his mother died",
+    "of what people called milk sickness."
+   ]
+  },
+  {
+   "start": 71.525,
+   "end": 75.535,
+   "lines": [
+    "His stepmother, Sarah Bush Johnston,",
+    "proved, in his words,"
+   ]
+  },
+  {
+   "start": 75.745,
+   "end": 77.455,
+   "lines": [
+    "\"a good and kind mother\"."
+   ]
+  },
+  {
+   "start": 77.925,
+   "end": 81.072,
+   "lines": [
+    "He wrote of himself,",
+    "\"What he has in the way of education,"
+   ]
+  },
+  {
+   "start": 81.105,
+   "end": 82.651,
+   "lines": [
+    "he has picked up.\""
+   ]
+  },
+  {
+   "start": 89.35,
+   "end": 90.432,
+   "lines": [
+    "At nineteen,"
+   ]
+  },
+  {
+   "start": 90.554,
+   "end": 94.824,
+   "lines": [
+    "Lincoln helped take a flatboat down",
+    "the Ohio and Mississippi to New Orleans,"
+   ]
+  },
+  {
+   "start": 95.034,
+   "end": 96.824,
+   "lines": [
+    "over twelve hundred miles."
+   ]
+  },
+  {
+   "start": 97.514,
+   "end": 100.281,
+   "lines": [
+    "In 1830 the family moved on to Illinois,"
+   ]
+  },
+  {
+   "start": 100.314,
+   "end": 103.204,
+   "lines": [
+    "where he split rails to fence ten acres."
+   ]
+  },
+  {
+   "start": 103.854,
+   "end": 107.024,
+   "lines": [
+    "Rails like these later became",
+    "part of his campaign image."
+   ]
+  },
+  {
+   "start": 107.614,
+   "end": 109.184,
+   "lines": [
+    "On a second trip to New Orleans,"
+   ]
+  },
+  {
+   "start": 109.414,
+   "end": 112.884,
+   "lines": [
+    "he would have seen slavery",
+    "on a scale unknown in Illinois."
+   ]
+  },
+  {
+   "start": 113.514,
+   "end": 116.724,
+   "lines": [
+    "Stories of its effect on him",
+    "came only after his death;"
+   ]
+  },
+  {
+   "start": 117.194,
+   "end": 119.064,
+   "lines": [
+    "historians treat them with caution."
+   ]
+  },
+  {
+   "start": 119.754,
+   "end": 123.704,
+   "lines": [
+    "At New Salem he was a store clerk,",
+    "postmaster and surveyor."
+   ]
+  },
+  {
+   "start": 123.994,
+   "end": 127.864,
+   "lines": [
+    "In the Black Hawk War, his fellow",
+    "volunteers elected him captain."
+   ]
+  },
+  {
+   "start": 128.334,
+   "end": 132.244,
+   "lines": [
+    "He saw no battle, but said",
+    "nothing later satisfied him more."
+   ]
+  },
+  {
+   "start": 136.889,
+   "end": 141.879,
+   "lines": [
+    "In 1834, Lincoln was elected",
+    "to the Illinois legislature as a Whig."
+   ]
+  },
+  {
+   "start": 142.289,
+   "end": 145.116,
+   "lines": [
+    "He borrowed law books from John T. Stuart,"
+   ]
+  },
+  {
+   "start": 145.149,
+   "end": 147.719,
+   "lines": [
+    "later his law partner, and taught himself."
+   ]
+  },
+  {
+   "start": 148.129,
+   "end": 150.279,
+   "lines": [
+    "\"He studied with nobody,\" he wrote."
+   ]
+  },
+  {
+   "start": 150.789,
+   "end": 155.996,
+   "lines": [
+    "In 1837 he moved to Springfield with all",
+    "his belongings in two saddlebags."
+   ]
+  },
+  {
+   "start": 156.599,
+   "end": 160.179,
+   "lines": [
+    "That year he joined a protest",
+    "against slavery in the legislature."
+   ]
+  },
+  {
+   "start": 160.749,
+   "end": 162.679,
+   "lines": [
+    "He met Mary Todd at a ball."
+   ]
+  },
+  {
+   "start": 164.669,
+   "end": 169.579,
+   "lines": [
+    "Their engagement broke off,",
+    "and in January 1841 Lincoln wrote,"
+   ]
+  },
+  {
+   "start": 170.069,
+   "end": 172.699,
+   "lines": [
+    "\"I am now the most miserable man living.\""
+   ]
+  },
+  {
+   "start": 173.349,
+   "end": 176.039,
+   "lines": [
+    "Friends spoke of his bouts",
+    "of deep melancholy."
+   ]
+  },
+  {
+   "start": 176.549,
+   "end": 181.339,
+   "lines": [
+    "But in November 1842 they married,",
+    "and they would have four sons."
+   ]
+  },
+  {
+   "start": 182.049,
+   "end": 184.239,
+   "lines": [
+    "He rode the legal circuit for years."
+   ]
+  },
+  {
+   "start": 186.289,
+   "end": 190.516,
+   "lines": [
+    "In 1846 he was elected",
+    "to Congress for a single term,"
+   ]
+  },
+  {
+   "start": 190.549,
+   "end": 192.469,
+   "lines": [
+    "where he opposed the war with Mexico"
+   ]
+  },
+  {
+   "start": 192.809,
+   "end": 196.839,
+   "lines": [
+    "and proposed a bill to begin ending",
+    "slavery in the District of Columbia."
+   ]
+  },
+  {
+   "start": 201.628,
+   "end": 203.058,
+   "lines": [
+    "In 1854,"
+   ]
+  },
+  {
+   "start": 203.428,
+   "end": 205.995,
+   "lines": [
+    "the Kansas–Nebraska Act",
+    "reopened the question"
+   ]
+  },
+  {
+   "start": 206.028,
+   "end": 208.118,
+   "lines": [
+    "of slavery in the western territories,"
+   ]
+  },
+  {
+   "start": 208.388,
+   "end": 212.458,
+   "lines": [
+    "and drew Lincoln back into politics,",
+    "in the new Republican Party."
+   ]
+  },
+  {
+   "start": 212.888,
+   "end": 218.058,
+   "lines": [
+    "In June 1858, running for the Senate,",
+    "he quoted the Bible in a speech."
+   ]
+  },
+  {
+   "start": 218.588,
+   "end": 221.628,
+   "lines": [
+    "\"A house divided against",
+    "itself cannot stand.\""
+   ]
+  },
+  {
+   "start": 222.228,
+   "end": 224.568,
+   "lines": [
+    "\"I believe this government cannot endure,"
+   ]
+  },
+  {
+   "start": 224.868,
+   "end": 227.468,
+   "lines": [
+    "permanently half slave and half free.\""
+   ]
+  },
+  {
+   "start": 228.088,
+   "end": 232.298,
+   "lines": [
+    "He met the Democrat Stephen Douglas",
+    "in seven debates across Illinois."
+   ]
+  },
+  {
+   "start": 232.688,
+   "end": 235.848,
+   "lines": [
+    "At Charleston he said",
+    "something hard to hear today:"
+   ]
+  },
+  {
+   "start": 236.328,
+   "end": 241.035,
+   "lines": [
+    "\"I am not, nor ever have been,",
+    "in favor of bringing about in any way"
+   ]
+  },
+  {
+   "start": 241.068,
+   "end": 245.028,
+   "lines": [
+    "the social and political equality",
+    "of the white and black races…\""
+   ]
+  },
+  {
+   "start": 245.748,
+   "end": 248.798,
+   "lines": [
+    "He also opposed Black",
+    "voting and jury service."
+   ]
+  },
+  {
+   "start": 249.468,
+   "end": 253.278,
+   "lines": [
+    "The legislature, which chose",
+    "senators then, returned Douglas."
+   ]
+  },
+  {
+   "start": 253.808,
+   "end": 254.738,
+   "lines": [
+    "Lincoln lost."
+   ]
+  },
+  {
+   "start": 255.228,
+   "end": 257.138,
+   "lines": [
+    "But the debates made his name,"
+   ]
+  },
+  {
+   "start": 257.328,
+   "end": 261.818,
+   "lines": [
+    "and in February 1860 he spoke",
+    "at Cooper Union in New York:"
+   ]
+  },
+  {
+   "start": 262.348,
+   "end": 265.138,
+   "lines": [
+    "\"let us have faith",
+    "that right makes might\"."
+   ]
+  },
+  {
+   "start": 269.568,
+   "end": 273.978,
+   "lines": [
+    "In May 1860, the Republicans",
+    "chose him to run for President."
+   ]
+  },
+  {
+   "start": 274.468,
+   "end": 278.018,
+   "lines": [
+    "That October,",
+    "an eleven-year-old girl, Grace Bedell,"
+   ]
+  },
+  {
+   "start": 278.228,
+   "end": 279.838,
+   "lines": [
+    "wrote to him about a beard."
+   ]
+  },
+  {
+   "start": 280.448,
+   "end": 282.018,
+   "lines": [
+    "Apparently taking her advice,"
+   ]
+  },
+  {
+   "start": 282.288,
+   "end": 284.618,
+   "lines": [
+    "he became the first President to wear one."
+   ]
+  },
+  {
+   "start": 285.208,
+   "end": 287.998,
+   "lines": [
+    "In November he won a four-way race."
+   ]
+  },
+  {
+   "start": 288.528,
+   "end": 291.718,
+   "lines": [
+    "Many white Southerners feared",
+    "he would move against slavery."
+   ]
+  },
+  {
+   "start": 292.168,
+   "end": 295.678,
+   "lines": [
+    "Before he took office,",
+    "seven states had left the Union,"
+   ]
+  },
+  {
+   "start": 296.048,
+   "end": 297.358,
+   "lines": [
+    "South Carolina first,"
+   ]
+  },
+  {
+   "start": 297.648,
+   "end": 300.638,
+   "lines": [
+    "and formed the Confederacy",
+    "under Jefferson Davis."
+   ]
+  },
+  {
+   "start": 301.288,
+   "end": 303.675,
+   "lines": [
+    "Slavery, and the fight over its spread,"
+   ]
+  },
+  {
+   "start": 303.708,
+   "end": 306.215,
+   "lines": [
+    "lay at the root of the crisis."
+   ]
+  },
+  {
+   "start": 306.248,
+   "end": 308.208,
+   "lines": [
+    "His election was the spark."
+   ]
+  },
+  {
+   "start": 309.188,
+   "end": 311.438,
+   "lines": [
+    "On the twelfth of April, 1861,"
+   ]
+  },
+  {
+   "start": 311.808,
+   "end": 315.885,
+   "lines": [
+    "Confederate forces attacked Fort Sumter,",
+    "in Charleston harbour."
+   ]
+  },
+  {
+   "start": 315.948,
+   "end": 320.618,
+   "lines": [
+    "It surrendered, and Lincoln called",
+    "for seventy-five thousand volunteers."
+   ]
+  },
+  {
+   "start": 321.088,
+   "end": 322.578,
+   "lines": [
+    "The war had begun."
+   ]
+  },
+  {
+   "start": 326.909,
+   "end": 329.199,
+   "lines": [
+    "Early on came defeat at Bull Run."
+   ]
+  },
+  {
+   "start": 329.829,
+   "end": 333.625,
+   "lines": [
+    "In February 1862, his son",
+    "Willie died, aged eleven."
+   ]
+  },
+  {
+   "start": 334.929,
+   "end": 337.059,
+   "lines": [
+    "In August he wrote publicly,"
+   ]
+  },
+  {
+   "start": 337.569,
+   "end": 340.999,
+   "lines": [
+    "\"My paramount object in this",
+    "struggle is to save the Union,"
+   ]
+  },
+  {
+   "start": 341.189,
+   "end": 344.419,
+   "lines": [
+    "and is not either to save",
+    "or to destroy slavery.\""
+   ]
+  },
+  {
+   "start": 344.969,
+   "end": 348.519,
+   "lines": [
+    "Yet he had already shown",
+    "his Cabinet a draft proclamation."
+   ]
+  },
+  {
+   "start": 349.109,
+   "end": 353.039,
+   "lines": [
+    "On the first of January 1863,",
+    "as a war measure,"
+   ]
+  },
+  {
+   "start": 353.289,
+   "end": 356.556,
+   "lines": [
+    "the Emancipation Proclamation",
+    "declared that all persons held"
+   ]
+  },
+  {
+   "start": 356.589,
+   "end": 358.996,
+   "lines": [
+    "as slaves in the rebel states \"are,"
+   ]
+  },
+  {
+   "start": 359.029,
+   "end": 361.159,
+   "lines": [
+    "and henceforward shall be free\"."
+   ]
+  },
+  {
+   "start": 361.549,
+   "end": 364.979,
+   "lines": [
+    "It could not free anyone",
+    "beyond the Union army's reach,"
+   ]
+  },
+  {
+   "start": 365.149,
+   "end": 368.299,
+   "lines": [
+    "and left slavery untouched",
+    "in the loyal border states."
+   ]
+  },
+  {
+   "start": 368.709,
+   "end": 371.939,
+   "lines": [
+    "But the war was now a war against slavery."
+   ]
+  },
+  {
+   "start": 372.269,
+   "end": 375.399,
+   "lines": [
+    "It also opened the army",
+    "and navy to Black men;"
+   ]
+  },
+  {
+   "start": 375.909,
+   "end": 378.259,
+   "lines": [
+    "nearly two hundred thousand served."
+   ]
+  },
+  {
+   "start": 378.869,
+   "end": 382.619,
+   "lines": [
+    "Frederick Douglass recruited soldiers,",
+    "and two of his sons enlisted."
+   ]
+  },
+  {
+   "start": 383.269,
+   "end": 387.569,
+   "lines": [
+    "In July the Union won at Gettysburg,",
+    "at terrible cost."
+   ]
+  },
+  {
+   "start": 387.969,
+   "end": 388.909,
+   "lines": [
+    "That August,"
+   ]
+  },
+  {
+   "start": 389.149,
+   "end": 393.179,
+   "lines": [
+    "Frederick Douglass protested to Lincoln",
+    "that Black soldiers were paid less."
+   ]
+  },
+  {
+   "start": 393.689,
+   "end": 397.039,
+   "lines": [
+    "In November, Lincoln helped",
+    "dedicate a cemetery there."
+   ]
+  },
+  {
+   "start": 400.749,
+   "end": 402.319,
+   "lines": [
+    "The signed copy begins:"
+   ]
+  },
+  {
+   "start": 402.969,
+   "end": 407.436,
+   "lines": [
+    "\"Four score and seven years ago our",
+    "fathers brought forth on this continent,"
+   ]
+  },
+  {
+   "start": 407.469,
+   "end": 410.379,
+   "lines": [
+    "a new nation, conceived in Liberty,"
+   ]
+  },
+  {
+   "start": 410.669,
+   "end": 415.071,
+   "lines": [
+    "and dedicated to the proposition",
+    "that all men are created equal.\""
+   ]
+  },
+  {
+   "start": 419.161,
+   "end": 421.219,
+   "lines": [
+    "In April 1864,"
+   ]
+  },
+  {
+   "start": 421.429,
+   "end": 424.619,
+   "lines": [
+    "Lincoln wrote,",
+    "\"I am naturally anti-slavery."
+   ]
+  },
+  {
+   "start": 424.949,
+   "end": 427.809,
+   "lines": [
+    "If slavery is not wrong,",
+    "nothing is wrong.\""
+   ]
+  },
+  {
+   "start": 428.429,
+   "end": 430.519,
+   "lines": [
+    "That summer he expected to lose."
+   ]
+  },
+  {
+   "start": 431.049,
+   "end": 435.659,
+   "lines": [
+    "Then Union forces took Atlanta,",
+    "and in November he was re-elected."
+   ]
+  },
+  {
+   "start": 436.389,
+   "end": 440.539,
+   "lines": [
+    "In January 1865, the House",
+    "passed the Thirteenth Amendment,"
+   ]
+  },
+  {
+   "start": 440.789,
+   "end": 442.179,
+   "lines": [
+    "which he had pressed for."
+   ]
+  },
+  {
+   "start": 444.449,
+   "end": 447.396,
+   "lines": [
+    "That March,",
+    "in his Second Inaugural, he said,"
+   ]
+  },
+  {
+   "start": 447.429,
+   "end": 451.619,
+   "lines": [
+    "\"With malice toward none;",
+    "with charity for all;"
+   ]
+  },
+  {
+   "start": 452.009,
+   "end": 455.719,
+   "lines": [
+    "with firmness in the right,",
+    "as God gives us to see the right,"
+   ]
+  },
+  {
+   "start": 455.849,
+   "end": 458.799,
+   "lines": [
+    "let us strive on to finish",
+    "the work we are in;"
+   ]
+  },
+  {
+   "start": 458.949,
+   "end": 460.969,
+   "lines": [
+    "to bind up the nation's wounds…\""
+   ]
+  },
+  {
+   "start": 461.729,
+   "end": 465.189,
+   "lines": [
+    "Frederick Douglass recalled",
+    "calling it \"a sacred effort\"."
+   ]
+  },
+  {
+   "start": 465.509,
+   "end": 468.796,
+   "lines": [
+    "On the ninth of April,",
+    "at Appomattox Court House,"
+   ]
+  },
+  {
+   "start": 468.829,
+   "end": 471.316,
+   "lines": [
+    "Robert E. Lee surrendered",
+    "his Confederate army"
+   ]
+  },
+  {
+   "start": 471.349,
+   "end": 474.349,
+   "lines": [
+    "to the Union commander, Ulysses S. Grant."
+   ]
+  },
+  {
+   "start": 474.909,
+   "end": 477.496,
+   "lines": [
+    "An estimated six hundred",
+    "and twenty thousand"
+   ]
+  },
+  {
+   "start": 477.529,
+   "end": 480.579,
+   "lines": [
+    "to seven hundred and fifty",
+    "thousand died in the war."
+   ]
+  },
+  {
+   "start": 484.949,
+   "end": 488.379,
+   "lines": [
+    "Five days later, on the evening",
+    "of the fourteenth of April,"
+   ]
+  },
+  {
+   "start": 488.809,
+   "end": 492.119,
+   "lines": [
+    "Lincoln was at Ford's Theatre",
+    "in Washington, watching a play,"
+   ]
+  },
+  {
+   "start": 492.329,
+   "end": 493.679,
+   "lines": [
+    "Our American Cousin."
+   ]
+  },
+  {
+   "start": 494.129,
+   "end": 497.139,
+   "lines": [
+    "At about a quarter past ten,",
+    "John Wilkes Booth,"
+   ]
+  },
+  {
+   "start": 497.409,
+   "end": 501.916,
+   "lines": [
+    "a Confederate sympathiser and racist",
+    "who despised his efforts to end slavery,"
+   ]
+  },
+  {
+   "start": 501.949,
+   "end": 503.379,
+   "lines": [
+    "shot the President."
+   ]
+  },
+  {
+   "start": 504.109,
+   "end": 506.039,
+   "lines": [
+    "Lincoln never regained consciousness."
+   ]
+  },
+  {
+   "start": 508.589,
+   "end": 511.639,
+   "lines": [
+    "He was carried across the street",
+    "to the Petersen boarding house,"
+   ]
+  },
+  {
+   "start": 511.889,
+   "end": 515.039,
+   "lines": [
+    "and laid diagonally across",
+    "a bed in a small back room,"
+   ]
+  },
+  {
+   "start": 515.209,
+   "end": 517.379,
+   "lines": [
+    "because he was too tall to lie straight."
+   ]
+  },
+  {
+   "start": 518.229,
+   "end": 520.959,
+   "lines": [
+    "Mary waited in the front",
+    "parlour with their son Robert."
+   ]
+  },
+  {
+   "start": 521.769,
+   "end": 524.479,
+   "lines": [
+    "At twenty-two minutes past",
+    "seven the next morning,"
+   ]
+  },
+  {
+   "start": 524.869,
+   "end": 526.099,
+   "lines": [
+    "Abraham Lincoln died."
+   ]
+  },
+  {
+   "start": 526.629,
+   "end": 528.148,
+   "lines": [
+    "He was fifty-six."
+   ]
+  },
+  {
+   "start": 533.921,
+   "end": 538.651,
+   "lines": [
+    "His funeral train carried him one",
+    "thousand six hundred and fifty-four miles,"
+   ]
+  },
+  {
+   "start": 538.941,
+   "end": 541.731,
+   "lines": [
+    "through hundreds of towns,",
+    "home to Springfield."
+   ]
+  },
+  {
+   "start": 542.381,
+   "end": 544.711,
+   "lines": [
+    "His son Willie's coffin",
+    "travelled with his."
+   ]
+  },
+  {
+   "start": 545.441,
+   "end": 550.531,
+   "lines": [
+    "By December 1865, enough states had",
+    "ratified the Thirteenth Amendment."
+   ]
+  },
+  {
+   "start": 551.261,
+   "end": 553.751,
+   "lines": [
+    "Slavery was abolished",
+    "in the United States."
+   ]
+  },
+  {
+   "start": 556.461,
+   "end": 559.971,
+   "lines": [
+    "In 1922 the Lincoln Memorial",
+    "was dedicated,"
+   ]
+  },
+  {
+   "start": 560.101,
+   "end": 564.191,
+   "lines": [
+    "with the Gettysburg Address and the",
+    "Second Inaugural carved on its walls."
+   ]
+  },
+  {
+   "start": 564.641,
+   "end": 565.891,
+   "lines": [
+    "At the dedication,"
+   ]
+  },
+  {
+   "start": 566.181,
+   "end": 569.471,
+   "lines": [
+    "Black guests were reportedly",
+    "seated in a separate section."
+   ]
+  },
+  {
+   "start": 570.161,
+   "end": 572.251,
+   "lines": [
+    "Historians still argue about him."
+   ]
+  },
+  {
+   "start": 572.761,
+   "end": 576.671,
+   "lines": [
+    "Some see a man who grew;",
+    "others, a man who was pushed."
+   ]
+  },
+  {
+   "start": 577.241,
+   "end": 580.011,
+   "lines": [
+    "Frederick Douglass,",
+    "who knew him, saw both."
+   ]
+  },
+  {
+   "start": 580.381,
+   "end": 582.851,
+   "lines": [
+    "The page he signed ends with a resolve:"
+   ]
+  },
+  {
+   "start": 583.421,
+   "end": 587.331,
+   "lines": [
+    "\"that government of the people,",
+    "by the people, for the people,"
+   ]
+  },
+  {
+   "start": 587.481,
+   "end": 589.241,
+   "lines": [
+    "shall not perish from the earth.\""
+   ]
+  },
+  {
+   "start": 590.021,
+   "end": 594.631,
+   "lines": [
+    "Two minutes, a few sheets of paper,",
+    "and an argument that has never ended."
+   ]
+  }
+ ]
+}
