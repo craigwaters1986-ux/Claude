@@ -203,17 +203,18 @@ const ProcDoc: React.FC<{f: number; d: number}> = ({f, d}) => {
           layer(0.6, <DocDesk f={f} tone="#3A2A1E" />),
           layer(1, (
             <g>
-              <g transform={`translate(${X},${Y})`}>
+              <DocSheet d={dc} x={X} y={Y} w={W} h={L.height + pad * 2 + 10} size={size} reveal={reveal} f={f} maxWords={8} />
+              {/* Phase D2: the highlight is drawn over the sheet (multiply), it used to sit under the opaque paper and never showed */}
+              <g transform={`translate(${X},${Y})`} style={{mixBlendMode: 'multiply'}}>
                 {L.lines.map((ln, i) => {
                   const a0 = Math.max(p0, ln.start);
-                  const a1 = Math.min(p1, ln.end);
+                  const a1 = Math.min(p1, ln.end, reveal * L.chars); // never ahead of the write-on
                   if (a1 <= a0) return null;
                   const x0 = ln.x + measure(ln.text.slice(0, a0 - ln.start), size, dc.hand);
                   const x1 = ln.x + measure(ln.text.slice(0, a1 - ln.start), size, dc.hand);
-                  return <rect key={i} x={x0 - 6} y={ln.y - size * 0.85} width={(x1 - x0 + 12) * hl} height={size * 1.12} rx={6} fill="#E3C77A" opacity={0.55} />;
+                  return <rect key={i} x={x0 - 6} y={ln.y - size * 0.85} width={(x1 - x0 + 12) * hl} height={size * 1.12} rx={6} fill="#E3C77A" opacity={0.6} />;
                 })}
               </g>
-              <DocSheet d={dc} x={X} y={Y} w={W} h={L.height + pad * 2 + 10} size={size} reveal={reveal} f={f} maxWords={8} />
             </g>
           )),
         ]}

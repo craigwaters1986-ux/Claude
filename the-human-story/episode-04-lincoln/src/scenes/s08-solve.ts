@@ -158,8 +158,8 @@ export function solveAppomattox(f: number): Solved {
   }
   return {
     figs: [
-      {id: 'grant', pl: plA, P: PA, ex: exprAt(f, [[0, 'neutral'], [100, 'solemn']]), tag: f > 18 && f < 150, look: [0.6, 0]},
-      {id: 'lee', pl: plB, P: PB, ex: exprAt(f, [[0, 'solemn'], [120, 'tired'], [210, 'solemn']]), tag: f > 40 && f < 172, look: [-0.6, 0.2]},
+      {id: 'grant', pl: plA, P: PA, ex: exprAt(f, [[0, 'neutral'], [100, 'solemn']]), tag: f > 18 && f < D08.appomattox - 6, look: [0.6, 0]}, // Phase D2: both tags stay until both men have been named (Grant's left at a fixed frame 150, before his name)
+      {id: 'lee', pl: plB, P: PB, ex: exprAt(f, [[0, 'solemn'], [120, 'tired'], [210, 'solemn']]), tag: f > 40 && f < D08.appomattox - 6, look: [-0.6, 0.2]},
     ],
     checks, seats: [],
     cam: [[0, 1.3, 960, 600], [120, 1.45, 960, 610], [290, 1.62, 960, 620]],
