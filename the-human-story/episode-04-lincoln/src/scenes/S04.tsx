@@ -77,9 +77,10 @@ const Hand4: React.FC<{f: number; d: number}> = ({f}) => {
           layer(0.85, <g><Study f={f} floor={Q.HAND_FLOOR} windowX={1240} /><Shelf x={1240 + 340} floor={Q.HAND_FLOOR} /><Shelf x={420} floor={Q.HAND_FLOOR} /></g>, 3),
           layer(1, (
             <g>
-              <Rim kind="warm" side="r"><FigEl g={stuart} f={f} seed={45} /></Rim>
-              <PropAt def={BOOK} xf={s.book as never} st={{f, open: 0}} />
+              {/* Stuart is drawn last so his name tag sits in front of the foreground figure's head (QC, 21 Nov) */}
               <FigEl g={abe} f={f} seed={46} />
+              <PropAt def={BOOK} xf={s.book as never} st={{f, open: 0}} />
+              <Rim kind="warm" side="r"><FigEl g={stuart} f={f} seed={45} /></Rim>
             </g>
           )),
         ]}

@@ -130,6 +130,22 @@ for head, n, segs in RESEG:
     changed.append((head, [(round(c['start'], 2), round(c['end'], 2), c['text']) for c in new]))
     cues[i:i + n] = new
 
+# ------------------------------------------------------------------ 1b. hand-timed cues
+# The recogniser dropped the words between "Bull Run." and "paramount" (narration 283.8-291.0 s), so these three cues
+# had fallen back to pause-anchored guesses and ran up to 1.4 s ahead of the voice. Times below are raw narration
+# seconds measured from the pauses in the recording (silencedetect -38 dB); to_prog maps them through the plan.
+RETIME = [
+    ('In February 1862, his son', None, 288.92),
+    ('In August he wrote publicly,', 289.20, 291.01),
+    ('"My paramount object in this', 291.33, None),
+]
+for head, rs, re_ in RETIME:
+    c = next(c for c in cues if c['text'].startswith(head))
+    if rs is not None: c['start'] = round(to_prog(rs), 3)
+    if re_ is not None: c['end'] = round(to_prog(re_), 3)
+    assert c['end'] > c['start'] + 0.8, c
+assert all(b_['start'] >= a_['end'] for a_, b_ in zip(cues, cues[1:])), 'overlap after retime'
+
 # ------------------------------------------------------------------ 2. line wrapping
 SMALL = {'a', 'an', 'the', 'of', 'to', 'in', 'on', 'at', 'by', 'for', 'his', 'her', 'its', 'and', 'or', 'but', 'with', 'from', 'that', 'he', 'it', 'as'}
 NAMEWORD = re.compile(r"^[\"“]?[A-Z][A-Za-z.'’–-]*[,;:.]?$")

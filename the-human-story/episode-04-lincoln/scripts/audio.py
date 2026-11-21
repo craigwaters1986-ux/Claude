@@ -997,7 +997,7 @@ def sfx_cues():
     add(GR[14][1] - 0.45, g_creak(1.6, 66, wheel=False), -32, 0.3, 'flag halyard')  # Phase D2: the flag starts down 14 frames before the beat
     # ch 7 War and emancipation
     add(cue('In February 1862, his son'), g_wind(5.0, 0.2, 0.0, 67), -38, 0, 'quiet room air')
-    add(cue('In August he wrote publicly') + 1.4, g_paper('flip', 68), -24, 0, 'page: the Greeley letter')
+    add(cue('In August he wrote publicly') - 0.1, g_paper('flip', 68), -24, 0, 'page: the Greeley letter')
     for k in range(3):
         add(cue('Yet he had already shown') + 0.4 + k * 1.0, g_paper('rustle', 69 + k, 0.7), -27, (-0.4, 0.0, 0.4)[k], 'draft passed hand to hand')
     add(cue('On the first of January 1863') + 0.6, g_pen(3.2, 72), -20, 0.1, 'pen: the signature (signDocument)')

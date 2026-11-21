@@ -1445,8 +1445,8 @@
             "production/reports/qc/ep04-lincoln/qc-final-render-2026-11-21.md"
           ],
           "issues": [],
-          "next": "Measured QC passed; independent full visual pass not completed; listen-through left for Craig",
-          "updated": "2026-11-21 07:00"
+          "next": "Measured QC passed; independent visual pass done, 2 majors fixed; open: 1922 seating shot, 3 captions 0.5 s early; listen-through left for Craig",
+          "updated": "2026-11-21 07:36"
         },
         {
           "id": "publishing-pack",
