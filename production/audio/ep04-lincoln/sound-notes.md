@@ -63,7 +63,7 @@ Placement decisions worth knowing:
 | silencedetect n=−50 dB d=1.5 s | **none** |
 | Narration minus music during speech (median of 400 ms blocks) | **23.8 dB** |
 | Narration's overall loudness minus music, each 400 ms block under speech | median 24.7 dB, 5th percentile 20.4 dB, closest 18.9 dB |
-| Narration minus music + effects during speech | 19.5 dB median |
+| Narration minus music + effects during speech | 19.4 dB median |
 | Stem loudness | narration -13.9, music -32.5, effects -31.3 LUFS |
 | Limiter | at most 4.0 dB gain reduction |
 | Music in the silent beats (LUFS) | title plate -20.4, grave (hush) -32.3, ball -26.2, Capitol -27.1, Cooper Union -25.3, flag at Fort Sumter -24.5, cemetery -22.1, tally board -25.6, fields (silence) -50.7, empty chair -25.3, clock (silence) -40.7, Thirteenth Amendment -22.1, end card -21.7 (full list in `output/mix-stats.json`, `beats_music`) |
