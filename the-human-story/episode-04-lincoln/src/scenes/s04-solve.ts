@@ -203,7 +203,7 @@ export function solveWindow(f: number): Solved {
   return {
     figs: [{id: LAW, pl: w.pl, P: w.P, build: w.build, ex: exprAt(f, [[0, 'tired'], [stop + 10, 'sad']], 14), look}],
     checks: w.checks, seats: w.seats, quill: w.quill, reveal: w.reveal, seatH: w.h, stop,
-    cam: [[0, 1.0, 990, 560], [DUR4.window, 1.26, 940, 600]],
+    cam: [[0, 1.0, 990, 560], [DUR4.window + 60, 1.34, 928, 606]], // last key past the cut, so the push never eases to a stop on screen (freezedetect)
   };
 }
 
