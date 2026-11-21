@@ -42,12 +42,12 @@ The war-dead figure (620,000–750,000) is an estimate; the range runs from the 
 
 Narration: ElevenLabs voice (John North), a synthetic voice. Music: generated with ElevenLabs Music. Sound design: The Human Story. Maps: U.S. Census Bureau via us-atlas (ISC); Natural Earth (public domain). Fonts: Montserrat, Playfair Display, Caveat, Libre Baskerville (SIL Open Font License 1.1); Special Elite (Apache License 2.0).
 
-This episode refers to slavery, war deaths and the assassination of President Lincoln. No violence or injury is shown.
+This episode refers to slavery, war deaths and the assassination of President Lincoln. The shooting is shown, but without blood or injury.
 
 ## Notes for Craig (not for the description)
 
 - Full source list (37 entries): `production/research/ep04-lincoln/sources.md`; claim map: `production/scripts/ep04-lincoln/script-sources.md`.
 - No public-domain period tunes were used, so none need crediting.
-- **Narration:** ElevenLabs voice "LIAM DALE (British Male 60's)" on your Creator plan (commercial YouTube use allowed). It is a synthetic voice, so tick YouTube's altered or synthetic content disclosure.
+- **Narration:** ElevenLabs voice "John North - Warm Northerner" on your Creator plan (commercial YouTube use allowed). It is a synthetic voice, so tick YouTube's altered or synthetic content disclosure.
 - **Music:** ten instrumental cues generated with ElevenLabs Music on your Creator plan (YouTube use allowed, no attribution required; the credit line above is a courtesy). **Do not register the music in Content ID.** Cue files and prompts: `production/audio/ep04-lincoln/elevenlabs-score/`.
 - Chapter times changed with the new narration (they are rounded to the nearest second; each lands within half a second of its title plate).
