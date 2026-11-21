@@ -81,8 +81,9 @@ const Grace: React.FC<{f: number; d: number}> = ({f, d}) => {
               <KitchenTable x={SL.x + 60} floor={GRACE_FLOOR} w={260} top={top} />
               <WritingSlope x={SL.x} y={SL.y} w={SL.w} h={SL.h} />
               <WrittenLines x={SL.x + 8} y={SL.y + 14} w={SL.w - 16} gap={12} n={3} u={s.u as number} seed={7} size={6} width={1.4} />
-              <Rim kind="warm" side="r"><FigEl g={g} f={f} seed={62} /></Rim>
+              {/* quill behind the figure: the feather passes behind the head */}
               <PropAt def={QUILL} xf={s.quill as never} st={{f}} />
+              <Rim kind="warm" side="r"><FigEl g={g} f={f} seed={62} /></Rim>
             </g>
           )),
         ]}

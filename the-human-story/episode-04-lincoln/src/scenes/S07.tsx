@@ -168,8 +168,9 @@ const Sign: React.FC<{f: number; d: number}> = ({f, d}) => {
               <WritingSlope x={SL.x} y={SL.y} w={SL.w} h={SL.h} />
               <WrittenLines x={SL.x + 10} y={SL.y + 14} w={SL.w - 20} gap={10} n={4} u={1} seed={31} size={4} width={1.1} />
               <WrittenLines x={SL.x + 40} y={SL.y + 62} w={SL.w - 56} gap={0} n={1} u={s.u as number} seed={33} size={8} width={2} />
-              <FigEl g={g} f={f} seed={75} />
+              {/* quill behind the figure: the feather passes behind the head */}
               <PropAt def={QUILL} xf={s.quill as never} st={{f}} />
+              <FigEl g={g} f={f} seed={75} />
             </g>
           )),
         ]}
@@ -276,8 +277,9 @@ const Recruit: React.FC<{f: number; d: number}> = ({f, d}) => {
               <WritingSlope x={SL.x} y={SL.y} w={SL.w} h={SL.h} />
               <WrittenLines x={SL.x + SL.w - 10} y={SL.y + 16} w={-(SL.w - 22)} gap={13} n={3} u={s.u as number} seed={41} size={6} width={1.4} />
               <Chair x={dg.pl.x} floor={REC_FLOOR} h={s.seatH as number} dir={-1} />
-              <FigEl g={dg} f={f} seed={78} />
+              {/* quill behind the figure: the feather passes behind the head */}
               <PropAt def={QUILL} xf={s.quill as never} st={{f}} />
+              <FigEl g={dg} f={f} seed={78} />
             </g>
           )),
         ]}

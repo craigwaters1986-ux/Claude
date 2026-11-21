@@ -7,12 +7,13 @@ import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {Shots, Frame, sf} from '../kit/Shots';
 import {Person, CAST} from '../kit/Cast';
+import {Chair} from '../kit/Seats';
 import {CineCam, CineDefs, GradeLayer, Grain, Vig, LightPool, GodRays, TitlePlate, PassBy} from '../kit/Cinema';
 import {Particles} from '../components/Effects';
 import {T, TE, beat, sectionWindow} from '../timeline';
 import {C, FONT} from '../styles/theme';
 import {clamp, easeInOut, easeOut, kf, prog} from '../animations/core';
-import {S09Defs, Silhouette, GasLamp, NightStreet, FordsFacade, Carriage, PlaybillBoard, TheatreFromStalls, Corridor, EmptyChairSet, PetersenFront, BackRoomFromDoor, Parlour, MantelClock, GreyTag} from './s09-sets';
+import {S09Defs, Silhouette, GasLamp, NightStreet, FordsFacade, Carriage, PlaybillBoard, TheatreFromStalls, Corridor, BoxInterior, RockingChair, ShotSmoke, EmptyChairSet, PetersenFront, BackRoomFromDoor, Parlour, MantelClock, GreyTag} from './s09-sets';
 import * as S9 from './s09-solve';
 import type {Fig} from './reelSolve';
 import {walker, stand, addPose, mixPose, pose} from './sets';
@@ -22,11 +23,11 @@ const [S, E] = sectionWindow('s09');
 const ink = C.ink;
 const castS = (id: string) => CAST[id].scale ?? 1;
 
-const FigEl: React.FC<{g: Fig; f: number; seed?: number; label?: string}> = ({g, f, seed = 1, label}) => (
+const FigEl: React.FC<{g: Fig; f: number; seed?: number; label?: string; noHat?: boolean}> = ({g, f, seed = 1, label, noHat}) => (
   <Person
     id={g.id} x={g.pl.x} y={g.pl.y} scale={(g.pl.scale ?? 1) / castS(g.id)} dir={g.pl.dir} pose={g.P} f={f} seed={seed}
-    look={g.look} tag={g.tag} eyesClosed={g.eyesClosed} label={label}
-    head={g.ex ? {expression: g.ex.expression as never, exprFrom: g.ex.exprFrom as never, exprT: g.ex.exprT} : {}}
+    look={g.look} tag={g.tag} eyesClosed={g.eyesClosed} label={label} talking={g.talking}
+    head={{...(g.ex ? {expression: g.ex.expression as never, exprFrom: g.ex.exprFrom as never, exprT: g.ex.exprT} : {}), ...(noHat ? {hat: 'none' as never} : {})}}
   />
 );
 
@@ -74,7 +75,7 @@ const Shot91: React.FC<{f: number; d: number}> = ({f, d}) => {
               <g>
                 <FordsFacade x={1060} base={fl} f={f} />
                 {[220, 1700].map((x, i) => <GasLamp key={x} x={x} base={fl + 30} f={f} seed={i + 3} />)}
-                <Carriage x={-560 + f * 9} base={fl + 40} d={f * 9} s={0.95} />
+                <Carriage x={-640 + f * 7.5} base={fl + 40} d={f * 7.5} s={0.95} f={f} />
               </g>
             )),
             layer(1.45, <PassBy f={f} x0={1900} speed={-1.4} y={1200} kind="post" s={1} />),
@@ -150,9 +151,8 @@ const Shot93: React.FC<{f: number; d: number}> = ({f, d}) => {
               <Corridor f={f} floor={S9.CORRIDOR_FLOOR} open={prog(f, S9.DOOR_OPEN, S9.DOOR_OPEN + 34, easeInOut)} />
               {/* warm lamplight on the far wall and door, so the dark figure reads against it */}
               <ellipse cx={1000} cy={600} rx={420} ry={330} fill="#C8A878" opacity={0.3} />
-              <Silhouette>
-                <FigEl g={g} f={f} seed={21} />
-              </Silhouette>
+              {/* family review (Nov 2026): Booth is a lit character, not a silhouette; he never faces the camera */}
+              <FigEl g={g} f={f} seed={21} />
               <GreyTag x={g.pl.x} y={g.pl.y - 300 * (g.pl.scale ?? 1)} text="JOHN WILKES BOOTH" t={prog(f, 16, 30) * (1 - prog(f, 150, 170))} />
             </g>
           )),
@@ -164,33 +164,86 @@ const Shot93: React.FC<{f: number; d: number}> = ({f, d}) => {
     </Frame>
   );
 };
+// ---------------------------------------------------------------- 9.3b inside the box: the shot (family review, Nov 2026)
+// Non-graphic: the flash and smoke, Lincoln slumps, Mary turns to him. No wound, no blood.
+const ShotBox: React.FC<{f: number; d: number; fire: number}> = ({f, d, fire}) => {
+  const s = S9.solveBox(f, fire);
+  const [b, a, m] = s.figs;
+  const mz = s.muzzle as {x: number; y: number};
+  const hd = s.hand as {x: number; y: number; angle: number};
+  const g = f - fire;
+  const aimT = 1 - prog(f, fire + 30, fire + 50);
+  return (
+    <Frame bg="#2A1414">
+      <CineDefs />
+      <S09Defs />
+      <CineCam f={f} keys={s.cam} seed={98}>
+        {(layer) => [
+          layer(0.92, <BoxInterior f={f} floor={S9.BOX_FLOOR} />, 2),
+          layer(1, (
+            <g>
+              <FigEl g={b} f={f} seed={21} />
+              {/* the derringer in Booth's hand */}
+              {aimT > 0.2 && (
+                <g transform={`translate(${hd.x},${hd.y}) rotate(${hd.angle ?? 0})`}>
+                  <rect x={-4} y={-7} width={34} height={11} rx={3} fill="#2A2A2E" stroke={ink} strokeWidth={3} />
+                  <path d="M-2,2 q-6,14 -2,20 l10,0 q0,-10 4,-18Z" fill="#5A3A24" stroke={ink} strokeWidth={3} />
+                </g>
+              )}
+              <RockingChair x={a.pl.x} floor={S9.BOX_FLOOR} h={s.seatA as number} rock={f < fire ? Math.sin(f / 14) * 1.2 : 0} />
+              <FigEl g={a} f={f} seed={22} noHat />
+              <Chair x={m.pl.x} floor={S9.BOX_FLOOR} h={s.seatM as number} dir={1} color="#8A2A2A" />
+              <FigEl g={m} f={f} seed={23} />
+              <ShotSmoke x={mz.x} y={mz.y} g={g} />
+            </g>
+          )),
+        ]}
+      </CineCam>
+      <LightPool x={1700} y={400} r={900} f={f} color="#FFC070" seed={98} strength={0.28} />
+      {g >= 0 && g < 3 && <rect width={1920} height={1080} fill="#FFF4D0" opacity={0.18 * (1 - g / 3)} />}
+      <Look f={f} grade="lamp" sombre={0.55} vig={0.6} />
+    </Frame>
+  );
+};
+
 const ShotChair: React.FC<{f: number; d: number}> = ({f, d}) => (
   <Frame bg="#1A1414">
     <CineDefs />
     <S09Defs />
     <CineCam f={f} keys={[[-36, 0.94, 960, 540], [d + 30, 1.38, 830, 590]]} seed={95}>{/* Phase D: wider push; the first pass held still 1.7 s */}
-      {(layer) => [layer(1, <EmptyChairSet f={f} floor={900} dim={prog(f, 24, d - 6, easeInOut)} bill={prog(f, 26, 160)} sway={0.4 + 0.6 * prog(f, 0, 40)} />)]}
+      {(layer) => [layer(1, <EmptyChairSet f={f} floor={900} dim={prog(f, 10, d - 6, easeInOut)} bill={prog(f, 4, Math.max(40, d - 8))} sway={0.4 + 0.6 * prog(f, 0, 40)} />)]}
     </CineCam>
-    <LightPool x={900} y={460} r={640} f={f} color="#FFB060" seed={95} strength={0.18 * (1 - 0.6 * prog(f, 24, d))} flicker={0.8} />
+    <LightPool x={900} y={460} r={640} f={f} color="#FFB060" seed={95} strength={0.18 * (1 - 0.6 * prog(f, 10, d))} flicker={0.8} />
     <Look f={f} grade="night" sombre={0.85} vig={0.7} />
   </Frame>
 );
 
 // ---------------------------------------------------------------- 9.4 figures (Phase D): illustrative, unnamed, in silhouette or from behind
-/** Four men carry a cloaked figure across the street towards the steps (silhouettes, at a distance). */
+/** Family review (Nov 2026): four men (two soldiers, two men from the audience) carry Lincoln across the street in
+ *  their arms towards the Petersen House steps, lit by the gas lamp. Lincoln is visible, eyes closed, coat on; no wound.
+ *  The sources describe him carried by hand, not on a stretcher. */
 const Carriers: React.FC<{f: number}> = ({f}) => {
-  const s = 0.82;
-  const wk = walker(f, 0, 200, 2.2);
-  const x0 = 1330 - wk.d * s;
-  const base = 936;
-  const xs = [x0, x0 + 110, x0 + 400, x0 + 510];
-  const P = (k: number) => addPose(walker(f, 0, 200, 2.2, false, 0.1 + k * 0.27).p, {shL: 62, elL: 24, shR: 58, elR: 28});
-  const hy = base - 118 * s;
+  const s = 1.0;
+  const wk = walker(f, 0, 200, 2.0);
+  const x0 = 1180 - wk.d * s; // Lincoln's head end (the group walks left, head first, towards the steps)
+  const base = 905;
+  const P = (k: number) => addPose(walker(f, 0, 200, 2.0, false, 0.1 + k * 0.27).p, {shL: 66, elL: 30, shR: 62, elR: 34, lean: 6});
+  const hy = base - 150 * s; // the carriers' hand height
+  const sway = Math.sin(f / 8) * 3;
+  const ids = ['unionSoldier', 'visitor', 'townsman', 'unionSoldier'];
+  // far pair at the shoulders and knees, near pair at the hips and feet: nobody stands in front of his face
+  const far = [{x: x0 + 40, k: 0}, {x: x0 + 330, k: 2}];
+  const near = [{x: x0 + 250, k: 1}, {x: x0 + 470, k: 3}];
   return (
-    <Silhouette>
-      {xs.map((x, k) => <Person key={k} id={['townsman', 'visitor', 'unionSoldier', 'townsman'][k]} x={x} y={base + (k % 2) * 8} scale={s} dir={-1} f={f} seed={140 + k} pose={P(k)} lod="low" />)}
-      <path d={`M${x0 - 30},${hy} Q${x0 + 150},${hy + 14 + Math.sin(f / 7) * 3} ${x0 + 540},${hy} L${x0 + 540},${hy + 26} Q${x0 + 150},${hy + 40} ${x0 - 30},${hy + 26}Z`} fill="#000" />
-    </Silhouette>
+    <g>
+      {far.map(({x, k}) => <Person key={k} id={ids[k]} x={x} y={base - 16} scale={s * 0.95} dir={-1} f={f} seed={140 + k} pose={P(k)} expression="worried" />)}
+      {/* head and shoulders held higher than the feet (about 20 degrees), centred between the carriers */}
+      <g transform={`translate(${x0 + 210},${hy - 20 + sway}) rotate(-72)`}>
+        <Person id="abe1865" x={0} y={200} scale={1.06} dir={1} f={f} seed={170} eyesClosed head={{hat: 'none', expression: 'tired'} as never}
+          pose={pose({...stand(0, 170), lean: 0, hipL: 2, kneeL: 4, hipR: -2, kneeR: 2, shL: 8, elL: 14, shR: 6, elR: 10, headTilt: 6})} />
+      </g>
+      {near.map(({x, k}) => <Person key={k} id={ids[k]} x={x} y={base + 4} scale={s} dir={-1} f={f} seed={140 + k} pose={P(k)} expression={k === 1 ? 'worried' : 'solemn'} />)}
+    </g>
   );
 };
 /** Beyond the bed: two men keep the vigil, heads slowly bowing (unnamed, illustrative). */
@@ -207,10 +260,10 @@ const VigilFar: React.FC<{f: number}> = ({f}) => {
 };
 /** In the doorway: two figures seen from behind, shifting their weight. */
 const VigilNear: React.FC<{f: number}> = ({f}) => (
-  <Silhouette op={0.92}>
-    <Person id="unionSoldier" x={470} y={1150} scale={1.7} dir={1} f={f} seed={161} pose={addPose(stand(f, 61), {lean: 2 + Math.sin(f / 50) * 1.5, headTilt: 6})} fromBehind head={{hat: 'none'}} />
-    <Person id="townsman" x={1480} y={1160} scale={1.7} dir={-1} f={f} seed={163} pose={addPose(stand(f, 63), {lean: 1 + Math.sin(f / 46 + 1) * 1.5, headTilt: 8, shL: 12, elL: 30})} fromBehind head={{hat: 'none'}} />
-  </Silhouette>
+  <g opacity={0.95}>
+    <Person id="unionSoldier" x={430} y={1120} scale={1.25} dir={1} f={f} seed={161} pose={addPose(stand(f, 61), {lean: 2 + Math.sin(f / 50) * 1.5, headTilt: 6})} fromBehind head={{hat: 'none'}} />
+    <Person id="townsman" x={1520} y={1130} scale={1.25} dir={-1} f={f} seed={163} pose={addPose(stand(f, 63), {lean: 1 + Math.sin(f / 46 + 1) * 1.5, headTilt: 8, shL: 12, elL: 30})} fromBehind head={{hat: 'none'}} />
+  </g>
 );
 
 // ---------------------------------------------------------------- 9.4 Petersen House steps → the back room from the doorway
@@ -222,13 +275,14 @@ const Shot94: React.FC<{f: number; d: number; sw: number}> = ({f, d, sw}) => {
       <S09Defs />
       {mix < 1 && (
         <g>
-          <CineCam f={f} keys={[[0, 1.0, 960, 520], [sw + 22, 1.28, 1050, 600]]} seed={96}>
+          <CineCam f={f} keys={[[0, 1.42, 1230, 640], [sw + 22, 1.58, 1080, 650]]} seed={96}>{/* follows the carriers (family review) */}
             {(layer) => [
               layer(0.3, <NightStreet f={f} floor={900} far={false} />),
-              layer(1, <g><PetersenFront f={f} base={900} /><GasLamp x={360} base={930} f={f} seed={7} /><Carriers f={f} /></g>),
+              layer(1, <g><PetersenFront f={f} base={900} /><GasLamp x={360} base={930} f={f} seed={7} /><GasLamp x={1560} base={960} f={f} seed={8} /><Carriers f={f} /></g>),
             ]}
           </CineCam>
-          <Look f={f} grade="night" sombre={0.8} />
+          <LightPool x={1100} y={760} r={700} f={f} color="#FFC070" seed={94} strength={0.26} />
+          <Look f={f} grade="night" sombre={0.6} />
         </g>
       )}
       {mix > 0 && (
@@ -311,6 +365,9 @@ const Shot95: React.FC<{f: number; d: number; card: number}> = ({f, d, card}) =>
 const A2 = T('watching a play');
 const A3 = T('John Wilkes Booth');
 const A3b = TE('a Confederate sympathiser'); // cut to the empty chair before the next words
+// the shot is fired as the narrator says "shot" (0.15 s into the cue); the empty chair holds the silent beat
+const FIRE = sf(T('shot the President') + 0.15 - A3b);
+const CHAIR = beat('s09', 1)[0];
 const A4 = T('carried across the street');
 const A4sw = T('and laid diagonally');
 const A5 = T('Mary waited');
@@ -327,7 +384,8 @@ export const S09: React.FC = () => (
       {at: S, el: (f, d) => <Shot91 f={f} d={d} />},
       {at: A2, trans: 'cut', el: (f, d) => <Shot92 f={f} d={d} />},
       {at: A3, trans: 'cut', el: (f, d) => <Shot93 f={f} d={d} />},
-      {at: A3b, trans: 'cut', el: (f, d) => <ShotChair f={f} d={d} />},
+      {at: A3b, trans: 'cut', el: (f, d) => <ShotBox f={f} d={d} fire={FIRE} />},
+      {at: CHAIR, trans: 'dip', el: (f, d) => <ShotChair f={f} d={d} />},
       {at: A4, trans: 'fade', el: (f, d) => <Shot94 f={f} d={d} sw={sf(A4sw - A4)} />},
       {at: A5, trans: 'fade', el: (f, d) => <Shot94b f={f} d={d} at722={sf(A722 + 1.2 - A5)} />},
       {at: A6, trans: 'cut', el: (f, d) => <Shot95 f={f} d={d} card={sf(CARD - A6)} />},

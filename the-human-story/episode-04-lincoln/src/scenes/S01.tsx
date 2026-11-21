@@ -69,8 +69,9 @@ const StudySet: React.FC<{f: number; s: ReturnType<typeof S1.solve11>; reveal: n
             <InkPot x={958} y={fl - S1.S01_DESK.h} />
             <WritingSlope x={SL.x} y={SL.y} w={SL.w} h={SL.h} />
             <DocText L={s.layout as never} reveal={reveal} id={`s01-bliss-${quillOn ? 'w' : 'r'}`} />
-            <Rim kind="warm" side="r"><FigEl g={g} f={f} seed={7} /></Rim>
+            {/* the quill is drawn behind the figure so the feather passes behind his head, not across his face */}
             {quillOn && <PropAt def={QUILL} xf={s.quill as never} st={{f}} />}
+            <Rim kind="warm" side="r"><FigEl g={g} f={f} seed={7} /></Rim>
           </g>
         )),
       ]}

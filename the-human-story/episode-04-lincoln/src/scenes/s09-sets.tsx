@@ -6,6 +6,8 @@ import React from 'react';
 import {C, FONT} from '../styles/theme';
 import {clamp, hash, noise1} from '../animations/core';
 import {SummaryPanel} from '../kit/Documents';
+import {Quad, quadRig} from '../kit/Horse';
+import {Person} from '../kit/Cast';
 
 const ink = C.ink;
 const o = (w = 4) => ({stroke: ink, strokeWidth: w, strokeLinejoin: 'round' as const});
@@ -102,36 +104,72 @@ export const FordsFacade: React.FC<{x: number; base: number; f: number; w?: numb
   );
 };
 
-/** A closed carriage with a horse (side view, travelling right); `d` = distance travelled (px). */
-export const Carriage: React.FC<{x: number; base: number; d: number; s?: number}> = ({x, base, d, s = 1}) => {
-  const wheel = (cx: number, r: number) => (
-    <g transform={`translate(${cx},${-r}) rotate(${(d / r) * 57.3})`}>
-      <circle r={r} fill="none" stroke={ink} strokeWidth={6} />
-      {Array.from({length: 8}, (_, i) => <line key={i} x1={0} y1={0} x2={Math.cos((i * Math.PI) / 4) * r} y2={Math.sin((i * Math.PI) / 4) * r} stroke="#3A3430" strokeWidth={3} />)}
-      <circle r={6} fill={ink} />
+/** A closed carriage (brougham) drawn by a horse, side view, travelling right; `d` = distance travelled (px).
+ *  Family review (Nov 2026): the horse is the kit's walking horse rig (planted hooves, jointed legs, mane, tail,
+ *  head nod), in harness (collar, traces, shafts, reins), with a coachman in a top hat on the box and lit coach lamps. */
+export const Carriage: React.FC<{x: number; base: number; d: number; s?: number; f?: number}> = ({x, base, d, s = 1, f = 0}) => {
+  const dl = d / s; // distance in the carriage's own units
+  const wheel = (cx: number, r: number, spokes = 12) => (
+    <g transform={`translate(${cx},${-r}) rotate(${(dl / r) * 57.3})`}>
+      <circle r={r} fill="none" stroke={ink} strokeWidth={9} />
+      <circle r={r - 2} fill="none" stroke="#B0302A" strokeWidth={4} />
+      {Array.from({length: spokes}, (_, i) => <line key={i} x1={0} y1={0} x2={Math.cos((i * 2 * Math.PI) / spokes) * (r - 4)} y2={Math.sin((i * 2 * Math.PI) / spokes) * (r - 4)} stroke="#8A2622" strokeWidth={3} />)}
+      <circle r={9} fill="#2A1A14" {...o(3)} />
     </g>
   );
-  const ph = d / 22;
-  const leg = (lx: number, k: number) => {
-    const a = Math.sin(ph + k) * 22;
-    return <path d={`M${lx},-96 l${Math.sin((a * Math.PI) / 180) * 50},48 l${Math.sin(((a - 10) * Math.PI) / 180) * 6},46`} stroke="#2A2220" strokeWidth={9} fill="none" strokeLinecap="round" strokeLinejoin="round" />;
-  };
+  const rig = quadRig(dl, {kind: 'horse', f, seed: 7});
+  const horseX = 470; // horse placement in carriage units (barrel centre)
+  const hl = (p: {x: number; y: number}) => ({x: horseX + p.x, y: p.y}); // horse local -> carriage local
+  const shoulder = hl({x: 60, y: -205 + rig.bob});
+  const bit = hl(rig.bit);
+  const bounce = Math.sin(dl / 38) * 1.6; // body rocks on its springs
+  const lampGlow = 0.8 + noise1(f / 6, 3) * 0.15;
+  const hands = {x: 158, y: -258 + bounce};
   return (
     <g transform={`translate(${x},${base}) scale(${s})`}>
-      {/* horse */}
-      {leg(250, 0)}
-      {leg(330, Math.PI)}
-      <path d="M230,-150 Q290,-170 350,-150 Q368,-120 350,-96 L240,-96 Q222,-118 230,-150Z" fill="#3A2C26" {...o(4)} />
-      <path d="M340,-150 Q370,-200 400,-206 L420,-180 Q392,-170 372,-130Z" fill="#3A2C26" {...o(4)} />
-      {leg(240, Math.PI * 0.5)}
-      {leg(345, Math.PI * 1.5)}
-      <path d="M210,-120 L120,-110" stroke="#2A2220" strokeWidth={5} />
-      {/* carriage body */}
-      <path d="M-40,-80 L130,-80 L150,-200 L-20,-210 Z" fill="#1E1E24" {...o(5)} />
-      <rect x={10} y={-185} width={70} height={60} fill="#F2C060" opacity={0.45} {...o(3)} />
-      <path d="M-30,-212 Q60,-232 150,-202" fill="none" stroke={ink} strokeWidth={6} />
-      {wheel(-10, 60)}
-      {wheel(120, 46)}
+      <ellipse cx={180} cy={4} rx={360} ry={12} fill="rgba(0,0,0,0.22)" />
+      {/* far wheels */}
+      <g opacity={0.55}>{wheel(-60, 66)}{wheel(150, 50)}</g>
+      {/* the horse (drawn in the carriage's units) */}
+      <Quad rig={rig} pl={{x: horseX, y: 0, scale: 1, dir: 1}} f={f} coat="#4A2E22" dark="#33201A" mane="#1A1210" />
+      {/* harness: collar, hames, traces back to the splinter bar, shafts along the flank */}
+      <path d={`M${shoulder.x - 6},${shoulder.y - 34} Q${shoulder.x + 26},${shoulder.y} ${shoulder.x - 2},${shoulder.y + 42}`} fill="none" stroke="#1A1210" strokeWidth={14} strokeLinecap="round" />
+      <path d={`M${shoulder.x - 6},${shoulder.y - 34} Q${shoulder.x + 26},${shoulder.y} ${shoulder.x - 2},${shoulder.y + 42}`} fill="none" stroke="#C9A24A" strokeWidth={4} strokeLinecap="round" />
+      <path d={`M${shoulder.x},${shoulder.y + 14} L172,${-112 + bounce}`} stroke="#1A1210" strokeWidth={5} />
+      <path d={`M${horseX - 40},${-226 + rig.bob} L${horseX + 40},${-224 + rig.bob}`} stroke="#1A1210" strokeWidth={7} strokeLinecap="round" />
+      <path d={`M168,${-128 + bounce} L${horseX + 52},${-190 + rig.bob}`} stroke={ink} strokeWidth={9} strokeLinecap="round" />
+      <path d={`M168,${-128 + bounce} L${horseX + 52},${-190 + rig.bob}`} stroke="#5A3A24" strokeWidth={4} strokeLinecap="round" />
+      {/* reins from the coachman's hands to the bit */}
+      <path d={`M${hands.x},${hands.y} Q${(hands.x + bit.x) / 2},${(hands.y + bit.y) / 2 + 30} ${bit.x},${bit.y}`} fill="none" stroke="#2A1A14" strokeWidth={2.5} />
+      <g transform={`translate(0,${bounce})`}>
+        {/* undercarriage: perch and C-springs */}
+        <path d="M-120,-74 L190,-74" stroke={ink} strokeWidth={10} strokeLinecap="round" />
+        <path d="M-80,-74 q-10,-40 20,-60 M140,-74 q14,-36 -14,-56" fill="none" stroke={ink} strokeWidth={7} />
+        {/* the body: rounded brougham with a curved front, a door and a lit window */}
+        <path d="M-120,-110 Q-128,-210 -60,-226 L80,-226 Q110,-226 112,-200 L118,-110 Q120,-92 100,-92 L-100,-92 Q-120,-92 -120,-110Z" fill="#1E2230" {...o(5)} />
+        <path d="M112,-170 Q150,-170 160,-130 L160,-108 L118,-108" fill="#1E2230" {...o(5)} />
+        <path d="M-60,-226 Q10,-240 80,-226" fill="none" stroke="#C9A24A" strokeWidth={4} />
+        <rect x={-40} y={-206} width={70} height={56} rx={6} fill="#F2C060" opacity={0.55 * lampGlow} stroke={ink} strokeWidth={3} />
+        <path d="M-50,-212 L40,-212 L40,-100 L-50,-100Z" fill="none" stroke="#C9A24A" strokeWidth={3} />
+        <circle cx={28} cy={-140} r={4} fill="#C9A24A" />
+        <path d="M-120,-150 L118,-150" stroke="#B0302A" strokeWidth={3} />
+        {/* box seat and footboard, coachman holding the reins */}
+        <path d="M110,-232 L190,-232 L196,-222 L110,-222Z" fill="#1E2230" {...o(3)} />
+        <path d="M150,-222 L172,-150" stroke={ink} strokeWidth={6} />
+        <Person id="townsman" x={142} y={-150} scale={0.86} dir={1} f={f} seed={95}
+          head={{hat: 'stovepipe', hatColor: '#141418'} as never} outfit={{kind: 'longcoat', color: '#2A2A30'} as never}
+          pose={{lean: 4, hipL: 84, kneeL: 92, hipR: 88, kneeR: 96, shL: 58, elL: 40, shR: 52, elR: 44, bob: 52, headTilt: Math.sin(f / 30) * 2}} />
+        {/* coach lamps */}
+        {[[-126, -150], [118, -164]].map(([lx, ly], i) => (
+          <g key={i}>
+            <circle cx={lx} cy={ly} r={34} fill="#FFD27A" opacity={0.25 * lampGlow} />
+            <rect x={lx - 8} y={ly - 14} width={16} height={24} rx={3} fill="#FFE2A0" stroke={ink} strokeWidth={3} />
+          </g>
+        ))}
+      </g>
+      {/* near wheels */}
+      {wheel(-60, 66)}
+      {wheel(150, 50)}
     </g>
   );
 };
@@ -202,6 +240,81 @@ export const Corridor: React.FC<{f: number; floor: number; open?: number}> = ({f
       {/* sconce on the right wall */}
       <ellipse cx={1500} cy={300} rx={260 * fl} ry={220 * fl} fill="url(#s09gas)" />
       <path d="M1490,330 l20,0 l-4,-50 l-12,0Z" fill="#FFE2A0" opacity={0.9} {...o(3)} />
+    </g>
+  );
+};
+
+/** Inside the presidential box, seen from the side (family review, Nov 2026): papered back wall, the box door on the
+ *  left, the balustrade on the right draped with flags, the lit stage beyond it, a gas sconce. The chairs are drawn by
+ *  the shot (rocking chair for Lincoln, an upholstered chair for Mary). */
+export const BoxInterior: React.FC<{f: number; floor: number}> = ({f, floor}) => {
+  const stage = 0.85 + noise1(f / 9, 4) * 0.08;
+  const fl = 1 + noise1(f / 5, 11) * 0.07;
+  return (
+    <g>
+      <rect x={-900} y={-700} width={3700} height={2400} fill="#3A1E1E" />
+      {/* papered wall with a faint damask stripe */}
+      <rect x={-900} y={0} width={2500} height={floor} fill="#5A2A28" />
+      {Array.from({length: 40}, (_, i) => <rect key={i} x={-900 + i * 64} y={0} width={20} height={floor} fill="#62302C" />)}
+      <rect x={-900} y={floor - 150} width={2500} height={150} fill="#4A2622" {...o(4)} />
+      <path d={`M-900,${floor - 150} H1600`} stroke="#C9A86A" strokeWidth={6} />
+      {/* the box door (left), standing open */}
+      <rect x={250} y={floor - 560} width={210} height={560} fill="#1A0E0C" {...o(5)} />
+      <path d={`M250,${floor - 560} L170,${floor - 600} L170,${floor + 30} L250,${floor}Z`} fill="#5A3424" {...o(5)} />
+      {/* gas sconce */}
+      <ellipse cx={720} cy={240} rx={300 * fl} ry={260 * fl} fill="url(#s09gas)" />
+      <path d="M712,280 l16,0 l-3,-40 l-10,0Z" fill="#FFE2A0" {...o(2.5)} />
+      {/* the stage beyond the balustrade (right): warm light, a painted backdrop */}
+      <rect x={1600} y={-700} width={1300} height={2400} fill="#F2C878" opacity={0.55 * stage} />
+      <rect x={1600} y={120} width={1300} height={600} fill="#B8905A" opacity={0.5} />
+      <path d="M1600,-700 L1600,1400" stroke="#2A1414" strokeWidth={30} />
+      {/* curtains framing the box opening */}
+      <path d={`M1560,-700 Q${1640 + Math.sin(f / 50) * 6},300 1580,${floor + 20} L1700,${floor + 20} Q1720,300 1700,-700Z`} fill="#7A1E24" {...o(4)} />
+      {/* balustrade with draped flags (the box was decorated with flags that night) */}
+      <rect x={1540} y={floor - 330} width={420} height={330} fill="#3A2420" {...o(5)} />
+      {[0, 1].map((k) => (
+        <g key={k} transform={`translate(${1560 + k * 190},${floor - 320})`}>
+          <path d={`M0,0 H180 Q${170 + Math.sin(f / 40 + k) * 4},90 90,140 Q10,90 0,0Z`} fill="#F4EEE2" {...o(3)} />
+          {[0, 1, 2, 3].map((r) => <path key={r} d={`M${8 + r * 6},${22 + r * 24} Q90,${40 + r * 26} ${172 - r * 6},${22 + r * 24}`} fill="none" stroke="#B0302A" strokeWidth={9} />)}
+          <path d="M0,0 H70 V46 Q30,52 0,40Z" fill="#2A3A6A" {...o(2.5)} />
+          {[0, 1, 2].map((r) => [0, 1, 2].map((c) => <circle key={`${r}${c}`} cx={14 + c * 20} cy={12 + r * 12} r={3} fill="#F4EEE2" />))}
+        </g>
+      ))}
+      <rect x={1530} y={floor - 344} width={440} height={22} fill="#C9A86A" {...o(4)} />
+    </g>
+  );
+};
+
+/** Lincoln's rocking chair (upholstered, high back) and Mary's plain chair; x = seat centre. */
+export const RockingChair: React.FC<{x: number; floor: number; h: number; rock?: number}> = ({x, floor, h, rock = 0}) => (
+  <g transform={`rotate(${rock},${x},${floor})`}>
+    <path d={`M${x - 70},${floor - 4} Q${x},${floor + 14} ${x + 70},${floor - 4}`} fill="none" stroke={ink} strokeWidth={10} strokeLinecap="round" />
+    <path d={`M${x - 70},${floor - 4} Q${x},${floor + 14} ${x + 70},${floor - 4}`} fill="none" stroke="#6A3A24" strokeWidth={5} strokeLinecap="round" />
+    <path d={`M${x - 40},${floor - h} L${x - 44},${floor + 2} M${x + 36},${floor - h} L${x + 40},${floor + 2}`} stroke={ink} strokeWidth={8} />
+    <rect x={x - 48} y={floor - h - 6} width={96} height={18} rx={6} fill="#8A2A2A" {...o(3.5)} />
+    <path d={`M${x - 44},${floor - h} L${x - 58},${floor - h - 170} Q${x - 40},${floor - h - 190} ${x - 22},${floor - h - 168} L${x - 20},${floor - h}`} fill="#8A2A2A" {...o(4)} />
+    <path d={`M${x - 46},${floor - h - 60} L${x + 34},${floor - h - 54}`} stroke="#6A3A24" strokeWidth={7} strokeLinecap="round" />
+  </g>
+);
+
+/** Pistol smoke and the muzzle flash at (x, y); g = frames since the shot. */
+export const ShotSmoke: React.FC<{x: number; y: number; g: number}> = ({x, y, g}) => {
+  if (g < 0) return null;
+  const flash = g < 4 ? 1 - g / 4 : 0;
+  return (
+    <g>
+      {flash > 0 && (
+        <g opacity={flash}>
+          <circle cx={x + 18} cy={y} r={60} fill="#FFF2C0" opacity={0.5} />
+          <path d={`M${x},${y} l44,-14 l-20,14 l34,6 l-36,6 l20,14 l-44,-12Z`} fill="#FFE27A" stroke="#E08A2A" strokeWidth={3} />
+        </g>
+      )}
+      {[0, 1, 2, 3, 4].map((k) => {
+        const t = Math.max(0, g - k * 2);
+        const r = 14 + t * 1.6 + k * 6;
+        const op = Math.max(0, 0.55 - t / 110);
+        return <circle key={k} cx={x + 20 + k * 14 - t * 0.6} cy={y - 6 - t * (0.9 + k * 0.2)} r={r} fill="#D8D4CC" opacity={op} />;
+      })}
     </g>
   );
 };

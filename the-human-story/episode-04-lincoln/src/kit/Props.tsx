@@ -108,16 +108,70 @@ export const BOOK: PropDef = {
   },
 };
 
-/** Quill: nib at the origin, feather up and back. */
+/** Quill: nib at the origin, feather up and back. Family review (Nov 2026): a real goose quill, not a white blade:
+ *  a horn-coloured barrel and shaft, a curved central rachis, and a vane of many separate barbs (wider on one side,
+ *  with a few splits and a downy base), so the feathers read even at desk distance. Same extent and grip as before. */
+const QUILL_GEOM = (() => {
+  const L = 104; // nib to tip along the axis
+  const ux = -0.803, uy = -0.596; // axis (nib -> tip)
+  const nx = 0.596, ny = -0.803; // normal (towards the long side of the vane)
+  const curve = (t: number) => 0.0022 * (t - 20) * (t - 20) * (t > 20 ? 1 : 0); // gentle bend of the rachis
+  const P = (t: number, n = 0) => ({x: ux * t + nx * (n - curve(t)), y: uy * t + ny * (n - curve(t))});
+  const f = (v: number) => v.toFixed(1);
+  const rach = [0, 10, 20, 30, 45, 60, 75, 90, L].map((t) => P(t));
+  const rachis = 'M' + rach.map((q) => `${f(q.x)},${f(q.y)}`).join(' L');
+  // vane outline: long side (n > 0) and short side (n < 0), widths along t
+  const wide = (t: number) => (t < 26 ? 0 : t > L ? 0 : 18 * Math.sin(Math.PI * Math.pow((t - 26) / (L - 26), 0.72)));
+  const narrow = (t: number) => (t < 30 ? 0 : t > L ? 0 : 9 * Math.sin(Math.PI * Math.pow((t - 30) / (L - 30), 0.8)));
+  const ts: number[] = [];
+  for (let t = 26; t <= L; t += 2) ts.push(t);
+  const outline = 'M' + ts.map((t) => { const q = P(t, wide(t)); return `${f(q.x)},${f(q.y)}`; }).join(' L') + ' L' +
+    ts.slice().reverse().map((t) => { const q = P(t, -narrow(t)); return `${f(q.x)},${f(q.y)}`; }).join(' L') + 'Z';
+  // barbs: each leaves the rachis and sweeps back towards the tip; small gaps make the splits
+  const splits = new Set([44, 46, 72, 90]);
+  const barbs: string[] = [];
+  for (let t = 27; t <= L - 2; t += 2) {
+    if (splits.has(t)) continue;
+    const a = P(t), b = P(t + 7, wide(t + 3) * 0.98);
+    barbs.push(`M${f(a.x)},${f(a.y)} Q${f(P(t + 3, wide(t) * 0.55).x)},${f(P(t + 3, wide(t) * 0.55).y)} ${f(b.x)},${f(b.y)}`);
+    if (t >= 31) {
+      const c = P(t + 5, -narrow(t + 2) * 0.96);
+      barbs.push(`M${f(a.x)},${f(a.y)} Q${f(P(t + 2.5, -narrow(t) * 0.5).x)},${f(P(t + 2.5, -narrow(t) * 0.5).y)} ${f(c.x)},${f(c.y)}`);
+    }
+  }
+  // the split notches cut into the long side
+  const notches = [45, 73].map((t) => { const a = P(t, wide(t) + 1), b = P(t + 4, wide(t) * 0.35); return `M${f(a.x)},${f(a.y)} L${f(b.x)},${f(b.y)}`; });
+  // downy afterfeather at the base of the vane
+  const down: string[] = [];
+  for (let k = 0; k < 7; k++) {
+    const t = 22 + k * 1.3; const a = P(t);
+    const side = k % 2 ? 1 : -1; const b = P(t + 4, side * (5 + (k % 3) * 2));
+    down.push(`M${f(a.x)},${f(a.y)} q${f((b.x - a.x) * 0.4 + 2)},${f((b.y - a.y) * 0.4 - 2)} ${f(b.x - a.x)},${f(b.y - a.y)}`);
+  }
+  const barrelEnd = P(22);
+  const tipDark = 'M' + ts.filter((t) => t > 84).map((t) => { const q = P(t, wide(t)); return `${f(q.x)},${f(q.y)}`; }).join(' L') + ` L${f(P(L).x)},${f(P(L).y)} Z`;
+  return {rachis, outline, barbs: barbs.join(' '), notches: notches.join(' '), down: down.join(' '), barrelEnd, tipDark};
+})();
 export const QUILL: PropDef = {
   grips: {handle: {x: -13, y: -10}},
-  draw: () => (
-    <g>
-      <path d="M0,0 L-70,-52" stroke="#3A2A1C" strokeWidth={3} strokeLinecap="round" />
-      <path d="M-24,-18 Q-56,-58 -84,-60 Q-66,-30 -30,-14Z" fill="#F2EEE4" {...o(2.5)} />
-      <path d="M0,0 L-6,-3 L-3,-7Z" fill={ink} />
-    </g>
-  ),
+  draw: () => {
+    const Q = QUILL_GEOM;
+    return (
+      <g>
+        {/* vane (behind the shaft), light grey-white with a darker tip */}
+        <path d={Q.outline} fill="#EEE8DA" stroke={ink} strokeWidth={2} strokeLinejoin="round" />
+        <path d={Q.tipDark} fill="#B9AE98" opacity={0.75} />
+        <path d={Q.barbs} fill="none" stroke="#9C927E" strokeWidth={0.9} strokeLinecap="round" />
+        <path d={Q.notches} fill="none" stroke="#7E7462" strokeWidth={1.2} strokeLinecap="round" />
+        <path d={Q.down} fill="none" stroke="#D8D0C0" strokeWidth={1.4} strokeLinecap="round" />
+        {/* rachis and the horn barrel down to the cut nib */}
+        <path d={Q.rachis} fill="none" stroke="#5A4A34" strokeWidth={2.2} strokeLinecap="round" />
+        <path d={`M0,0 L${Q.barrelEnd.x.toFixed(1)},${Q.barrelEnd.y.toFixed(1)}`} stroke="#3A2A1C" strokeWidth={4.5} strokeLinecap="round" />
+        <path d={`M0,0 L${Q.barrelEnd.x.toFixed(1)},${Q.barrelEnd.y.toFixed(1)}`} stroke="#CDB88C" strokeWidth={2.2} strokeLinecap="round" />
+        <path d="M0,0 L-6,-3 L-3,-7Z" fill={ink} />
+      </g>
+    );
+  },
 };
 
 /** Lincoln's stovepipe hat as a held prop (brim edge = grip). */
